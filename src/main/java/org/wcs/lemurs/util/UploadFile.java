@@ -16,6 +16,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.wcs.lemurs.dao.DarwinCoreDao;
 //import jdk.nashorn.internal.ir.Statement;
 
@@ -24,20 +26,26 @@ import org.wcs.lemurs.dao.DarwinCoreDao;
  * @author ando
  */
 public class UploadFile {
-    public static void import_file(String path) throws SQLException, Exception {
+    @Autowired(required = true)
+    @Qualifier("ddao")
+    DarwinCoreDao  ddao;
+    public void import_file(String path) throws SQLException, Exception {
         ArrayList<Object> value = new ArrayList<>();
-        DarwinCoreDao  ddao = new DarwinCoreDao();
+        
         try {
             InputStream input = new FileInputStream(path);
             POIFSFileSystem fs = new POIFSFileSystem(input);
             HSSFWorkbook wb = new HSSFWorkbook(fs);
             HSSFSheet sheet = wb.getSheetAt(0);
+            
             Iterator rows = sheet.rowIterator();
            
             while (rows.hasNext()) {
                 value.clear();
+                
                 HSSFRow row = (HSSFRow) rows.next();
                 Iterator cells = row.cellIterator();
+                if(row.getRowNum() == 0) continue;
                 while (cells.hasNext()) {
                     HSSFCell cell = (HSSFCell) cells.next();
                     if (HSSFCell.CELL_TYPE_NUMERIC == cell.getCellType()) {
@@ -54,11 +62,10 @@ public class UploadFile {
                     String values = value.get(0).toString();
                     String req = "";
                     for (int i = 1; i < value.size(); i++) {
-                        
                         values += "," + value.get(i);
                         req = requette + values + ");";
                     }
-                    ddao.for_upload(req);
+                    ddao.for_upload(req); //A verifier
             }
         } catch (IOException e) {
         }

@@ -64,7 +64,7 @@ public class DarwinCoreDao {
         return list_darwinCore;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //A VERIFIER
     public void for_upload(String requette) {
         try {
             entityManager.createQuery(requette).executeUpdate();
