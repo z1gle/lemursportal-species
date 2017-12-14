@@ -8,6 +8,8 @@ package org.wcs.lemurs.dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transaction;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.wcs.lemurs.model.DarwinCore;
@@ -49,7 +51,7 @@ public class DarwinCoreDao {
         }
         return darwinCore;
     }
-    
+
     @Transactional(readOnly = true)
     public List<DarwinCore> findAll() {
         List<DarwinCore> list_darwinCore = null;
@@ -60,5 +62,14 @@ public class DarwinCoreDao {
             throw ex;
         }
         return list_darwinCore;
+    }
+
+    @Transactional(readOnly = true)
+    public void for_upload(String requette) {
+        try {
+            entityManager.createQuery(requette).executeUpdate();
+        } catch (Exception ex) {
+            throw ex;
+        }
     }
 }
