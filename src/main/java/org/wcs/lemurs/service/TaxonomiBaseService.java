@@ -5,13 +5,15 @@
  */
 package org.wcs.lemurs.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.wcs.lemurs.dao.TaxonomiBaseDao;
-import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.dao.HibernateDao;
+import org.wcs.lemurs.model.BaseModel;
+import org.wcs.lemurs.model.TaxonomiBase;
 
 /**
  *
@@ -22,23 +24,48 @@ import org.wcs.lemurs.model.DarwinCore;
 public class TaxonomiBaseService {
     
     @Autowired(required = true)
-    @Qualifier("taxonomiBaseDao")
-    private TaxonomiBaseDao taxonomiBaseDao;
+    @Qualifier("hibernateDao")
+    private HibernateDao hibernateDao;
     
     @Transactional
-    public void save() {}
-    
-    @Transactional
-    public void update() {}
-    
-    @Transactional
-    public void delete() {}
-    
-    public DarwinCore findById(int idtaxonomibase){
-        return null;
+    public void save(TaxonomiBase taxonomiBase) throws Exception {
+        hibernateDao.save(taxonomiBase);
     }
     
-    public List<DarwinCore> findAll() {
-        return null;
+    @Transactional
+    public void update(TaxonomiBase taxonomiBase) throws Exception {
+        hibernateDao.save(taxonomiBase);
+    }
+    
+    @Transactional
+    public void delete(TaxonomiBase taxonomiBase) throws Exception {
+        hibernateDao.delete(taxonomiBase);
+    }
+    
+    public TaxonomiBase findById(int idtaxonomibase) throws Exception{
+        TaxonomiBase taxonomiBase = new TaxonomiBase();
+        taxonomiBase.setId(idtaxonomibase);
+        hibernateDao.findById(taxonomiBase);
+        return taxonomiBase;
+    }
+    
+    public List<TaxonomiBase> findAll() throws Exception {
+        List<BaseModel> list_bm = hibernateDao.findAll(new TaxonomiBase());
+        List<TaxonomiBase> res = new ArrayList<>();
+        for (BaseModel bm : list_bm) {
+            
+            res.add((TaxonomiBase) bm);
+        }
+        return res;
+    }
+    
+    public List<TaxonomiBase> findMultiCritere(TaxonomiBase taxonomiBase) throws Exception {
+        List<BaseModel> list_bm = hibernateDao.findMultiCritere(taxonomiBase);
+        List<TaxonomiBase> res = new ArrayList<>();
+        for (BaseModel bm : list_bm) {
+            
+            res.add((TaxonomiBase) bm);
+        }
+        return res;
     }
 }
