@@ -4,7 +4,6 @@ package org.wcs.lemurs.model;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -12,7 +11,6 @@ import javax.persistence.Table;
  */
 @Entity
 @AttributeOverride(name="id",column=@Column(name="idtaxonomibase"))
-@SequenceGenerator(name = "seq",  sequenceName ="S_T_taxonomi", allocationSize=1)
 @Table(name = "taxonomi_base")
 public class TaxonomiBase extends BaseModel {
 

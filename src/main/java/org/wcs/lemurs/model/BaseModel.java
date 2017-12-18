@@ -6,8 +6,10 @@
 package org.wcs.lemurs.model;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -15,11 +17,12 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public class BaseModel {
+
     @Id
-    @GeneratedValue(generator="seq")
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
-    
-    
+
     public int getId() {
         return id;
     }

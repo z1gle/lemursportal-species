@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    	<meta charset="utf-8">
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>DarwinCore</title>		
         <meta name="description" content="">
@@ -41,8 +41,8 @@
                         <li><a href="#experts">Les experts</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user" style="color:#fff!important; margin-left:25px; margin-right:10px;"></i>
-                            Bonjour, Rakotoarisoa <b class="caret"></b>
+                                <i class="fa fa-user" style="color:#fff!important; margin-left:25px; margin-right:10px;"></i>
+                                Bonjour, Rakotoarisoa <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#"><i class="fa fa-dashboard"></i>&nbsp; Mon compte</a></li>
@@ -67,7 +67,7 @@
                         <div class="col-md-6 col-md-offset-3">
                             <!-- Search Form -->
                             <form ng-submit="rechercher()">
-                            <!-- Search Field -->
+                                <!-- Search Field -->
                                 <div class="row search-header">
                                     <h4 class="text-left">Rechercher un espèce</h4>
                                     <div class="form-group">
@@ -123,7 +123,7 @@
                             </ul>
                             <!-- END PAGINATION -->
                         </div>
-                   </div>
+                    </div>
                 </div>
                 <!-- End Contenu -->
 
@@ -143,9 +143,9 @@
                     <div class="col-md-2 animated fadeInUp" data-wow-delay="0.4s">
                         <ul>
                             <li class="animated zoomIn"><a href="#">Accueil</a></li>
-                                <li class="animated zoomIn"><a href="#">Qui sommes-nous</a></li>
-                                <li class="animated zoomIn"><a href="#">Datapublication</a></li>
-                                <li class="animated zoomIn"><a href="#">Les experts</a></li>
+                            <li class="animated zoomIn"><a href="#">Qui sommes-nous</a></li>
+                            <li class="animated zoomIn"><a href="#">Datapublication</a></li>
+                            <li class="animated zoomIn"><a href="#">Les experts</a></li>
                         </ul>
                     </div>
 
@@ -164,7 +164,7 @@
                                 <a href="http://www.fapbm.org/" target="_blank"><img src="<c:url value="/resources/assets/img/part1.png"/>"></a>
                             </div>
                             <div class="col-xs-2">
-                                
+
                                 <a href="http://www.gerp.mg" target="_blank"><img src="<c:url value="/resources/assets/img/part2.png"/>"></a>
                             </div>
                             <div class="col-xs-2">									
@@ -189,7 +189,7 @@
                 </div>
             </div>
         </footer>
-        
+
         <!--css-->
         <link href="<c:url value="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/bootstrap.min.css" />" rel="stylesheet">		
@@ -200,7 +200,7 @@
         <link href="<c:url value="/resources/assets/css/animate.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/main.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/styles.css" />" rel="stylesheet">
-        
+
         <!--js-->
         <script src="<c:url value="/resources/assets/js/modernizr-2.6.2.min.js"/>"></script>
         <script src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>

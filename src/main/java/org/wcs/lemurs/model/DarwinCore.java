@@ -5,7 +5,6 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -15,7 +14,6 @@ import javax.persistence.Table;
 @AttributeOverrides({
     @AttributeOverride(name="id",column=@Column(name="iddwc"))   
 })
-@SequenceGenerator(name = "seq",  sequenceName ="S_T_darwincore", allocationSize=1)
 @Table(name = "darwin_core")
 public class DarwinCore extends BaseModel {
 

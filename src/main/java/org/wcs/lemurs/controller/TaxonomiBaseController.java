@@ -8,11 +8,10 @@ package org.wcs.lemurs.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.service.TaxonomiBaseService;
 
@@ -20,17 +19,12 @@ import org.wcs.lemurs.service.TaxonomiBaseService;
  *
  * @author rudyr
  */
-@Controller
+@RestController
 public class TaxonomiBaseController {
 
     @Autowired(required = true)
     @Qualifier("taxonomiBaseService")
     private TaxonomiBaseService taxonomiBaseService;
-
-    @RequestMapping(value = "/taxonomi")
-    public ModelAndView taxoportal() {
-        return new ModelAndView("taxonomiportal");
-    }
 
     @RequestMapping(value = "/findByespeceTaxo", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<TaxonomiBase> findByespece(@RequestBody TaxonomiBase t) throws Exception {

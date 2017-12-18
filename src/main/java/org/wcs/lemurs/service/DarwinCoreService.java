@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wcs.lemurs.dao.HibernateDao;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.DarwinCore;
-import org.wcs.lemurs.util.UploadFile;
 
 /**
  *
@@ -70,9 +69,8 @@ public class DarwinCoreService {
         return res;
     }
 
-    public void toUpload(String path) throws Exception {
+    public void upload(List<String> list_requete) throws Exception {
 
-        List<String> list_requete = UploadFile.import_file(path);
         Session session = hibernateDao.getSessionFactory().openSession();
         for (String requete : list_requete) {
 
@@ -80,5 +78,6 @@ public class DarwinCoreService {
             query.executeUpdate();
         }
         session.close();
+        hibernateDao.commit();
     }
 }

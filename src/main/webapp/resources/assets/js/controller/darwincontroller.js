@@ -15,12 +15,13 @@ app.controller("darwin",function($scope,$http){
             url : 'findByespeceDwc',
             data : angular.toJson($scope.darwin),
             headers : {
+                'Accept': 'application/json',
                 'Content-Type' : 'application/json'
             }
         }).then(function success(response){
             $scope.liste=response.data;
         },function error(response){
-            console.log(response.statusText);
+            console.log(response);
         });
     }
     
@@ -30,6 +31,7 @@ app.controller("darwin",function($scope,$http){
             url : 'findByespeceDwc',
             data : angular.toJson($scope.darwin),
             headers : {
+                'Accept': 'application/json',
                 'Content-Type' : 'application/json'
             }
         }).then(function success(response){
@@ -56,6 +58,7 @@ app.controller("darwin",function($scope,$http){
             url : 'saveDwc',
             data : angular.toJson($scope.form),
             headers : {
+                'Accept': 'application/json',
                 'Content-Type' : 'application/json'
             }
         }).then(function success(response){
@@ -73,6 +76,7 @@ app.controller("darwin",function($scope,$http){
             url : 'deleteDwc',
             data : angular.toJson(darwin),
             headers : {
+                'Accept': 'application/json',
                 'Content-Type' : 'application/json'
             }
         }).then(function success(response){
