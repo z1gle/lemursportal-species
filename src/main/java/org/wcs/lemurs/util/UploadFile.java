@@ -22,14 +22,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class UploadFile {
 
-    public static List<String> import_file(InputStream is) throws SQLException, Exception {
-        
+    public static List<String> import_darwin_core_excel(InputStream is) throws SQLException, Exception {
+
         List<String> list_req = new ArrayList<>();
-        
+
         ArrayList<Object> value = new ArrayList<>();
 
         try {
-            XSSFWorkbook  wb = new XSSFWorkbook (is);
+            XSSFWorkbook wb = new XSSFWorkbook(is);
             XSSFSheet sheet = wb.getSheetAt(0);
 
             Iterator rows = sheet.rowIterator();
@@ -54,14 +54,29 @@ public class UploadFile {
                         value.add(cell.getNumericCellValue());
                     }
                 }
-                String requete = "INSERT into darwin_core () VALUES (";
+                String requete = "INSERT into darwin_core (\"iddwc\",\"acceptednameusage\",\"associatedmedia\",\"associatedoccurrences\",\"associatedreferences\",\"associatedsequences\",\n"
+                        + "\"associatedtaxa\",\"basisofrecord\",\"behavior\",\"catalognumber\",\"collectioncode\",\"continent\",\"coordinateprecision\",\n"
+                        + "\"coordinateuncertaintyinmeters\",\"country\",\"countrycode\",\"county\",\"datageneralizations\",\"datasetname\",\"dateidentified\",\n"
+                        + "\"decimallatitude\",\"decimallongitude\",\"disposition\",\"darwinclass\",\"dwcday\",\"family\",\"dwcmonth\",\"darwinorder\",\"dwcyear\",\n"
+                        + "\"dynamicproperties\",\"enddayofyear\",\"eventdate\",\"eventremarks\",\"eventtime\",\"fieldnotes\",\"fieldnumber\",\"footprintspatialfit\",\n"
+                        + "\"footprintsrs\",\"footprintwkt\",\"genus\",\"geodeticdatum\",\"georeferencedby\",\"georeferenceprotocol\",\"georeferenceremarks\",\n"
+                        + "\"georeferencesources\",\"georeferenceverificationstatus\",\"habitat\",\"higherclassification\",\"highergeography\",\"identificationqualifier\",\n"
+                        + "\"identificationreferences\",\"identificationremarks\",\"identifiedby\",\"individualcount\",\"informationwithheld\",\"infraspecificepithet\",\n"
+                        + "\"institutioncode\",\"island\",\"islandgroup\",\"kingdom\",\"lifestage\",\"locality\",\"locationaccordingto\",\"locationremarks\",\n"
+                        + "\"maximumdepthinmeters\",\"maximumdistanceabovesurfaceinmeters\",\"maximumelevationinmeters\",\"minimumdepthinmeters\",\n"
+                        + "\"minimumdistanceabovesurfaceinmeters\",\"minimumelevationinmeters\",\"municipality\",\"nomenclaturalcode\",\"occurrenceremarks\",\n"
+                        + "\"othercatalognumbers\",\"ownerinstitutioncode\",\"phylum\",\"pointradiusspatialfit\",\"preparations\",\"previousidentifications\",\"recordedby\",\n"
+                        + "\"recordnumber\",\"reproductivecondition\",\"samplingeffort\",\"samplingprotocol\",\"scientificname\",\"scientificnameauthorship\",\"sex\",\n"
+                        + "\"specificepithet\",\"startdayofyear\",\"stateprovince\",\"subgenus\",\"taxonrank\",\"taxonremarks\",\"typestatus\",\"verbatimcoordinates\",\n"
+                        + "\"verbatimcoordinatesystem\",\"verbatimdepth\",\"verbatimelevation\",\"verbatimeventdate\",\"verbatimlatitude\",\"verbatimlocality\",\n"
+                        + "\"verbatimlongitude\",\"verbatimsrs\",\"verbatimtaxonrank\",\"vernacularname\",\"waterbody\") VALUES (";
                 String values = value.get(0).toString();
                 String req = "";
                 for (int i = 1; i < value.size(); i++) {
                     values += "," + value.get(i);
                     req = requete + values + ")";
                 }
-                list_req.add(req); //A verifier
+                list_req.add(req);
             }
         } catch (IOException e) {
             throw e;
