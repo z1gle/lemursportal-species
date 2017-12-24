@@ -54,8 +54,8 @@ public class DarwinCoreController {
     @RequestMapping(value = "/processExcel", method = RequestMethod.POST)
     public ModelAndView processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile) {
         try {
-            List<String> liste_requete = UploadFile.import_darwin_core_excel(excelfile.getInputStream());
-            darwinCoreService.upload(liste_requete);
+            List<DarwinCore> liste_darwin_core = UploadFile.import_darwin_core_excel(excelfile.getInputStream());
+            darwinCoreService.upload(liste_darwin_core);
         } catch (Exception e) {
             e.printStackTrace();
         }

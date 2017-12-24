@@ -68,4 +68,12 @@ public class TaxonomiBaseService {
         }
         return res;
     }
+    
+    public void upload(List<TaxonomiBase> list_taxo) throws Exception {
+        
+        for(TaxonomiBase taxo : list_taxo) {
+            
+            save(taxo);
+        }
+    }
 }

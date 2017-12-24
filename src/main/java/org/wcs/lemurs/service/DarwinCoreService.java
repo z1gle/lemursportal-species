@@ -7,8 +7,6 @@ package org.wcs.lemurs.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -69,15 +67,11 @@ public class DarwinCoreService {
         return res;
     }
 
-    public void upload(List<String> list_requete) throws Exception {
+    public void upload(List<DarwinCore> list_dw) throws Exception {
 
-        Session session = hibernateDao.getSessionFactory().openSession();
-        for (String requete : list_requete) {
-
-            Query query = session.createQuery(requete);
-            query.executeUpdate();
+        for (DarwinCore dw : list_dw) {
+            
+            save(dw);
         }
-        session.close();
-        hibernateDao.commit();
     }
 }

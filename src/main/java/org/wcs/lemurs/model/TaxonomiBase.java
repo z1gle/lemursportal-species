@@ -14,29 +14,14 @@ import javax.persistence.Table;
 @Table(name = "taxonomi_base")
 public class TaxonomiBase extends BaseModel {
 
-    @Column(name="kingdom")
-    private String kingdom;
-    
-    @Column(name="basisofrecord")
-    private String basisofrecord;
-    
-    @Column(name="scientificname")
-    private String scientificname;
-    
-    @Column(name="scientificnameauthorship")
-    private String scientificnameauthorship;
-    
-    @Column(name="phylum")
-    private String phylum;
-    
-    @Column(name="genus")
-    private String genus;
-    
     @Column(name="higherclassification")
     private String higherclassification;
     
-    @Column(name="acceptednameusage")
-    private String acceptednameusage;
+    @Column(name="kingdom")
+    private String kingdom;
+    
+    @Column(name="phylum")
+    private String phylum;
     
     @Column(name="dwcclass")
     private String dwcclass;
@@ -47,20 +32,35 @@ public class TaxonomiBase extends BaseModel {
     @Column(name="dwcfamily")
     private String dwcfamily;
     
-    @Column(name="specificepithet")
-    private String specificepithet;
-    
-    @Column(name="infraspecificepithet")
-    private String infraspecificepithet;
+    @Column(name="genus")
+    private String genus;
     
     @Column(name="genussource")
     private String genussource;
     
+    @Column(name="specificepithet")
+    private String specificepithet;
+    
     @Column(name="specificepithetsource")
     private String specificepithetsource;
     
+    @Column(name="infraspecificepithet")
+    private String infraspecificepithet;
+    
     @Column(name="infraspecificepithetsource")
     private String infraspecificepithetsource;
+    
+    @Column(name="scientificname")
+    private String scientificname;
+    
+    @Column(name="scientificnameauthorship")
+    private String scientificnameauthorship;
+    
+    @Column(name="acceptednameusage")
+    private String acceptednameusage;
+    
+    @Column(name="basisofrecord")
+    private String basisofrecord;
     
     @Column(name="frenchvernacularname")
     private String frenchvernacularname;
@@ -71,57 +71,121 @@ public class TaxonomiBase extends BaseModel {
     @Column(name="englishvernacularname")
     private String englishvernacularname;
     
-    @Column(name="habitat_Fr")
+    @Column(name="habitat_fr")
     private String habitatFr;
     
-    @Column(name="habitat_En")
+    @Column(name="habitat_en")
     private String habitatEn;
     
     @Column(name="habitatsource")
     private String habitatsource;
     
-    @Column(name="ecology_Fr")
+    @Column(name="ecology_fr")
     private String ecologyFr;
     
-    @Column(name="ecology_En")
+    @Column(name="ecology_en")
     private String ecologyEn;
     
     @Column(name="ecologysource")
     private String ecologysource;
     
-    @Column(name="behavior_Fr")
+    @Column(name="behavior_fr")
     private String behaviorFr;
     
-    @Column(name="behavior_En")
+    @Column(name="behavior_en")
     private String behaviorEn;
     
     @Column(name="behaviorsource")
     private String behaviorsource;
     
-    @Column(name="threat_Fr")
+    @Column(name="threat_fr")
     private String threatFr;
     
-    @Column(name="threat_En")
+    @Column(name="threat_en")
     private String threatEn;
     
     @Column(name="threatsource")
     private String threatsource;
     
-    @Column(name="morphology_Fr")
+    @Column(name="morphology_fr")
     private String morphologyFr;
     
-    @Column(name="morphology_En")
+    @Column(name="morphology_en")
     private String morphologyEn;
     
     @Column(name="protectedareaoccurrences")
     private String protectedareaoccurrences;
-    
+
+    public String getHigherclassification() {
+        return higherclassification;
+    }
+
+    public void setHigherclassification(String higherclassification) {
+        this.higherclassification = higherclassification;
+    }
+
+    public String getKingdom() {
+        return kingdom;
+    }
+
+    public void setKingdom(String kingdom) {
+        this.kingdom = kingdom;
+    }
+
+    public String getPhylum() {
+        return phylum;
+    }
+
+    public void setPhylum(String phylum) {
+        this.phylum = phylum;
+    }
+
+    public String getDwcclass() {
+        return dwcclass;
+    }
+
+    public void setDwcclass(String dwcclass) {
+        this.dwcclass = dwcclass;
+    }
+
+    public String getDwcorder() {
+        return dwcorder;
+    }
+
+    public void setDwcorder(String dwcorder) {
+        this.dwcorder = dwcorder;
+    }
+
+    public String getDwcfamily() {
+        return dwcfamily;
+    }
+
+    public void setDwcfamily(String dwcfamily) {
+        this.dwcfamily = dwcfamily;
+    }
+
+    public String getGenus() {
+        return genus;
+    }
+
+    public void setGenus(String genus) {
+        this.genus = genus;
+    }
+
     public String getGenussource() {
         return genussource;
     }
 
     public void setGenussource(String genussource) {
         this.genussource = genussource;
+    }
+
+    public String getSpecificepithet() {
+        return specificepithet;
+    }
+
+    public void setSpecificepithet(String specificepithet) {
+        this.specificepithet = specificepithet;
     }
 
     public String getSpecificepithetsource() {
@@ -132,12 +196,52 @@ public class TaxonomiBase extends BaseModel {
         this.specificepithetsource = specificepithetsource;
     }
 
+    public String getInfraspecificepithet() {
+        return infraspecificepithet;
+    }
+
+    public void setInfraspecificepithet(String infraspecificepithet) {
+        this.infraspecificepithet = infraspecificepithet;
+    }
+
     public String getInfraspecificepithetsource() {
         return infraspecificepithetsource;
     }
 
     public void setInfraspecificepithetsource(String infraspecificepithetsource) {
         this.infraspecificepithetsource = infraspecificepithetsource;
+    }
+
+    public String getScientificname() {
+        return scientificname;
+    }
+
+    public void setScientificname(String scientificname) {
+        this.scientificname = scientificname;
+    }
+
+    public String getScientificnameauthorship() {
+        return scientificnameauthorship;
+    }
+
+    public void setScientificnameauthorship(String scientificnameauthorship) {
+        this.scientificnameauthorship = scientificnameauthorship;
+    }
+
+    public String getAcceptednameusage() {
+        return acceptednameusage;
+    }
+
+    public void setAcceptednameusage(String acceptednameusage) {
+        this.acceptednameusage = acceptednameusage;
+    }
+
+    public String getBasisofrecord() {
+        return basisofrecord;
+    }
+
+    public void setBasisofrecord(String basisofrecord) {
+        this.basisofrecord = basisofrecord;
     }
 
     public String getFrenchvernacularname() {
@@ -282,109 +386,5 @@ public class TaxonomiBase extends BaseModel {
 
     public void setProtectedareaoccurrences(String protectedareaoccurrences) {
         this.protectedareaoccurrences = protectedareaoccurrences;
-    }
-
-    public String getKingdom() {
-        return kingdom;
-    }
-
-    public void setKingdom(String kingdom) {
-        this.kingdom = kingdom;
-    }
-
-    public String getBasisofrecord() {
-        return basisofrecord;
-    }
-
-    public void setBasisofrecord(String basisofrecord) {
-        this.basisofrecord = basisofrecord;
-    }
-
-    public String getScientificname() {
-        return scientificname;
-    }
-
-    public void setScientificname(String scientificname) {
-        this.scientificname = scientificname;
-    }
-
-    public String getScientificnameauthorship() {
-        return scientificnameauthorship;
-    }
-
-    public void setScientificnameauthorship(String scientificnameauthorship) {
-        this.scientificnameauthorship = scientificnameauthorship;
-    }
-
-    public String getPhylum() {
-        return phylum;
-    }
-
-    public void setPhylum(String phylum) {
-        this.phylum = phylum;
-    }
-
-    public String getGenus() {
-        return genus;
-    }
-
-    public void setGenus(String genus) {
-        this.genus = genus;
-    }
-
-    public String getHigherclassification() {
-        return higherclassification;
-    }
-
-    public void setHigherclassification(String higherclassification) {
-        this.higherclassification = higherclassification;
-    }
-
-    public String getAcceptednameusage() {
-        return acceptednameusage;
-    }
-
-    public void setAcceptednameusage(String acceptednameusage) {
-        this.acceptednameusage = acceptednameusage;
-    }
-
-    public String getDwcclass() {
-        return dwcclass;
-    }
-
-    public void setDwcclass(String dwcclass) {
-        this.dwcclass = dwcclass;
-    }
-
-    public String getDwcorder() {
-        return dwcorder;
-    }
-
-    public void setDwcorder(String dwcorder) {
-        this.dwcorder = dwcorder;
-    }
-
-    public String getDwcfamily() {
-        return dwcfamily;
-    }
-
-    public void setDwcfamily(String dwcfamily) {
-        this.dwcfamily = dwcfamily;
-    }
-
-    public String getSpecificepithet() {
-        return specificepithet;
-    }
-
-    public void setSpecificepithet(String specificepithet) {
-        this.specificepithet = specificepithet;
-    }
-
-    public String getInfraspecificepithet() {
-        return infraspecificepithet;
-    }
-
-    public void setInfraspecificepithet(String infraspecificepithet) {
-        this.infraspecificepithet = infraspecificepithet;
     }
 }

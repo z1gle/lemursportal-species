@@ -17,45 +17,6 @@ import javax.persistence.Table;
 @Table(name = "darwin_core")
 public class DarwinCore extends BaseModel {
 
-    @Column(name="kingdom")
-    private String kingdom;
-    
-    @Column(name="basisofrecord")
-    private String basisofrecord;
-    
-    @Column(name="scientificname")
-    private String scientificname;
-    
-    @Column(name="scientificnameauthorship")
-    private String scientificnameauthorship;
-    
-    @Column(name="phylum")
-    private String phylum;
-    
-    @Column(name="genus")
-    private String genus;
-    
-    @Column(name="higherclassification")
-    private String higherclassification;
-    
-    @Column(name="acceptednameusage")
-    private String acceptednameusage;
-    
-    @Column(name="darwinclass")
-    private String dwcclass;
-    
-    @Column(name="darwinorder")
-    private String dwcorder;
-    
-    @Column(name="family")
-    private String dwcfamily;
-    
-    @Column(name="specificepithet")
-    private String specificepithet;
-    
-    @Column(name="infraspecificepithet")
-    private String infraspecificepithet;
-    
     @Column(name="institutioncode")
     private String institutioncode;
     
@@ -68,6 +29,9 @@ public class DarwinCore extends BaseModel {
     @Column(name="ownerinstitutioncode")
     private String ownerinstitutioncode;
     
+    @Column(name="basisofrecord")
+    private String basisofrecord;
+    
     @Column(name="informationwithheld")
     private String informationwithheld;
     
@@ -77,14 +41,50 @@ public class DarwinCore extends BaseModel {
     @Column(name="dynamicproperties")
     private String dynamicproperties;
     
+    @Column(name="scientificname")
+    private String scientificname;
+    
+    @Column(name="acceptednameusage")
+    private String acceptednameusage;
+    
+    @Column(name="higherclassification")
+    private String higherclassification;
+    
+    @Column(name="kingdom")
+    private String kingdom;
+    
+    @Column(name="phylum")
+    private String phylum;
+    
+    @Column(name="darwinclass")
+    private String darwinclass;
+    
+    @Column(name="darwinorder")
+    private String darwinorder;
+    
+    @Column(name="family")
+    private String family;
+    
+    @Column(name="genus")
+    private String genus;
+    
     @Column(name="subgenus")
     private String subgenus;
+    
+    @Column(name="specificepithet")
+    private String specificepithet;
+    
+    @Column(name="infraspecificepithet")
+    private String infraspecificepithet;
     
     @Column(name="taxonrank")
     private String taxonrank;
     
     @Column(name="verbatimtaxonrank")
     private String verbatimtaxonrank;
+    
+    @Column(name="scientificnameauthorship")
+    private String scientificnameauthorship;
     
     @Column(name="vernacularname")
     private String vernacularname;
@@ -331,7 +331,7 @@ public class DarwinCore extends BaseModel {
     
     @Column(name="typestatus")
     private String typestatus;
-    
+
     public String getInstitutioncode() {
         return institutioncode;
     }
@@ -364,6 +364,14 @@ public class DarwinCore extends BaseModel {
         this.ownerinstitutioncode = ownerinstitutioncode;
     }
 
+    public String getBasisofrecord() {
+        return basisofrecord;
+    }
+
+    public void setBasisofrecord(String basisofrecord) {
+        this.basisofrecord = basisofrecord;
+    }
+
     public String getInformationwithheld() {
         return informationwithheld;
     }
@@ -387,13 +395,101 @@ public class DarwinCore extends BaseModel {
     public void setDynamicproperties(String dynamicproperties) {
         this.dynamicproperties = dynamicproperties;
     }
-    
+
+    public String getScientificname() {
+        return scientificname;
+    }
+
+    public void setScientificname(String scientificname) {
+        this.scientificname = scientificname;
+    }
+
+    public String getAcceptednameusage() {
+        return acceptednameusage;
+    }
+
+    public void setAcceptednameusage(String acceptednameusage) {
+        this.acceptednameusage = acceptednameusage;
+    }
+
+    public String getHigherclassification() {
+        return higherclassification;
+    }
+
+    public void setHigherclassification(String higherclassification) {
+        this.higherclassification = higherclassification;
+    }
+
+    public String getKingdom() {
+        return kingdom;
+    }
+
+    public void setKingdom(String kingdom) {
+        this.kingdom = kingdom;
+    }
+
+    public String getPhylum() {
+        return phylum;
+    }
+
+    public void setPhylum(String phylum) {
+        this.phylum = phylum;
+    }
+
+    public String getDarwinclass() {
+        return darwinclass;
+    }
+
+    public void setDarwinclass(String darwinclass) {
+        this.darwinclass = darwinclass;
+    }
+
+    public String getDarwinorder() {
+        return darwinorder;
+    }
+
+    public void setDarwinorder(String darwinorder) {
+        this.darwinorder = darwinorder;
+    }
+
+    public String getFamily() {
+        return family;
+    }
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
+    public String getGenus() {
+        return genus;
+    }
+
+    public void setGenus(String genus) {
+        this.genus = genus;
+    }
+
     public String getSubgenus() {
         return subgenus;
     }
 
     public void setSubgenus(String subgenus) {
         this.subgenus = subgenus;
+    }
+
+    public String getSpecificepithet() {
+        return specificepithet;
+    }
+
+    public void setSpecificepithet(String specificepithet) {
+        this.specificepithet = specificepithet;
+    }
+
+    public String getInfraspecificepithet() {
+        return infraspecificepithet;
+    }
+
+    public void setInfraspecificepithet(String infraspecificepithet) {
+        this.infraspecificepithet = infraspecificepithet;
     }
 
     public String getTaxonrank() {
@@ -410,6 +506,14 @@ public class DarwinCore extends BaseModel {
 
     public void setVerbatimtaxonrank(String verbatimtaxonrank) {
         this.verbatimtaxonrank = verbatimtaxonrank;
+    }
+
+    public String getScientificnameauthorship() {
+        return scientificnameauthorship;
+    }
+
+    public void setScientificnameauthorship(String scientificnameauthorship) {
+        this.scientificnameauthorship = scientificnameauthorship;
     }
 
     public String getVernacularname() {
@@ -1066,109 +1170,5 @@ public class DarwinCore extends BaseModel {
 
     public void setTypestatus(String typestatus) {
         this.typestatus = typestatus;
-    }
-
-    public String getKingdom() {
-        return kingdom;
-    }
-
-    public void setKingdom(String kingdom) {
-        this.kingdom = kingdom;
-    }
-
-    public String getBasisofrecord() {
-        return basisofrecord;
-    }
-
-    public void setBasisofrecord(String basisofrecord) {
-        this.basisofrecord = basisofrecord;
-    }
-
-    public String getScientificname() {
-        return scientificname;
-    }
-
-    public void setScientificname(String scientificname) {
-        this.scientificname = scientificname;
-    }
-
-    public String getScientificnameauthorship() {
-        return scientificnameauthorship;
-    }
-
-    public void setScientificnameauthorship(String scientificnameauthorship) {
-        this.scientificnameauthorship = scientificnameauthorship;
-    }
-
-    public String getPhylum() {
-        return phylum;
-    }
-
-    public void setPhylum(String phylum) {
-        this.phylum = phylum;
-    }
-
-    public String getGenus() {
-        return genus;
-    }
-
-    public void setGenus(String genus) {
-        this.genus = genus;
-    }
-
-    public String getHigherclassification() {
-        return higherclassification;
-    }
-
-    public void setHigherclassification(String higherclassification) {
-        this.higherclassification = higherclassification;
-    }
-
-    public String getAcceptednameusage() {
-        return acceptednameusage;
-    }
-
-    public void setAcceptednameusage(String acceptednameusage) {
-        this.acceptednameusage = acceptednameusage;
-    }
-
-    public String getDwcclass() {
-        return dwcclass;
-    }
-
-    public void setDwcclass(String dwcclass) {
-        this.dwcclass = dwcclass;
-    }
-
-    public String getDwcorder() {
-        return dwcorder;
-    }
-
-    public void setDwcorder(String dwcorder) {
-        this.dwcorder = dwcorder;
-    }
-
-    public String getDwcfamily() {
-        return dwcfamily;
-    }
-
-    public void setDwcfamily(String dwcfamily) {
-        this.dwcfamily = dwcfamily;
-    }
-
-    public String getSpecificepithet() {
-        return specificepithet;
-    }
-
-    public void setSpecificepithet(String specificepithet) {
-        this.specificepithet = specificepithet;
-    }
-
-    public String getInfraspecificepithet() {
-        return infraspecificepithet;
-    }
-
-    public void setInfraspecificepithet(String infraspecificepithet) {
-        this.infraspecificepithet = infraspecificepithet;
     }
 }
