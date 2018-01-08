@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,7 +110,7 @@ public class HibernateDao {
         Session session = null;
         try{
             session = getSessionFactory().openSession();
-            Example example=Example.create(obj).ignoreCase().excludeZeroes().enableLike();
+            Example example=Example.create(obj).ignoreCase().excludeZeroes().enableLike(MatchMode.ANYWHERE);
             Criteria criteria = session.createCriteria(obj.getClass()).add(example);
             return criteria.list();
         }catch (Exception ex){
