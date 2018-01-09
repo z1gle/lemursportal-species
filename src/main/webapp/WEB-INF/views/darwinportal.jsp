@@ -39,17 +39,19 @@
                         <li><a href="#about">Qui sommes-nous</a></li>
                         <li><a href="#datapub">Datapublication</a></li>
                         <li><a href="#experts">Les experts</a></li>
+                        <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-user" style="color:#fff!important; margin-left:25px; margin-right:10px;"></i>
-                                Bonjour, Rakotoarisoa <b class="caret"></b>
+                                Bonjour, <c:out value="${utilisateur.nom}"></c:out> <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#"><i class="fa fa-dashboard"></i>&nbsp; Mon compte</a></li>
+                                <li><a href="#" onclick="window.location = 'profil'"><i class="fa fa-dashboard"></i>&nbsp; Mon compte</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#"><i class="fa fa-power-off"></i>&nbsp; Déconnexion</a></li>
+                                <li><a href="logout" onclick="window.location = 'logout'"><i class="fa fa-power-off"></i>&nbsp; Déconnexion</a></li>
                             </ul>
                         </li>
+                        </c:if>
                     </ul>
                 </nav>
                 <!-- /main nav -->

@@ -30,4 +30,9 @@ public class BaseController {
     public ModelAndView addDarwinCore(){
         return new ModelAndView("cruddwc");
     }
+    
+    @RequestMapping(value="/login")  
+    public ModelAndView login(){
+        return new ModelAndView("loginTemp");  
+    }
 }

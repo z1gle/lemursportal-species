@@ -110,7 +110,29 @@ public class HibernateDao {
         Session session = null;
         try{
             session = getSessionFactory().openSession();
-            Example example=Example.create(obj).ignoreCase().excludeZeroes().enableLike(MatchMode.ANYWHERE);
+            Example example=Example.create(obj);
+            example.ignoreCase();
+            example.excludeZeroes();
+            example.enableLike(MatchMode.ANYWHERE);
+            Criteria criteria = session.createCriteria(obj.getClass()).add(example);
+            return criteria.list();
+        }catch (Exception ex){
+            throw ex;
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public List<BaseModel> findAllCritere(BaseModel obj) throws Exception {
+        Session session = null;
+        try{
+            session = getSessionFactory().openSession();
+            Example example=Example.create(obj);
+            example.ignoreCase();
+            example.excludeZeroes();
+            example.enableLike(MatchMode.ANYWHERE);            
             Criteria criteria = session.createCriteria(obj.getClass()).add(example);
             return criteria.list();
         }catch (Exception ex){

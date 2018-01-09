@@ -420,6 +420,57 @@ img {
 	top:0;
 }
 
-.valid .fa {
+.valid .fa-check {
 	color:#74ac00!important;
+}
+
+/* Tableau */
+.del .fa-remove {
+	color:#C00!important;
+}
+
+.add-one a {
+	background-color:#74ac00!important;
+}
+
+/* utilisateur */
+.profile {
+    min-height: 355px;
+    display: inline-block;
+}
+	
+.divider {
+    border-bottom:1px solid rgba(0,0,0,0.1);
+}
+	
+.emphasis {
+    border-bottom: 4px solid transparent;
+}
+
+.emphasis:hover {
+    border-bottom: 4px solid #74ac00;
+}
+
+.emphasis h2 {
+    margin-bottom:0;
+}
+
+span.tags {
+    background: #74ac00;
+    border-radius: 2px;
+    color: #f5f5f5;
+    font-weight: bold;
+    padding: 2px 4px;
+}
+
+.statistique-user {
+	margin:20px 0;
+}
+
+.statistique-user button {
+	margin:20px 0;
+}
+
+.photo-user img {
+	margin:10% 0 0 0;
 }
