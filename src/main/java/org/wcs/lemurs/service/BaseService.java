@@ -6,6 +6,7 @@
 package org.wcs.lemurs.service;
 
 import java.util.List;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -28,17 +29,21 @@ public class BaseService {
     @Qualifier("hibernateDao")
     private HibernateDao hibernateDao;    
 
-    public Utilisateur checkLogin(String login, String pw) throws Exception {
-        Utilisateur u = new Utilisateur();
-        u.setLogin(login);
-        u.setMotdepasse(pw);
-        List<Utilisateur> liste = (List<Utilisateur>)(List<?>)hibernateDao.findMultiCritere(u);
-        if(liste.isEmpty())return null;
-        return liste.get(0);
-    }   
+//    public Utilisateur checkLogin(String login, String pw) throws Exception {
+//        Utilisateur u = new Utilisateur();
+//        u.setLogin(login);
+//        u.setMotdepasse(pw);
+//        List<Utilisateur> liste = (List<Utilisateur>)(List<?>)hibernateDao.findMultiCritere(u);
+//        if(liste.isEmpty())return null;
+//        return liste.get(0);
+//    }   
     
     public void save(BaseModel bm) throws Exception {
         this.getHibernateDao().save(bm);
+    }
+    
+    public void save(Session session, BaseModel bm) throws Exception {
+        this.getHibernateDao().save(session, bm);
     }
     
     public void delete(BaseModel bm) throws Exception {

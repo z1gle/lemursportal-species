@@ -331,6 +331,9 @@ public class DarwinCore extends BaseModel {
     
     @Column(name="typestatus")
     private String typestatus;
+    
+    @Column(name="idutilisateurupload")
+    private Integer idUtilisateurUpload;
 
     public String getInstitutioncode() {
         return institutioncode;
@@ -1171,4 +1174,12 @@ public class DarwinCore extends BaseModel {
     public void setTypestatus(String typestatus) {
         this.typestatus = typestatus;
     }
+
+    public Integer getIdUtilisateurUpload() {
+        return idUtilisateurUpload;
+    }
+
+    public void setIdUtilisateurUpload(Integer idUtilisateurUpload) {
+        this.idUtilisateurUpload = idUtilisateurUpload;
+    }            
 }

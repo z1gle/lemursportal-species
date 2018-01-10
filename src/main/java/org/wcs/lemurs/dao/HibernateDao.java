@@ -57,6 +57,10 @@ public class HibernateDao {
         }
     }
 
+    public void save(Session session, BaseModel obj) throws Exception {
+        session.saveOrUpdate(obj);        
+    }
+
     public void delete(BaseModel obj) throws Exception {
         Session session = null;
         Transaction tr = null;
@@ -105,39 +109,39 @@ public class HibernateDao {
             }
         }
     }
-    
-    public List<BaseModel> findMultiCritere(BaseModel obj) throws Exception{
+
+    public List<BaseModel> findMultiCritere(BaseModel obj) throws Exception {
         Session session = null;
-        try{
+        try {
             session = getSessionFactory().openSession();
-            Example example=Example.create(obj);
+            Example example = Example.create(obj);
             example.ignoreCase();
             example.excludeZeroes();
             example.enableLike(MatchMode.ANYWHERE);
             Criteria criteria = session.createCriteria(obj.getClass()).add(example);
             return criteria.list();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
         }
     }
-    
+
     public List<BaseModel> findAllCritere(BaseModel obj) throws Exception {
         Session session = null;
-        try{
+        try {
             session = getSessionFactory().openSession();
-            Example example=Example.create(obj);
+            Example example = Example.create(obj);
             example.ignoreCase();
             example.excludeZeroes();
-            example.enableLike(MatchMode.ANYWHERE);            
+            example.enableLike(MatchMode.ANYWHERE);
             Criteria criteria = session.createCriteria(obj.getClass()).add(example);
             return criteria.list();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw ex;
-        }finally {
+        } finally {
             if (session != null) {
                 session.close();
             }

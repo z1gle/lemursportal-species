@@ -33,7 +33,7 @@
         <!-- Contenu -->
         <div class="utilisateur" ng-controller="utilisateur">
             <div class="container">
-                <h1 class="titre-page">Utilisateur - <span>Profil</span></h1>
+                <h1 class="titre-page">Lemurien - <span>Détail</span></h1>
                 <div class="row">
                     <div class="well col-md-12">
                         <div class="profile col-md-4 photo-user" align="center">

@@ -6,6 +6,8 @@
 package org.wcs.lemurs.controller;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.service.DarwinCoreService;
 import org.wcs.lemurs.util.UploadFile;
 
@@ -52,9 +55,17 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/processExcel", method = RequestMethod.POST)
-    public ModelAndView processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile) {
+    public ModelAndView processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile, HttpSession session, HttpServletRequest request) {
         try {
+            Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
+            if (u == null) {
+                // check recherche a faire encore
+                return new ModelAndView("loginTemp");
+            }
             List<DarwinCore> liste_darwin_core = UploadFile.import_darwin_core_excel(excelfile.getInputStream());
+            for(DarwinCore d : liste_darwin_core) {
+                d.setIdUtilisateurUpload(u.getId());
+            }
             darwinCoreService.upload(liste_darwin_core);
         } catch (Exception e) {
             e.printStackTrace();

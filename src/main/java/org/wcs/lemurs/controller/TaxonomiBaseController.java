@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.service.TaxonomiBaseService;
@@ -30,6 +31,14 @@ public class TaxonomiBaseController {
     public List<TaxonomiBase> findByespece(@RequestBody TaxonomiBase t) throws Exception {
         return taxonomiBaseService.findMultiCritere(t);
     }
+    
+//    @RequestMapping(value = "/detailLemurien", method = RequestMethod.POST, headers = "Accept=application/json")
+//    public TaxonomiBase detailLemurien(@RequestParam(value = "idLemurien") int id) throws Exception {
+//        TaxonomiBase val = new TaxonomiBase();
+//        val.setId(id);
+//        taxonomiBaseService.findById(id);
+//        return taxonomiBaseService.findMultiCritere(t);
+//    }
 
     @RequestMapping(value = "/getallTaxo", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<TaxonomiBase> getall() throws Exception {
