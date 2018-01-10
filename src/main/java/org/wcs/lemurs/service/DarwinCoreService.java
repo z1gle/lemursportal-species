@@ -5,6 +5,7 @@
  */
 package org.wcs.lemurs.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
