@@ -21,16 +21,16 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
     private int idDarwinCore;
     
     @Column(name="accepted_speces")
-    private boolean acceptedSpeces;
+    private Boolean acceptedSpeces;
     
     @Column(name="gps")
-    private boolean gps;
+    private Boolean gps;
     
     @Column(name="annee")
-    private boolean annee;
+    private Boolean annee;
     
     @Column(name="collecteur")
-    private boolean collecteur;
+    private Boolean collecteur;
 
     public int getIdDarwinCore() {
         return idDarwinCore;
@@ -40,35 +40,35 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
         this.idDarwinCore = idDarwinCore;
     }
 
-    public boolean isAcceptedSpeces() {
+    public Boolean isAcceptedSpeces() {
         return acceptedSpeces;
     }
 
-    public void setAcceptedSpeces(boolean acceptedSpeces) {
+    public void setAcceptedSpeces(Boolean acceptedSpeces) {
         this.acceptedSpeces = acceptedSpeces;
     }
 
-    public boolean isGps() {
+    public Boolean isGps() {
         return gps;
     }
 
-    public void setGps(boolean gps) {
+    public void setGps(Boolean gps) {
         this.gps = gps;
     }
 
-    public boolean isAnnee() {
+    public Boolean isAnnee() {
         return annee;
     }
 
-    public void setAnnee(boolean annee) {
+    public void setAnnee(Boolean annee) {
         this.annee = annee;
     }
 
-    public boolean isCollecteur() {
+    public Boolean isCollecteur() {
         return collecteur;
     }
 
-    public void setCollecteur(boolean collecteur) {
+    public void setCollecteur(Boolean collecteur) {
         this.collecteur = collecteur;
     }        
 }

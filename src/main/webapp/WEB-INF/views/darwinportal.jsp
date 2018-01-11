@@ -33,7 +33,25 @@
         <!-- Contenu -->
         <div class="vignette-result">
             <div class="container">
-                <h1 class="titre-page">Observation - <span>Liste</span></h1>
+                <div class="row">
+                    <form class="col-md-6" style="float: right; max-width: 70%;" ng-submit="rechercherMulti()" id="form-search">
+                        <!-- Search Field -->                                                    
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select id="validation" name="validation" style="max-width: 50%; float: right;" class="form-control" >                                    
+                                    <option value="-1">Validation</option>
+                                    <option value="1">Validé</option>
+                                    <option value="0">En attente de validation</option>                                
+                                </select>
+                                <input style="max-width: 50%; float: right;" class="form-control" type="text"  name="chercheur" placeholder="Nom prénom du chercheur"/>                            
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </div>                        
+                    </form>
+                    <h1 style="max-width: 30%;" class="titre-page col-md-6">Observation - <span>Liste</span></h1>  
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Stat -->
@@ -48,7 +66,7 @@
                                     <span class="pull-right valid"><i class="fa fa-check"></i></span>
                                 </div>
                                 <div class="detail">
-                                    <a href="#">
+                                    <a href="detailLemurien?id={{dwc.id}}">
                                         <h3>{{dwc.scientificname}}</h3>
                                         <p><i class="fa fa-angle-down"></i></p>
                                     </a>
@@ -67,9 +85,9 @@
                         <li><a href="#">5</a></li>
                         <li><a href="#">»</a></li>
                     </ul>
-                    <%                        
+                    <%
                         Integer role = ((Integer) request.getAttribute("role"));
-                        if(role == 0){
+                        if (role == 0) {
                     %>
                     <form action="processExcel" method="POST" style="float: right;" enctype="multipart/form-data">
                         <div>Importer un fichier Excel:</div>

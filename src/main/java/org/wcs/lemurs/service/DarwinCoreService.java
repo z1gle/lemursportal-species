@@ -11,8 +11,11 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wcs.lemurs.dao.DarwinCoreDao;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.ValidationDarwinCore;
@@ -25,9 +28,9 @@ import org.wcs.lemurs.model.ValidationDarwinCore;
 @Transactional
 public class DarwinCoreService extends BaseService {
 
-//    @Autowired(required = true)
-//    @Qualifier("hibernateDao")
-//    private HibernateDao hibernateDao;
+    @Autowired(required = true)
+    @Qualifier("darwinCoreDao")
+    private DarwinCoreDao DarwinCoreDao;
 
 //    @Transactional
 //    public void save(DarwinCore darwinCore) throws Exception {
@@ -73,6 +76,10 @@ public class DarwinCoreService extends BaseService {
         }
         return res;
     }
+    
+    public List<DarwinCore> findValidation(int validation, String chercheur) throws Exception {        
+        return getDarwinCoreDao().validationDarwinCore(validation, chercheur);
+    }
 
 //    public void upload(List<DarwinCore> list_dw) throws Exception {
 //
@@ -92,9 +99,21 @@ public class DarwinCoreService extends BaseService {
                 ValidationDarwinCore vdc = new ValidationDarwinCore();
                 vdc.setIdDarwinCore(dw.getId());
                 vdc.setAcceptedSpeces(checkVerbatimspecies(session, dw));
-                vdc.setAnnee(!dw.getDateidentified().isEmpty()&&dw.getDateidentified().compareTo("-")!=0);
-                vdc.setCollecteur(!dw.getIdentifiedby().isEmpty()&&dw.getIdentifiedby().compareTo("-")!=0);
-                vdc.setGps(!dw.getDecimallatitude().isEmpty()&&!dw.getDecimallongitude().isEmpty()&dw.getDecimallatitude().compareTo("-")!=0&&dw.getDecimallongitude().compareTo("-")!=0);
+                try {
+                    vdc.setAnnee(!dw.getDateidentified().isEmpty()&&dw.getDateidentified().compareTo("-")!=0);
+                } catch(NullPointerException npe) {
+                    vdc.setAnnee(Boolean.FALSE);
+                } 
+                try {
+                    vdc.setCollecteur(!dw.getIdentifiedby().isEmpty()&&dw.getIdentifiedby().compareTo("-")!=0);
+                } catch(NullPointerException npe) {
+                    vdc.setCollecteur(Boolean.FALSE);
+                }
+                try {
+                    vdc.setGps(!dw.getDecimallatitude().isEmpty()&&!dw.getDecimallongitude().isEmpty()&dw.getDecimallatitude().compareTo("-")!=0&&dw.getDecimallongitude().compareTo("-")!=0);
+                } catch(NullPointerException npe) {
+                    vdc.setGps(Boolean.FALSE);
+                }                
                 save(session, vdc);
             }
             tr.commit();
@@ -115,14 +134,17 @@ public class DarwinCoreService extends BaseService {
         query.setParameter("verbatimspecies", verbatimspecies);
         Integer val = ((BigInteger)query.list().get(0)).intValue();
         return val > 0;
+    }        
+
+    public DarwinCoreDao getDarwinCoreDao() {
+        return DarwinCoreDao;
     }
 
-//    public HibernateDao getHibernateDao() {
-//        return hibernateDao;
-//    }
-//
-//    public void setHibernateDao(HibernateDao hibernateDao) {
-//        this.hibernateDao = hibernateDao;
-//    }
+    public void setDarwinCoreDao(DarwinCoreDao DarwinCoreDao) {
+        this.DarwinCoreDao = DarwinCoreDao;
+    }
+    
+
+
 
 }

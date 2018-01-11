@@ -25,6 +25,7 @@ import org.wcs.lemurs.service.BaseService;
 @Controller
 public class BaseController {
     public static String ROLE_CHERCHEUR = "Chercheur";
+    public static String ROLE_EXPERT = "Expert vérificateur";
     
     @Autowired(required = true)
     @Qualifier("baseService")
@@ -54,12 +55,7 @@ public class BaseController {
     @RequestMapping(value="/taxonomi")  
     public ModelAndView taxoportal(){
         return new ModelAndView("taxonomiportal");  
-    }
-    
-    @RequestMapping(value="/addDarwinCore")  
-    public ModelAndView addDarwinCore(){
-        return new ModelAndView("cruddwc");
-    }
+    }        
     
     @RequestMapping(value="/login")  
     public ModelAndView login(){

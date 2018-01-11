@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wcs.lemurs.dao.HibernateDao;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.Utilisateur;
+import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 
 /**
  *
@@ -28,15 +29,6 @@ public class BaseService {
     @Autowired(required = true)
     @Qualifier("hibernateDao")
     private HibernateDao hibernateDao;    
-
-//    public Utilisateur checkLogin(String login, String pw) throws Exception {
-//        Utilisateur u = new Utilisateur();
-//        u.setLogin(login);
-//        u.setMotdepasse(pw);
-//        List<Utilisateur> liste = (List<Utilisateur>)(List<?>)hibernateDao.findMultiCritere(u);
-//        if(liste.isEmpty())return null;
-//        return liste.get(0);
-//    }   
     
     public void save(BaseModel bm) throws Exception {
         this.getHibernateDao().save(bm);
@@ -64,6 +56,19 @@ public class BaseService {
     
     public List<BaseModel> rechercher(BaseModel bm) throws Exception {
         return this.getHibernateDao().findAllCritere(bm);
+    }
+    
+    public boolean checkRole(Utilisateur utilisateur, String role) throws Exception {
+        //  check chercheur
+        VueRoleUtilisateur vru = new VueRoleUtilisateur();
+        vru.setIdUtilisateur(utilisateur.getId());
+        List<VueRoleUtilisateur> list = (List<VueRoleUtilisateur>) (List<?>) findMultiCritere(vru);
+        for (VueRoleUtilisateur v : list) {
+            if (v.getDesignation().compareTo(role) == 0) {
+                return Boolean.TRUE;                
+            }
+        }
+        return Boolean.FALSE;
     }
 
     public HibernateDao getHibernateDao() {
