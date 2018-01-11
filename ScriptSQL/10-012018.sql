@@ -22,3 +22,6 @@ CREATE TABLE public.commentaire_darwin_core
   datecommentaire timestamp,  
   CONSTRAINT pk_commentaire_darwin_core PRIMARY KEY (id)
 );
+
+--CREATE VIEW vue_validation_darwin_core AS SELECT u.nom, u.prenom,d.*,v.*  from utilisateur u join darwin_core d 
+--on d.idutilisateurupload = u.id join validation_darwin_core v on v.iddarwincore = d.iddwc;
