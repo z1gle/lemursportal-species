@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 import org.wcs.lemurs.service.BaseService;
@@ -44,8 +44,12 @@ public class UtilisateurControleur {
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(u.getId());
             List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) baseService.rechercher(vru);
+            CommentaireDarwinCore cdc = new CommentaireDarwinCore();
+            cdc.setIdUtilisateur(u.getId());
+            Integer nbrCommentaire = baseService.findMultiCritere(cdc).size();
 
             ModelAndView val = new ModelAndView("profil-utilisateur");
+            val.addObject("nbrCommentaire", nbrCommentaire);
             val.addObject("utilisateur", u);
             val.addObject("roles", roles);
             return val;

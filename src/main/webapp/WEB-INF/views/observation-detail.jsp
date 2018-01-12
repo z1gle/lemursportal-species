@@ -46,10 +46,11 @@
                 <div class="row">
                     <div class="intro">
                         <%
+                            List<String> remarques = null;
                             Integer chercheur = ((Integer) request.getAttribute("chercheur"));
                             Integer expert = ((Integer) request.getAttribute("expert"));
                             if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId())) {
-                                List<String> remarques = (List<String>) request.getAttribute("remarques");
+                                 remarques = (List<String>) request.getAttribute("remarques");
                                 if (!remarques.isEmpty()) {
                                     for (String s : remarques) {
                         %>
@@ -83,6 +84,13 @@
                             <div><i class="fa fa-check valid"></i></div>
                         </div>
                     </div>
+                    <%
+                        if (expert == 0 && !remarques.isEmpty()) {
+                    %>
+                    <div class="pull-right divider">
+                        <button type="button" class="btn btn-primary" ng-click="valider(<%out.print(dwc.getId());%>)"><span class="fa fa-edit"></span> Valider</button>                        
+                    </div>  
+                    <%}%>
                     <%
                         if (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId()) {
                     %>

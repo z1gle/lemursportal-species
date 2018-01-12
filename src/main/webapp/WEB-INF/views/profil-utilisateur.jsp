@@ -44,6 +44,7 @@
                                 <div class="col-xs-12 col-sm-12">
                                     <%
                                         Utilisateur s = (Utilisateur) request.getAttribute("utilisateur");
+                                        Integer nbrCommentaire = (Integer) request.getAttribute("nbrCommentaire");
                                         List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) request.getAttribute("roles");
                                     %>
                                     <h2><%out.print(s.getPrenom() + " " + s.getNom());%></h2>
@@ -59,7 +60,7 @@
                             </div>
                             <div class="col-xs-12 divider text-center statistique-user">
                                 <div class="col-xs-12 col-sm-4 emphasis">
-                                    <h2><strong> 0 </strong></h2>                    
+                                    <h2><strong> <%out.print(nbrCommentaire);%> </strong></h2>                    
                                     <p><small>Commentaires</small></p>
 
                                 </div>

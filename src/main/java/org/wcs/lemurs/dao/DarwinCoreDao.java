@@ -137,15 +137,9 @@ public class DarwinCoreDao extends HibernateDao {
                     + "     JOIN validation_darwin_core v ON v.iddarwincore = d.iddwc"
                     + "     WHERE 1=1";
             if(validation == 1) {
-                qry = qry + "	AND v.gps = true"
-                    + "	AND v.annee = true"
-                    + "	AND v.collecteur = true"
-                    + "	AND v.accepted_speces = true";
+                qry = qry + "	AND v.validationexpert = true";
             } else if(validation == 0) {
-                qry = qry + "	AND (v.gps = false"
-                    + "	OR v.annee = false"
-                    + "	OR v.collecteur = false"
-                    + "	OR v.accepted_speces = false)";
+                qry = qry + "	AND v.validationexpert = false";
             } if(!chercheur.isEmpty()) {
                 qry = qry + "	AND (u.prenom ilike :chercheur OR u.nom ilike :chercheur)"; 
             }                                        

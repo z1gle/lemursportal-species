@@ -114,6 +114,8 @@ public class DarwinCoreService extends BaseService {
                 } catch(NullPointerException npe) {
                     vdc.setGps(Boolean.FALSE);
                 }                
+                if(vdc.isAcceptedSpeces()&&vdc.isAnnee()&&vdc.isCollecteur()&&vdc.isGps()) vdc.setValidationExpert(Boolean.TRUE);
+                else vdc.setValidationExpert(Boolean.FALSE);
                 save(session, vdc);
             }
             tr.commit();

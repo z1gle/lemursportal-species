@@ -2,11 +2,13 @@ package org.wcs.lemurs.model;
 
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 
 
@@ -31,6 +33,16 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
     
     @Column(name="collecteur")
     private Boolean collecteur;
+    
+    @Column(name="validationexpert")
+    private Boolean validationExpert;
+    
+    @Column(name="idexpert")
+    private Integer idExpert;
+    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column(name="datevalidation")
+    private Date dateValidation;
 
     public int getIdDarwinCore() {
         return idDarwinCore;
@@ -71,4 +83,30 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
     public void setCollecteur(Boolean collecteur) {
         this.collecteur = collecteur;
     }        
+
+    public Boolean getValidationExpert() {
+        return validationExpert;
+    }
+
+    public void setValidationExpert(Boolean validationExpert) {
+        this.validationExpert = validationExpert;
+    }
+
+    public Integer getIdExpert() {
+        return idExpert;
+    }
+
+    public void setIdExpert(Integer idExpert) {
+        this.idExpert = idExpert;
+    }
+
+    public Date getDateValidation() {
+        return dateValidation;
+    }
+
+    public void setDateValidation(Date dateValidation) {
+        this.dateValidation = dateValidation;
+    }
+    
+    
 }

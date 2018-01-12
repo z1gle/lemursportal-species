@@ -47,6 +47,25 @@ app.controller("controller", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
+    
+    $scope.valider = function (id) {
+        var formData = {
+            'id': id                  
+        };
+        $http({
+            method: 'POST',
+            url: 'validerDwc',
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            window.location = 'detailLemurien?id='+$('#idDwc').val();
+        }, function error(response) {
+            console.log(response.statusText);
+        });
+    };
 
     $scope.rechercher = function () {
         $http({
