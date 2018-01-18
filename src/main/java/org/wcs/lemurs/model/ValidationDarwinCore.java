@@ -35,7 +35,7 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
     private Boolean collecteur;
     
     @Column(name="validationexpert")
-    private Boolean validationExpert;
+    private Integer validationExpert;
     
     @Column(name="idexpert")
     private Integer idExpert;
@@ -83,15 +83,7 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
     public void setCollecteur(Boolean collecteur) {
         this.collecteur = collecteur;
     }        
-
-    public Boolean getValidationExpert() {
-        return validationExpert;
-    }
-
-    public void setValidationExpert(Boolean validationExpert) {
-        this.validationExpert = validationExpert;
-    }
-
+    
     public Integer getIdExpert() {
         return idExpert;
     }
@@ -106,6 +98,14 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
 
     public void setDateValidation(Date dateValidation) {
         this.dateValidation = dateValidation;
+    }
+
+    public Integer getValidationExpert() {
+        return validationExpert;
+    }
+
+    public void setValidationExpert(Integer validationExpert) {
+        this.validationExpert = validationExpert;
     }
     
     

@@ -59,7 +59,6 @@
 </footer>
 <!--js-->
 <script src="<c:url value="/resources/assets/js/modernizr-2.6.2.min.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/jquery.singlePageNav.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/jquery.fancybox.pack.js"/>"></script>

@@ -50,6 +50,14 @@
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <tbody>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">Nom</th>
+                                            <th class="text-center">Rôle</th>
+                                            <th class="text-center">Commenataires</th>
+                                            <th class="text-center">Vidéos</th>
+                                            <th class="text-center">Photos</th>
+                                        </tr>
                                         <tr ng-repeat="dwc in liste">
                                             <td class="number text-center">{{dwc.id}}</td>
                                             <td class="text-center">{{dwc.prenom}} {{dwc.nom}}</td>
@@ -57,7 +65,7 @@
                                             <td class="text-center">0</td>
                                             <td class="text-center">0</td>
                                             <td class="text-center">0</td>
-                                            <td class="text-center">0</td>
+                                            <td class="text-center"></td>
                                         </tr>                                                
                                     </tbody>
                                 </table>

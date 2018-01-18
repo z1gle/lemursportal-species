@@ -37,12 +37,13 @@
                 <div class="row">
                     <div class="well col-md-12">
                         <div class="profile col-md-4 photo-user" align="center">
-                            <img class="img-responsive img-circle" src="/lemurs/resources/assets/img/user-default.jpg"/>
+                            <img class="img-responsive img-circle" src="/lemurs/resources/assets/img/user-default.jpg"/>                            
                         </div>
                         <div class="profile col-md-8">
                             <div class="col-sm-12">
                                 <div class="col-xs-12 col-sm-12">
                                     <%
+                                        boolean expert = false;
                                         Utilisateur s = (Utilisateur) request.getAttribute("utilisateur");
                                         Integer nbrCommentaire = (Integer) request.getAttribute("nbrCommentaire");
                                         List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) request.getAttribute("roles");
@@ -54,8 +55,20 @@
                                     <p><strong>Rôle: </strong>
                                         <%for (VueRoleUtilisateur r : roles) {%>
                                         <span class="tags"><%out.print(r.getDesignation());%></span> 
-                                        <%}%>                                                
+                                        <%
+                                                if (r.getDesignation().compareTo("Expert vérificateur") == 0) {
+                                                    expert = true;
+                                                    break;
+                                                }
+                                            }
+                                        %>
                                     </p>
+                                    <%
+                                        if (expert) {
+                                            Integer observationEnAttente = (Integer) request.getAttribute("observationEnAttente");
+                                    %>
+                                    <h4><a href="observationAValider">Observations en attente(<%out.print(observationEnAttente);%>)</a></h4>
+                                    <%}%>
                                 </div>             
                             </div>
                             <div class="col-xs-12 divider text-center statistique-user">
@@ -75,13 +88,14 @@
                             </div>
                             <div class="clearfix"></div>
                             <div class="pull-right divider">
+                                <%if (expert) {%><button type="button" class="btn btn-primary" onclick="window.location = 'assignationExpert?idExpert=<%out.print(s.getId());%>'">Assigner domaine d'expertise</button><%}%>
                                 <button type="button" class="btn btn-primary"><span class="fa fa-edit"></span> Editer profil</button>
                                 <button type="button" class="btn btn-primary"><span class="fa fa-remove"></span> Supprimer </button>
                                 <button type="button" class="btn btn-primary"><span class="fa fa-list"></span> Liste </button>
                             </div>  
                         </div>  
                     </div>
-                </div>
+                </div>                
             </div>
         </div>
         <!-- End Contenu -->

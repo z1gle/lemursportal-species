@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -129,24 +130,24 @@ public class HibernateDao {
         }
     }
 
-    public List<BaseModel> findAllCritere(BaseModel obj) throws Exception {
-        Session session = null;
-        try {
-            session = getSessionFactory().openSession();
-            Example example = Example.create(obj);
-            example.ignoreCase();
-            example.excludeZeroes();
-            example.enableLike(MatchMode.ANYWHERE);
-            Criteria criteria = session.createCriteria(obj.getClass()).add(example);
-            return criteria.list();
-        } catch (Exception ex) {
-            throw ex;
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
+//    public List<BaseModel> findAllCritere(BaseModel obj) throws Exception {
+//        Session session = null;
+//        try {
+//            session = getSessionFactory().openSession();
+//            Example example = Example.create(obj);
+//            example.ignoreCase();
+//            example.excludeZeroes();
+//            example.enableLike(MatchMode.ANYWHERE);
+//            Criteria criteria = session.createCriteria(obj.getClass()).add(example);
+//            return criteria.list();
+//        } catch (Exception ex) {
+//            throw ex;
+//        } finally {
+//            if (session != null) {
+//                session.close();
+//            }
+//        }
+//    }
 
     public void commit() {
         Session session = null;
@@ -159,6 +160,36 @@ public class HibernateDao {
             if (tr != null) {
                 tr.rollback();
             }
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public List<BaseModel> findMultiCritere(Session session, BaseModel obj, String colonne, int ordre) throws Exception {
+        Criteria criteria = session.createCriteria(obj.getClass());
+        Example example = Example.create(obj);
+        example.enableLike(MatchMode.ANYWHERE);
+        example.ignoreCase();
+        criteria.add(example);
+//        criteria.setFirstResult(getFirstResult(page, nombre));
+//        criteria.setMaxResults(nombre);
+        if (ordre == 0) {
+            criteria.addOrder(Order.asc(colonne));
+        } else {
+            criteria.addOrder(Order.desc(colonne));
+        }
+        return criteria.list();
+    }
+    
+    public List<BaseModel> findMultiCritere(BaseModel obj, String colonne, int ordre) throws Exception {
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            return findMultiCritere(session, obj, colonne, ordre);
+        } catch (Exception ex) {            
             throw ex;
         } finally {
             if (session != null) {

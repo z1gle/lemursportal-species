@@ -36,7 +36,7 @@ public class LoginController {
         if (login.isEmpty() || pw.isEmpty()) {
             return new ModelAndView("loginTemp");
         }
-        ModelAndView valiny = new ModelAndView("darwinportal");
+        ModelAndView valiny = new ModelAndView("redirect: ");
         Integer b = -1;
         try {
             Utilisateur val = autentificationService.checkLogin(login, pw);
@@ -45,17 +45,17 @@ public class LoginController {
             }
             session.setAttribute("utilisateur", val);
 
-            VueRoleUtilisateur vru = new VueRoleUtilisateur();
-            vru.setIdUtilisateur(val.getId());
-            List<VueRoleUtilisateur> list = (List<VueRoleUtilisateur>) (List<?>) autentificationService.findMultiCritere(vru);
-
-            for (VueRoleUtilisateur v : list) {
-                if (v.getDesignation().compareTo(ROLE_CHERCHEUR) == 0) {
-                    b = 0;
-                }
-            }
-
-            valiny.addObject("role", b);
+//            VueRoleUtilisateur vru = new VueRoleUtilisateur();
+//            vru.setIdUtilisateur(val.getId());
+//            List<VueRoleUtilisateur> list = (List<VueRoleUtilisateur>) (List<?>) autentificationService.findMultiCritere(vru);
+//
+//            for (VueRoleUtilisateur v : list) {
+//                if (v.getDesignation().compareTo(ROLE_CHERCHEUR) == 0) {
+//                    b = 0;
+//                }
+//            }
+//
+//            valiny.addObject("role", b);
             return valiny;
         } catch (Exception e) {
             e.printStackTrace();

@@ -85,7 +85,8 @@
                         </div>
                     </div>
                     <%
-                        if (expert == 0 && !remarques.isEmpty()) {
+                        Integer boutonValider = ((Integer) request.getAttribute("boutonValider"));
+                        if (boutonValider == 0 && remarques.isEmpty()) {
                     %>
                     <div class="pull-right divider">
                         <button type="button" class="btn btn-primary" ng-click="valider(<%out.print(dwc.getId());%>)"><span class="fa fa-edit"></span> Valider</button>                        
@@ -106,22 +107,18 @@
         <%if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId())) {%>
         <div class="detail-result">
             <div class="container">
-                <h3>Commenataires</h3>
+                <h3>Commentaires</h3>
                 <div id="commentaire" ng-repeat="cdc in liste">
                     <div style="background: #fbffff; border-radius: 4px; margin-bottom: 5px;" class="form-control">
                         {{cdc.commentaire}}
                     </div>                    
-                </div>
-                <%if (expert == 0) {%>
+                </div>                
                 <form>
-                    <textarea style="max-height: 50px; max-width: 90%; display: inline-block;"  class="form-control" placeholder="votre commentaire" ng-model="object.commentaire"></textarea>
-                    <!--<input type="text" ng-model="object.idDarwinCore" value="<%out.print(dwc.getId());%>">-->
-                    <input type="hidden" name="idDarwinCore" ng-model="object.idDarwinCore" ng-init="object.idDarwinCore = <%out.print(dwc.getId());%>" />
-                    <!--<input type="text" ng-model="object.idUtilisateur" value="<%out.print(u.getId());%>">-->   
+                    <textarea style="max-height: 50px; max-width: 90%; display: inline-block;"  class="form-control" placeholder="votre commentaire" ng-model="object.commentaire"></textarea>                    
+                    <input type="hidden" name="idDarwinCore" ng-model="object.idDarwinCore" ng-init="object.idDarwinCore = <%out.print(dwc.getId());%>" />                    
                     <input type="hidden" name="idUtilisateur" ng-model="object.idUtilisateur" ng-init="object.idUtilisateur = <%out.print(u.getId());%>" />
                     <input style="float: right; width: 10%; height: 50px;" type="button" ng-click="save()" value="Commenter" class="btn btn-success">
-                </form>
-                <%}%>
+                </form>                
             </div>
         </div>
         <%}%>

@@ -15,12 +15,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
-import org.wcs.lemurs.service.BaseService;
+import org.wcs.lemurs.service.UtilisateurService;
 
 /**
  *
@@ -30,8 +32,8 @@ import org.wcs.lemurs.service.BaseService;
 public class UtilisateurControleur {
 
     @Autowired(required = true)
-    @Qualifier("baseService")
-    private BaseService baseService;
+    @Qualifier("utilisateurService")
+    private UtilisateurService utilisateurService;
 
     @RequestMapping(value = "/profil")
     public ModelAndView profil(HttpSession session, HttpServletRequest request) {
@@ -40,18 +42,24 @@ public class UtilisateurControleur {
             if (u == null) {
                 return new ModelAndView("loginTemp");
             }
-
+            Integer observationEnAttente = 0;
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(u.getId());
-            List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) baseService.rechercher(vru);
+            List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) utilisateurService.findMultiCritere(vru);
             CommentaireDarwinCore cdc = new CommentaireDarwinCore();
             cdc.setIdUtilisateur(u.getId());
-            Integer nbrCommentaire = baseService.findMultiCritere(cdc).size();
+            Integer nbrCommentaire = utilisateurService.findMultiCritere(cdc).size();
+            for(VueRoleUtilisateur v : roles) {
+                if(v.getDesignation().compareTo(ROLE_EXPERT)==0) {
+                    observationEnAttente = utilisateurService.getListObservationFor(u).size();
+                }
+            }
 
             ModelAndView val = new ModelAndView("profil-utilisateur");
             val.addObject("nbrCommentaire", nbrCommentaire);
             val.addObject("utilisateur", u);
             val.addObject("roles", roles);
+            val.addObject("observationEnAttente", observationEnAttente);
             return val;
         } catch (NullPointerException npe) {
             return new ModelAndView("loginTemp");
@@ -87,11 +95,18 @@ public class UtilisateurControleur {
     
     @RequestMapping(value = "/findAllUtilisateur", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<Utilisateur> findAllUtilisateur() throws Exception {
-        return (List<Utilisateur>)(List<?>) baseService.findMultiCritere(new Utilisateur());
+        return (List<Utilisateur>)(List<?>) utilisateurService.findMultiCritere(new Utilisateur());
     }
     
     @RequestMapping(value = "/rechercherUtilisateur", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<Utilisateur> rechercherUtilisateur(@RequestBody Utilisateur utilisateur) throws Exception {
-        return (List<Utilisateur>)(List<?>)baseService.findMultiCritere(utilisateur);
+        return (List<Utilisateur>)(List<?>)utilisateurService.findMultiCritere(utilisateur);
+    }
+    
+    @RequestMapping(value="/assignationExpert")  
+    public ModelAndView assignationExpert(HttpSession session, @RequestParam(value = "idExpert") Integer idExpert){
+        ModelAndView valiny = new ModelAndView("assignationExpert");  
+        valiny.addObject("idExpert", idExpert);
+        return valiny;
     }
 }

@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>DarwinCore</title>		
+        <title>Lémuriens</title>		
         <meta name="description" content="">
         <meta name="keywords" content="">       
         <meta name="viewport" content="width=device-width, initial-scale=1">	
@@ -19,6 +19,7 @@
         <link href="<c:url value="/resources/assets/css/animate.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/main.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/styles.css" />" rel="stylesheet">
+        <script src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
     </head>
     <body ng-app="app">
         <!-- Navigation -->

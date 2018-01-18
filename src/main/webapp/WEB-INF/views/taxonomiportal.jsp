@@ -44,8 +44,13 @@
                                     <ul class="nav panel-tabs">
                                         <li><a href="#"><i class="fa fa-list"></i> Liste</a></li>
                                         <li><a href="#"><i class="fa fa-globe"></i> Localisation</a></li>
+                                            <%
+                                                Integer moderateur = (Integer) request.getAttribute("moderateur");
+                                                if (moderateur == 0) {
+                                            %>
                                         <li><a href="#"><i class="fa fa-download"></i> CSV</a></li>
                                         <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                            <%}%>
                                     </ul>
                                 </span>
                             </div>
@@ -58,22 +63,30 @@
                                             <td class="number text-center">#</td>
                                             <td class="text-center">Ordre</td>
                                             <td class="text-center">Classe</td>
+                                            <td class="text-center">Famille</td>
                                             <td class="text-center">Genre</td>
+                                            <td class="text-center">Espèce</td>
                                             <td class="text-center">Détails</td>
                                             <td class="text-center">Statut</td>
+                                            <%if (moderateur == 0) {%>
                                             <td class="text-center">Action</td>
+                                            <%}%>
                                         </tr>
                                         <tr ng-repeat="taxo in liste">
                                             <td class="number text-center">{{$index + 1}}</td>
                                             <td class="text-center">{{taxo.dwcorder}}</td>
                                             <td class="text-center">{{taxo.dwcclass}}</td>
                                             <td class="text-center">{{taxo.dwcfamily}}</td>
-                                            <td class="text-center"><a href="#"><i class="fa fa-eye"></i></a></td>
+                                            <td class="text-center">{{taxo.genus}}</td>
+                                            <td class="text-center">{{taxo.scientificname}}</td>
+                                            <td class="text-center"><a ng-click="editer(taxo)" href=""><i class="fa fa-eye"></i></a></td>
                                             <td class="text-center valid"><i class="fa fa-lock"></i></td>
+                                                <%if (moderateur == 0) {%>
                                             <td class="text-center del">
                                                 <a href="" ng-click="editer(taxo)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
                                                 <a href="" ng-click="delete(taxo)"><i class="fa fa-remove"></i></a>
                                             </td>
+                                            <%}%>
                                         </tr>                                                   
                                     </tbody>
                                 </table>
@@ -110,7 +123,7 @@
                 <h1 class="h">INSERTION/MODIFICATION TAXONOMI</h1>
                 <div class="row">
                     <div class="col-sm-1"></div>
-                    <form ng-submit="save()">
+                    <form>
                         <table class="table-condensed">
                             <tr>
                                 <td>
@@ -279,7 +292,9 @@
                                 </td>
                                 <td style="text-align: right">
                                     <input class="btn btn-primary" ng-click="annuler()" value="Annuler">
-                                    <input type="submit" class="btn btn-success" value="Enregistrer">
+                                    <%if (moderateur == 0) {%>
+                                    <input type="submit" class="btn btn-success" ng-click="save()" value="Enregistrer">
+                                    <%}%>
                                 </td>
                             </tr>
                         </table>
