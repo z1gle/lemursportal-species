@@ -49,6 +49,10 @@ public class BaseService {
         this.getHibernateDao().findById(bm);
     }
     
+    public void findById(Session session, BaseModel bm) throws Exception {
+        this.getHibernateDao().findById(session, bm);
+    }
+    
     public List<BaseModel> findAll(BaseModel bm) throws Exception {
         return this.getHibernateDao().findAll(bm);
     }
@@ -59,6 +63,10 @@ public class BaseService {
     
     public List<BaseModel> findMultiCritere(BaseModel bm) throws Exception {
         return this.getHibernateDao().findMultiCritere(bm);
+    }
+    
+    public List<BaseModel> findMultiCritere(Session session, BaseModel bm) throws Exception {
+        return this.getHibernateDao().findMultiCritere(session, bm);
     }
     
     public List<BaseModel> findMultiCritere(Session session, BaseModel bm, String colonne, int ordre) throws Exception {

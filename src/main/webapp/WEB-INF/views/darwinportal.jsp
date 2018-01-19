@@ -80,7 +80,7 @@
                         <!-- End Vignette -->
                     </div>
                     <div class="table-responsive row" id="liste">
-                        <form action="validerDwcs">
+                        <form>
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>                                                                                
@@ -103,7 +103,7 @@
                                         <%if (expert == 0) {%>
                                         <td ng-if="dwc.validation == 1" class="number text-center"><input name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox"></td>
                                         <td ng-if="dwc.validation == 0" class="number text-center"></td>
-                                            <%}%>
+                                        <%}%>
                                         <td class="number text-center">{{dwc.dwc.id}}</td>
                                         <td class="text-center">{{dwc.dwc.scientificname}}</td>
                                         <td class="text-center">{{dwc.dwc.locality}}</td>
@@ -116,8 +116,8 @@
                                 </tbody>
                             </table>
                             <%if (expert == 0) {%>
-                            <button type="submit" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
-                            <button type="submit" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>
+                            <button onclick="validate(0);" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
+                            <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>
                             <%}%>
                         </form>
                     </div>
@@ -148,6 +148,56 @@
         <!-- End Contenu -->
 
     </section>
+    <div id='modal-ajout-confirmation-valide' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Confirmation</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                <label id="" class="control-label messageMod">L'observation N° # a déja été marqué comme # par #</label>
+                                <label class="control-label">Voulez-vous continuer à modifier son status?</label>                                    
+                            </div>                                    
+                        </div>
+                    </div>
+
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(1, 0)" data-dismiss='modal'>Annuler</button>
+                    <button type='button' class='btn btn-success btn-sm' onclick="continueValidate(1, 1)" data-dismiss='modal'>Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal-ajout-confirmation-questionnable' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Confirmation</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                <label id="" class="control-label messageMod">L'observation N° # a déja été marqué comme # par #</label>
+                                <label class="control-label">Voulez-vous continuer à modifier son status?</label>                                    
+                            </div>                                    
+                        </div>
+                    </div>
+
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(0, 0)" data-dismiss='modal'>Annuler</button>
+                    <button type='button' class='btn btn-success btn-sm' onclick="continueValidate(0, 1)" data-dismiss='modal'>Continuer</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end darwin -->
 
 </main>
@@ -155,22 +205,82 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/darwincontroller.js"/>"></script>
 <script>
-                                            function liste() {
-                                                document.getElementById("pellicule").style.display = 'none';
-                                                document.getElementById("liste").style.display = 'block';
-                                                document.getElementById("tab-liste").class = 'active';
-                                                document.getElementById("tab-pellicule").class = '';
+                        function liste() {
+                            document.getElementById("pellicule").style.display = 'none';
+                            document.getElementById("liste").style.display = 'block';
+                            document.getElementById("tab-liste").class = 'active';
+                            document.getElementById("tab-pellicule").class = '';
 //        $("liste").show();        
 //        $("pellicule").hide();
-                                            }
-                                            function pellicule() {
+                        }
+                        function pellicule() {
 //        $("liste").hide();
 //        $("pellicule").show();
-                                                document.getElementById("pellicule").style.display = 'block';
-                                                document.getElementById("liste").style.display = 'none';
-                                                document.getElementById("tab-pellicule").class = 'active';
-                                                document.getElementById("tab-liste").class = '';
-                                            }
-                                            pellicule();
+                            document.getElementById("pellicule").style.display = 'block';
+                            document.getElementById("liste").style.display = 'none';
+                            document.getElementById("tab-pellicule").class = 'active';
+                            document.getElementById("tab-liste").class = '';
+                        }
+                        pellicule();
+                        function showModal(status) {
+                            if (status == 0)
+                                $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
+                            else
+                                $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
+                        }
+                        ;
+
+                        function validate(status) {
+                            var valeurs = $('[name="dwc[]"]');
+                            var data = "?";
+                            for (var i = 0; i < valeurs.length; i++) {
+                                if (valeurs[i].checked == true) {
+                                    data = data + valeurs[i].name + "=" + valeurs[i].value + "&";
+                                    console.log(data);
+                                }
+                            }
+                            data = data + "status=" + status;
+                            $.ajax({
+                                type: 'get',
+                                url: 'validerListDwc' + data,
+//                                dataType: 'json',
+//                                enctype: 'multipart/form-data',
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                success: function (json) {
+                                    if (json.etat == 1) {
+                                        console.log(json.etat);
+                                        location.reload();
+                                    } else if (json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                                        showModal(status);
+                                    }
+                                }
+                            });
+                        }
+                        ;
+
+                        function continueValidate(status, etat) {
+                            var data = "?continuer=";
+                            data = data + etat + "&status=" + status;
+                            $.ajax({
+                                type: 'get',
+                                url: 'continuerValiderListDwc' + data,
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                success: function (json) {
+                                    if (json.etat == 1) {
+                                        console.log(json.etat);
+                                        location.reload();
+                                    } else if (json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                                        showModal(status);
+                                    }
+                                }
+                            });
+                        }
+                        ;
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

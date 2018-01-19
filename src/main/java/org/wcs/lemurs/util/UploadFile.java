@@ -5,7 +5,11 @@
  */
 package org.wcs.lemurs.util;
 
+import java.io.BufferedWriter;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,7 +50,7 @@ public class UploadFile {
         int count_cell = 0;
         row = (XSSFRow) rows.next();
         count_cell = row.getFirstCellNum() + row.getLastCellNum();
-        
+
         int index_method = 0;
         int index_cell = 0;
         DarwinCore dw = null;
@@ -58,10 +62,10 @@ public class UploadFile {
 
                 cell = row.getCell(index_cell);
                 if (cell != null) {
-                    
+
                     dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, cell.toString());
                 } else {
-                    
+
                     dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, "-");
                 }
                 index_method++;
@@ -92,7 +96,7 @@ public class UploadFile {
         int count_cell = 0;
         row = (XSSFRow) rows.next();
         count_cell = row.getFirstCellNum() + row.getLastCellNum();
-        
+
         int index_method = 0;
         int index_cell = 0;
         TaxonomiBase taxo = null;
@@ -104,10 +108,10 @@ public class UploadFile {
 
                 cell = row.getCell(index_cell);
                 if (cell != null) {
-                    
+
                     taxo.getClass().getMethod(allmethodes[index_method], String.class).invoke(taxo, cell.toString());
                 } else {
-                    
+
                     taxo.getClass().getMethod(allmethodes[index_method], String.class).invoke(taxo, "-");
                 }
                 index_method++;
@@ -117,7 +121,38 @@ public class UploadFile {
             index_method = 0;
             index_cell = 0;
         }
-        
+
         return list_taxonomi;
+    }
+
+    public void writeCsv(List<TaxonomiBase> taxonomies, char separator, OutputStream output) throws Exception {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
+        String header = "";
+        Field[] colonnes = TaxonomiBase.class.getDeclaredFields();
+        for (Field f : colonnes) {
+            String temp = f.getName();
+            if (temp.contains("dwc")) {
+                temp = temp.split("dwc")[0] + "Darwin core " + temp.split("dwc")[1];
+            }
+            temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
+            header += temp + separator;
+        }
+        header = header.substring(0, header.length() - 1);
+        writer.append(header);
+        writer.newLine();
+        for (TaxonomiBase row : taxonomies) {
+            String field = "";
+            for (Field f : colonnes) {
+                String temp = (String) row.getClass().getMethod("get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), null).invoke(row, null);
+                if(temp.contains(";")) {
+                    temp = temp.replace(";", ",");
+                }
+                field += temp+ ";";
+            }
+            field = field.substring(0, field.length() - 1);
+            writer.append(field);
+            writer.newLine();
+        }
+        writer.flush();
     }
 }

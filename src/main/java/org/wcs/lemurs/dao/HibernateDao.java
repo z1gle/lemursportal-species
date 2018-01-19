@@ -59,7 +59,7 @@ public class HibernateDao {
     }
 
     public void save(Session session, BaseModel obj) throws Exception {
-        session.saveOrUpdate(obj);        
+        session.saveOrUpdate(obj);
     }
 
     public void delete(BaseModel obj) throws Exception {
@@ -96,6 +96,10 @@ public class HibernateDao {
         }
     }
 
+    public void findById(Session session, BaseModel obj) throws Exception {
+        session.load(obj, obj.getId());
+    }
+
     public List<BaseModel> findAll(BaseModel obj) throws Exception {
         Session session = null;
         try {
@@ -130,24 +134,14 @@ public class HibernateDao {
         }
     }
 
-//    public List<BaseModel> findAllCritere(BaseModel obj) throws Exception {
-//        Session session = null;
-//        try {
-//            session = getSessionFactory().openSession();
-//            Example example = Example.create(obj);
-//            example.ignoreCase();
-//            example.excludeZeroes();
-//            example.enableLike(MatchMode.ANYWHERE);
-//            Criteria criteria = session.createCriteria(obj.getClass()).add(example);
-//            return criteria.list();
-//        } catch (Exception ex) {
-//            throw ex;
-//        } finally {
-//            if (session != null) {
-//                session.close();
-//            }
-//        }
-//    }
+    public List<BaseModel> findMultiCritere(Session session, BaseModel obj) throws Exception {
+        Example example = Example.create(obj);
+        example.ignoreCase();
+        example.excludeZeroes();
+        example.enableLike(MatchMode.ANYWHERE);
+        Criteria criteria = session.createCriteria(obj.getClass()).add(example);
+        return criteria.list();
+    }
 
     public void commit() {
         Session session = null;
@@ -167,7 +161,7 @@ public class HibernateDao {
             }
         }
     }
-    
+
     public List<BaseModel> findMultiCritere(Session session, BaseModel obj, String colonne, int ordre) throws Exception {
         Criteria criteria = session.createCriteria(obj.getClass());
         Example example = Example.create(obj);
@@ -183,13 +177,13 @@ public class HibernateDao {
         }
         return criteria.list();
     }
-    
+
     public List<BaseModel> findMultiCritere(BaseModel obj, String colonne, int ordre) throws Exception {
         Session session = null;
         try {
             session = getSessionFactory().openSession();
             return findMultiCritere(session, obj, colonne, ordre);
-        } catch (Exception ex) {            
+        } catch (Exception ex) {
             throw ex;
         } finally {
             if (session != null) {

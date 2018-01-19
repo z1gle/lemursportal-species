@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import static org.wcs.lemurs.controller.BaseController.ROLE_CHERCHEUR;
 import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
+import org.wcs.lemurs.exception.StatusAlreadyExistException;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
@@ -200,16 +201,16 @@ public class DarwinCoreController {
         } catch (Exception e) {
             throw e;
         }
-    }    
-    
+    }
+
     @RequestMapping(value = "/observationAValider")
     public ModelAndView observationAValider() {
-        ModelAndView val = new ModelAndView("observationAValider");        
+        ModelAndView val = new ModelAndView("observationAValider");
         return val;
     }
 
     @RequestMapping(value = "/saveDwc", method = RequestMethod.POST, headers = "Accept=application/json")
-        public void saveOrupdate(HttpSession session, @RequestBody DarwinCore dwc) throws Exception {
+    public void saveOrupdate(HttpSession session, @RequestBody DarwinCore dwc) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         if (darwinCoreService.checkRole(utilisateur, ROLE_CHERCHEUR) && utilisateur.getId() == dwc.getIdUtilisateurUpload()) {
             List<DarwinCore> ldc = new ArrayList<>();
@@ -219,7 +220,7 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/validerDwc", method = RequestMethod.POST, headers = "Accept=application/json")
-        public void valider(HttpSession session, @RequestBody DarwinCore dwc) throws Exception {
+    public void valider(HttpSession session, @RequestBody DarwinCore dwc) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT)) {
             ValidationDarwinCore vdc = new ValidationDarwinCore();
@@ -234,7 +235,7 @@ public class DarwinCoreController {
 
     //Optimisable
     @RequestMapping(value = "/validerDwcs", method = RequestMethod.GET, headers = "Accept=application/json")
-        public void validerAll(HttpSession session, @RequestParam(value = "dwc[]") int[] dwc) throws Exception {
+    public void validerAll(HttpSession session, @RequestParam(value = "dwc[]") int[] dwc) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT)) {
             for (int i = 0; i < dwc.length; i++) {
@@ -249,13 +250,66 @@ public class DarwinCoreController {
         }
     }
 
+    @RequestMapping(value = "/validerListDwc", method = RequestMethod.GET, headers = "Accept=application/json")
+    public HashMap<String, String> validerListDwc(HttpSession session, @RequestParam(value = "dwc[]") int[] dwc, @RequestParam(value = "status") int status) throws Exception {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        HashMap<String, String> valiny = new HashMap<>();
+        if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT)) {
+            try {
+                if(status == 1) darwinCoreService.validerAll(dwc, utilisateur);
+                else darwinCoreService.questionnableAll(dwc, utilisateur);
+                valiny.put("etat", "1");
+            } catch (StatusAlreadyExistException e) {
+                session.setAttribute("exception", e);
+                valiny.put("etat", "0");
+                valiny.put("n", Integer.toString(e.getObservationEnCours().getId()));
+                valiny.put("status", e.getStatusObservationEnCours().getValidation());
+                Utilisateur temp = new Utilisateur();
+                temp.setId(e.getStatusObservationEnCours().getIdExpert());
+                darwinCoreService.findById(temp);
+                valiny.put("expert", temp.getNom() + " " + temp.getPrenom());
+            }
+        }
+        return valiny;
+    }
+
+    @RequestMapping(value = "/continuerValiderListDwc", method = RequestMethod.GET, headers = "Accept=application/json")
+    public HashMap<String, String> validerListDwc(HttpSession session, @RequestParam(value = "continuer") int continuer, @RequestParam(value = "status") int status) throws Exception {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        HashMap<String, String> valiny = new HashMap<>();
+        if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT)) {
+            StatusAlreadyExistException saee = (StatusAlreadyExistException) session.getAttribute("exception");
+            List<DarwinCore> dwc = saee.getObservationRestante();
+            if (continuer == 1) {
+                if(status == 1) darwinCoreService.validerForced(saee.getObservationEnCours(), utilisateur);
+                else darwinCoreService.questionnableForced(saee.getObservationEnCours(), utilisateur);
+            }
+            try {
+                if(status == 1) darwinCoreService.validerAll(dwc, utilisateur);
+                else darwinCoreService.questionnableAll(dwc, utilisateur);
+                valiny.put("etat", "1");
+                session.removeAttribute("exception");
+            } catch (StatusAlreadyExistException e) {
+                session.setAttribute("exception", e);
+                valiny.put("etat", "0");
+                valiny.put("n", Integer.toString(e.getObservationEnCours().getId()));
+                valiny.put("status", e.getStatusObservationEnCours().getValidation());
+                Utilisateur temp = new Utilisateur();
+                temp.setId(e.getStatusObservationEnCours().getIdExpert());
+                darwinCoreService.findById(temp);
+                valiny.put("expert", temp.getNom() + " " + temp.getPrenom());
+            }
+        }
+        return valiny;
+    }
+
     @RequestMapping(value = "/deleteDwc", method = RequestMethod.POST, headers = "Accept=application/json")
-        public void delete(@RequestBody DarwinCore dwc) throws Exception {
+    public void delete(@RequestBody DarwinCore dwc) throws Exception {
         darwinCoreService.delete(dwc);
     }
 
     @RequestMapping(value = "/processExcel", method = RequestMethod.POST)
-        public ModelAndView processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile, HttpSession session, HttpServletRequest request) {
+    public ModelAndView processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile, HttpSession session, HttpServletRequest request) {
         ModelAndView val = new ModelAndView("redirect: ");
         try {
             Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");

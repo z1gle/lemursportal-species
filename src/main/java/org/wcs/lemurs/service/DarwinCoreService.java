@@ -111,7 +111,7 @@ public class DarwinCoreService extends BaseService {
                     vdc.setAnnee(Boolean.FALSE);
                 }
                 try {
-                    vdc.setCollecteur(!dw.getRecordedby().isEmpty() && dw.getIdentifiedby().compareTo("-") != 0);
+                    vdc.setCollecteur(!dw.getRecordedby().isEmpty() && dw.getRecordedby().compareTo("-") != 0);
                 } catch (NullPointerException npe) {
                     vdc.setCollecteur(Boolean.FALSE);
                 }
@@ -149,21 +149,21 @@ public class DarwinCoreService extends BaseService {
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
             parameter.add(a.getEspece());
-            return (List<DarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from darwin_core where scientificname = :sn", name, parameter, new DarwinCore());
+            return (List<DarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where scientificname = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new DarwinCore());
         }
         if ((a.getGenre() != null && !a.getGenre().isEmpty()) && (a.getEspece() == null || a.getEspece().isEmpty()) && (a.getFamille() == null || a.getFamille().isEmpty())) {
             List<String> name = new ArrayList<>();
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
             parameter.add(a.getGenre());
-            return (List<DarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from darwin_core where genus = :sn", name, parameter, new DarwinCore());
+            return (List<DarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where genus = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new DarwinCore());
         }
         if ((a.getEspece() == null || a.getEspece().isEmpty()) && (a.getGenre() == null || a.getGenre().isEmpty()) && (a.getFamille() != null && !a.getFamille().isEmpty())) {
             List<String> name = new ArrayList<>();
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
             parameter.add(a.getFamille());
-            return (List<DarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from darwin_core where family = :sn", name, parameter, new DarwinCore());
+            return (List<DarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where family = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new DarwinCore());
         } else {
             return null;
         }
@@ -193,12 +193,12 @@ public class DarwinCoreService extends BaseService {
     public List<HashMap<String, Object>> findWithCheck(Utilisateur utilisateur, DarwinCore darwinCore) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         List<DarwinCore> val = findMutliCritere(darwinCore);
-        try {            
+        try {
             List<DarwinCore> toCheck = getListObservationFor(utilisateur);
 //            val.removeAll(toCheck);
-            for(int i = 0; i < val.size(); i++) {
-                for(int j = 0; j < toCheck.size(); j++) {
-                    if(val.get(i).getId()==toCheck.get(j).getId()) {
+            for (int i = 0; i < val.size(); i++) {
+                for (int j = 0; j < toCheck.size(); j++) {
+                    if (val.get(i).getId() == toCheck.get(j).getId()) {
                         val.remove(i);
                         i--;
                         break;
@@ -222,10 +222,10 @@ public class DarwinCoreService extends BaseService {
         }
         return valiny;
     }
-    
+
     public List<HashMap<String, Object>> findObservationCheck(Utilisateur utilisateur) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
-        List<DarwinCore> val = getListObservationFor(utilisateur);        
+        List<DarwinCore> val = getListObservationFor(utilisateur);
         for (DarwinCore dwc : val) {
             HashMap<String, Object> temp = new HashMap<>();
             temp.put("dwc", dwc);
@@ -262,16 +262,61 @@ public class DarwinCoreService extends BaseService {
         return false;
     }
 
+    public void changeStatusValidationDarwinCore(DarwinCore dwc, Utilisateur utilisateur, String status) throws Exception {
+        ValidationDarwinCore vdc = new ValidationDarwinCore();
+        vdc.setIdDarwinCore(dwc.getId());
+        vdc = ((List<ValidationDarwinCore>) (List<?>) findMultiCritere(vdc)).get(0);
+        int eqStatus = -1;
+        if (status.compareTo("valide") == 0) {
+            eqStatus = 1;
+        }
+        if (status.compareTo("questionnable") == 0) {
+            eqStatus = 0;
+        }
+        vdc.setValidationExpert(eqStatus);
+        vdc.setIdExpert(utilisateur.getId());
+        vdc.setDateValidation(Calendar.getInstance().getTime());
+        save(vdc);
+    }
+
+    public void changeStatusValidationDarwinCore(Session session, DarwinCore dwc, Utilisateur utilisateur, String status) throws Exception {
+        ValidationDarwinCore vdc = new ValidationDarwinCore();
+        vdc.setIdDarwinCore(dwc.getId());
+        try {
+            vdc = ((List<ValidationDarwinCore>) (List<?>) findMultiCritere(session, vdc)).get(0);
+        } catch (IndexOutOfBoundsException ioobe) {
+        }
+        int eqStatus = -1;
+        if (status.compareTo("valide") == 0) {
+            eqStatus = 1;
+        }
+        if (status.compareTo("questionnable") == 0) {
+            eqStatus = 0;
+        }
+        vdc.setValidationExpert(eqStatus);
+        vdc.setIdExpert(utilisateur.getId());
+        vdc.setDateValidation(Calendar.getInstance().getTime());
+        save(vdc);
+    }
+
     public HistoriqueStatus checkStatus(DarwinCore observation) throws Exception {
         HistoriqueStatus status = new HistoriqueStatus();
         status.setIdDwc(observation.getId());
-        return (HistoriqueStatus) super.findMultiCritere(status, "dateModification", 1).get(0);
+        try {
+            return (HistoriqueStatus) super.findMultiCritere(status, "dateModification", 1).get(0);
+        } catch (IndexOutOfBoundsException i) {
+            throw new NullPointerException();
+        }
     }
 
     public HistoriqueStatus checkStatus(Session session, DarwinCore observation) throws Exception {
         HistoriqueStatus status = new HistoriqueStatus();
         status.setIdDwc(observation.getId());
-        return (HistoriqueStatus) super.findMultiCritere(session, status, "dateModification", 1).get(0);
+        try {
+            return (HistoriqueStatus) super.findMultiCritere(session, status, "dateModification", 1).get(0);
+        } catch (IndexOutOfBoundsException i) {
+            throw new NullPointerException();
+        }
     }
 
     public void changeStatus(DarwinCore observation, Utilisateur expert, String newStatus) throws Exception {
@@ -279,6 +324,7 @@ public class DarwinCoreService extends BaseService {
             HistoriqueStatus status = checkStatus(observation);
             if (status == null) {
                 throw new NullPointerException();
+            } else if (status.getIdExpert() == expert.getId() && status.getValidation().compareTo(newStatus) == 0) {
             } else {
                 StatusAlreadyExistException ex = new StatusAlreadyExistException();
                 ex.setObservationEnCours(observation);
@@ -292,9 +338,20 @@ public class DarwinCoreService extends BaseService {
             hs.setIdExpert(expert.getId());
             hs.setValidation(newStatus);
             save(hs);
+            changeStatusValidationDarwinCore(observation, expert, newStatus);
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public void changeStatusForced(DarwinCore observation, Utilisateur expert, String newStatus) throws Exception {
+        HistoriqueStatus hs = new HistoriqueStatus();
+        hs.setDateModification(Calendar.getInstance().getTime());
+        hs.setIdDwc(observation.getId());
+        hs.setIdExpert(expert.getId());
+        hs.setValidation(newStatus);
+        save(hs);
+        changeStatusValidationDarwinCore(observation, expert, newStatus);
     }
 
     public void changeStatus(Session session, DarwinCore observation, Utilisateur expert, String newStatus) throws Exception {
@@ -302,6 +359,7 @@ public class DarwinCoreService extends BaseService {
             HistoriqueStatus status = checkStatus(session, observation);
             if (status == null) {
                 throw new NullPointerException();
+            } else if (status.getIdExpert() == expert.getId() && status.getValidation().compareTo(newStatus) == 0) {
             } else {
                 StatusAlreadyExistException ex = new StatusAlreadyExistException();
                 ex.setObservationEnCours(observation);
@@ -315,9 +373,21 @@ public class DarwinCoreService extends BaseService {
             hs.setIdExpert(expert.getId());
             hs.setValidation(newStatus);
             save(hs);
+            changeStatusValidationDarwinCore(session, observation, expert, newStatus);
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public List<DarwinCore> findAll(Session session, int[] dwc) throws Exception {
+        List<DarwinCore> valiny = new ArrayList<>();
+        for (int i = 0; i < dwc.length; i++) {
+            DarwinCore temp = new DarwinCore();
+            temp.setId(dwc[i]);
+            findById(session, temp);
+            valiny.add(temp);
+        }
+        return valiny;
     }
 
     public void changeStatusAll(List<DarwinCore> observations, Utilisateur expert, String newStatus) throws StatusAlreadyExistException, Exception {
@@ -328,7 +398,39 @@ public class DarwinCoreService extends BaseService {
                 try {
                     changeStatus(session, observation, expert, newStatus);
                 } catch (StatusAlreadyExistException ex) {
-                    ex.getObservationRestante().addAll(observations.subList(observations.indexOf(ex.getObservationEnCours()), observations.size()));
+                    try {
+                        ex.getObservationRestante().addAll(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                    } catch (NullPointerException npe) {
+                        ex.setObservationRestante(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                    }
+                    throw ex;
+                } catch (Exception ex) {
+                    throw ex;
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public void changeStatusAll(int[] idsObservations, Utilisateur expert, String newStatus) throws StatusAlreadyExistException, Exception {
+        Session session = null;
+        try {
+            session = this.getHibernateDao().getSessionFactory().openSession();
+            List<DarwinCore> observations = findAll(session, idsObservations);
+            for (DarwinCore observation : observations) {
+                try {
+                    changeStatus(session, observation, expert, newStatus);
+                } catch (StatusAlreadyExistException ex) {
+                    try {
+                        ex.getObservationRestante().addAll(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                    } catch (NullPointerException npe) {
+                        ex.setObservationRestante(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                    }
                     throw ex;
                 } catch (Exception ex) {
                     throw ex;
@@ -346,16 +448,32 @@ public class DarwinCoreService extends BaseService {
     public void valider(DarwinCore observation, Utilisateur expert) throws Exception {
         changeStatus(observation, expert, "valide");
     }
+    
+    public void validerForced(DarwinCore observation, Utilisateur expert) throws Exception {
+        changeStatusForced(observation, expert, "valide");
+    }
 
     public void validerAll(List<DarwinCore> observation, Utilisateur expert) throws Exception {
+        changeStatusAll(observation, expert, "valide");
+    }
+
+    public void validerAll(int[] observation, Utilisateur expert) throws Exception {
         changeStatusAll(observation, expert, "valide");
     }
 
     public void questionnable(DarwinCore observation, Utilisateur expert) throws Exception {
         changeStatus(observation, expert, "questionnable");
     }
+    
+    public void questionnableForced(DarwinCore observation, Utilisateur expert) throws Exception {
+        changeStatusForced(observation, expert, "questionnable");
+    }
 
     public void questionnableAll(List<DarwinCore> observation, Utilisateur expert) throws Exception {
+        changeStatusAll(observation, expert, "questionnable");
+    }
+
+    public void questionnableAll(int[] observation, Utilisateur expert) throws Exception {
         changeStatusAll(observation, expert, "questionnable");
     }
 

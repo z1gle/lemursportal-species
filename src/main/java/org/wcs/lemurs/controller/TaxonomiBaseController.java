@@ -6,8 +6,8 @@
 package org.wcs.lemurs.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +21,7 @@ import static org.wcs.lemurs.controller.BaseController.ROLE_MODERATEUR;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.service.TaxonomiBaseService;
+import org.wcs.lemurs.util.UploadFile;
 
 /**
  *
@@ -66,35 +67,44 @@ public class TaxonomiBaseController {
             taxonomiBaseService.delete(t);
         }
     }
-    
+
     // temp    
     @RequestMapping(value = "/getFamille", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<String> getFamily() throws Exception {
-        return (List<String>)(List<?>)taxonomiBaseService.executeSqlList("select distinct dwcfamily from taxonomi_base");
+        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct dwcfamily from taxonomi_base");
     }
-    
+
     @RequestMapping(value = "/getGenre", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<String> getGenre(@RequestParam(value = "famille") String requestData) throws Exception {
         List<String> nom = new ArrayList<>();
         nom.add("dwcf");
         List<Object> param = new ArrayList<>();
         param.add(requestData);
-        return (List<String>)(List<?>)taxonomiBaseService.executeSqlList("select distinct genus from taxonomi_base where dwcfamily = :dwcf", nom, param);
+        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct genus from taxonomi_base where dwcfamily = :dwcf", nom, param);
     }
-    
+
     @RequestMapping(value = "/getEspece", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<String> getEspece(@RequestParam(value = "genre") String requestData) throws Exception {
         List<String> nom = new ArrayList<>();
         nom.add("dwcgen");
         List<Object> param = new ArrayList<>();
         param.add(requestData);
-        return (List<String>)(List<?>)taxonomiBaseService.executeSqlList("select distinct scientificname from taxonomi_base where genus = :dwcgen", nom, param);
+        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct scientificname from taxonomi_base where genus = :dwcgen", nom, param);
     }
-    
+
     @RequestMapping(value = "/assigner", method = RequestMethod.POST, headers = "Accept=application/json")
     public ModelAndView validerAll(HttpSession session, @RequestParam(value = "valeur[]") String[] valeur, @RequestParam(value = "idExpert") int idExpert) throws Exception {
         taxonomiBaseService.checkFamille(valeur, idExpert);
         ModelAndView valiny = new ModelAndView("redirect:profil");
         return valiny;
+    }
+
+    @RequestMapping(value = "/taxonomiCsv")
+    public void taxonomiCsv(HttpSession session, HttpServletResponse response) throws Exception {
+        List<TaxonomiBase> liste = taxonomiBaseService.findAll();
+        response.setHeader("Content-Type", "text/csv");
+        response.setHeader("Content-Disposition", "attachment;filename=\"taxonomi.csv\"");
+        UploadFile upf = new UploadFile();
+        upf.writeCsv(liste, ';', response.getOutputStream());                
     }
 }
