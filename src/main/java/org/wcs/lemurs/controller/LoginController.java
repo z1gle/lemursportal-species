@@ -34,14 +34,14 @@ public class LoginController {
     @RequestMapping(value = "/autentification", method = RequestMethod.POST, headers = "Accept=application/json")
     public ModelAndView autentification(@RequestParam("login") String login, @RequestParam("password") String pw, HttpSession session, HttpServletRequest request) {
         if (login.isEmpty() || pw.isEmpty()) {
-            return new ModelAndView("loginTemp");
+            return new ModelAndView("login");
         }
         ModelAndView valiny = new ModelAndView("redirect: ");
         Integer b = -1;
         try {
             Utilisateur val = autentificationService.checkLogin(login, pw);
             if (val == null) {
-                return new ModelAndView("loginTemp");
+                return new ModelAndView("login");
             }
             session.setAttribute("utilisateur", val);
 
@@ -59,7 +59,7 @@ public class LoginController {
             return valiny;
         } catch (Exception e) {
             e.printStackTrace();
-            return new ModelAndView("loginTemp");
+            return new ModelAndView("login");
         }
     }
 
@@ -67,10 +67,10 @@ public class LoginController {
     public ModelAndView logout(HttpSession session, HttpServletRequest request) {
         try {
             session.invalidate();
-            return new ModelAndView("loginTemp");
+            return new ModelAndView("login");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ModelAndView("loginTemp");
+            return new ModelAndView("login");
         }
     }
 }

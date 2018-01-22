@@ -314,7 +314,7 @@ public class DarwinCoreController {
         try {
             Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
             if (u == null) {
-                return new ModelAndView("loginTemp");
+                return new ModelAndView("login");
             }
             //  check chercheur
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
@@ -328,7 +328,7 @@ public class DarwinCoreController {
                 }
             }
             if (!chercheur) {
-                return new ModelAndView("loginTemp");
+                return new ModelAndView("login");
             }
             List<DarwinCore> liste_darwin_core = UploadFile.import_darwin_core_excel(excelfile.getInputStream());
             for (DarwinCore d : liste_darwin_core) {

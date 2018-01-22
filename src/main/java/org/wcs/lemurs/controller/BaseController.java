@@ -67,6 +67,6 @@ public class BaseController {
     
     @RequestMapping(value="/login")  
     public ModelAndView login(){
-        return new ModelAndView("loginTemp");  
+        return new ModelAndView("login");  
     }            
 }

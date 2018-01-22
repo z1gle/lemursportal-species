@@ -165,10 +165,16 @@ main section #taxonomie {
 .btn-success.focus,
  .btn-success:active, 
  .btn-success.active, 
+ .btn-primary:hover, 
+ .btn-primary:focus, 
+ .btn-primary.focus, 
+ .btn-primary:active, 
+ .btn-primary.active,
  .open > .dropdown-toggle.btn-success {
 	 background-color:#FC6!important;
 	 font-family: 'Open Sans', sans-serif!important;
  }
+ 
  
  .search-header h4 {
 	 color:#fff;
@@ -473,4 +479,184 @@ span.tags {
 
 .photo-user img {
 	margin:10% 0 0 0;
+}
+
+.detail-result .detail {
+	height:350px;
+	margin:25px 0;
+	background-size:cover!important;
+	position:relative!important;
+}
+
+.detail .description {
+	background:url(../img/transp.png) repeat;
+	margin:1% 0;
+	height:93%;
+	border-radius:3px;
+}
+
+
+.detail .description h4 {
+	color:#74ac00;
+	margin-left:8px;
+}
+
+.detail .description p {
+	font-weight:normal;
+}
+
+.detail .description .label {
+	color:#333;
+	font-size:14px;
+	font-weight:bold;
+}
+
+.detail .description .bottom {
+	color:#74ac00!important;
+	text-transform:uppercase;
+	position:absolute;
+	bottom:2%;
+	right:2%;
+}
+
+.detail .description .bottom a {
+	color:#74ac00!important;
+}
+
+.detail .description .bottom i {
+	font-size:18px;
+	margin-right:5px;
+}
+
+.detail .statistique {
+	position:absolute!important;
+	bottom:2%;
+	right:0!important;
+}
+
+.detail .statistique div {
+	text-align:center;
+	color:#fff;
+	float:left;
+	width:60px;
+}
+
+.detail .statistique div i {
+	font-size:1.5em;
+}
+
+.detail .statistique div i.valid {
+	color:#74ac00!important;
+}
+
+/* Page insert */
+
+.insert-modif input.form-control {
+	border:1px solid #ccc;
+	margin-bottom:20px;
+	height:35px;
+	font-size:14px!important;
+}
+
+.insert-modif p {
+	margin:15px 0;
+}
+
+/* Page login */
+.login-page {
+  max-width:360px;
+  width:90%;
+  padding:3% 0 0;
+  margin:4% auto 0 auto;
+  background:url(../img/bg-transp.png) repeat;
+}
+
+.inscript-page {
+  max-width:360px;
+  width:90%;
+  padding:3% 0 0;
+  margin:1% auto 0 auto;
+  background:url(../img/bg-transp.png) repeat;
+}
+
+.form input.email {
+	background-image:url(../img/mail.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.form input.pwd {
+	background-image:url(../img/secure.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.form input.name {
+	background-image:url(../img/user.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.form input.daty {
+	background-image:url(../img/daty.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.connexion-rs {
+	color:#333;
+	margin-top:20px;
+}
+
+.form {
+  position:relative;
+  z-index:1;
+  max-width:360px;
+  margin:0 auto 80px;
+  padding:10%;
+  text-align:center;
+}
+
+.form .message {
+  margin:15px 0 0;
+  color:#333;
+  font-size:12px;
+}
+
+.form .message a {
+  color:#333;
+  text-decoration:underline;
+  font-size:11px;
+}
+
+.form .message a:hover {
+  text-decoration:none;
+}
+
+.no-border-btn button {
+  border:0;
+}
+
+.form input {
+  outline:0;
+  background-color:#fff!important;
+  width:100%;
+  margin:0 0 15px;
+  padding:5px 15px;
+  box-sizing:border-box;
+  font-size:14px;
+  border:1px solid #ccc;
+}
+
+.login-page button.submit {
+	background:#432121;
+	border:0;
+	text-transform:uppercase;
+	color:#fff;
+	font-size:12px;
+	padding:5px 15px;
 }
