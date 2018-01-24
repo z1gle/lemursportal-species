@@ -47,6 +47,10 @@ app.controller("taxonomi",function($scope,$http){
         $scope.form=angular.copy(darwin);
     };
     
+    $scope.detailTaxo=function(darwin){
+        window.location = "getDetailTaxo?id="+darwin;
+    };
+    
     $scope.annuler=function(){
         $("#editOrnew").modal("hide");
         $scope.form={};

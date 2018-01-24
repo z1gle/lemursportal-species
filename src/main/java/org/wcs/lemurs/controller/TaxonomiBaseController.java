@@ -7,6 +7,8 @@ package org.wcs.lemurs.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,5 +108,20 @@ public class TaxonomiBaseController {
         response.setHeader("Content-Disposition", "attachment;filename=\"taxonomi.csv\"");
         UploadFile upf = new UploadFile();
         upf.writeCsv(liste, ';', response.getOutputStream());                
+    }
+    
+    @RequestMapping(value = "/getDetailTaxo")
+    public ModelAndView darwinportal(HttpSession session, @RequestParam("id") Integer id) {
+        ModelAndView valiny = new ModelAndView("page-detail");
+        
+        TaxonomiBase taxo = new TaxonomiBase();
+        taxo.setId(id);
+        try {
+            taxonomiBaseService.findById(taxo);            
+        } catch (Exception ex) {
+            Logger.getLogger(DarwinCoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        valiny.addObject("taxo", taxo);        
+        return valiny;
     }
 }

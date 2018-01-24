@@ -143,11 +143,15 @@ public class UploadFile {
         for (TaxonomiBase row : taxonomies) {
             String field = "";
             for (Field f : colonnes) {
-                String temp = (String) row.getClass().getMethod("get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), null).invoke(row, null);
-                if(temp.contains(";")) {
-                    temp = temp.replace(";", ",");
+                try {
+                    String temp = (String) row.getClass().getMethod("get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), null).invoke(row, null);
+                    if (temp.contains(";")) {
+                        temp = temp.replace(";", ",");
+                    }
+                    field += temp + ";";
+                } catch (Exception e) {
+                    field += "-;";
                 }
-                field += temp+ ";";
             }
             field = field.substring(0, field.length() - 1);
             writer.append(field);

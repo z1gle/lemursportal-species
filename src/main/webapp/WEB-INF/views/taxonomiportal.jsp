@@ -30,7 +30,7 @@
         <!-- Contenu -->
         <div class="vignette-result">
             <div class="container">
-                <h1 class="titre-page">Observation - <span>Tableau</span></h1>
+                <h1 class="titre-page">Taxonomie - <span>Tableau</span></h1>
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="stat" ng-show="recherche.length === 0">Tous (<b>{{liste.length}}</b> trouvés)</h5>
@@ -67,8 +67,7 @@
                                             <td class="text-center">Famille</td>
                                             <td class="text-center">Genre</td>
                                             <td class="text-center">Espèce</td>
-                                            <td class="text-center">Détails</td>
-                                            <td class="text-center">Statut</td>
+                                            <td class="text-center">Détails</td>                                            
                                             <%if (moderateur == 0) {%>
                                             <td class="text-center">Action</td>
                                             <%}%>
@@ -80,8 +79,7 @@
                                             <td class="text-center">{{taxo.dwcfamily}}</td>
                                             <td class="text-center">{{taxo.genus}}</td>
                                             <td class="text-center">{{taxo.scientificname}}</td>
-                                            <td class="text-center"><a ng-click="editer(taxo)" href=""><i class="fa fa-eye"></i></a></td>
-                                            <td class="text-center valid"><i class="fa fa-lock"></i></td>
+                                            <td class="text-center"><a ng-click="detailTaxo(taxo.id)" href=""><i class="fa fa-eye"></i></a></td>                                            
                                                 <%if (moderateur == 0) {%>
                                             <td class="text-center del">
                                                 <a href="" ng-click="editer(taxo)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;

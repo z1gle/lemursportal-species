@@ -1,0 +1,15 @@
+ALTER TABLE taxonomi_base  
+  ADD germany_vernacular_name character varying,
+  ADD length_and_weight character varying,
+  ADD length_and_weight_source character varying,
+  ADD color_en character varying,
+  ADD color_fr character varying,
+  ADD color_source character varying,
+  ADD population_density character varying,
+  ADD population_density_source character varying,
+  ADD conservation_status character varying,
+  ADD iucn_source character varying,
+  ADD protected_area_occurrences_sources character varying,
+  ADD species_expert character varying,
+  ADD new_and_updates character varying,
+  ADD top_five_publication character varying;
