@@ -159,4 +159,39 @@ public class UploadFile {
         }
         writer.flush();
     }
+    
+    public void writeDwcCsv(List<DarwinCore> taxonomies, char separator, OutputStream output) throws Exception {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
+        String header = "";
+        Field[] colonnes = TaxonomiBase.class.getDeclaredFields();
+        for (Field f : colonnes) {
+            String temp = f.getName();
+            if (temp.contains("dwc")) {
+                temp = temp.split("dwc")[0] + " " + temp.split("dwc")[1];
+            }
+            temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
+            header += temp + separator;
+        }
+        header = header.substring(0, header.length() - 1);
+        writer.append(header);
+        writer.newLine();
+        for (DarwinCore row : taxonomies) {
+            String field = "";
+            for (Field f : colonnes) {
+                try {
+                    String temp = (String) row.getClass().getMethod("get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), null).invoke(row, null);
+                    if (temp.contains(";")) {
+                        temp = temp.replace(";", ",");
+                    }
+                    field += temp + ";";
+                } catch (Exception e) {
+                    field += "-;";
+                }
+            }
+            field = field.substring(0, field.length() - 1);
+            writer.append(field);
+            writer.newLine();
+        }
+        writer.flush();
+    }
 }

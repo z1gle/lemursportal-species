@@ -36,7 +36,7 @@ app.controller("taxonomi",function($scope,$http){
             }
         }).then(function success(response){
             $scope.liste=response.data;
-            $scope.recherche=$scope.taxonomi.scientificname;
+            $scope.recherche=$scope.taxonomi.test;
         },function error(response){
             console.log(response.statusText);
         });

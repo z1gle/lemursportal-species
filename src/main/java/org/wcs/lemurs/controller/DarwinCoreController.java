@@ -251,13 +251,13 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/validerListDwc", method = RequestMethod.GET, headers = "Accept=application/json")
-    public HashMap<String, String> validerListDwc(HttpSession session, @RequestParam(value = "dwc[]") int[] dwc, @RequestParam(value = "status") int status) throws Exception {
+    public HashMap<String, String> validerListDwc(HttpSession session, @RequestParam(value = "dwc[]") int[] dwc, @RequestParam(value = "status") int status, @RequestParam(value = "commentaires") String commentaire) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         HashMap<String, String> valiny = new HashMap<>();
         if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT)) {
             try {
                 if(status == 1) darwinCoreService.validerAll(dwc, utilisateur);
-                else darwinCoreService.questionnableAll(dwc, utilisateur);
+                else darwinCoreService.questionnableAll(dwc, utilisateur, commentaire);
                 valiny.put("etat", "1");
             } catch (StatusAlreadyExistException e) {
                 session.setAttribute("exception", e);
@@ -274,7 +274,7 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/continuerValiderListDwc", method = RequestMethod.GET, headers = "Accept=application/json")
-    public HashMap<String, String> validerListDwc(HttpSession session, @RequestParam(value = "continuer") int continuer, @RequestParam(value = "status") int status) throws Exception {
+    public HashMap<String, String> validerListDwc(HttpSession session, @RequestParam(value = "continuer") int continuer, @RequestParam(value = "status") int status, @RequestParam(value = "commentaires") String commentaire) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         HashMap<String, String> valiny = new HashMap<>();
         if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT)) {
@@ -282,11 +282,11 @@ public class DarwinCoreController {
             List<DarwinCore> dwc = saee.getObservationRestante();
             if (continuer == 1) {
                 if(status == 1) darwinCoreService.validerForced(saee.getObservationEnCours(), utilisateur);
-                else darwinCoreService.questionnableForced(saee.getObservationEnCours(), utilisateur);
+                else darwinCoreService.questionnableForced(saee.getObservationEnCours(), utilisateur, commentaire);
             }
             try {
                 if(status == 1) darwinCoreService.validerAll(dwc, utilisateur);
-                else darwinCoreService.questionnableAll(dwc, utilisateur);
+                else darwinCoreService.questionnableAll(dwc, utilisateur, commentaire);
                 valiny.put("etat", "1");
                 session.removeAttribute("exception");
             } catch (StatusAlreadyExistException e) {

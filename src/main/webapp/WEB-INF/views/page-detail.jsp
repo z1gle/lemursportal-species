@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
-<main class="site-content" role="main" ng-controller="object">
+<main class="site-content" role="main">
     <%
         TaxonomiBase taxo = (TaxonomiBase) request.getAttribute("taxo");
     %>
@@ -213,5 +213,4 @@
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<!--<script src="<c:url value="/resources/assets/js/controller/modification.js"/>"></script>-->
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

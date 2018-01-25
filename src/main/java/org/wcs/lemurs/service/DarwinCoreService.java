@@ -8,7 +8,6 @@ package org.wcs.lemurs.service;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
-import static java.util.Collections.list;
 import java.util.HashMap;
 import java.util.List;
 import org.hibernate.Query;
@@ -21,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wcs.lemurs.dao.DarwinCoreDao;
 import org.wcs.lemurs.exception.StatusAlreadyExistException;
 import org.wcs.lemurs.model.BaseModel;
+import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
@@ -399,9 +399,9 @@ public class DarwinCoreService extends BaseService {
                     changeStatus(session, observation, expert, newStatus);
                 } catch (StatusAlreadyExistException ex) {
                     try {
-                        ex.getObservationRestante().addAll(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                        ex.getObservationRestante().addAll(observations.subList(observations.indexOf(ex.getObservationEnCours()) + 1, observations.size()));
                     } catch (NullPointerException npe) {
-                        ex.setObservationRestante(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                        ex.setObservationRestante(observations.subList(observations.indexOf(ex.getObservationEnCours()) + 1, observations.size()));
                     }
                     throw ex;
                 } catch (Exception ex) {
@@ -427,9 +427,9 @@ public class DarwinCoreService extends BaseService {
                     changeStatus(session, observation, expert, newStatus);
                 } catch (StatusAlreadyExistException ex) {
                     try {
-                        ex.getObservationRestante().addAll(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                        ex.getObservationRestante().addAll(observations.subList(observations.indexOf(ex.getObservationEnCours()) + 1, observations.size()));
                     } catch (NullPointerException npe) {
-                        ex.setObservationRestante(observations.subList(observations.indexOf(ex.getObservationEnCours())+1, observations.size()));
+                        ex.setObservationRestante(observations.subList(observations.indexOf(ex.getObservationEnCours()) + 1, observations.size()));
                     }
                     throw ex;
                 } catch (Exception ex) {
@@ -448,7 +448,7 @@ public class DarwinCoreService extends BaseService {
     public void valider(DarwinCore observation, Utilisateur expert) throws Exception {
         changeStatus(observation, expert, "valide");
     }
-    
+
     public void validerForced(DarwinCore observation, Utilisateur expert) throws Exception {
         changeStatusForced(observation, expert, "valide");
     }
@@ -461,20 +461,48 @@ public class DarwinCoreService extends BaseService {
         changeStatusAll(observation, expert, "valide");
     }
 
-    public void questionnable(DarwinCore observation, Utilisateur expert) throws Exception {
+    public void questionnable(DarwinCore observation, Utilisateur expert, String commentaire) throws Exception {
         changeStatus(observation, expert, "questionnable");
+        CommentaireDarwinCore cdc = new CommentaireDarwinCore();
+        cdc.setCommentaire(commentaire);
+        cdc.setDateCommentaire(Calendar.getInstance().getTime());
+        cdc.setIdDarwinCore(observation.getId());
+        cdc.setIdUtilisateur(expert.getId());
+        save(cdc);
     }
-    
-    public void questionnableForced(DarwinCore observation, Utilisateur expert) throws Exception {
+
+    public void questionnableForced(DarwinCore observation, Utilisateur expert, String commentaire) throws Exception {
         changeStatusForced(observation, expert, "questionnable");
+        CommentaireDarwinCore cdc = new CommentaireDarwinCore();
+        cdc.setCommentaire(commentaire);
+        cdc.setDateCommentaire(Calendar.getInstance().getTime());
+        cdc.setIdDarwinCore(observation.getId());
+        cdc.setIdUtilisateur(expert.getId());
+        save(cdc);
     }
 
-    public void questionnableAll(List<DarwinCore> observation, Utilisateur expert) throws Exception {
+    public void questionnableAll(List<DarwinCore> observation, Utilisateur expert, String commentaire) throws Exception {
         changeStatusAll(observation, expert, "questionnable");
+        for (DarwinCore d : observation) {
+            CommentaireDarwinCore cdc = new CommentaireDarwinCore();
+            cdc.setCommentaire(commentaire);
+            cdc.setDateCommentaire(Calendar.getInstance().getTime());
+            cdc.setIdDarwinCore(d.getId());
+            cdc.setIdUtilisateur(expert.getId());
+            save(cdc);
+        }
     }
 
-    public void questionnableAll(int[] observation, Utilisateur expert) throws Exception {
+    public void questionnableAll(int[] observation, Utilisateur expert, String commentaire) throws Exception {
         changeStatusAll(observation, expert, "questionnable");
+        for (int i =0; i < observation.length; i++) {
+            CommentaireDarwinCore cdc = new CommentaireDarwinCore();
+            cdc.setCommentaire(commentaire);
+            cdc.setDateCommentaire(Calendar.getInstance().getTime());
+            cdc.setIdDarwinCore(observation[i]);
+            cdc.setIdUtilisateur(expert.getId());
+            save(cdc);
+        }
     }
 
     public DarwinCoreDao getDarwinCoreDao() {

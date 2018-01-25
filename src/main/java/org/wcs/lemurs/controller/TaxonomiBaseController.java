@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import static org.wcs.lemurs.controller.BaseController.ROLE_MODERATEUR;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
+import org.wcs.lemurs.modele_vue.VueRechercheTaxonomi;
 import org.wcs.lemurs.service.TaxonomiBaseService;
 import org.wcs.lemurs.util.UploadFile;
 
@@ -37,8 +38,8 @@ public class TaxonomiBaseController {
     private TaxonomiBaseService taxonomiBaseService;
 
     @RequestMapping(value = "/findByespeceTaxo", method = RequestMethod.POST, headers = "Accept=application/json")
-    public List<TaxonomiBase> findByespece(@RequestBody TaxonomiBase t) throws Exception {
-        return taxonomiBaseService.findMultiCritere(t);
+    public List<VueRechercheTaxonomi> findByespece(@RequestBody VueRechercheTaxonomi t) throws Exception {
+        return (List<VueRechercheTaxonomi>)(List<?>)taxonomiBaseService.findMultiCritere(t);
     }
 
 //    @RequestMapping(value = "/detailLemurien", method = RequestMethod.POST, headers = "Accept=application/json")

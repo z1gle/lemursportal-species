@@ -87,8 +87,8 @@
                                     </tr>                                                   
                                 </tbody>
                             </table>                            
-                            <button onclick="validate(0);" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
-                            <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Continuer</button>                                                        
+                            <button onclick="showCommentairFirst();" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
+                            <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>                                                        
                         </form>
                     </div>
                     <!-- BEGIN PAGINATION -->
@@ -100,7 +100,8 @@
                         <li><a href="#">4</a></li>
                         <li><a href="#">5</a></li>
                         <li><a href="#">»</a></li>
-                    </ul>                    
+                    </ul>        
+                    <!--<button onclick="showCommentair();"></button>-->
                     <!-- END PAGINATION -->
                 </div>
             </div>
@@ -154,7 +155,30 @@
                 </div>
                 <div class='modal-footer'>
                     <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(0, 0)" data-dismiss='modal'>Annuler</button>
-                    <button type='button' class='btn btn-success btn-sm' onclick="continueValidate(0, 1)" data-dismiss='modal'>Valider</button>
+                    <button type='button' class='btn btn-success btn-sm' onclick = 'continueValidate(0,1)' data-dismiss='modal'>Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal-ajout-commentaire-questionnable' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Commentaire</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                <textarea id="commentaires" class="form-control"></textarea>                                
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#commentaires').val('')" data-dismiss='modal'>Annuler</button>
+                    <button type='button' id="boutonQuestionnable" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
                 </div>
             </div>
         </div>
@@ -168,8 +192,16 @@
                         function showModal(status) {
                             if(status == 0) $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
                             else $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
+                        };
+                        
+//                        function showCommentair() {
+//                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+//                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+//                        }
+                        function showCommentairFirst() {                            
+                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
                         }
-                        ;
 
                         function validate(status) {                      
                             var valeurs = $('[name="dwc[]"]');
@@ -180,7 +212,9 @@
                                     console.log(data);
                                 }
                             }
-                            data = data + "status="+status;                            
+                            var temp = $('#commentaires').val();                            
+                            if(temp == undefined) temp = "";
+                            data = data + "status="+status+"&commentaires="+temp;                            
                             $.ajax({                                
                                 type: 'get',
                                 url: 'validerListDwc'+data,
@@ -203,8 +237,10 @@
                         };
                         
                         function continueValidate(status, etat) {                      
-                            var data = "?continuer=";                            
-                            data = data + etat+"&status="+status;                            
+                            var data = "?continuer=";         
+                            var temp = $('#commentaires').val();                            
+                            if(temp == undefined) temp = "";
+                            data = data + etat+"&status="+status+"&commentaires="+temp;                            
                             $.ajax({                                
                                 type: 'get',
                                 url: 'continuerValiderListDwc'+data,

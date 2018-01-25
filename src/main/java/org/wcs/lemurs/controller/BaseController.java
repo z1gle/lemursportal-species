@@ -51,6 +51,27 @@ public class BaseController {
         return valiny;
     }
     
+    @RequestMapping(value="/darwinportal")  
+    public ModelAndView darwinportals(HttpSession session){
+        ModelAndView valiny = new ModelAndView("darwinportal");
+        Utilisateur u = null;
+        Integer b = -1;
+        Integer expert = -1;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+            if(baseService.checkRole(u, ROLE_CHERCHEUR)) b = 0;
+            else if(baseService.checkRole(u, ROLE_EXPERT)) expert = 0;            
+        } catch(NullPointerException npe) {
+            
+        }
+        catch (Exception ex) {
+            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        valiny.addObject("role", b);      
+        valiny.addObject("expert", expert);      
+        return valiny;
+    }
+    
     @RequestMapping(value="/taxonomi")  
     public ModelAndView taxoportal(HttpSession session){         
         Integer moderateur = -1;

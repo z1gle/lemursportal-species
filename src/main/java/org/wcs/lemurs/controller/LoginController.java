@@ -36,7 +36,7 @@ public class LoginController {
         if (login.isEmpty() || pw.isEmpty()) {
             return new ModelAndView("login");
         }
-        ModelAndView valiny = new ModelAndView("redirect: ");
+        ModelAndView valiny = new ModelAndView("redirect:darwinportal");
         Integer b = -1;
         try {
             Utilisateur val = autentificationService.checkLogin(login, pw);

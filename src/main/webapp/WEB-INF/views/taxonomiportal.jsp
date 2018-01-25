@@ -15,7 +15,7 @@
                             <h4 class="text-left">Rechercher un espèce</h4>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input class="form-control" type="text" ng-model="taxonomi.scientificname" name="search" placeholder="Nom scientifique de l'espèce" required/>
+                                    <input class="form-control" type="text" ng-model="taxonomi.test" name="search" placeholder="Nom scientifique de l'espèce" required/>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
                                     </span>
@@ -43,12 +43,12 @@
                                     <!-- Tabs -->
                                     <ul class="nav panel-tabs">
                                         <li><a href="#"><i class="fa fa-list"></i> Liste</a></li>
-                                        <li><a href="#"><i class="fa fa-globe"></i> Localisation</a></li>
-                                        <li><a href="" onclick="window.location='taxonomiCsv'"><i class="fa fa-download"></i> Telecharger_CSV</a></li>
+                                        <li><a href="#"><i class="fa fa-globe"></i> Localisation</a></li>                                        
                                             <%
                                                 Integer moderateur = (Integer) request.getAttribute("moderateur");
                                                 if (moderateur == 0) {
                                             %>
+                                        <li><a href="" onclick="window.location='taxonomiCsv'"><i class="fa fa-download"></i> Telecharger_CSV</a></li>
                                         <li><a href="#"><i class="fa fa-upload"></i>Upload_CSV</a></li>
                                         <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li>
                                             <%}%>
