@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -306,6 +307,30 @@ public class DarwinCoreController {
     @RequestMapping(value = "/deleteDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public void delete(@RequestBody DarwinCore dwc) throws Exception {
         darwinCoreService.delete(dwc);
+    }
+    
+    @RequestMapping(value = "/dwcCsv")
+    public void dwcCsv(HttpSession session, HttpServletResponse response, @RequestParam(value = "validation") int validation, @RequestParam(value = "chercheur") String chercheur, @RequestParam(value = "col[]") int[] colonnes) throws Exception {
+//        String chercheur = requestData.get("chercheur");
+//        int validation = Integer.parseInt(requestData.get("validation"));         
+        List<DarwinCore> liste = darwinCoreService.findValidation(validation, chercheur);
+        response.setHeader("Content-Type", "text/csv");
+        response.setHeader("Content-Disposition", "attachment;filename=\"observations.csv\"");
+        UploadFile upf = new UploadFile();
+        upf.writeDwcCsv(liste, colonnes, ';', response.getOutputStream());                
+    }
+    
+    @RequestMapping(value = "/getColonnesDwc", method = RequestMethod.POST, headers = "Accept=application/json")
+    public List<HashMap<String, String>> getColonnesDwc(HttpSession session) throws Exception {
+        List<HashMap<String, String>> valiny = new ArrayList<>();
+        List<String> liste = darwinCoreService.listeColonnes(new DarwinCore());
+        for(int i = 0; i < liste.size(); i++) {
+            HashMap<String, String> temp = new HashMap<>();
+            temp.put("index", Integer.toString(i));
+            temp.put("valeur", liste.get(i));
+            valiny.add(temp);
+        }
+        return valiny;
     }
 
     @RequestMapping(value = "/processExcel", method = RequestMethod.POST)

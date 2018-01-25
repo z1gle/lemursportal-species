@@ -5,6 +5,7 @@
  */
 app.controller("darwin", function ($scope, $http) {
     $scope.liste = [];
+    $scope.colonnes = [];
     $scope.darwin = {};
     $scope.recherche = "";
     getall();
@@ -42,27 +43,66 @@ app.controller("darwin", function ($scope, $http) {
         });
     };
 
-    $scope.rechercherMulti=function(){
+    $scope.rechercherMulti = function () {
         var formData = {
-                'validation': parseInt($('select[name=validation]').val()),
-                'chercheur': $('input[name=chercheur]').val()
-            };
+            'validation': parseInt($('select[name=validation]').val()),
+            'chercheur': $('input[name=chercheur]').val()
+        };
         $http({
-            method : 'POST',
-            url : 'findByespeceDwcs',
-            data : formData,
+            method: 'POST',
+            url: 'findByespeceDwcs',
+            data: formData,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
 //            dataType: 'json'
-        }).then(function success(response){
-            $scope.liste=response.data;
+        }).then(function success(response) {
+            $scope.liste = response.data;
 //            $scope.recherche=$scope.darwin.scientificname;
-        },function error(response){
+        }, function error(response) {
             console.log(response.statusText);
         });
     };
+
+    $scope.getColonnes = function () {
+        var formData = {};
+        $http({
+            method: 'POST',
+            url: 'getColonnesDwc',
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+//            dataType: 'json'
+        }).then(function success(response) {
+            $scope.colonnes = response.data;
+            $("#modal-liste-colonnes").modal({backdrop: 'static'});
+        }, function error(response) {
+            console.log(response.statusText);
+        });
+    };
+
+    $scope.checkAll = function () {
+        $('[name="col[]"]').prop('checked', $('#checkAll').is(":checked"));
+    };
+
+    $scope.getDwcCsv = function () {
+        var col = $('[name="col[]"]');
+        var data = "?";
+        for (var i = 0; i < col.length; i++) {
+            if (col[i].checked == true) {
+                data = data + col[i].name + "=" + col[i].value + "&";
+                console.log(data);
+            }
+        }
+        var validation = $('select[name=validation]').val();
+        var chercheur = $('input[name=chercheur]').val();
+        data = data + "validation=" + validation + "&chercheur=" + chercheur;
+        window.location = 'dwcCsv' + data;
+    }
+    ;
 
 
 //    $(document).ready(function () {

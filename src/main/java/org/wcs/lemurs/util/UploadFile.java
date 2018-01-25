@@ -159,15 +159,20 @@ public class UploadFile {
         }
         writer.flush();
     }
-    
-    public void writeDwcCsv(List<DarwinCore> taxonomies, char separator, OutputStream output) throws Exception {
+
+    public void writeDwcCsv(List<DarwinCore> taxonomies, int[] listeColonnes, char separator, OutputStream output) throws Exception {
+        output.write(239);
+        output.write(187);
+        output.write(191);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
         String header = "";
-        Field[] colonnes = TaxonomiBase.class.getDeclaredFields();
-        for (Field f : colonnes) {
-            String temp = f.getName();
+        Field[] colonnes = DarwinCore.class.getDeclaredFields();
+        for (int f : listeColonnes) {
+            String temp = colonnes[f].getName();
             if (temp.contains("dwc")) {
-                temp = temp.split("dwc")[0] + " " + temp.split("dwc")[1];
+                temp = temp.split("dwc")[0] + "" + temp.split("dwc")[1];
+            } else if (temp.contains("darwin")) {
+                temp = temp.split("darwin")[0] + "" + temp.split("darwin")[1];
             }
             temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
             header += temp + separator;
@@ -177,9 +182,9 @@ public class UploadFile {
         writer.newLine();
         for (DarwinCore row : taxonomies) {
             String field = "";
-            for (Field f : colonnes) {
+            for (int f : listeColonnes) {
                 try {
-                    String temp = (String) row.getClass().getMethod("get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), null).invoke(row, null);
+                    String temp = (String) row.getClass().getMethod("get" + colonnes[f].getName().substring(0, 1).toUpperCase() + colonnes[f].getName().substring(1), null).invoke(row, null);
                     if (temp.contains(";")) {
                         temp = temp.replace(";", ",");
                     }

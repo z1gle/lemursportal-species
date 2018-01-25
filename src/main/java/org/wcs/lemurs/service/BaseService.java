@@ -5,7 +5,9 @@
  */
 package org.wcs.lemurs.service;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -216,6 +218,22 @@ public class BaseService {
         } catch (Exception ex) {
             throw ex;
         }
+    }
+    
+    public List<String> listeColonnes(BaseModel bm) {
+        List<String> valiny = new ArrayList<>();
+        Field[] colonnes = bm.getClass().getDeclaredFields();
+        for (Field f : colonnes) {
+            String temp = f.getName();
+            if (temp.contains("dwc")) {
+                temp = temp.split("dwc")[0] + "" + temp.split("dwc")[1];
+            } else if (temp.contains("darwin")) {
+                temp = temp.split("darwin")[0] + "" + temp.split("darwin")[1];
+            }
+            temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
+            valiny.add(temp);
+        }
+        return valiny;
     }
 
     public HibernateDao getHibernateDao() {

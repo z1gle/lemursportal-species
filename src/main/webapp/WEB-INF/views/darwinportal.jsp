@@ -53,8 +53,9 @@
                     <h1 style="max-width: 30%;" class="titre-page col-md-6">Observation - <span>Liste</span></h1>  
                 </div>
                 <div class="row">
-                    <!-- Stat -->
+                    <!-- Stat -->                    
                     <h5 style="width: 10%; display: inline-block; float: right;" class="stat">Tous (<b>{{liste.length}}</b>)</h5>
+                    <button style="width: 5%; display: inline-block; float: right;" ng-click="getColonnes()" class="btn btn-primary"><i class="fa fa-download"></i></button>
                     <ul class="nav nav-tabs">
                         <li class="" id="tab-pellicule"><a href="" onclick="pellicule()">Pellicule</a></li>
                         <li class="" id="tab-liste"><a href="" onclick="liste()">Liste</a></li>
@@ -193,7 +194,58 @@
                 </div>
                 <div class='modal-footer'>
                     <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(0, 0)" data-dismiss='modal'>Annuler</button>
-                    <button type='button' class='btn btn-success btn-sm' onclick="continueValidate(0, 1)" data-dismiss='modal'>Continuer</button>
+                    <button type='button' class='btn btn-success btn-sm' onclick = 'continueValidate(0, 1)' data-dismiss='modal'>Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal-ajout-commentaire-questionnable' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Commentaire</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                <textarea id="commentaires" class="form-control"></textarea>                                
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#commentaires').val('')" data-dismiss='modal'>Annuler</button>
+                    <button type='button' id="boutonQuestionnable" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal-liste-colonnes' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Colonnes pris en compte</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>         
+                            <div class="col-sm-12">
+                                <input ng-click="checkAll()" type="checkbox" id="checkAll">Sélectionner tout
+                            </div>
+                            <br>
+                            <br>
+                            <div class="col-sm-12" ng-repeat="col in colonnes">
+                                <input type="checkbox" name="col[]" value="{{col.index}}">{{col.valeur}}
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
+                    <button type='button' id="boutonQuestionnable" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
                 </div>
             </div>
         </div>
@@ -230,6 +282,15 @@
                         }
                         ;
 
+//                        function showCommentair() {
+//                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+//                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+//                        }
+                        function showCommentairFirst() {
+                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+                        }
+
                         function validate(status) {
                             var valeurs = $('[name="dwc[]"]');
                             var data = "?";
@@ -239,7 +300,10 @@
                                     console.log(data);
                                 }
                             }
-                            data = data + "status=" + status;
+                            var temp = $('#commentaires').val();
+                            if (temp == undefined)
+                                temp = "";
+                            data = data + "status=" + status + "&commentaires=" + temp;
                             $.ajax({
                                 type: 'get',
                                 url: 'validerListDwc' + data,
@@ -251,7 +315,7 @@
                                 success: function (json) {
                                     if (json.etat == 1) {
                                         console.log(json.etat);
-                                        location.reload();
+                                        window.location = 'profil';
                                     } else if (json.etat == 0) {
                                         $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
                                         showModal(status);
@@ -263,7 +327,10 @@
 
                         function continueValidate(status, etat) {
                             var data = "?continuer=";
-                            data = data + etat + "&status=" + status;
+                            var temp = $('#commentaires').val();
+                            if (temp == undefined)
+                                temp = "";
+                            data = data + etat + "&status=" + status + "&commentaires=" + temp;
                             $.ajax({
                                 type: 'get',
                                 url: 'continuerValiderListDwc' + data,
@@ -273,7 +340,7 @@
                                 success: function (json) {
                                     if (json.etat == 1) {
                                         console.log(json.etat);
-                                        location.reload();
+                                        window.location = 'profil';
                                     } else if (json.etat == 0) {
                                         $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
                                         showModal(status);
