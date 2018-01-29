@@ -81,6 +81,10 @@ public class HibernateDao {
             }
         }
     }
+    
+    public void delete(Session session, BaseModel obj) throws Exception {
+        session.delete(obj);
+    }
 
     public void findById(BaseModel obj) throws Exception {
         Session session = null;

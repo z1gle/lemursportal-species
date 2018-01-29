@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import static org.wcs.lemurs.controller.BaseController.ROLE_ADMINISTRATEUR;
+import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import static org.wcs.lemurs.controller.BaseController.ROLE_MODERATEUR;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
@@ -97,8 +99,13 @@ public class TaxonomiBaseController {
 
     @RequestMapping(value = "/assigner", method = RequestMethod.POST, headers = "Accept=application/json")
     public ModelAndView validerAll(HttpSession session, @RequestParam(value = "valeur[]") String[] valeur, @RequestParam(value = "idExpert") int idExpert) throws Exception {
-        taxonomiBaseService.checkFamille(valeur, idExpert);
-        ModelAndView valiny = new ModelAndView("redirect:profil");
+        Utilisateur utilisateur = (Utilisateur)session.getAttribute("utilisateur");
+        if(!taxonomiBaseService.checkRole(utilisateur, ROLE_ADMINISTRATEUR)) return new ModelAndView("redirect:login");
+        Utilisateur exp = new Utilisateur();
+        exp.setId(idExpert);
+        taxonomiBaseService.findById(exp);
+        if(taxonomiBaseService.checkRole(exp, ROLE_EXPERT))taxonomiBaseService.checkFamille(valeur, idExpert);
+        ModelAndView valiny = new ModelAndView("redirect:detailUtilisateur?idUtilisateur="+idExpert);
         return valiny;
     }
 

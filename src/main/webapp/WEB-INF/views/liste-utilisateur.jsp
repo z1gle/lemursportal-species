@@ -41,7 +41,7 @@
                                 <span class="pull-right">
                                     <!-- Tabs -->
                                     <ul class="nav panel-tabs">
-                                        <li class="add-one"><a href="#"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li class="add-one"><a href="detailUtilisateur?idUtilisateur=-1"><i class="fa fa-plus"></i> Ajouter</a></li>
                                     </ul>
                                 </span>
                             </div>
@@ -57,6 +57,8 @@
                                             <th class="text-center">Commenataires</th>
                                             <th class="text-center">Vidéos</th>
                                             <th class="text-center">Photos</th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                         <tr ng-repeat="dwc in liste">
                                             <td class="number text-center">{{dwc.id}}</td>
@@ -65,7 +67,8 @@
                                             <td class="text-center">0</td>
                                             <td class="text-center">0</td>
                                             <td class="text-center">0</td>
-                                            <td class="text-center"></td>
+                                            <td class="text-center"><a href="detailUtilisateur?idUtilisateur={{dwc.id}}"><i class="fa fa-eye"></i></a></td>
+                                            <td class="text-center"><a href="" ng-click="delete(dwc.id)"><i class="fa fa-remove"></i></a></td>
                                         </tr>                                                
                                     </tbody>
                                 </table>
@@ -93,10 +96,59 @@
         <!-- End Contenu -->
 
     </section>
+    <div id='modal-delete-utilisateur' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Confirmation</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                Cette action est irreversible. Voulez-vous continuer à supprimer cet utilisateur?
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
+                    <button type='button' id="boutonDel" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end taxonomie -->
 
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/utilisateur.js"/>"></script>
+<script>
+                                                function del(id) {
+                                                    $.ajax({
+                                                        type: 'get',
+                                                        url: "deleteUtilisateur?idUtilisateur=" + id,
+                                                        success: function (json) {
+                                                            window.location.reload();
+                                                        }
+                                                    });
+
+
+//                                                    $http({
+//                                                        method: 'GET',
+//                                                        
+//                                                        headers: {
+//                                                            'Accept': 'application/json',
+//                                                            'Content-Type': 'application/json'
+//                                                        }
+//                                                    }).then(function success(response) {
+//                                                        window.location.reload();
+//                                                    }, function error(response) {
+//                                                        console.log(response.statusText);
+//                                                    });
+                                                }
+                                                ;
+</script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

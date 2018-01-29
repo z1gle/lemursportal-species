@@ -45,6 +45,101 @@ app.controller("object", function ($scope, $http) {
         });
     };
 
+    $scope.checkRole_Administrateur = function (id) {
+        var formData = {
+            'utilisateur': id,
+            'role': 'Expert vérificateur'
+        };
+        $http({
+            method: 'POST',
+            url: 'checkRoleUtilisateur',
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            console.log(response);
+            if (response.data == true)
+                window.location = 'assignationExpert?idExpert=' + id;
+            else
+                $('#modal-remarque').modal({backdrop: 'static'});
+        }, function error(response) {
+            console.log(response.statusText);
+            $('#modal-remarque').modal({backdrop: 'static'});
+        });
+    };
+
+    $scope.checkAll = function () {
+        $('[name="col[]"]').prop('checked', $('#checkAll').is(":checked"));
+    };
+
+    $scope.getRole_Administrateur = function (id) {
+        var formData = {
+            'utilisateur': id            
+        };
+        $http({
+            method: 'POST',
+            url: 'getRoleUtilisateur',
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            console.log(response);
+            for (var i = 0; i < response.data.length; i++) {
+                console.log(response.data[i].idRole);
+                console.log($('#administrateur').val());
+                console.log($('#moderateur').val());
+                console.log($('#xp').val());
+                console.log($('#chercheur').val());
+                if (response.data[i].idRole == $('#administrateur').val()) {
+                    $('#administrateur').prop('checked', true);
+                }
+                if (response.data[i].idRole == $('#moderateur').val()) {                    
+                    $('#moderateur').prop('checked', true);
+                }
+                if (response.data[i].idRole == $('#xp').val()) {                    
+                    $('#xp').prop('checked', true);
+                }
+                if (response.data[i].idRole == $('#chercheur').val()) {                    
+                    $('#chercheur').prop('checked', true);
+                }
+            }
+            $('#modal-role').modal({backdrop: 'static'});
+        }, function error(response) {
+            console.log(response.statusText);            
+        });
+    };
+    
+    $scope.setRole = function (id) {
+        var col = $('[name="col[]"]');
+        var data = "?";
+        for (var i = 0; i < col.length; i++) {
+            if (col[i].checked == true) {
+                data = data + col[i].name + "=" + col[i].value + "&";
+                console.log(data);
+            }
+        }        
+        data = data + "idUtilisateur=" + id;
+        $http({
+            method: 'GET',
+            url: 'setRoles' + data,            
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            console.log(response);            
+            alert("assignations effectués");
+        }, function error(response) {
+            console.log(response.statusText);            
+            alert("un problème a été rencontré lors de l'assignation des roles");
+        });        
+    }
+    ;
+
 //    $scope.rechercher = function () {
 //        $http({
 //            method: 'POST',

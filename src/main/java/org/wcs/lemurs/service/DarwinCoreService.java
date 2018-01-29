@@ -26,6 +26,7 @@ import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.modele_association.AssignationExpert;
 import org.wcs.lemurs.modele_association.HistoriqueStatus;
+import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 
 /**
  *
@@ -94,7 +95,7 @@ public class DarwinCoreService extends BaseService {
 //            save(dw);
 //        }
 //    }
-    public void upload(List<DarwinCore> list_dw) throws Exception {
+    public List<DarwinCore> upload(List<DarwinCore> list_dw) throws Exception {
         Session session = null;
         Transaction tr = null;
         try {
@@ -104,6 +105,10 @@ public class DarwinCoreService extends BaseService {
                 save(session, dw);
                 ValidationDarwinCore vdc = new ValidationDarwinCore();
                 vdc.setIdDarwinCore(dw.getId());
+                try {
+                    vdc = (ValidationDarwinCore) findMultiCritere(vdc).get(0);
+                } catch (Exception e) {
+                }
                 vdc.setAcceptedSpeces(checkVerbatimspecies(session, dw));
                 try {
                     vdc.setAnnee(!dw.getDwcyear().isEmpty() && dw.getDateidentified().compareTo("-") != 0);
@@ -124,8 +129,60 @@ public class DarwinCoreService extends BaseService {
                 save(session, vdc);
             }
             tr.commit();
+            return list_dw;
         } catch (Exception ex) {
             tr.rollback();
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public List<VueValidationDarwinCore> getValidation(List<DarwinCore> liste) throws Exception {
+        Session session = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            List<VueValidationDarwinCore> valiny = new ArrayList<>();
+            for (DarwinCore d : liste) {
+                VueValidationDarwinCore temp = new VueValidationDarwinCore();
+                temp.setId(d.getId());
+                findById(session, temp);
+                valiny.add(temp);
+            }
+            return valiny;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public List<HashMap<String, Object>> formaterHashMapForAffichage(Utilisateur utilisateur, List<DarwinCore> liste) throws Exception {
+        Session session = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            List<VueValidationDarwinCore> valiny = new ArrayList<>();
+            for (DarwinCore d : liste) {
+                VueValidationDarwinCore temp = new VueValidationDarwinCore();
+                temp.setId(d.getId());
+                findById(session, temp);
+                valiny.add(temp);
+            }
+            List<HashMap<String, Object>> valinyFarany = new ArrayList<>();
+            int iterator = 0;
+            for (VueValidationDarwinCore dwc : valiny) {
+            HashMap<String, Object> temp = new HashMap<>();
+            temp.put("dwc", dwc);            
+            if(this.checkDomaineExpertise(utilisateur, liste.get(iterator)))temp.put("validation", 1);
+            valinyFarany.add(temp);
+            iterator++;
+        }
+            return valinyFarany;
+        } catch (Exception ex) {
             throw ex;
         } finally {
             if (session != null) {
@@ -168,6 +225,32 @@ public class DarwinCoreService extends BaseService {
             return null;
         }
     }
+    
+    public List<VueValidationDarwinCore> GetListObservationEtat(Session session, AssignationExpert a) throws Exception {
+        if ((a.getEspece() != null && !a.getEspece().isEmpty()) && (a.getGenre() == null || a.getGenre().isEmpty()) && (a.getFamille() == null || a.getFamille().isEmpty())) {
+            List<String> name = new ArrayList<>();
+            name.add("sn");
+            List<Object> parameter = new ArrayList<>();
+            parameter.add(a.getEspece());
+            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where scientificname = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
+        }
+        if ((a.getGenre() != null && !a.getGenre().isEmpty()) && (a.getEspece() == null || a.getEspece().isEmpty()) && (a.getFamille() == null || a.getFamille().isEmpty())) {
+            List<String> name = new ArrayList<>();
+            name.add("sn");
+            List<Object> parameter = new ArrayList<>();
+            parameter.add(a.getGenre());
+            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where genus = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
+        }
+        if ((a.getEspece() == null || a.getEspece().isEmpty()) && (a.getGenre() == null || a.getGenre().isEmpty()) && (a.getFamille() != null && !a.getFamille().isEmpty())) {
+            List<String> name = new ArrayList<>();
+            name.add("sn");
+            List<Object> parameter = new ArrayList<>();
+            parameter.add(a.getFamille());
+            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where family = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
+        } else {
+            return null;
+        }
+    }
 
     public List<DarwinCore> getListObservationFor(Utilisateur utilisateur) throws Exception {
         AssignationExpert aes = new AssignationExpert();
@@ -179,6 +262,27 @@ public class DarwinCoreService extends BaseService {
             session = this.getHibernateDao().getSessionFactory().openSession();
             for (AssignationExpert a : domaine) {
                 valiny.addAll(this.GetListObservation(session, a));
+            }
+            return valiny;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public List<VueValidationDarwinCore> getListObservationAndEtatFor(Utilisateur utilisateur) throws Exception {
+        AssignationExpert aes = new AssignationExpert();
+        aes.setIdExpert(utilisateur.getId());
+        List<AssignationExpert> domaine = (List<AssignationExpert>) (List<?>) this.findMultiCritere(aes);
+        List<VueValidationDarwinCore> valiny = new ArrayList<>();
+        Session session = null;
+        try {
+            session = this.getHibernateDao().getSessionFactory().openSession();
+            for (AssignationExpert a : domaine) {
+                valiny.addAll(this.GetListObservationEtat(session, a));
             }
             return valiny;
         } catch (Exception ex) {
@@ -222,11 +326,56 @@ public class DarwinCoreService extends BaseService {
         }
         return valiny;
     }
+    
+    public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueValidationDarwinCore darwinCore) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();        
+        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>)(List<?>)super.findMultiCritere(darwinCore);
+        try {
+            List<VueValidationDarwinCore> toCheck = getListObservationAndEtatFor(utilisateur);
+//            val.removeAll(toCheck);
+            for (int i = 0; i < val.size(); i++) {
+                for (int j = 0; j < toCheck.size(); j++) {
+                    if (val.get(i).getId() == toCheck.get(j).getId()) {
+                        val.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+            for (VueValidationDarwinCore dwc : toCheck) {
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                temp.put("validation", 1);
+                valiny.add(temp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (VueValidationDarwinCore dwc : val) {
+            HashMap<String, Object> temp = new HashMap<>();
+            temp.put("dwc", dwc);
+            temp.put("validation", 0);
+            valiny.add(temp);
+        }
+        return valiny;
+    }
 
     public List<HashMap<String, Object>> findObservationCheck(Utilisateur utilisateur) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         List<DarwinCore> val = getListObservationFor(utilisateur);
         for (DarwinCore dwc : val) {
+            HashMap<String, Object> temp = new HashMap<>();
+            temp.put("dwc", dwc);
+            temp.put("validation", 1);
+            valiny.add(temp);
+        }
+        return valiny;
+    }
+    
+    public List<HashMap<String, Object>> findObservationAndEtatCheck(Utilisateur utilisateur) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        List<VueValidationDarwinCore> val = getListObservationAndEtatFor(utilisateur);
+        for (VueValidationDarwinCore dwc : val) {
             HashMap<String, Object> temp = new HashMap<>();
             temp.put("dwc", dwc);
             temp.put("validation", 1);
@@ -495,7 +644,7 @@ public class DarwinCoreService extends BaseService {
 
     public void questionnableAll(int[] observation, Utilisateur expert, String commentaire) throws Exception {
         changeStatusAll(observation, expert, "questionnable");
-        for (int i =0; i < observation.length; i++) {
+        for (int i = 0; i < observation.length; i++) {
             CommentaireDarwinCore cdc = new CommentaireDarwinCore();
             cdc.setCommentaire(commentaire);
             cdc.setDateCommentaire(Calendar.getInstance().getTime());

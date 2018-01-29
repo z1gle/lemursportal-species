@@ -32,6 +32,7 @@ import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
+import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 import org.wcs.lemurs.service.DarwinCoreService;
 import org.wcs.lemurs.util.UploadFile;
 
@@ -183,13 +184,13 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/findByespeceDwc", method = RequestMethod.POST, headers = "Accept=application/json")
-    public List<HashMap<String, Object>> getall(HttpSession session, @RequestBody DarwinCore dwcs) throws Exception {
+    public List<HashMap<String, Object>> getall(HttpSession session, @RequestBody VueValidationDarwinCore dwcs) throws Exception {
         try {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-            return darwinCoreService.findWithCheck(utilisateur, dwcs);
+            return darwinCoreService.findWithCheckAndEtat(utilisateur, dwcs);
         } catch (Exception e) {
             Utilisateur utilisateur = new Utilisateur();
-            return darwinCoreService.findWithCheck(utilisateur, dwcs);
+            return darwinCoreService.findWithCheckAndEtat(utilisateur, dwcs);
         }
     }
 
@@ -198,7 +199,7 @@ public class DarwinCoreController {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         try {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-            return darwinCoreService.findObservationCheck(utilisateur);
+            return darwinCoreService.findObservationAndEtatCheck(utilisateur);
         } catch (Exception e) {
             throw e;
         }
@@ -257,8 +258,11 @@ public class DarwinCoreController {
         HashMap<String, String> valiny = new HashMap<>();
         if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT)) {
             try {
-                if(status == 1) darwinCoreService.validerAll(dwc, utilisateur);
-                else darwinCoreService.questionnableAll(dwc, utilisateur, commentaire);
+                if (status == 1) {
+                    darwinCoreService.validerAll(dwc, utilisateur);
+                } else {
+                    darwinCoreService.questionnableAll(dwc, utilisateur, commentaire);
+                }
                 valiny.put("etat", "1");
             } catch (StatusAlreadyExistException e) {
                 session.setAttribute("exception", e);
@@ -282,12 +286,18 @@ public class DarwinCoreController {
             StatusAlreadyExistException saee = (StatusAlreadyExistException) session.getAttribute("exception");
             List<DarwinCore> dwc = saee.getObservationRestante();
             if (continuer == 1) {
-                if(status == 1) darwinCoreService.validerForced(saee.getObservationEnCours(), utilisateur);
-                else darwinCoreService.questionnableForced(saee.getObservationEnCours(), utilisateur, commentaire);
+                if (status == 1) {
+                    darwinCoreService.validerForced(saee.getObservationEnCours(), utilisateur);
+                } else {
+                    darwinCoreService.questionnableForced(saee.getObservationEnCours(), utilisateur, commentaire);
+                }
             }
             try {
-                if(status == 1) darwinCoreService.validerAll(dwc, utilisateur);
-                else darwinCoreService.questionnableAll(dwc, utilisateur, commentaire);
+                if (status == 1) {
+                    darwinCoreService.validerAll(dwc, utilisateur);
+                } else {
+                    darwinCoreService.questionnableAll(dwc, utilisateur, commentaire);
+                }
                 valiny.put("etat", "1");
                 session.removeAttribute("exception");
             } catch (StatusAlreadyExistException e) {
@@ -308,23 +318,29 @@ public class DarwinCoreController {
     public void delete(@RequestBody DarwinCore dwc) throws Exception {
         darwinCoreService.delete(dwc);
     }
-    
+
     @RequestMapping(value = "/dwcCsv")
     public void dwcCsv(HttpSession session, HttpServletResponse response, @RequestParam(value = "validation") int validation, @RequestParam(value = "chercheur") String chercheur, @RequestParam(value = "col[]") int[] colonnes) throws Exception {
 //        String chercheur = requestData.get("chercheur");
 //        int validation = Integer.parseInt(requestData.get("validation"));         
+        int idU = -999;
+        Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
+        if (u != null) {
+            idU = u.getId();
+        }
         List<DarwinCore> liste = darwinCoreService.findValidation(validation, chercheur);
         response.setHeader("Content-Type", "text/csv");
         response.setHeader("Content-Disposition", "attachment;filename=\"observations.csv\"");
         UploadFile upf = new UploadFile();
-        upf.writeDwcCsv(liste, colonnes, ';', response.getOutputStream());                
+        upf.writeDwcCsv(liste, colonnes, ';', response.getOutputStream(), idU);
     }
-    
+
     @RequestMapping(value = "/getColonnesDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, String>> getColonnesDwc(HttpSession session) throws Exception {
         List<HashMap<String, String>> valiny = new ArrayList<>();
         List<String> liste = darwinCoreService.listeColonnes(new DarwinCore());
-        for(int i = 0; i < liste.size(); i++) {
+        liste.remove(liste.size() - 1);
+        for (int i = 0; i < liste.size(); i++) {
             HashMap<String, String> temp = new HashMap<>();
             temp.put("index", Integer.toString(i));
             temp.put("valeur", liste.get(i));
@@ -333,13 +349,57 @@ public class DarwinCoreController {
         return valiny;
     }
 
+//    @RequestMapping(value = "/processExcel", method = RequestMethod.POST)
+//    public ModelAndView processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile, HttpSession session, HttpServletRequest request) {
+//        ModelAndView val = new ModelAndView("redirect:darwinportal");
+//        try {
+//            Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
+//            if (u == null) {
+//                return new ModelAndView("login");
+//            }
+//            //  check chercheur
+//            VueRoleUtilisateur vru = new VueRoleUtilisateur();
+//            vru.setIdUtilisateur(u.getId());
+//            List<VueRoleUtilisateur> list = (List<VueRoleUtilisateur>) (List<?>) darwinCoreService.findMultiCritere(vru);
+//            boolean chercheur = Boolean.FALSE;
+//            for (VueRoleUtilisateur v : list) {
+//                if (v.getDesignation().compareTo(ROLE_CHERCHEUR) == 0) {
+//                    chercheur = Boolean.TRUE;
+//                    break;
+//                }
+//            }
+//            if (!chercheur) {
+//                return new ModelAndView("login");
+//            }
+////            System.out.println(excelfile.getOriginalFilename());
+//            List<DarwinCore> liste_darwin_core;
+//            if (excelfile.getOriginalFilename().contains(".csv")) {
+//                liste_darwin_core = UploadFile.import_darwin_core_csv(excelfile.getInputStream());
+//            } else {
+//                liste_darwin_core = UploadFile.import_darwin_core_excel(excelfile.getInputStream());
+//            }            
+//            for (DarwinCore d : liste_darwin_core) {
+//                d.setIdUtilisateurUpload(u.getId());
+//            }
+//            List<DarwinCore> upload = darwinCoreService.upload(liste_darwin_core);
+//
+//            if (!chercheur) {
+//                Integer b = 0;
+//                val.addObject("role", b);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return val;
+//    }
+    
     @RequestMapping(value = "/processExcel", method = RequestMethod.POST)
-    public ModelAndView processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile, HttpSession session, HttpServletRequest request) {
-        ModelAndView val = new ModelAndView("redirect: ");
+    public List<HashMap<String, Object>> processExcel(Model model, @RequestParam("excelfile") MultipartFile excelfile, HttpSession session, HttpServletRequest request) throws Exception {
+        ModelAndView val = new ModelAndView("redirect:darwinportal");
         try {
             Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
             if (u == null) {
-                return new ModelAndView("login");
+//                return new ModelAndView("login");
             }
             //  check chercheur
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
@@ -353,21 +413,30 @@ public class DarwinCoreController {
                 }
             }
             if (!chercheur) {
-                return new ModelAndView("login");
+//                return new ModelAndView("login");
             }
-            List<DarwinCore> liste_darwin_core = UploadFile.import_darwin_core_excel(excelfile.getInputStream());
+//            System.out.println(excelfile.getOriginalFilename());
+            List<DarwinCore> liste_darwin_core;
+            if (excelfile.getOriginalFilename().contains(".csv")) {
+                liste_darwin_core = UploadFile.import_darwin_core_csv(excelfile.getInputStream());
+            } else {
+                liste_darwin_core = UploadFile.import_darwin_core_excel(excelfile.getInputStream());
+            }            
             for (DarwinCore d : liste_darwin_core) {
                 d.setIdUtilisateurUpload(u.getId());
             }
-            darwinCoreService.upload(liste_darwin_core);
+            List<DarwinCore> upload = darwinCoreService.upload(liste_darwin_core);
+//            List<VueValidationDarwinCore> valiny = darwinCoreService.getValidation(upload);
 
             if (!chercheur) {
                 Integer b = 0;
                 val.addObject("role", b);
             }
+            return darwinCoreService.formaterHashMapForAffichage(u, upload);
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
-        return val;
+//        return valiny;
     }
 }

@@ -48,8 +48,19 @@
                                     </ul>
                                 </span>
                             </div>
-
+                            <div class="row"></div>
                             <div class="row">
+                                <div class="col-md-4">
+                                    <h4>Famille</h4>
+                                </div>
+                                <div style="display: none!important;" id="titreGenre" class="col-md-4">
+                                    <h4>Genre</h4>
+                                </div>
+                                <div style="display: none!important;" id="titreEspece" class="col-md-4">
+                                    <h4>Espece</h4>
+                                </div>
+                            </div>
+                            <div class="row">                                
                                 <form method="POST" action="assigner">
                                     <ul>
                                         <li ng-repeat="famille in liste">
@@ -94,15 +105,17 @@
                                                                     success: function (json) {
                                                                         var option = "";
                                                                         for (var i = 0; i < json.length; i++) {
-                                                                            option = option + "<li>" + '<input name="valeur[]" type="checkbox" value="typeEspece-famille-' + famille + '-genre-' + genre + '-espece-' + json[i] + '" >';
+                                                                            option = option + "<li>" + '<input name="valeur[]" type="checkbox" checked value="typeEspece-famille-' + famille + '-genre-' + genre + '-espece-' + json[i] + '" >';
                                                                             option = option + json[i];
                                                                             option = option + "</li>";
                                                                         }
                                                                         $("#espece-" + genre).append(option).trigger('change');
+                                                                        $("#titreEspece").show();
                                                                     }
                                                                 });
                                                             } else {                                                                
                                                                 $("#espece-" + genre).html('<ul id="espece-'+genre+'"></ul>');
+//                                                                $("#titreEspece").hide();
                                                             }
                                                         }
 

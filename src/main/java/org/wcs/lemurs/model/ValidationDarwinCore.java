@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
 public class ValidationDarwinCore extends BaseModel implements Serializable {
 
     @Column(name="iddarwincore")
-    private int idDarwinCore;
+    private Integer idDarwinCore;
     
     @Column(name="accepted_speces")
     private Boolean acceptedSpeces;
@@ -44,13 +44,13 @@ public class ValidationDarwinCore extends BaseModel implements Serializable {
     @Column(name="datevalidation")
     private Date dateValidation;
 
-    public int getIdDarwinCore() {
+    public Integer getIdDarwinCore() {
         return idDarwinCore;
     }
 
-    public void setIdDarwinCore(int idDarwinCore) {
+    public void setIdDarwinCore(Integer idDarwinCore) {
         this.idDarwinCore = idDarwinCore;
-    }
+    }    
 
     public Boolean isAcceptedSpeces() {
         return acceptedSpeces;

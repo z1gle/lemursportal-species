@@ -7,6 +7,8 @@ package org.wcs.lemurs.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -97,7 +99,7 @@ public class TaxonomiBaseService extends BaseService {
             ae.setGenre(genre);
             especeToSave.clear();
             especeToSave.add(ae);
-        } 
+        }
         return especeToSave;
     }
 
@@ -110,20 +112,20 @@ public class TaxonomiBaseService extends BaseService {
                 List<Object> param = new ArrayList<>();
                 param.add(valeur[i].split("-")[valeur[i].split("-").length - 1]);
                 List<String> tous = (List<String>) (List<?>) executeSqlList("select distinct scientificname from taxonomi_base where genus = :dwcgen", nom, param);
-                valiny.addAll(checkSaveGenre(valeur, tous, idExpert, (String)param.get(0)));
+                valiny.addAll(checkSaveGenre(valeur, tous, idExpert, (String) param.get(0)));
             }
         }
         return valiny;
     }
-    
+
     public void checkSaveFamille(List<AssignationExpert> valeur, List<String> tous, int idExpert, String famille) throws Exception {
         List<AssignationExpert> especeToSave = new ArrayList<>();
         for (AssignationExpert ase : valeur) {
             for (String s : tous) {
-                if(ase.getGenre()!=null && ase.getGenre().compareTo(s)==0) {
+                if (ase.getGenre() != null && ase.getGenre().compareTo(s) == 0) {
                     especeToSave.add(ase);
                     break;
-                }                
+                }
             }
         }
         if (especeToSave.size() == tous.size()) {
@@ -132,23 +134,44 @@ public class TaxonomiBaseService extends BaseService {
             ae.setFamille(famille);
             valeur.removeAll(especeToSave);
             valeur.add(ae);
-        }         
+        }
     }
-    
+
     public void checkFamille(String[] valeur, int idExpert) throws Exception {
-        List<AssignationExpert> valiny = new ArrayList<>();
-        List<AssignationExpert> ase = checkGenre(valeur, idExpert);
-        for (int i = 0; i < valeur.length; i++) {
-            if (valeur[i].contains("typeFamille")) {
-                List<String> nom = new ArrayList<>();
-                nom.add("dwcfamille");
-                List<Object> param = new ArrayList<>();
-                param.add(valeur[i].split("-")[valeur[i].split("-").length - 1]);
-                List<String> tous = (List<String>) (List<?>) executeSqlList("select distinct genus from taxonomi_base where dwcfamily = :dwcfamille", nom, param);                
-                checkSaveFamille(ase, tous, idExpert, (String)param.get(0));
-                valiny.addAll(ase);
+        Session session = null;
+        Transaction tr = null;
+        try {
+            session = this.hibernateDao.getSessionFactory().openSession();
+            tr = session.beginTransaction();
+            List<AssignationExpert> valiny = new ArrayList<>();
+            List<AssignationExpert> ase = checkGenre(valeur, idExpert);
+            for (int i = 0; i < valeur.length; i++) {
+                if (valeur[i].contains("typeFamille")) {
+                    List<String> nom = new ArrayList<>();
+                    nom.add("dwcfamille");
+                    List<Object> param = new ArrayList<>();
+                    param.add(valeur[i].split("-")[valeur[i].split("-").length - 1]);
+                    List<String> tous = (List<String>) (List<?>) executeSqlList("select distinct genus from taxonomi_base where dwcfamily = :dwcfamille", nom, param);
+                    checkSaveFamille(ase, tous, idExpert, (String) param.get(0));
+                    valiny.addAll(ase);
+                }
+            }
+            AssignationExpert temp = new AssignationExpert();
+            temp.setIdExpert(idExpert);
+            List<AssignationExpert> remove = (List<AssignationExpert>) (List<?>) this.findMultiCritere(temp);
+            for (AssignationExpert ae : remove) {
+                this.delete(session, ae);
+            }
+            for (AssignationExpert v : ase) {
+                save(session, v);
+            }
+            tr.commit();
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
             }
         }
-        for(AssignationExpert v : ase) save(v);
     }
 }

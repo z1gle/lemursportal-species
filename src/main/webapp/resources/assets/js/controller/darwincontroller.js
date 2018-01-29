@@ -8,8 +8,8 @@ app.controller("darwin", function ($scope, $http) {
     $scope.colonnes = [];
     $scope.darwin = {};
     $scope.recherche = "";
+    $scope.file = {};
     getall();
-
     function getall() {
         $http({
             method: 'POST',
@@ -42,7 +42,6 @@ app.controller("darwin", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
-
     $scope.rechercherMulti = function () {
         var formData = {
             'validation': parseInt($('select[name=validation]').val()),
@@ -64,7 +63,6 @@ app.controller("darwin", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
-
     $scope.getColonnes = function () {
         var formData = {};
         $http({
@@ -83,11 +81,9 @@ app.controller("darwin", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
-
     $scope.checkAll = function () {
         $('[name="col[]"]').prop('checked', $('#checkAll').is(":checked"));
     };
-
     $scope.getDwcCsv = function () {
         var col = $('[name="col[]"]');
         var data = "?";
@@ -103,8 +99,26 @@ app.controller("darwin", function ($scope, $http) {
         window.location = 'dwcCsv' + data;
     }
     ;
-
-
+    $scope.upload = function () {
+        var formData = new FormData();
+        var file = $('#csv-xl')[0].files[0];
+        formData.append("excelfile", file);
+        $http({
+            method: 'POST',
+            url: 'processExcel',
+//            enctype: 'multipart/form-data',
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': undefined 
+            }
+        }).then(function success(response) {
+            $scope.liste = response.data;
+            $scope.recherche = $scope.darwin.scientificname;
+        }, function error(response) {
+            console.log(response.statusText);
+        });
+    };
 //    $(document).ready(function () {
 //        $('#form-search').submit(function (event) {
 //            // get the form data
@@ -133,12 +147,10 @@ app.controller("darwin", function ($scope, $http) {
         $("#editOrnew").modal({backdrop: 'static'});
         $scope.form = angular.copy(darwin);
     };
-
     $scope.annuler = function () {
         $("#editOrnew").modal("hide");
         $scope.form = {};
     };
-
     $scope.save = function () {
         $http({
             method: 'POST',
@@ -156,7 +168,6 @@ app.controller("darwin", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
-
     $scope.delete = function (darwin) {
         $http({
             method: 'POST',

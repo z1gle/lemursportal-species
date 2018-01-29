@@ -25,6 +25,7 @@ public class BaseController {
     public static String ROLE_CHERCHEUR = "Chercheur";
     public static String ROLE_EXPERT = "Expert vérificateur";
     public static String ROLE_MODERATEUR = "Modérateur";
+    public static String ROLE_ADMINISTRATEUR = "Administrateur";
     
     @Autowired(required = true)
     @Qualifier("baseService")
@@ -57,9 +58,13 @@ public class BaseController {
         Utilisateur u = null;
         Integer b = -1;
         Integer expert = -1;
+        Integer idChercheur = 0;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
-            if(baseService.checkRole(u, ROLE_CHERCHEUR)) b = 0;
+            if(baseService.checkRole(u, ROLE_CHERCHEUR)) {
+                idChercheur = u.getId();
+                b = 0;
+            }
             else if(baseService.checkRole(u, ROLE_EXPERT)) expert = 0;            
         } catch(NullPointerException npe) {
             
@@ -67,7 +72,8 @@ public class BaseController {
         catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        valiny.addObject("role", b);      
+        valiny.addObject("role", b);
+        valiny.addObject("idChercheur", idChercheur);
         valiny.addObject("expert", expert);      
         return valiny;
     }

@@ -18,7 +18,7 @@
                             <h4 class="text-left">Rechercher un espèce</h4>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input class="form-control" type="text" ng-model="darwin.scientificname" name="search" placeholder="Nom scientifique de l'espèce" required/>
+                                    <input class="form-control" type="text" ng-model="darwin.scientificName" name="search" placeholder="Nom scientifique de l'espèce" required/>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
                                     </span>
@@ -65,14 +65,14 @@
                         <!-- Vignette -->
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-repeat="dwc in liste">
                             <div class="vignette">
-                                <img src="<c:url value="/resources/assets/img/fexpert.jpg"/>" alt="{{dwc.dwc.scientificname}}" >
+                                <img src="<c:url value="/resources/assets/img/fexpert.jpg"/>" alt="{{dwc.dwc.scientificName}}" >
                                 <div class="offer">
                                     <span><i class="fa fa-comment"></i>120</span>
                                     <span class="pull-right valid"><i class="fa fa-check"></i></span>
                                 </div>
                                 <div class="detail">
                                     <a href="detailLemurien?id={{dwc.dwc.id}}">
-                                        <h3>{{dwc.dwc.scientificname}}</h3>
+                                        <h3>{{dwc.dwc.scientificName}}</h3>
                                         <p><i class="fa fa-angle-down"></i></p>
                                     </a>
                                 </div>
@@ -99,26 +99,51 @@
                                         <td class="text-center">Genre</td>
                                         <td class="text-center">Date</td>
                                         <td class="text-center">Statistique</td>
+                                        <%
+                                            Integer role = ((Integer) request.getAttribute("role"));
+                                            Integer idChercheur = ((Integer) request.getAttribute("idChercheur"));
+                                            if(role == 0) {
+                                        %>
+                                        <td class="text-center">Remarque</td>
+                                        <%}%>
+                                        <%if (expert == 0) {%>
+                                        <td class="text-center">Etat</td>
+                                        <%}%>
                                     </tr>
                                     <tr ng-repeat="dwc in liste">
                                         <%if (expert == 0) {%>
                                         <td ng-if="dwc.validation == 1" class="number text-center"><input name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox"></td>
                                         <td ng-if="dwc.validation == 0" class="number text-center"></td>
                                         <%}%>
-                                        <td class="number text-center">{{dwc.dwc.id}}</td>
-                                        <td class="text-center">{{dwc.dwc.scientificname}}</td>
+                                        <td class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
+                                        <td class="text-center">{{dwc.dwc.scientificName}}</td>
                                         <td class="text-center">{{dwc.dwc.locality}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinorder}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinclass}}</td>
+                                        <td class="text-center">{{dwc.dwc.darwinOrder}}</td>
+                                        <td class="text-center">{{dwc.dwc.darwinClass}}</td>
                                         <td class="text-center">{{dwc.dwc.genus}}</td>
                                         <td class="text-center">{{dwc.dwc.dateidentified}}(vérifier)</td>
-                                        <td class="text-center">780(vérifier)</td>                                            
+                                        <td class="text-center">780(vérifier)</td>    
+                                        <%if(role == 0) {%>
+                                            <td class="">
+                                                <ul>
+                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.annee == false">vérifier la colonne année</li>
+                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.accepted_speces == false">vérifier les champs du verbamite speces</li>
+                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.collecteur == false">vérifier la colonne collecteur</li>
+                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.gps == false">vérifier la colonne gps</li>
+                                                </ul>
+                                            </td>    
+                                        <%}%>
+                                        <%if (expert == 0) {%>
+                                        <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == -1" class="number text-center">en attente</td>
+                                        <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 0" class="number text-center">questionnable</td>
+                                        <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 1" class="number text-center">validé</td>
+                                        <%}%>
                                     </tr>                                                   
                                 </tbody>
                             </table>
                             <%if (expert == 0) {%>
-                            <button onclick="validate(0);" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
-                            <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>
+                            <button onclick="showCommentairFirst();" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
+                            <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>                                                        
                             <%}%>
                         </form>
                     </div>
@@ -132,14 +157,13 @@
                         <li><a href="#">5</a></li>
                         <li><a href="#">»</a></li>
                     </ul>
-                    <%
-                        Integer role = ((Integer) request.getAttribute("role"));
+                    <%                        
                         if (role == 0) {
                     %>
-                    <form action="processExcel" method="POST" style="float: right;" enctype="multipart/form-data">
+                    <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
                         <div>Importer un fichier Excel:</div>
-                        <input name="excelfile" type="file">
-                        <input type="submit" value="Importer">
+                        <input id="csv-xl" name="excelfile" ng-model="file" type="file">
+                        <input type="submit" ng-click="upload()" value="Importer">
                     </form>
                     <%}%>
                     <!-- END PAGINATION -->
@@ -149,6 +173,59 @@
         <!-- End Contenu -->
 
     </section>
+    <div id='modal-liste-colonnes' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Colonnes pris en compte</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>         
+                            <div class="col-sm-12">
+                                <input ng-click="checkAll()" type="checkbox" id="checkAll">Tout Sélectionner
+                            </div>
+                            <br>
+                            <br>
+                            <div class="col-sm-12" ng-repeat="col in colonnes">
+                                <input type="checkbox" name="col[]" value="{{col.index}}">{{col.valeur}}
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
+                    <button type='button' id="boutonQuestionnable" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal-ajout-confirmation-valide' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Confirmation</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                <label id="" class="control-label messageMod">L'observation N° # a déja été marqué comme # par #</label>
+                                <label class="control-label">Voulez-vous continuer à modifier son status?</label>                                    
+                            </div>                                    
+                        </div>
+                    </div>
+
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(1, 0)" data-dismiss='modal'>Annuler</button>
+                    <button type='button' class='btn btn-success btn-sm' onclick="continueValidate(1, 1)" data-dismiss='modal'>Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id='modal-ajout-confirmation-valide' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
         <div class='modal-dialog'>
             <div class='modal-content'>
@@ -222,34 +299,6 @@
             </div>
         </div>
     </div>
-    <div id='modal-liste-colonnes' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class="modal-header">
-                    <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title"><center>Colonnes pris en compte</center></h4>
-                </div>
-                <div class='modal-body'>
-                    <div class='row'>
-                        <div class='col-md-10 col-md-offset-1'>         
-                            <div class="col-sm-12">
-                                <input ng-click="checkAll()" type="checkbox" id="checkAll">Sélectionner tout
-                            </div>
-                            <br>
-                            <br>
-                            <div class="col-sm-12" ng-repeat="col in colonnes">
-                                <input type="checkbox" name="col[]" value="{{col.index}}">{{col.valeur}}
-                            </div>                                    
-                        </div>
-                    </div>
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
-                    <button type='button' id="boutonQuestionnable" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- end darwin -->
 
 </main>
@@ -274,6 +323,7 @@
                             document.getElementById("tab-liste").class = '';
                         }
                         pellicule();
+
                         function showModal(status) {
                             if (status == 0)
                                 $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});

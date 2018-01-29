@@ -25,6 +25,11 @@ app.controller("utilisateur",function($scope,$http){
         });
     }
     
+    $scope.delete = function(id) {
+        $('#modal-delete-utilisateur').modal({backdrop: 'static'});
+        $("#boutonDel").html("<button type='button' id='boutonDel' onclick = \"del("+id+")\" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+    };        
+    
     $scope.rechercher=function(){
         $http({
             method : 'POST',
@@ -40,7 +45,7 @@ app.controller("utilisateur",function($scope,$http){
         },function error(response){
             console.log(response.statusText);
         });
-    };
+    };        
 //    
 //    $scope.editer=function(darwin){
 //        $("#editOrnew").modal({backdrop : 'static'});

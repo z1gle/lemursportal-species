@@ -47,6 +47,10 @@ public class BaseService {
         this.getHibernateDao().delete(bm);
     }
     
+    public void delete(Session session, BaseModel bm) throws Exception {
+        this.getHibernateDao().delete(session, bm);
+    }
+    
     public void findById(BaseModel bm) throws Exception {
         this.getHibernateDao().findById(bm);
     }

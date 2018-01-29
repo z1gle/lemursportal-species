@@ -73,17 +73,21 @@
                                         <td class="text-center">Genre</td>
                                         <td class="text-center">Date</td>
                                         <td class="text-center">Statistique</td>
+                                        <td class="text-center">Etat</td>
                                     </tr>
                                     <tr ng-repeat="dwc in liste">                                        
-                                        <td class="number text-center"><input name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox"></td>                                                                                    
+                                        <td class="number text-center"><input name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox"></td>
                                         <td class="number text-center">{{dwc.dwc.id}}</td>
-                                        <td class="text-center">{{dwc.dwc.scientificname}}</td>
+                                        <td class="text-center">{{dwc.dwc.scientificName}}</td>
                                         <td class="text-center">{{dwc.dwc.locality}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinorder}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinclass}}</td>
+                                        <td class="text-center">{{dwc.dwc.darwinOrder}}</td>
+                                        <td class="text-center">{{dwc.dwc.darwinClass}}</td>
                                         <td class="text-center">{{dwc.dwc.genus}}</td>
                                         <td class="text-center">{{dwc.dwc.dateidentified}}(vérifier)</td>
-                                        <td class="text-center">780(vérifier)</td>                                            
+                                        <td class="text-center">780(vérifier)</td>   
+                                        <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == -1" class="number text-center">en attente</td>
+                                        <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 0" class="number text-center">questionnable</td>
+                                        <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 1" class="number text-center">validé</td>
                                     </tr>                                                   
                                 </tbody>
                             </table>                            

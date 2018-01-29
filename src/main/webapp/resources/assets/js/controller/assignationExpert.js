@@ -76,11 +76,13 @@ app.controller("controller", function ($scope, $http) {
                         option = option + "<div class=\"col-md-6\"><ul id=\"espece-"+json[i]+"\"></ul></div></div>";
                     }
                     $("#genre-" + famille).append(option).trigger('change');
+                    $("#titreGenre").show();
                 }
             });
         } else {
             var option = "";
             $("#genre-" + famille).html('<ul id="genre-{{famille}}"></ul>');
+//            $("#titreGenre").hide();
         }
     };
     

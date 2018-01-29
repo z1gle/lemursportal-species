@@ -88,7 +88,7 @@
                             </div>
                             <div class="clearfix"></div>
                             <div class="pull-right divider">
-                                <%if (expert) {%><button type="button" class="btn btn-primary" onclick="window.location = 'assignationExpert?idExpert=<%out.print(s.getId());%>'">Assigner domaine d'expertise</button><%}%>
+                                <%if (expert) {%><button type="button" class="btn btn-primary" onclick="//window.location = 'assignationExpert?idExpert=<%out.print(s.getId());%>'">Assigner domaine d'expertise</button><%}%>
                                 <button type="button" class="btn btn-primary"><span class="fa fa-edit"></span> Editer profil</button>
                                 <button type="button" class="btn btn-primary"><span class="fa fa-remove"></span> Supprimer </button>
                                 <button type="button" class="btn btn-primary"><span class="fa fa-list"></span> Liste </button>
