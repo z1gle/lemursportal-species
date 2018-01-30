@@ -8,7 +8,10 @@
     <!--<input type="hidden" value="commentDwc" id="set"/>-->
     <!--<input type="hidden" value="" id="idDwc"/>-->
     <!--<input type="hidden" value="" id="idUtilisateur"/>-->
-    <input type="hidden" value="getObservationEnAttenteDeValidation" id="load"/>
+    <%
+        Integer etatValidation = (Integer)request.getAttribute("etatValidation");
+    %>
+    <input type="hidden" value="getObservationEnAttenteDeValidation?etatValidation=<%out.print(etatValidation);%>" id="load"/>
     <!-- darwin -->
     <section id="taxonomie">
         <div class="banner-interieur" style="background:url(resources/assets/img/parallax/fexpert.jpg) no-repeat center center;">
@@ -77,7 +80,7 @@
                                     </tr>
                                     <tr ng-repeat="dwc in liste">                                        
                                         <td class="number text-center"><input name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox"></td>
-                                        <td class="number text-center">{{dwc.dwc.id}}</td>
+                                        <td class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
                                         <td class="text-center">{{dwc.dwc.scientificName}}</td>
                                         <td class="text-center">{{dwc.dwc.locality}}</td>
                                         <td class="text-center">{{dwc.dwc.darwinOrder}}</td>
@@ -191,7 +194,7 @@
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/liste.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/observationAvalider.js"/>"></script>
 <script>
                         function showModal(status) {
                             if(status == 0) $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});

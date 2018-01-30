@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import static org.wcs.lemurs.controller.BaseController.ROLE_ADMINISTRATEUR;
+import static org.wcs.lemurs.controller.BaseController.ROLE_CHERCHEUR;
 import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
+import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
+import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 import org.wcs.lemurs.service.UtilisateurService;
 
 /**
@@ -44,7 +47,16 @@ public class UtilisateurControleur {
             if (u == null) {
                 return new ModelAndView("redirect:login");
             }
+            Integer observationTotale = 0;
             Integer observationEnAttente = 0;
+            Integer observationValide = 0;
+            Integer observationQuestionnable = 0;
+            
+            Integer observationTotaleChercheur = 0;
+            Integer observationEnAttenteChercheur = 0;
+            Integer observationValideChercheur = 0;
+            Integer observationQuestionnableChercheur = 0;
+            
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(u.getId());
             List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) utilisateurService.findMultiCritere(vru);
@@ -53,7 +65,25 @@ public class UtilisateurControleur {
             Integer nbrCommentaire = utilisateurService.findMultiCritere(cdc).size();
             for (VueRoleUtilisateur v : roles) {
                 if (v.getDesignation().compareTo(ROLE_EXPERT) == 0) {
-                    observationEnAttente = utilisateurService.getListObservationFor(u).size();
+//                    observationTotale = utilisateurService.getListObservationAndEtatFor(u).size();
+                    List<VueValidationDarwinCore> listeTotale = utilisateurService.getListObservationAndEtatFor(u);
+                    for(VueValidationDarwinCore vv : listeTotale) {
+                        if(vv.getValidationexpert()==0) observationQuestionnable++;
+                        else if(vv.getValidationexpert()==-1) observationEnAttente++;
+                        else if(vv.getValidationexpert()==1) observationValide++;
+                    }
+                    observationTotale = listeTotale.size();
+                }
+                if (v.getDesignation().compareTo(ROLE_CHERCHEUR) == 0) {
+                    VueValidationDarwinCore temp = new VueValidationDarwinCore();
+                    temp.setIdUtilisateurUpload(u.getId());
+                    List<VueValidationDarwinCore> listeTotale = (List<VueValidationDarwinCore>)(List<?>)utilisateurService.findMultiCritere(temp);
+                    for(VueValidationDarwinCore vv : listeTotale) {
+                        if(vv.getValidationexpert()==0) observationQuestionnableChercheur++;
+                        else if(vv.getValidationexpert()==-1) observationEnAttenteChercheur++;
+                        else if(vv.getValidationexpert()==1) observationValideChercheur++;
+                    }
+                    observationTotaleChercheur = listeTotale.size();
                 }
             }
 
@@ -62,6 +92,13 @@ public class UtilisateurControleur {
             val.addObject("utilisateur", u);
             val.addObject("roles", roles);
             val.addObject("observationEnAttente", observationEnAttente);
+            val.addObject("observationQuestionnable", observationQuestionnable);
+            val.addObject("observationValide", observationValide);
+            val.addObject("observationTotale", observationTotale);
+            val.addObject("observationEnAttenteChercheur", observationEnAttenteChercheur);
+            val.addObject("observationQuestionnableChercheur", observationQuestionnableChercheur);
+            val.addObject("observationValideChercheur", observationValideChercheur);
+            val.addObject("observationTotaleChercheur", observationTotaleChercheur);
             return val;
         } catch (NullPointerException npe) {
             return new ModelAndView("redirect:login");

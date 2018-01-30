@@ -160,7 +160,7 @@ public class DarwinCoreService extends BaseService {
             }
         }
     }
-    
+
     public List<HashMap<String, Object>> formaterHashMapForAffichage(Utilisateur utilisateur, List<DarwinCore> liste) throws Exception {
         Session session = null;
         try {
@@ -175,12 +175,14 @@ public class DarwinCoreService extends BaseService {
             List<HashMap<String, Object>> valinyFarany = new ArrayList<>();
             int iterator = 0;
             for (VueValidationDarwinCore dwc : valiny) {
-            HashMap<String, Object> temp = new HashMap<>();
-            temp.put("dwc", dwc);            
-            if(this.checkDomaineExpertise(utilisateur, liste.get(iterator)))temp.put("validation", 1);
-            valinyFarany.add(temp);
-            iterator++;
-        }
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                if (this.checkDomaineExpertise(utilisateur, liste.get(iterator))) {
+                    temp.put("validation", 1);
+                }
+                valinyFarany.add(temp);
+                iterator++;
+            }
             return valinyFarany;
         } catch (Exception ex) {
             throw ex;
@@ -225,7 +227,7 @@ public class DarwinCoreService extends BaseService {
             return null;
         }
     }
-    
+
     public List<VueValidationDarwinCore> GetListObservationEtat(Session session, AssignationExpert a) throws Exception {
         if ((a.getEspece() != null && !a.getEspece().isEmpty()) && (a.getGenre() == null || a.getGenre().isEmpty()) && (a.getFamille() == null || a.getFamille().isEmpty())) {
             List<String> name = new ArrayList<>();
@@ -272,7 +274,7 @@ public class DarwinCoreService extends BaseService {
             }
         }
     }
-    
+
     public List<VueValidationDarwinCore> getListObservationAndEtatFor(Utilisateur utilisateur) throws Exception {
         AssignationExpert aes = new AssignationExpert();
         aes.setIdExpert(utilisateur.getId());
@@ -326,10 +328,10 @@ public class DarwinCoreService extends BaseService {
         }
         return valiny;
     }
-    
+
     public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueValidationDarwinCore darwinCore) throws Exception {
-        List<HashMap<String, Object>> valiny = new ArrayList<>();        
-        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>)(List<?>)super.findMultiCritere(darwinCore);
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(darwinCore);
         try {
             List<VueValidationDarwinCore> toCheck = getListObservationAndEtatFor(utilisateur);
 //            val.removeAll(toCheck);
@@ -371,15 +373,62 @@ public class DarwinCoreService extends BaseService {
         }
         return valiny;
     }
-    
-    public List<HashMap<String, Object>> findObservationAndEtatCheck(Utilisateur utilisateur) throws Exception {
+
+//    public List<HashMap<String, Object>> findObservationAndEtatCheck(Utilisateur utilisateur) throws Exception {
+//        List<HashMap<String, Object>> valiny = new ArrayList<>();
+//        List<VueValidationDarwinCore> val = getListObservationAndEtatFor(utilisateur);
+//        for (VueValidationDarwinCore dwc : val) {
+//            HashMap<String, Object> temp = new HashMap<>();
+//            temp.put("dwc", dwc);
+//            temp.put("validation", 1);
+//            valiny.add(temp);
+//        }
+//        return valiny;
+//    }
+    public List<HashMap<String, Object>> findObservationAndEtatCheck(Utilisateur utilisateur, int etatValidation) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         List<VueValidationDarwinCore> val = getListObservationAndEtatFor(utilisateur);
-        for (VueValidationDarwinCore dwc : val) {
-            HashMap<String, Object> temp = new HashMap<>();
-            temp.put("dwc", dwc);
-            temp.put("validation", 1);
-            valiny.add(temp);
+        if (etatValidation == -999) {
+            for (VueValidationDarwinCore dwc : val) {
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                temp.put("validation", 1);
+                valiny.add(temp);
+            }
+        } else {
+            for (VueValidationDarwinCore dwc : val) {
+                if (dwc.getValidationexpert() == etatValidation) {
+                    HashMap<String, Object> temp = new HashMap<>();
+                    temp.put("dwc", dwc);
+                    temp.put("validation", 1);
+                    valiny.add(temp);
+                }
+            }
+        }
+        return valiny;
+    }
+
+    public List<HashMap<String, Object>> findObservationAndEtatCheckOf(Utilisateur utilisateur, int etatValidation) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        VueValidationDarwinCore vvdTemp = new VueValidationDarwinCore();
+        vvdTemp.setIdUtilisateurUpload(utilisateur.getId());
+        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) findMultiCritere(vvdTemp);
+        if (etatValidation == -999) {
+            for (VueValidationDarwinCore dwc : val) {
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                temp.put("validation", 1);
+                valiny.add(temp);
+            }
+        } else {
+            for (VueValidationDarwinCore dwc : val) {
+                if (dwc.getValidationexpert() == etatValidation) {
+                    HashMap<String, Object> temp = new HashMap<>();
+                    temp.put("dwc", dwc);
+                    temp.put("validation", 1);
+                    valiny.add(temp);
+                }
+            }
         }
         return valiny;
     }

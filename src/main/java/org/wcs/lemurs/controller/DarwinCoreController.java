@@ -194,20 +194,36 @@ public class DarwinCoreController {
         }
     }
 
-    @RequestMapping(value = "/getObservationEnAttenteDeValidation", method = RequestMethod.POST, headers = "Accept=application/json")
-    public List<HashMap<String, Object>> getObservationEnAttenteDeValidation(HttpSession session) throws Exception {
+//    @RequestMapping(value = "/getObservationEnAttenteDeValidation", method = RequestMethod.POST, headers = "Accept=application/json")
+//    public List<HashMap<String, Object>> getObservationEnAttenteDeValidation(HttpSession session) throws Exception {
+//        List<HashMap<String, Object>> valiny = new ArrayList<>();
+//        try {
+//            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+//            return darwinCoreService.findObservationAndEtatCheck(utilisateur);
+//        } catch (Exception e) {
+//            throw e;
+//        }
+//    }
+    
+    @RequestMapping(value = "/getObservationEnAttenteDeValidation", method = RequestMethod.GET, headers = "Accept=application/json")
+    public List<HashMap<String, Object>> getObservationEnAttenteDeValidation(HttpSession session, @RequestParam("etatValidation") Integer etatValidation) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         try {
-            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-            return darwinCoreService.findObservationAndEtatCheck(utilisateur);
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");            
+            if (etatValidation == 20 || etatValidation == 21 || etatValidation == -21 || etatValidation == -2999) {
+                etatValidation = Integer.parseInt(Integer.toString(etatValidation).replaceAll("2", ""));
+                return darwinCoreService.findObservationAndEtatCheckOf(utilisateur, etatValidation);
+            }            
+            else return darwinCoreService.findObservationAndEtatCheck(utilisateur, etatValidation);            
         } catch (Exception e) {
             throw e;
         }
     }
 
     @RequestMapping(value = "/observationAValider")
-    public ModelAndView observationAValider() {
+    public ModelAndView observationAValider(HttpSession session, @RequestParam("etatValidation") Integer etatValidation) {        
         ModelAndView val = new ModelAndView("observationAValider");
+        val.addObject("etatValidation", etatValidation);
         return val;
     }
 

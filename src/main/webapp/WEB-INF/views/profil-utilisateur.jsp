@@ -44,6 +44,7 @@
                                 <div class="col-xs-12 col-sm-12">
                                     <%
                                         boolean expert = false;
+                                        boolean chercheur = false;
                                         Utilisateur s = (Utilisateur) request.getAttribute("utilisateur");
                                         Integer nbrCommentaire = (Integer) request.getAttribute("nbrCommentaire");
                                         List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) request.getAttribute("roles");
@@ -59,6 +60,9 @@
                                                 if (r.getDesignation().compareTo("Expert vérificateur") == 0) {
                                                     expert = true;
                                                     break;
+                                                } else if(r.getDesignation().compareTo("Chercheur")==0) {
+                                                    chercheur = true;
+                                                    break;
                                                 }
                                             }
                                         %>
@@ -66,8 +70,28 @@
                                     <%
                                         if (expert) {
                                             Integer observationEnAttente = (Integer) request.getAttribute("observationEnAttente");
+                                            Integer observationTotale = (Integer) request.getAttribute("observationTotale");
+                                            Integer observationQuestionnable = (Integer) request.getAttribute("observationQuestionnable");
+                                            Integer observationValide = (Integer) request.getAttribute("observationValide");                                            
                                     %>
-                                    <h4><a href="observationAValider">Observations en attente(<%out.print(observationEnAttente);%>)</a></h4>
+                                    <h4>Récapitulatif expert</h4>
+                                    <h4><a href="observationAValider?etatValidation=-1">Observations en attentes(<%out.print(observationEnAttente);%>)</a></h4>
+                                    <h4><a href="observationAValider?etatValidation=0">Observations questionnables(<%out.print(observationQuestionnable);%>)</a></h4>
+                                    <h4><a href="observationAValider?etatValidation=1">Observations validées(<%out.print(observationValide);%>)</a></h4>
+                                    <h4><a href="observationAValider?etatValidation=-999">Observations totales(<%out.print(observationTotale);%>)</a></h4>
+                                    <%}%>
+                                    <%
+                                        if (chercheur) {                                            
+                                            Integer observationEnAttenteChercheur = (Integer) request.getAttribute("observationEnAttenteChercheur");
+                                            Integer observationTotaleChercheur = (Integer) request.getAttribute("observationTotaleChercheur");
+                                            Integer observationQuestionnableChercheur = (Integer) request.getAttribute("observationQuestionnableChercheur");
+                                            Integer observationValideChercheur = (Integer) request.getAttribute("observationValideChercheur");
+                                    %>
+                                    <h4>Récapitulatif chercheur</h4>
+                                    <h4><a href="observationAValider?etatValidation=-21">Observations en attentes(<%out.print(observationEnAttenteChercheur);%>)</a></h4>
+                                    <h4><a href="observationAValider?etatValidation=20">Observations questionnables(<%out.print(observationQuestionnableChercheur);%>)</a></h4>
+                                    <h4><a href="observationAValider?etatValidation=21">Observations validées(<%out.print(observationValideChercheur);%>)</a></h4>
+                                    <h4><a href="observationAValider?etatValidation=-2999">Observations totales(<%out.print(observationTotaleChercheur);%>)</a></h4>
                                     <%}%>
                                 </div>             
                             </div>
@@ -87,11 +111,10 @@
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                            <div class="pull-right divider">
-                                <%if (expert) {%><button type="button" class="btn btn-primary" onclick="//window.location = 'assignationExpert?idExpert=<%out.print(s.getId());%>'">Assigner domaine d'expertise</button><%}%>
+                            <div class="pull-right divider">                                
                                 <button type="button" class="btn btn-primary"><span class="fa fa-edit"></span> Editer profil</button>
-                                <button type="button" class="btn btn-primary"><span class="fa fa-remove"></span> Supprimer </button>
-                                <button type="button" class="btn btn-primary"><span class="fa fa-list"></span> Liste </button>
+                                <!--<button type="button" class="btn btn-primary"><span class="fa fa-remove"></span> Supprimer </button>-->
+                                <!--<button type="button" class="btn btn-primary"><span class="fa fa-list"></span> Liste </button>-->
                             </div>  
                         </div>  
                     </div>
