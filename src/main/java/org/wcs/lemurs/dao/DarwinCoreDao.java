@@ -131,20 +131,46 @@ public class DarwinCoreDao extends HibernateDao {
                     + "    d.identificationremarks,"
                     + "    d.identificationqualifier,"
                     + "    d.typestatus,"
+                    + "    d.taxon_id,"
+                    + "    d.scientific_name_id,"
+                    + "    d.accepted_name_usage_id,"
+                    + "    d.parent_name_usage_id,"
+                    + "    d.original_name_usage_id,"
+                    + "    d.name_according_to_id,"
+                    + "    d.name_published_in_id,"
+                    + "    d.taxon_concept_id,"
+                    + "    d.parent_name_usage,"
+                    + "    d.original_name_usage,"
+                    + "    d.name_according_to,"
+                    + "    d.name_published_in,"
+                    + "    d.taxonomic_status,"
+                    + "    d.nomenclatural_status,"
+                    + "    d.occurence_id,"
+                    + "    d.occurence_details,"
+                    + "    d.individual_id,"
+                    + "    d.establishment_means,"
+                    + "    d.occurence_status,"
+                    + "    d.event_id,"
+                    + "    d.location_id,"
+                    + "    d.higher_geography_id,"
+                    + "    d.identification_id,"
                     + "    d.idutilisateurupload    "
                     + "   FROM utilisateur u"
                     + "     JOIN darwin_core d ON d.idutilisateurupload = u.id"
                     + "     JOIN validation_darwin_core v ON v.iddarwincore = d.iddwc"
                     + "     WHERE 1=1";
-            if(validation == 1) {
+            if (validation == 1) {
                 qry = qry + "	AND v.validationexpert = true";
-            } else if(validation == 0) {
+            } else if (validation == 0) {
                 qry = qry + "	AND v.validationexpert = false";
-            } if(!chercheur.isEmpty()) {
-                qry = qry + "	AND (u.prenom ilike :chercheur OR u.nom ilike :chercheur)"; 
-            }                                        
+            }
+            if (!chercheur.isEmpty()) {
+                qry = qry + "	AND (u.prenom ilike :chercheur OR u.nom ilike :chercheur)";
+            }
             Query query = session.createSQLQuery(qry).addEntity(new DarwinCore().getClass());
-            if(!chercheur.isEmpty()) query.setParameter("chercheur", "%"+chercheur+"%");
+            if (!chercheur.isEmpty()) {
+                query.setParameter("chercheur", "%" + chercheur + "%");
+            }
             List<DarwinCore> list = query.list();
             return list;
         } catch (Exception e) {

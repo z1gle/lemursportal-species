@@ -41,11 +41,47 @@ public class DarwinCore extends BaseModel {
     @Column(name="dynamicproperties")
     private String dynamicproperties;
     
+    @Column(name="taxon_id")
+    private String taxonId;
+    
+    @Column(name="scientific_name_id")
+    private String scientificNameId;
+    
+    @Column(name="accepted_name_usage_id")
+    private String acceptedNameUsageId;
+    
+    @Column(name="parent_name_usage_id")
+    private String parentNameUsageId;
+    
+    @Column(name="original_name_usage_id")
+    private String originalNameUsageId;
+    
+    @Column(name="name_according_to_id")
+    private String nameAccordingToId;
+    
+    @Column(name="name_published_in_id")
+    private String namePublishedInId;
+    
+    @Column(name="taxon_concept_id")
+    private String taxonConceptId;
+    
     @Column(name="scientificname")
     private String scientificname;
     
     @Column(name="acceptednameusage")
     private String acceptednameusage;
+    
+    @Column(name="parent_name_usage")
+    private String parentNameUsage;
+    
+    @Column(name="original_name_usage")
+    private String originalNameUsage;
+    
+    @Column(name="name_according_to")
+    private String nameAccordingTo;
+    
+    @Column(name="name_published_in")
+    private String namePublishedIn;
     
     @Column(name="higherclassification")
     private String higherclassification;
@@ -92,11 +128,23 @@ public class DarwinCore extends BaseModel {
     @Column(name="nomenclaturalcode")
     private String nomenclaturalcode;
     
+    @Column(name="taxonomic_status")
+    private String taxonomicStatus;
+    
+    @Column(name="nomenclatural_status")
+    private String nomenclaturalStatus;
+    
     @Column(name="taxonremarks")
     private String taxonremarks;
     
+    @Column(name="occurence_id")
+    private String occurrenceId;        
+    
     @Column(name="catalognumber")
     private String catalognumber;
+    
+    @Column(name="occurence_details")
+    private String occurrenceDetails;
     
     @Column(name="occurrenceremarks")
     private String occurrenceremarks;
@@ -106,6 +154,9 @@ public class DarwinCore extends BaseModel {
     
     @Column(name="recordedby")
     private String recordedby;
+    
+    @Column(name="individual_id")
+    private String individualId;
     
     @Column(name="individualcount")
     private String individualcount;
@@ -121,6 +172,12 @@ public class DarwinCore extends BaseModel {
     
     @Column(name="behavior")
     private String behavior;
+    
+    @Column(name="establishment_means")
+    private String establishmentMeans;
+    
+    @Column(name="occurence_status")
+    private String occurrenceStatus;
     
     @Column(name="preparations")
     private String preparations;
@@ -148,6 +205,9 @@ public class DarwinCore extends BaseModel {
     
     @Column(name="associatedtaxa")
     private String associatedtaxa;
+    
+    @Column(name="event_id")
+    private String eventId;
     
     @Column(name="samplingprotocol")
     private String samplingprotocol;
@@ -190,6 +250,12 @@ public class DarwinCore extends BaseModel {
     
     @Column(name="eventremarks")
     private String eventremarks;
+    
+    @Column(name="location_id")
+    private String locationId;
+    
+    @Column(name="higher_geography_id")
+    private String higherGeographyId;
     
     @Column(name="highergeography")
     private String highergeography;
@@ -314,6 +380,9 @@ public class DarwinCore extends BaseModel {
     @Column(name="georeferenceremarks")
     private String georeferenceremarks;
     
+    @Column(name="identification_id")
+    private String identificationId;
+    
     @Column(name="identifiedby")
     private String identifiedby;
     
@@ -333,7 +402,7 @@ public class DarwinCore extends BaseModel {
     private String typestatus;
     
     @Column(name="idutilisateurupload")
-    private Integer idUtilisateurUpload;
+    private Integer idUtilisateurUpload;                
 
     public String getInstitutioncode() {
         return institutioncode;
@@ -399,6 +468,70 @@ public class DarwinCore extends BaseModel {
         this.dynamicproperties = dynamicproperties;
     }
 
+    public String getTaxonId() {
+        return taxonId;
+    }
+
+    public void setTaxonId(String taxonId) {
+        this.taxonId = taxonId;
+    }
+
+    public String getScientificNameId() {
+        return scientificNameId;
+    }
+
+    public void setScientificNameId(String scientificNameId) {
+        this.scientificNameId = scientificNameId;
+    }
+
+    public String getAcceptedNameUsageId() {
+        return acceptedNameUsageId;
+    }
+
+    public void setAcceptedNameUsageId(String acceptedNameUsageId) {
+        this.acceptedNameUsageId = acceptedNameUsageId;
+    }
+
+    public String getParentNameUsageId() {
+        return parentNameUsageId;
+    }
+
+    public void setParentNameUsageId(String parentNameUsageId) {
+        this.parentNameUsageId = parentNameUsageId;
+    }
+
+    public String getOriginalNameUsageId() {
+        return originalNameUsageId;
+    }
+
+    public void setOriginalNameUsageId(String originalNameUsageId) {
+        this.originalNameUsageId = originalNameUsageId;
+    }
+
+    public String getNameAccordingToId() {
+        return nameAccordingToId;
+    }
+
+    public void setNameAccordingToId(String nameAccordingToId) {
+        this.nameAccordingToId = nameAccordingToId;
+    }
+
+    public String getNamePublishedInId() {
+        return namePublishedInId;
+    }
+
+    public void setNamePublishedInId(String namePublishedInId) {
+        this.namePublishedInId = namePublishedInId;
+    }
+
+    public String getTaxonConceptId() {
+        return taxonConceptId;
+    }
+
+    public void setTaxonConceptId(String taxonConceptId) {
+        this.taxonConceptId = taxonConceptId;
+    }
+
     public String getScientificname() {
         return scientificname;
     }
@@ -413,6 +546,38 @@ public class DarwinCore extends BaseModel {
 
     public void setAcceptednameusage(String acceptednameusage) {
         this.acceptednameusage = acceptednameusage;
+    }
+
+    public String getParentNameUsage() {
+        return parentNameUsage;
+    }
+
+    public void setParentNameUsage(String parentNameUsage) {
+        this.parentNameUsage = parentNameUsage;
+    }
+
+    public String getOriginalNameUsage() {
+        return originalNameUsage;
+    }
+
+    public void setOriginalNameUsage(String originalNameUsage) {
+        this.originalNameUsage = originalNameUsage;
+    }
+
+    public String getNameAccordingTo() {
+        return nameAccordingTo;
+    }
+
+    public void setNameAccordingTo(String nameAccordingTo) {
+        this.nameAccordingTo = nameAccordingTo;
+    }
+
+    public String getNamePublishedIn() {
+        return namePublishedIn;
+    }
+
+    public void setNamePublishedIn(String namePublishedIn) {
+        this.namePublishedIn = namePublishedIn;
     }
 
     public String getHigherclassification() {
@@ -535,6 +700,22 @@ public class DarwinCore extends BaseModel {
         this.nomenclaturalcode = nomenclaturalcode;
     }
 
+    public String getTaxonomicStatus() {
+        return taxonomicStatus;
+    }
+
+    public void setTaxonomicStatus(String taxonomicStatus) {
+        this.taxonomicStatus = taxonomicStatus;
+    }
+
+    public String getNomenclaturalStatus() {
+        return nomenclaturalStatus;
+    }
+
+    public void setNomenclaturalStatus(String nomenclaturalStatus) {
+        this.nomenclaturalStatus = nomenclaturalStatus;
+    }
+
     public String getTaxonremarks() {
         return taxonremarks;
     }
@@ -543,12 +724,28 @@ public class DarwinCore extends BaseModel {
         this.taxonremarks = taxonremarks;
     }
 
+    public String getOccurrenceId() {
+        return occurrenceId;
+    }
+
+    public void setOccurrenceId(String occurrenceId) {
+        this.occurrenceId = occurrenceId;
+    }
+
     public String getCatalognumber() {
         return catalognumber;
     }
 
     public void setCatalognumber(String catalognumber) {
         this.catalognumber = catalognumber;
+    }
+
+    public String getOccurrenceDetails() {
+        return occurrenceDetails;
+    }
+
+    public void setOccurrenceDetails(String occurrenceDetails) {
+        this.occurrenceDetails = occurrenceDetails;
     }
 
     public String getOccurrenceremarks() {
@@ -573,6 +770,14 @@ public class DarwinCore extends BaseModel {
 
     public void setRecordedby(String recordedby) {
         this.recordedby = recordedby;
+    }
+
+    public String getIndividualId() {
+        return individualId;
+    }
+
+    public void setIndividualId(String individualId) {
+        this.individualId = individualId;
     }
 
     public String getIndividualcount() {
@@ -613,6 +818,22 @@ public class DarwinCore extends BaseModel {
 
     public void setBehavior(String behavior) {
         this.behavior = behavior;
+    }
+
+    public String getEstablishmentMeans() {
+        return establishmentMeans;
+    }
+
+    public void setEstablishmentMeans(String establishmentMeans) {
+        this.establishmentMeans = establishmentMeans;
+    }
+
+    public String getOccurrenceStatus() {
+        return occurrenceStatus;
+    }
+
+    public void setOccurrenceStatus(String occurrenceStatus) {
+        this.occurrenceStatus = occurrenceStatus;
     }
 
     public String getPreparations() {
@@ -685,6 +906,14 @@ public class DarwinCore extends BaseModel {
 
     public void setAssociatedtaxa(String associatedtaxa) {
         this.associatedtaxa = associatedtaxa;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     public String getSamplingprotocol() {
@@ -797,6 +1026,22 @@ public class DarwinCore extends BaseModel {
 
     public void setEventremarks(String eventremarks) {
         this.eventremarks = eventremarks;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getHigherGeographyId() {
+        return higherGeographyId;
+    }
+
+    public void setHigherGeographyId(String higherGeographyId) {
+        this.higherGeographyId = higherGeographyId;
     }
 
     public String getHighergeography() {
@@ -1127,6 +1372,14 @@ public class DarwinCore extends BaseModel {
         this.georeferenceremarks = georeferenceremarks;
     }
 
+    public String getIdentificationId() {
+        return identificationId;
+    }
+
+    public void setIdentificationId(String identificationId) {
+        this.identificationId = identificationId;
+    }
+
     public String getIdentifiedby() {
         return identifiedby;
     }
@@ -1181,5 +1434,6 @@ public class DarwinCore extends BaseModel {
 
     public void setIdUtilisateurUpload(Integer idUtilisateurUpload) {
         this.idUtilisateurUpload = idUtilisateurUpload;
-    }            
+    }
+          
 }
