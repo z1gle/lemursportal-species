@@ -20,10 +20,10 @@ import javax.persistence.Temporal;
 public class CommentaireDarwinCore extends BaseModel implements Serializable {
 
     @Column(name="iddarwincore")
-    private int idDarwinCore;
+    private Integer idDarwinCore;
     
     @Column(name="idutilisateur")
-    private int idUtilisateur;
+    private Integer idUtilisateur;
     
     @Column(name="commentaire")
     private String commentaire;
@@ -32,19 +32,19 @@ public class CommentaireDarwinCore extends BaseModel implements Serializable {
     @Column(name="datecommentaire")
     private Date dateCommentaire;
 
-    public int getIdDarwinCore() {
+    public Integer getIdDarwinCore() {
         return idDarwinCore;
     }
 
-    public void setIdDarwinCore(int idDarwinCore) {
+    public void setIdDarwinCore(Integer idDarwinCore) {
         this.idDarwinCore = idDarwinCore;
     }
 
-    public int getIdUtilisateur() {
+    public Integer getIdUtilisateur() {
         return idUtilisateur;
     }
 
-    public void setIdUtilisateur(int idUtilisateur) {
+    public void setIdUtilisateur(Integer idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
 

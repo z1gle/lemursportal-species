@@ -370,6 +370,7 @@
                                         $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
                                         showModal(status);
                                     }
+                                    $('#commentaires').val("");
                                 }
                             });
                         }

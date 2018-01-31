@@ -49,7 +49,7 @@ public class DarwinCoreController {
 
     @RequestMapping(value = "/detailLemurien")
     public ModelAndView darwinportal(HttpSession session, @RequestParam("id") Integer id) {
-        ModelAndView valiny = new ModelAndView("observation-detail");
+        ModelAndView valiny = new ModelAndView("page-detail_observation");
         Utilisateur u = new Utilisateur();
         List<String> remarques = new ArrayList<>();
         Integer chercheur = -1;
@@ -156,7 +156,7 @@ public class DarwinCoreController {
         if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT) || (darwinCoreService.checkRole(utilisateur, ROLE_CHERCHEUR) && utilisateur.getId() == dwc.getIdUtilisateurUpload())) {
             CommentaireDarwinCore cdc = new CommentaireDarwinCore();
             cdc.setIdDarwinCore(dwc.getId());
-            return (List<CommentaireDarwinCore>) (List<?>) darwinCoreService.findMultiCritere(cdc);
+            return (List<CommentaireDarwinCore>) (List<?>) darwinCoreService.findMultiCritere(cdc, "dateCommentaire", 0);
         }
         return null;
     }

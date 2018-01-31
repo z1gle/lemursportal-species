@@ -32,6 +32,22 @@ app.controller("controller", function ($scope, $http) {
             console.log(response);
         });
     }
+//    $scope.save = function () {
+//        $http({
+//            method: 'POST',
+//            url: urlSet,
+//            data: angular.toJson($scope.object),
+//            headers: {
+//                'Accept': 'application/json',
+//                'Content-Type': 'application/json'
+//            }
+//        }).then(function success(response) {
+//            window.location = 'detailLemurien?id='+$('#idDwc').val();
+//        }, function error(response) {
+//            console.log(response.statusText);
+//        });
+//    };
+
     $scope.save = function () {
         $http({
             method: 'POST',
@@ -42,7 +58,8 @@ app.controller("controller", function ($scope, $http) {
                 'Content-Type': 'application/json'
             }
         }).then(function success(response) {
-            window.location = 'detailLemurien?id='+$('#idDwc').val();
+            load();
+            $('#textAreaComment').val("");
         }, function error(response) {
             console.log(response.statusText);
         });
