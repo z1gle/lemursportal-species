@@ -562,7 +562,101 @@ span.tags {
 	margin:15px 0;
 }
 
-.insert-modif label {
-	
+/* Page login */
+.login-page {
+  max-width:360px;
+  width:90%;
+  padding:3% 0 0;
+  margin:4% auto 0 auto;
+  background:url(../img/bg-transp.png) repeat;
 }
 
+.inscript-page {
+  max-width:360px;
+  width:90%;
+  padding:3% 0 0;
+  margin:1% auto 0 auto;
+  background:url(../img/bg-transp.png) repeat;
+}
+
+.form input.email {
+	background-image:url(../img/mail.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.form input.pwd {
+	background-image:url(../img/secure.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.form input.name {
+	background-image:url(../img/user.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.form input.daty {
+	background-image:url(../img/daty.png);
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:45px;
+}
+
+.connexion-rs {
+	color:#333;
+	margin-top:20px;
+}
+
+.form {
+  position:relative;
+  z-index:1;
+  max-width:360px;
+  margin:0 auto 80px;
+  padding:10%;
+  text-align:center;
+}
+
+.form .message {
+  margin:15px 0 0;
+  color:#333;
+  font-size:12px;
+}
+
+.form .message a {
+  color:#333;
+  text-decoration:underline;
+  font-size:11px;
+}
+
+.form .message a:hover {
+  text-decoration:none;
+}
+
+.no-border-btn button {
+  border:0;
+}
+
+.form input {
+  outline:0;
+  background-color:#fff!important;
+  width:100%;
+  margin:0 0 15px;
+  padding:5px 15px;
+  box-sizing:border-box;
+  font-size:14px;
+  border:1px solid #ccc;
+}
+
+.login-page button.submit {
+	background:#432121;
+	border:0;
+	text-transform:uppercase;
+	color:#fff;
+	font-size:12px;
+	padding:5px 15px;
+}

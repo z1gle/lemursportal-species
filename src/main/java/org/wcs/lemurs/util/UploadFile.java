@@ -32,52 +32,65 @@ public class UploadFile {
     public static List<DarwinCore> import_darwin_core_excel(InputStream is) throws SQLException, Exception {
 
         List<DarwinCore> list_dw = new ArrayList<>();
-            XSSFWorkbook wb = new XSSFWorkbook(is);
-            XSSFSheet sheet = wb.getSheetAt(0);
-            XSSFRow row = null;
-            XSSFCell cell = null;
-            Iterator rows = sheet.rowIterator();
-
-            String methodes = "setInstitutioncode,setCollectioncode,setDatasetname,setOwnerinstitutioncode,setBasisofrecord,setInformationwithheld,setDatageneralizations,setDynamicproperties,setScientificname,setAcceptednameusage,setHigherclassification,setKingdom"
-                    + ",setPhylum,setDarwinclass,setDarwinorder,setFamily,setGenus,setSubgenus,setSpecificepithet,setInfraspecificepithet,setTaxonrank,setVerbatimtaxonrank,setScientificnameauthorship,setVernacularname,setNomenclaturalcode,setTaxonremarks,setCatalognumber"
-                    + ",setOccurrenceremarks,setRecordnumber,setRecordedby,setIndividualcount,setSex,setLifestage,setReproductivecondition,setBehavior,setPreparations,setDisposition,setOthercatalognumbers,setPreviousidentifications,setAssociatedmedia,setAssociatedreferences"
-                    + ",setAssociatedoccurrences,setAssociatedsequences,setAssociatedtaxa,setSamplingprotocol,setSamplingeffort,setEventdate,setEventtime,setStartdayofyear,setEnddayofyear,setDwcyear,setDwcmonth,setDwcday,setVerbatimeventdate,setHabitat,setFieldnumber,setFieldnotes"
-                    + ",setEventremarks,setHighergeography,setContinent,setWaterbody,setIslandgroup,setIsland,setCountry,setCountrycode,setStateprovince,setCounty,setMunicipality,setLocality,setVerbatimlocality,setVerbatimelevation,setMinimumelevationinmeters,setMaximumelevationinmeters"
-                    + ",setVerbatimdepth,setMinimumdepthinmeters,setMaximumdepthinmeters,setMinimumdistanceabovesurfaceinmeters,setMaximumdistanceabovesurfaceinmeters,setLocationaccordingto,setLocationremarks,setVerbatimcoordinates,setVerbatimlatitude,setVerbatimlongitude"
-                    + ",setVerbatimcoordinatesystem,setVerbatimsrs,setDecimallatitude,setDecimallongitude,setGeodeticdatum,setCoordinateuncertaintyinmeters,setCoordinateprecision,setPointradiusspatialfit,setFootprintwkt,setFootprintsrs,setFootprintspatialfit,setGeoreferencedby"
-                    + ",setGeoreferenceprotocol,setGeoreferencesources,setGeoreferenceverificationstatus,setGeoreferenceremarks,setIdentifiedby,setDateidentified,setIdentificationreferences,setIdentificationremarks,setIdentificationqualifier,setTypestatus";
-            String[] allmethodes = methodes.split(",");
-
-            int count_cell = 0;
-            row = (XSSFRow) rows.next();
-            count_cell = row.getFirstCellNum() + row.getLastCellNum();
-
-            int index_method = 0;
-            int index_cell = 0;
-            DarwinCore dw = null;
-            while (rows.hasNext()) {
-
-                dw = new DarwinCore();
-                row = (XSSFRow) rows.next();
-                while (index_cell < count_cell) {
-
-                    cell = row.getCell(index_cell);
-                    if (cell != null) {
-
-                        dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, cell.toString());
-                    } else {
-
-                        dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, "-");
-                    }
-                    index_method++;
-                    index_cell++;
-                }
-                list_dw.add(dw);
-                index_method = 0;
-                index_cell = 0;
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+        XSSFRow row = null;
+        XSSFCell cell = null;
+        Iterator rows = sheet.rowIterator();
+        
+        String meth = "";
+        Field[] colonnes = DarwinCore.class.getDeclaredFields();
+        int iterator = 0;
+        for (Field f : colonnes) {
+            meth += DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class)+",";
+            iterator++;
+            if (iterator == colonnes.length - 1) {
+                break;
             }
+        }
+
+//        String methodes = "setInstitutioncode,setCollectioncode,setDatasetname,setOwnerinstitutioncode,setBasisofrecord,setInformationwithheld,setDatageneralizations,setDynamicproperties,setScientificname,setAcceptednameusage,setHigherclassification,setKingdom"
+//                + ",setPhylum,setDarwinclass,setDarwinorder,setFamily,setGenus,setSubgenus,setSpecificepithet,setInfraspecificepithet,setTaxonrank,setVerbatimtaxonrank,setScientificnameauthorship,setVernacularname,setNomenclaturalcode,setTaxonremarks,setCatalognumber"
+//                + ",setOccurrenceremarks,setRecordnumber,setRecordedby,setIndividualcount,setSex,setLifestage,setReproductivecondition,setBehavior,setPreparations,setDisposition,setOthercatalognumbers,setPreviousidentifications,setAssociatedmedia,setAssociatedreferences"
+//                + ",setAssociatedoccurrences,setAssociatedsequences,setAssociatedtaxa,setSamplingprotocol,setSamplingeffort,setEventdate,setEventtime,setStartdayofyear,setEnddayofyear,setDwcyear,setDwcmonth,setDwcday,setVerbatimeventdate,setHabitat,setFieldnumber,setFieldnotes"
+//                + ",setEventremarks,setHighergeography,setContinent,setWaterbody,setIslandgroup,setIsland,setCountry,setCountrycode,setStateprovince,setCounty,setMunicipality,setLocality,setVerbatimlocality,setVerbatimelevation,setMinimumelevationinmeters,setMaximumelevationinmeters"
+//                + ",setVerbatimdepth,setMinimumdepthinmeters,setMaximumdepthinmeters,setMinimumdistanceabovesurfaceinmeters,setMaximumdistanceabovesurfaceinmeters,setLocationaccordingto,setLocationremarks,setVerbatimcoordinates,setVerbatimlatitude,setVerbatimlongitude"
+//                + ",setVerbatimcoordinatesystem,setVerbatimsrs,setDecimallatitude,setDecimallongitude,setGeodeticdatum,setCoordinateuncertaintyinmeters,setCoordinateprecision,setPointradiusspatialfit,setFootprintwkt,setFootprintsrs,setFootprintspatialfit,setGeoreferencedby"
+//                + ",setGeoreferenceprotocol,setGeoreferencesources,setGeoreferenceverificationstatus,setGeoreferenceremarks,setIdentifiedby,setDateidentified,setIdentificationreferences,setIdentificationremarks,setIdentificationqualifier,setTypestatus";
+//        String[] allmethodes = methodes.split(",");
+        String[] allmethodes = meth.split(",");
+
+        int count_cell = 0;
+        row = (XSSFRow) rows.next();
+        count_cell = row.getFirstCellNum() + row.getLastCellNum();
+
+        int index_method = 0;
+        int index_cell = 0;
+        DarwinCore dw = null;
+        while (rows.hasNext()) {
+
+            dw = new DarwinCore();
+            row = (XSSFRow) rows.next();
+            while (index_cell < count_cell) {
+
+                cell = row.getCell(index_cell);
+                if (cell != null) {
+
+                    dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, cell.toString());
+                } else {
+
+                    dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, "-");
+                }
+                index_method++;
+                index_cell++;
+            }
+            list_dw.add(dw);
+            index_method = 0;
+            index_cell = 0;
+        }
         return list_dw;
     }
+
     public List<TaxonomiBase> import_taxonomi_base_excel(InputStream is) throws Exception {
 
         List<TaxonomiBase> list_taxonomi = new ArrayList<>();
@@ -165,9 +178,9 @@ public class UploadFile {
         output.write(191);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
         String header = "";
-        if(idU > 0) {
-                header += "id"+separator;
-            }
+        if (idU > 0) {
+            header += "id" + separator;
+        }
         Field[] colonnes = DarwinCore.class.getDeclaredFields();
         for (int f : listeColonnes) {
             String temp = colonnes[f].getName();
@@ -184,8 +197,8 @@ public class UploadFile {
         writer.newLine();
         for (DarwinCore row : taxonomies) {
             String field = "";
-            if(idU > 0) {
-                field += Integer.toString(row.getId())+";";
+            if (idU > 0) {
+                field += Integer.toString(row.getId()) + ";";
             }
             for (int f : listeColonnes) {
                 try {
@@ -195,7 +208,7 @@ public class UploadFile {
                     }
                     field += temp + String.valueOf(separator);
                 } catch (Exception e) {
-                    field += "-"+String.valueOf(separator);
+                    field += "-" + String.valueOf(separator);
                 }
             }
             field = field.substring(0, field.length() - 1);
@@ -222,7 +235,7 @@ public class UploadFile {
                 for (Field f : colonnes) {
                     dwcTemp.getClass().getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class).invoke(dwcTemp, cols[iterator]);
                     iterator++;
-                    if (iterator == colonnes.length-1) {
+                    if (iterator == colonnes.length - 1) {
                         break;
                     }
                 }
@@ -234,7 +247,7 @@ public class UploadFile {
                 for (Field f : colonnes) {
                     dwcTemp.getClass().getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class).invoke(dwcTemp, cols[iterator]);
                     iterator++;
-                    if (iterator == colonnes.length-1) {
+                    if (iterator == colonnes.length - 1) {
                         break;
                     }
                 }

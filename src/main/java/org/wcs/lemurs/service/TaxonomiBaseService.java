@@ -5,7 +5,14 @@
  */
 package org.wcs.lemurs.service;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,10 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.wcs.lemurs.dao.HibernateDao;
 import org.wcs.lemurs.model.BaseModel;
+import org.wcs.lemurs.model.PhotoTaxonomi;
 import org.wcs.lemurs.model.TaxonomiBase;
+import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.modele_association.AssignationExpert;
+import org.wcs.lemurs.util.PhotoService;
 
 /**
  *
@@ -29,6 +40,8 @@ public class TaxonomiBaseService extends BaseService {
     @Autowired(required = true)
     @Qualifier("hibernateDao")
     private HibernateDao hibernateDao;
+    @Autowired(required = true)
+    private PhotoService photoService;
 
     @Transactional
     public void save(TaxonomiBase taxonomiBase) throws Exception {
@@ -172,6 +185,72 @@ public class TaxonomiBaseService extends BaseService {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    public List<PhotoTaxonomi> enregistrerPhoto(MultipartFile photo, TaxonomiBase taxonomi, Utilisateur utilisateur, boolean profil, String cheminReal) throws IOException, Exception {
+        File fileTemp = File.createTempFile("temp", ".img");
+        Session session = null;
+        Transaction tr = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            tr = session.beginTransaction();
+            try (InputStream is = photo.getInputStream(); BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileTemp))) {
+                int i;
+                while ((i = is.read()) != -1) {
+                    stream.write(i);
+                }
+                stream.flush();
+            }
+            String cheminDepuisServeur = "resources\\assets\\img\\photos\\";
+            Date datePhoto = Calendar.getInstance().getTime();
+            String nomPhoto = "taxonomi_id_" + taxonomi.getId() + "_chercheur_id_" + utilisateur.getId() + "_date_" + datePhoto.getTime() + ".jpg";
+            deplacerPhoto(fileTemp, cheminReal + cheminDepuisServeur, nomPhoto);
+            PhotoTaxonomi photoTaxonomi = new PhotoTaxonomi();
+            photoTaxonomi.setIdTaxonomi(taxonomi.getId());                        
+            setProfilOfPhoto(session, photoTaxonomi, profil);
+            photoTaxonomi.setChemin("resources/assets/img/photos/" + nomPhoto);
+            photoTaxonomi.setDatePhoto(datePhoto);
+            photoTaxonomi.setIdUtilisateurUpload(utilisateur.getId());
+            photoTaxonomi.setProfil(profil);
+            save(session, photoTaxonomi);
+            photoTaxonomi = new PhotoTaxonomi();
+            photoTaxonomi.setIdTaxonomi(taxonomi.getId());
+            tr.commit();
+            return (List<PhotoTaxonomi>) (List<?>) this.findMultiCritere(session, photoTaxonomi);
+        } catch (IOException e) {
+            if (tr != null) {
+                tr.rollback();
+            }
+            System.out.println("error : " + e.getMessage());
+            return null;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public void setProfilOfPhoto(Session session, PhotoTaxonomi photoTaxonomiWithIdTaxonomi, boolean profil) throws Exception {
+        if (photoTaxonomiWithIdTaxonomi.getIdTaxonomi() != 0 || photoTaxonomiWithIdTaxonomi.getIdTaxonomi() != null) {
+            List<PhotoTaxonomi> listeToCheck = (List<PhotoTaxonomi>) (List<?>) this.findMultiCritere(session, photoTaxonomiWithIdTaxonomi);
+            int iterator = 0;
+            for (PhotoTaxonomi p : listeToCheck) {
+                if (profil) {
+                    if (p.getProfil()) {
+                        p.setProfil(Boolean.FALSE);
+                        save(session, p);
+                        photoTaxonomiWithIdTaxonomi.setProfil(profil);
+                        break;
+                    }
+                } else {
+                    iterator++;
+                }
+            }
+            if (iterator == listeToCheck.size()) {
+                photoTaxonomiWithIdTaxonomi.setProfil(Boolean.TRUE);
+            }
+            else photoTaxonomiWithIdTaxonomi.setProfil(profil);
         }
     }
 }

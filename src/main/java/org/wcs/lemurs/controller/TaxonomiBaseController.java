@@ -13,15 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import static org.wcs.lemurs.controller.BaseController.ROLE_ADMINISTRATEUR;
 import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import static org.wcs.lemurs.controller.BaseController.ROLE_MODERATEUR;
+import org.wcs.lemurs.model.PhotoTaxonomi;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.modele_vue.VueRechercheTaxonomi;
@@ -37,11 +40,11 @@ public class TaxonomiBaseController {
 
     @Autowired(required = true)
     @Qualifier("taxonomiBaseService")
-    private TaxonomiBaseService taxonomiBaseService;
+    private TaxonomiBaseService taxonomiBaseService;    
 
     @RequestMapping(value = "/findByespeceTaxo", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<VueRechercheTaxonomi> findByespece(@RequestBody VueRechercheTaxonomi t) throws Exception {
-        return (List<VueRechercheTaxonomi>)(List<?>)taxonomiBaseService.findMultiCritere(t);
+        return (List<VueRechercheTaxonomi>) (List<?>) taxonomiBaseService.findMultiCritere(t);
     }
 
 //    @RequestMapping(value = "/detailLemurien", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -99,13 +102,17 @@ public class TaxonomiBaseController {
 
     @RequestMapping(value = "/assigner", method = RequestMethod.POST, headers = "Accept=application/json")
     public ModelAndView validerAll(HttpSession session, @RequestParam(value = "valeur[]") String[] valeur, @RequestParam(value = "idExpert") int idExpert) throws Exception {
-        Utilisateur utilisateur = (Utilisateur)session.getAttribute("utilisateur");
-        if(!taxonomiBaseService.checkRole(utilisateur, ROLE_ADMINISTRATEUR)) return new ModelAndView("redirect:login");
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (!taxonomiBaseService.checkRole(utilisateur, ROLE_ADMINISTRATEUR)) {
+            return new ModelAndView("redirect:login");
+        }
         Utilisateur exp = new Utilisateur();
         exp.setId(idExpert);
         taxonomiBaseService.findById(exp);
-        if(taxonomiBaseService.checkRole(exp, ROLE_EXPERT))taxonomiBaseService.checkFamille(valeur, idExpert);
-        ModelAndView valiny = new ModelAndView("redirect:detailUtilisateur?idUtilisateur="+idExpert);
+        if (taxonomiBaseService.checkRole(exp, ROLE_EXPERT)) {
+            taxonomiBaseService.checkFamille(valeur, idExpert);
+        }
+        ModelAndView valiny = new ModelAndView("redirect:detailUtilisateur?idUtilisateur=" + idExpert);
         return valiny;
     }
 
@@ -115,21 +122,52 @@ public class TaxonomiBaseController {
         response.setHeader("Content-Type", "text/csv");
         response.setHeader("Content-Disposition", "attachment;filename=\"taxonomi.csv\"");
         UploadFile upf = new UploadFile();
-        upf.writeCsv(liste, ';', response.getOutputStream());                
+        upf.writeCsv(liste, ';', response.getOutputStream());
     }
-    
+
     @RequestMapping(value = "/getDetailTaxo")
-    public ModelAndView darwinportal(HttpSession session, @RequestParam("id") Integer id) {
+    public ModelAndView getDetailTaxo(HttpSession session, @RequestParam("id") Integer id) {
         ModelAndView valiny = new ModelAndView("page-detail");
-        
+        Integer moderateur = -1;
+        try {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            if (taxonomiBaseService.checkRole(utilisateur, ROLE_MODERATEUR)) {
+                moderateur = 0;
+            }
+        } catch (Exception e) {
+        }
         TaxonomiBase taxo = new TaxonomiBase();
         taxo.setId(id);
         try {
-            taxonomiBaseService.findById(taxo);            
+            taxonomiBaseService.findById(taxo);
         } catch (Exception ex) {
             Logger.getLogger(DarwinCoreController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        valiny.addObject("taxo", taxo);        
+        valiny.addObject("taxo", taxo);
+        valiny.addObject("moderateur", moderateur);
         return valiny;
+    }
+    
+    @RequestMapping(value = "/getListPhotoTaxonomi", method = RequestMethod.GET, headers = "Accept=application/json")
+    public List<PhotoTaxonomi> getListPhotoTaxonomi(@RequestParam(value = "idTaxonomi") Integer idTaxonomi) throws Exception {
+       PhotoTaxonomi photo = new PhotoTaxonomi();
+       photo.setIdTaxonomi(idTaxonomi);
+       return (List<PhotoTaxonomi>)(List<?>)taxonomiBaseService.findMultiCritere(photo);
+    }
+
+    @RequestMapping(value = "/uploadImageTaxonomi")
+    public List<PhotoTaxonomi> uploadImageTaxonomi(ModelMap model, HttpSession session, @RequestParam("profil") Integer profil, @RequestParam("photo") MultipartFile photo, @RequestParam("idTaxonomi") Integer idTaxonomi) {        
+        try {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            if (taxonomiBaseService.checkRole(utilisateur, ROLE_MODERATEUR)) {
+                TaxonomiBase taxonomi = new TaxonomiBase();
+                taxonomi.setId(idTaxonomi);                
+                String realPath = session.getServletContext().getRealPath("/");
+//                System.out.println(realPath);
+                return taxonomiBaseService.enregistrerPhoto(photo, taxonomi, utilisateur, profil == 1, realPath);
+            }            
+        } catch (Exception e) {            
+        }        
+        return null;
     }
 }

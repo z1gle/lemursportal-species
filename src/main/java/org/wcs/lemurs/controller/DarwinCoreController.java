@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +30,7 @@ import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import org.wcs.lemurs.exception.StatusAlreadyExistException;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.model.PhotoDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
@@ -50,7 +52,7 @@ public class DarwinCoreController {
     @RequestMapping(value = "/detailLemurien")
     public ModelAndView darwinportal(HttpSession session, @RequestParam("id") Integer id) {
         ModelAndView valiny = new ModelAndView("page-detail_observation");
-        Utilisateur u = new Utilisateur();
+        Utilisateur u;
         List<String> remarques = new ArrayList<>();
         Integer chercheur = -1;
         Integer expert = -1;
@@ -72,7 +74,10 @@ public class DarwinCoreController {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            u = new Utilisateur();
+//            u.setId(-1);
         }
         DarwinCore dwc = new DarwinCore();
         dwc.setId(id);
@@ -106,7 +111,8 @@ public class DarwinCoreController {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(DarwinCoreController.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DarwinCoreController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         valiny.addObject("dwc", dwc);
         valiny.addObject("remarques", remarques);
@@ -363,6 +369,30 @@ public class DarwinCoreController {
             valiny.add(temp);
         }
         return valiny;
+    }
+    
+    @RequestMapping(value = "/getListPhotoDarwinCore", method = RequestMethod.GET, headers = "Accept=application/json")
+    public List<PhotoDarwinCore> getListPhotoTaxonomi(@RequestParam(value = "idDarwinCore") Integer idDarwinCore) throws Exception {
+       PhotoDarwinCore photo = new PhotoDarwinCore();
+       photo.setIdDarwinCore(idDarwinCore);
+       return (List<PhotoDarwinCore>)(List<?>)darwinCoreService.findMultiCritere(photo);
+    }
+
+    @RequestMapping(value = "/uploadImageDarwinCore")
+    public List<PhotoDarwinCore> uploadImageDarwinCore(ModelMap model, HttpSession session, @RequestParam("profil") Integer profil, @RequestParam("photo") MultipartFile photo, @RequestParam("idDarwinCore") Integer idDarwinCore) {        
+        try {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            if (darwinCoreService.checkRole(utilisateur, ROLE_CHERCHEUR)) {
+                DarwinCore darwinCore = new DarwinCore();
+                darwinCore.setId(idDarwinCore);      
+                darwinCoreService.findById(darwinCore);
+                if(darwinCore.getIdUtilisateurUpload().intValue() != utilisateur.getId()) return null;
+                String realPath = session.getServletContext().getRealPath("/");
+                return darwinCoreService.enregistrerPhoto(photo, darwinCore, utilisateur, profil == 1, realPath);
+            }            
+        } catch (Exception e) {            
+        }        
+        return null;
     }
 
 //    @RequestMapping(value = "/processExcel", method = RequestMethod.POST)

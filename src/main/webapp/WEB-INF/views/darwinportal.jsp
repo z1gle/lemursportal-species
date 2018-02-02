@@ -65,7 +65,7 @@
                         <!-- Vignette -->
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-repeat="dwc in liste">
                             <div class="vignette">
-                                <img src="<c:url value="/resources/assets/img/fexpert.jpg"/>" alt="{{dwc.dwc.scientificName}}" >
+                                <img ng-src="{{dwc.photo}}" alt="{{dwc.dwc.scientificName}}" >
                                 <div class="offer">
                                     <span><i class="fa fa-comment"></i>120</span>
                                     <span class="pull-right valid"><i class="fa fa-check"></i></span>

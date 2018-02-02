@@ -60,16 +60,13 @@
                     %>
                     <div id="myCarousel" class="carousel slide">
                         <!-- Indicators -->
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <img src="resources/assets/img/bg-lemurs.jpg" class="img-responsive">
+                        <div class="carousel-inner">                                                        
+                            <div ng-repeat="photo in photos" ng-if="photo.profil == true" class="item active">
+                                <img ng-src="{{photo.chemin}}" class="img-responsive">
                             </div>
-                            <div class="item">
-                                <img src="resources/assets/img/lem.jpg" class="img-responsive">
-                            </div>
-                            <div class="item">
-                                <img src="resources/assets/img/sclaters-lemur.jpg" class="img-responsive">
-                            </div>
+                            <div ng-repeat="photo in photos" ng-if="photo.profil == false" class="item">
+                                <img ng-src="{{photo.chemin}}" class="img-responsive">
+                            </div>                            
                         </div>
                         <!-- Controls -->
                         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -297,6 +294,20 @@
                 <%}%>                
             </div>
         </div>
+        <%
+            if (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId()) {
+        %>   
+        <div class="clearfix"></div>
+        <div class="col-md-12">
+            <div class="tabbable-panel">
+                <form id="uploadPhoto" method="POST" enctype="multipart/form-data">
+                    <input id="photo" style="float: left;" type="file">
+                    <div style="float: left; margin-left: 35px; margin-right: 35px;"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">profil</div>
+                    <button ng-click="uploadPhoto()">Enregistrer</button>
+                </form>
+                <%}%>
+            </div>
+        </div>
         <!-- End Contenu -->
 
     </section>
@@ -407,7 +418,7 @@
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/liste.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"></script>
 <script>
                                         function showModal(status) {
                                             if (status == 0)

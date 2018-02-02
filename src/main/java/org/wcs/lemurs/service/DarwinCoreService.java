@@ -5,9 +5,15 @@
  */
 package org.wcs.lemurs.service;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import org.hibernate.Query;
@@ -17,11 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.wcs.lemurs.dao.DarwinCoreDao;
 import org.wcs.lemurs.exception.StatusAlreadyExistException;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.model.PhotoDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.modele_association.AssignationExpert;
@@ -332,6 +340,7 @@ public class DarwinCoreService extends BaseService {
     public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueValidationDarwinCore darwinCore) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(darwinCore);
+        List<PhotoDarwinCore> photos = new ArrayList<>();
         try {
             List<VueValidationDarwinCore> toCheck = getListObservationAndEtatFor(utilisateur);
 //            val.removeAll(toCheck);
@@ -350,14 +359,43 @@ public class DarwinCoreService extends BaseService {
                 temp.put("validation", 1);
                 valiny.add(temp);
             }
+            PhotoDarwinCore photoDarwinCoreTemp = new PhotoDarwinCore();
+            photoDarwinCoreTemp.setProfil(Boolean.TRUE);
+            photos = (List<PhotoDarwinCore>) (List<?>) this.findMultiCritere(photoDarwinCoreTemp);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
         for (VueValidationDarwinCore dwc : val) {
             HashMap<String, Object> temp = new HashMap<>();
             temp.put("dwc", dwc);
             temp.put("validation", 0);
+//            int iterator = 0;
+//            for (PhotoDarwinCore pdc : photos) {
+//                if (dwc.getId().intValue() == pdc.getIdDarwinCore().intValue()) {
+//                    temp.put("photo", pdc.getChemin());
+//                    break;
+//                } else {
+//                    iterator++;
+//                }
+//            }
+//            if (iterator == photos.size()) {
+//                temp.put("photo", photos.get(0).getChemin().substring(0, photos.get(0).getChemin().lastIndexOf("/")) + "default.jpg");
+//            }
             valiny.add(temp);
+        }
+        for (HashMap<String, Object> v : valiny) {
+            int iterator = 0;
+            for (PhotoDarwinCore pdc : photos) {
+                if (((VueValidationDarwinCore)v.get("dwc")).getId().intValue() == pdc.getIdDarwinCore().intValue()) {
+                    v.put("photo", pdc.getChemin());
+                    break;
+                } else {
+                    iterator++;
+                }
+            }
+            if (iterator == photos.size()) {
+                v.put("photo", photos.get(0).getChemin().substring(0, photos.get(0).getChemin().lastIndexOf("/")) + "/default.jpg");
+            }
         }
         return valiny;
     }
@@ -700,6 +738,77 @@ public class DarwinCoreService extends BaseService {
             cdc.setIdDarwinCore(observation[i]);
             cdc.setIdUtilisateur(expert.getId());
             save(cdc);
+        }
+    }
+
+    public List<PhotoDarwinCore> enregistrerPhoto(MultipartFile photo, DarwinCore darwinCore, Utilisateur utilisateur, boolean profil, String cheminReal) throws IOException, Exception {
+        File fileTemp = File.createTempFile("temp", ".img");
+        Session session = null;
+        Transaction tr = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            tr = session.beginTransaction();
+            try (InputStream is = photo.getInputStream(); BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileTemp))) {
+                int i;
+                while ((i = is.read()) != -1) {
+                    stream.write(i);
+                }
+                stream.flush();
+            }
+            String cheminDepuisServeur = "resources\\assets\\img\\photos\\";
+            Date datePhoto = Calendar.getInstance().getTime();
+            String nomPhoto = "darwin_core_id_" + darwinCore.getId() + "_chercheur_id_" + utilisateur.getId() + "_date_" + datePhoto.getTime() + ".jpg";
+            deplacerPhoto(fileTemp, cheminReal + cheminDepuisServeur, nomPhoto);
+
+            PhotoDarwinCore photoDarwinCore = new PhotoDarwinCore();
+            photoDarwinCore.setIdDarwinCore(darwinCore.getId());
+
+            setProfilOfPhoto(session, photoDarwinCore, profil);
+
+            photoDarwinCore.setChemin("resources/assets/img/photos/" + nomPhoto);
+            photoDarwinCore.setDatePhoto(datePhoto);
+            photoDarwinCore.setIdUtilisateurUpload(utilisateur.getId());
+            photoDarwinCore.setProfil(profil);
+            save(session, photoDarwinCore);
+
+            photoDarwinCore = new PhotoDarwinCore();
+            photoDarwinCore.setIdDarwinCore(photoDarwinCore.getId());
+            tr.commit();
+            return (List<PhotoDarwinCore>) (List<?>) this.findMultiCritere(session, photoDarwinCore);
+        } catch (IOException e) {
+            if (tr != null) {
+                tr.rollback();
+            }
+            System.out.println("error : " + e.getMessage());
+            return null;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public void setProfilOfPhoto(Session session, PhotoDarwinCore photoDarwinCoreWithIdDarwinCore, boolean profil) throws Exception {
+        if (photoDarwinCoreWithIdDarwinCore.getIdDarwinCore() != 0 || photoDarwinCoreWithIdDarwinCore.getIdDarwinCore() != null) {
+            List<PhotoDarwinCore> listeToCheck = (List<PhotoDarwinCore>) (List<?>) this.findMultiCritere(session, photoDarwinCoreWithIdDarwinCore);
+            int iterator = 0;
+            for (PhotoDarwinCore p : listeToCheck) {
+                if (profil) {
+                    if (p.getProfil()) {
+                        p.setProfil(Boolean.FALSE);
+                        save(session, p);
+                        photoDarwinCoreWithIdDarwinCore.setProfil(profil);
+                        break;
+                    }
+                } else {
+                    iterator++;
+                }
+            }
+            if (iterator == listeToCheck.size()) {
+                photoDarwinCoreWithIdDarwinCore.setProfil(Boolean.TRUE);
+            } else {
+                photoDarwinCoreWithIdDarwinCore.setProfil(profil);
+            }
         }
     }
 
