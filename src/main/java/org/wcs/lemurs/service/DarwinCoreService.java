@@ -386,7 +386,7 @@ public class DarwinCoreService extends BaseService {
         for (HashMap<String, Object> v : valiny) {
             int iterator = 0;
             for (PhotoDarwinCore pdc : photos) {
-                if (((VueValidationDarwinCore)v.get("dwc")).getId().intValue() == pdc.getIdDarwinCore().intValue()) {
+                if (((VueValidationDarwinCore) v.get("dwc")).getId().intValue() == pdc.getIdDarwinCore().intValue()) {
                     v.put("photo", pdc.getChemin());
                     break;
                 } else {
@@ -768,12 +768,11 @@ public class DarwinCoreService extends BaseService {
             photoDarwinCore.setChemin("resources/assets/img/photos/" + nomPhoto);
             photoDarwinCore.setDatePhoto(datePhoto);
             photoDarwinCore.setIdUtilisateurUpload(utilisateur.getId());
-            photoDarwinCore.setProfil(profil);
+//            photoDarwinCore.setProfil(profil);
             save(session, photoDarwinCore);
-
-            photoDarwinCore = new PhotoDarwinCore();
-            photoDarwinCore.setIdDarwinCore(photoDarwinCore.getId());
             tr.commit();
+            photoDarwinCore = new PhotoDarwinCore();
+            photoDarwinCore.setIdDarwinCore(darwinCore.getId());
             return (List<PhotoDarwinCore>) (List<?>) this.findMultiCritere(session, photoDarwinCore);
         } catch (IOException e) {
             if (tr != null) {
@@ -801,6 +800,9 @@ public class DarwinCoreService extends BaseService {
                         break;
                     }
                 } else {
+                    if (p.getProfil()) {
+                        break;
+                    }
                     iterator++;
                 }
             }

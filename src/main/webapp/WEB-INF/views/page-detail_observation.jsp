@@ -4,6 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+</style>
 <main class="site-content" role="main" ng-controller="controller">
     <%
         DarwinCore dwc = (DarwinCore) request.getAttribute("dwc");
@@ -41,7 +47,7 @@
         <!-- Contenu -->
         <div class="detail-obs">
             <div class="container">
-                <h1 class="titre-page">Details - <span><%out.print(dwc.getAcceptednameusage());%></span></h1>
+                <h1 class="titre-page">Détails - <span><%out.print(dwc.getAcceptednameusage());%></span></h1>
                 <div class="col-md-3">
                     <%
                         List<String> remarques = null;
@@ -80,8 +86,8 @@
                     <!-- /.carousel -->
 
 
-                    <div class="map-detail-obs">
-                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>
+                    <div class="map-detail-obs" id="map">
+                        <!--                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>-->
                     </div>
                     <p align="center">
                         <button type="button" class="btn btn-primary"><span class="fa fa-download"></span> Télécharger la fiche</button>
@@ -418,7 +424,7 @@
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"  charset="utf-8"></script>
 <script>
                                         function showModal(status) {
                                             if (status == 0)
@@ -491,5 +497,20 @@
                                             });
                                         }
                                         ;
+</script>
+<script>
+    function initMap() {
+        var centre = {lat:  <%out.print(dwc.getDecimallatitude());%>, lng: <%out.print(dwc.getDecimallongitude());%>};
+        var mark = {lat:  <%out.print(dwc.getDecimallatitude());%>, lng: <%out.print(dwc.getDecimallongitude());%>};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: centre
+        });
+        var marker = new google.maps.Marker({
+            position: mark,
+            map: map
+        });
+    }
+    google.maps.event.addDomListener(window, "load", initMap);
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

@@ -6,13 +6,20 @@
 package org.wcs.lemurs.service;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -207,12 +214,12 @@ public class TaxonomiBaseService extends BaseService {
             String nomPhoto = "taxonomi_id_" + taxonomi.getId() + "_chercheur_id_" + utilisateur.getId() + "_date_" + datePhoto.getTime() + ".jpg";
             deplacerPhoto(fileTemp, cheminReal + cheminDepuisServeur, nomPhoto);
             PhotoTaxonomi photoTaxonomi = new PhotoTaxonomi();
-            photoTaxonomi.setIdTaxonomi(taxonomi.getId());                        
+            photoTaxonomi.setIdTaxonomi(taxonomi.getId());
             setProfilOfPhoto(session, photoTaxonomi, profil);
             photoTaxonomi.setChemin("resources/assets/img/photos/" + nomPhoto);
             photoTaxonomi.setDatePhoto(datePhoto);
             photoTaxonomi.setIdUtilisateurUpload(utilisateur.getId());
-            photoTaxonomi.setProfil(profil);
+//            photoTaxonomi.setProfil(profil);
             save(session, photoTaxonomi);
             photoTaxonomi = new PhotoTaxonomi();
             photoTaxonomi.setIdTaxonomi(taxonomi.getId());
@@ -244,13 +251,58 @@ public class TaxonomiBaseService extends BaseService {
                         break;
                     }
                 } else {
+                    if (p.getProfil()) {
+                        break;
+                    }
                     iterator++;
                 }
             }
             if (iterator == listeToCheck.size()) {
                 photoTaxonomiWithIdTaxonomi.setProfil(Boolean.TRUE);
+            } else {
+                photoTaxonomiWithIdTaxonomi.setProfil(profil);
             }
-            else photoTaxonomiWithIdTaxonomi.setProfil(profil);
         }
+    }
+
+    public void uploadTaxonomi(String url) throws Exception {
+        URL taxonomiCsv = new URL(url);
+        BufferedReader in = new BufferedReader(new InputStreamReader(taxonomiCsv.openStream()));
+        String header = in.readLine();
+        String[] colonnesHeader = header.split(";");
+        Field[] attriburs = TaxonomiBase.class.getDeclaredFields();
+        List<HashMap<String,Object>> fonctions = new ArrayList<>();
+        for(Field f : attriburs) {
+            for(int i = 0; i < colonnesHeader.length; i++) {
+                String csv = colonnesHeader[i].toLowerCase();
+                String base = f.getName().toLowerCase();
+                base = base.replaceAll("dwc", "");
+                if(base.compareTo(csv)==0) {
+                    HashMap<String, Object> fonction = new HashMap<>();
+                    fonction.put("id", i);
+                    fonction.put("fonction", TaxonomiBase.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
+                    fonctions.add(fonction);
+                    break;
+                }
+            }
+        }
+        List<TaxonomiBase> listeToSave = new ArrayList<>();
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+            String[] taxonomiLine = inputLine.split(";");
+            TaxonomiBase taxonomiTemp = new TaxonomiBase();
+            for(HashMap<String, Object> fonction : fonctions) {                
+                Method m = (Method)fonction.get("fonction");
+                try {
+                    m.invoke(taxonomiTemp, taxonomiLine[(Integer)fonction.get("id")]);
+                } catch(ArrayIndexOutOfBoundsException aioobe) {                    
+                }
+            }
+            listeToSave.add(taxonomiTemp);
+        }
+        for(TaxonomiBase t : listeToSave) {
+            save(t);
+        }
+        in.close();
     }
 }

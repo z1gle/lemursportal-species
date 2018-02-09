@@ -1,4 +1,4 @@
-/* 
+/* ï»¿
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -48,7 +48,7 @@ app.controller("object", function ($scope, $http) {
     $scope.checkRole_Administrateur = function (id) {
         var formData = {
             'utilisateur': id,
-            'role': 'Expert vérificateur'
+            'role': 'Expert vÃ©rificateur'
         };
         $http({
             method: 'POST',
@@ -132,10 +132,10 @@ app.controller("object", function ($scope, $http) {
             }
         }).then(function success(response) {
             console.log(response);            
-            alert("assignations effectués");
+            alert("assignations effectuÃ©s");
         }, function error(response) {
             console.log(response.statusText);            
-            alert("un problème a été rencontré lors de l'assignation des roles");
+            alert("un problÃ¨me a Ã©tÃ© rencontrÃ© lors de l'assignation des roles");
         });        
     }
     ;

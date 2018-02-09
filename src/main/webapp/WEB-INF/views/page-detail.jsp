@@ -62,8 +62,8 @@
                     <!-- /.carousel -->
 
 
-                    <div class="map-detail-obs">
-                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>
+                    <div class="map-detail-obs" id="map">
+                        <!--                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>-->
                     </div>
                     <p align="center">
                         <button type="button" class="btn btn-primary"><span class="fa fa-download"></span> Télécharger la fiche</button>
@@ -432,5 +432,20 @@
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/taxonomicontroller.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/taxonomicontroller.js"/>"  charset="utf-8"></script>
+<script>
+    function initMap() {
+        var centre = {lat:  -18.9136800, lng: 47.5361300};
+        var mark = {lat:  -18.9136800, lng: 47.5361300};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: centre
+        });
+        var marker = new google.maps.Marker({
+            position: mark,
+            map: map
+        });
+    }
+    google.maps.event.addDomListener(window, "load", initMap);
+</script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

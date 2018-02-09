@@ -36,13 +36,13 @@ public class TaxonomiBase extends BaseModel {
     private String genus;
 
     @Column(name = "genussource")
-    private String genussource;
+    private String genussource;//
 
     @Column(name = "specificepithet")
     private String specificepithet;
 
     @Column(name = "specificepithetsource")
-    private String specificepithetsource;
+    private String specificepithetsource;//
 
     @Column(name = "infraspecificepithet")
     private String infraspecificepithet;

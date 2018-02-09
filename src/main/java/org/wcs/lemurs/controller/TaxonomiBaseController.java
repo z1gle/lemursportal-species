@@ -170,4 +170,16 @@ public class TaxonomiBaseController {
         }        
         return null;
     }
+    
+    @RequestMapping(value = "/uploadByLink")
+    public void uploadByLink(HttpSession session, @RequestParam("url") String url) {        
+        try {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            if (taxonomiBaseService.checkRole(utilisateur, ROLE_MODERATEUR)) {
+                taxonomiBaseService.uploadTaxonomi(url);
+            }            
+        } catch (Exception e) {         
+            e.printStackTrace();
+        }        
+    }
 }
