@@ -243,185 +243,71 @@
     <!--Modal edit or new-->
     <div id="editOrnew" class="modal fade" role="dialog">
         <div class="modal-backdrop">
-            <div class="modal-content">
-                <h1 class="h">INSERTION/MODIFICATION TAXONOMI</h1>
+            <div class="modal-content"><h1 class="titre-page">Taxonomie - <span>Edition</span></h1>
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <form>
-                        <table class="table-condensed">
-                            <tr>
-                                <td>
-                                    <label>Higher classification : </label>
-                                    <input type="text" ng-model="form.higherclassification">
-                                </td>
-                                <td>
-                                    <label>Kingdom : </label>
-                                    <input type="text" ng-model="form.kingdom">
-                                </td>
-                                <td>
-                                    <label>Phylum : </label>
-                                    <input type="text" ng-model="form.phylum">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Darwin core class : </label>
-                                    <input type="text" ng-model="form.dwcclass">
-                                </td>
-                                <td>
-                                    <label>Darwin core order : </label>
-                                    <input type="text" ng-model="form.dwcorder">
-                                </td>
-                                <td>
-                                    <label>Darwin core family : </label>
-                                    <input type="text" ng-model="form.dwcfamily">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Genus : </label>
-                                    <input type="text" ng-model ="form.genus">
-                                </td>
-                                <td>
-                                    <label>Genus source  : </label>
-                                    <input type="text" ng-model ="form.genussource">
-                                </td>
-                                <td>
-                                    <label>Specific epithet  : </label>
-                                    <input type="text" ng-model ="form.specificepithet">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Specific epithet source  : </label>
-                                    <input type="text" ng-model ="form.specificepithetsource">
-                                </td>
+                        <div class="col-md-10 col-md-offset-1 insert-modif input-group">
+                            <div class="col-md-4">
+                                <p><label>Higher Classification :</label><input class="form-control" type="text" ng-model="form.higherclassification"></p>
+                                <p><label>Kingdom :</label><input class="form-control" type="text" ng-model="form.kingdom"></p>
+                                <p><label>Phylum :</label><input class="form-control" type="text" ng-model="form.phylum"></p>
+                                <p><label>Class :</label><input class="form-control" type="text" ng-model="form.dwcclass"></p>
+                                <p><label>Order :</label><input class="form-control" type="text" ng-model="form.dwcorder"></p>
+                                <p><label>Family :</label><input class="form-control" type="text" ng-model="form.dwcfamily"></p>
+                                <p><label>Genus :</label><input class="form-control" type="text" ng-model ="form.genus"></p>
+                                <p><label>Genus Source :</label><input class="form-control" type="text" ng-model ="form.genussource"></p>                                
+                                <p><label>Scientific Name :</label><input class="form-control" type="text" ng-model ="form.scientificname"></p>
+                                <p><label>Scientific Name Authorship :</label><input class="form-control" type="text" ng-model ="form.scientificnameauthorship"></p>
+                                <p><label>Accepted Name Usage :</label><input class="form-control" type="text" ng-model ="form.acceptednameusage"></p>
+                                <p><label>Specific Epithet :</label><input class="form-control" type="text" ng-model ="form.specificepithet"></p>
+                                <p><label>Specific epithet source :</label><input class="form-control" type="text" ng-model ="form.specificepithetsource"></p>
+                                <p><label>Infraspecific epithet :</label><input class="form-control" type="text" ng-model ="form.infraspecificepithet"></p>
+                                <p><label>Infraspecific Epithet Source :</label><input class="form-control" type="text" ng-model ="form.infraspecificepithetsource"></p>
+                                <p><label>Basis Of Record :</label><input class="form-control" type="text" ng-model ="form.basisofrecord"></p>
+                            </div>
 
-                                <td>
-                                    <label>Infraspecific epithet : </label>
-                                    <input type="text" ng-model ="form.infraspecificepithet">
-                                </td>
-                                <td>
-                                    <label>Infraspecificepithetsource : </label> 
-                                    <input type="text" ng-model ="form.infraspecificepithetsource">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Scientific ng-model : </label> 
-                                    <input type="text" ng-model ="form.scientificname">
-                                </td>
-
-                                <td>
-                                    <label>Scientific ng-model author ship : </label> 
-                                    <input type="text" ng-model ="form.scientificnameauthorship">
-                                </td>
-                                <td>
-                                    <label>Accepted ng-model usage : </label> 
-                                    <input type="text" ng-model ="form.acceptednameusage">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Basis of record : </label> 
-                                    <input type="text" ng-model ="form.basisofrecord">
-                                </td>
-                                <td>
-                                    <label>French vernacular ng-model : </label>
-                                    <input type="text" ng-model ="form.frenchvernacularname">
-                                </td>
-                                <td>
-                                    <label>Malagasy vernacular ng-model : </label>
-                                    <input type="text" ng-model ="form.malagasyvernacularname">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>English vernacular ng-model : </label>
-                                    <input type="text" ng-model ="form.englishvernacularname">
-                                </td>
-                                <td>
-                                    <label>Habitat_fr : </label>
-                                    <input type="text" ng-model ="form.habitatFr">
-                                </td>
-                                <td>
-                                    <label>Habitat_en : </label>
-                                    <input type="text" ng-model ="form.habitatEn">
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    <label>Habitat source : </label>
-                                    <input type="text" ng-model ="form.habitatsource">
-                                </td>
-                                <td>
-                                    <label>Ecology_fr : </label>
-                                    <input type="text" ng-model ="form.ecologyFr">
-                                </td>
-                                <td>
-                                    <label>Ecology_en : </label>
-                                    <input type="text" ng-model ="form.ecologyEn">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Ecology source : </label>
-                                    <input type="text" ng-model ="form.ecologysource">
-                                </td>
-                                <td>
-                                    <label>Behavior_fr : </label>
-                                    <input type="text" ng-model ="form.behaviorFr">
-                                </td>
-                                <td>
-                                    <label>Behavior_en : </label>
-                                    <input type="text" ng-model ="form.behaviorEn">
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    <label>Behavior source : </label>
-                                    <input type="text" ng-model ="form.behaviorsource">
-                                </td>
-                                <td>
-                                    <label>Threat_fr : </label>
-                                    <input type="text" ng-model ="form.threatFr">
-                                </td>
-                                <td>
-                                    <label>Threat_en : </label>
-                                    <input type="text" ng-model ="form.threatEn">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Threat source : </label>
-                                    <input type="text" ng-model ="form.threatsource">
-                                </td>
-                                <td>
-                                    <label>Morphology_fr : </label>
-                                    <input type="text" ng-model ="form.morphologyFr">
-                                </td>
-                                <td>
-                                    <label>Morphology_en : </label>
-                                    <input type="text" ng-model ="form.morphologyEn">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Protected area occurrences : </label>
-                                    <input type="text" ng-model ="form.protectedareaoccurrences">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-
-                                </td>
-                                <td style="text-align: right">
-                                    <input class="btn btn-primary" ng-click="annuler()" value="Annuler">
-                                    <%if (moderateur == 0) {%>
-                                    <input type="submit" class="btn btn-success" ng-click="save()" value="Enregistrer">
-                                    <%}%>
-                                </td>
-                            </tr>
-                        </table>
+                            <div class="col-md-4">                                
+                                <p><label>French Vernacular Name :</label><input class="form-control" type="text" ng-model ="form.frenchvernacularname"></p>
+                                <p><label>Malagasy Vernacular Name :</label><input class="form-control" type="text" ng-model ="form.malagasyvernacularname"></p>
+                                <p><label>English Vernacular Name :</label><input class="form-control" type="text" ng-model ="form.englishvernacularname"></p>
+                                <p><label>Germany Vernacular Name :</label><input class="form-control" type="text" ng-model ="form.germanyVernacularName"></p>
+                                <p><label>Length and weight :</label><input class="form-control" type="text" ng-model ="form.lengthAndWeight"></p>
+                                <p><label>Length and weight source :</label><input class="form-control" type="text" ng-model ="form.lengthAndWeightSource"></p>
+                                <p><label>Color (EN) :</label><input class="form-control" type="text" ng-model ="form.colorEn"></p>
+                                <p><label>Color (FR) :</label><input class="form-control" type="text" ng-model ="form.colorFr"></p>
+                                <p><label>Color source :</label><input class="form-control" type="text" ng-model ="form.colorSource"></p>
+                                <p><label>Habitat (EN) :</label><input class="form-control" type="text" ng-model ="form.habitatEn"></p>
+                                <p><label>Habitat (FR) :</label><input class="form-control" type="text" ng-model ="form.habitatFr"></p>
+                                <p><label>Habitat Source :</label><input class="form-control" type="text" ng-model ="form.habitatsource"></p>
+                                <p><label>Population density :</label><input class="form-control" type="text" ng-model ="form.populationDensity"></p>
+                                <p><label>Population density source:</label><input class="form-control" type="text" ng-model ="form.populationDensitySource"></p>
+                                <p><label>Ecology (EN) :</label><input class="form-control" type="text" ng-model ="form.ecologyEn"></p>                                
+                            </div>
+                            <div class="col-md-4">
+                                <p><label>Ecology (FR) :</label><input class="form-control" type="text" ng-model ="form.ecologyFr"></p>
+                                <p><label>Ecology Source :</label><input class="form-control" type="text" ng-model ="form.ecologysource"></p>
+                                <p><label>Social behavior (EN) :</label><input class="form-control" type="text" ng-model ="form.behaviorEn"></p>
+                                <p><label>Social behavior (FR) :</label><input class="form-control" type="text" ng-model ="form.behaviorFr"></p>
+                                <p><label>Social behavior Source :</label><input class="form-control" type="text" ng-model ="form.behaviorsource"></p>
+                                <p><label>Threat (EN) :</label><input class="form-control" type="text" ng-model ="form.threatEn"></p>
+                                <p><label>Threat (FR) :</label><input class="form-control" type="text" ng-model ="form.threatFr"></p>
+                                <p><label>Threat Source :</label><input class="form-control" type="text" ng-model ="form.threatsource"></p>
+                                <p><label>Conservation Statut IUCN :</label><input class="form-control" type="text" ng-model ="form.conservationStatus"></p>
+                                <p><label>IUCN source :</label><input class="form-control" type="text" ng-model ="form.iucnSource"></p>
+                                <p><label>Protected area occurrences :</label><input class="form-control" type="text" ng-model ="form.protectedareaoccurrences"></p>
+                                <p><label>protected area occurrencesSources :</label><input class="form-control" type="text" ng-model ="form.protectedAreaOccurrencesSources"></p>
+                                <p><label>Species expert :</label><input class="form-control" type="text" ng-model ="form.speciesExpert"></p>
+                                <p><label>News and updates :</label><input class="form-control" type="text" ng-model ="form.newAndUpdates"></p>
+                                <p><label>Top five publications :</label><input class="form-control" type="text" ng-model ="form.topFivePublication"></p>                                
+                            </div>
+                        </div>           
+                        <div class="pull-right divider" style="margin-right: 112px;">
+                            <input class="btn btn-primary" ng-click="annuler()" value="Annuler">
+                            <%if (moderateur == 0) {%>
+                            <input type="submit" class="btn btn-success" ng-click="save()" value="Enregistrer">
+                            <%}%>
+                        </div>                                                            
                     </form>
                     <div class="col-sm-1"></div>
                 </div>
@@ -434,18 +320,18 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/taxonomicontroller.js"/>"  charset="utf-8"></script>
 <script>
-    function initMap() {
-        var centre = {lat:  -18.9136800, lng: 47.5361300};
-        var mark = {lat:  -18.9136800, lng: 47.5361300};
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 6,
-            center: centre
-        });
-        var marker = new google.maps.Marker({
-            position: mark,
-            map: map
-        });
-    }
-    google.maps.event.addDomListener(window, "load", initMap);
+                            function initMap() {
+                            var centre = {lat: - 18.9136800, lng: 47.5361300};
+                            var mark = {lat: - 18.9136800, lng: 47.5361300};
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 6,
+                                    center: centre
+                            });
+                            var marker = new google.maps.Marker({
+                            position: mark,
+                                    map: map
+                            });
+                            }
+                            google.maps.event.addDomListener(window, "load", initMap);
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

@@ -81,7 +81,7 @@ public class HibernateDao {
             }
         }
     }
-    
+
     public void delete(Session session, BaseModel obj) throws Exception {
         session.delete(obj);
     }
@@ -187,6 +187,35 @@ public class HibernateDao {
         try {
             session = getSessionFactory().openSession();
             return findMultiCritere(session, obj, colonne, ordre);
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public List<BaseModel> findAll(Session session, BaseModel obj, int page, int nombre) throws Exception {
+        Criteria criteria = session.createCriteria(obj.getClass());
+        Example example = Example.create(obj);
+        example.enableLike();
+        example.ignoreCase();
+        criteria.add(example);
+        criteria.setFirstResult(getFirstResult(page, nombre));
+        criteria.setMaxResults(nombre);
+        return criteria.list();
+    }
+
+    public int getFirstResult(int page, int nombre) {
+        return (page - 1) * nombre;
+    }
+    
+    public List<BaseModel> findAll(BaseModel obj, int page, int nombre) throws Exception {
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            return findAll(session, obj, page, nombre);
         } catch (Exception ex) {
             throw ex;
         } finally {

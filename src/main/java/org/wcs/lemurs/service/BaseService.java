@@ -83,6 +83,14 @@ public class BaseService {
     public List<BaseModel> findMultiCritere(BaseModel bm, String colonne, int ordre) throws Exception {
         return this.getHibernateDao().findMultiCritere(bm, colonne, ordre);
     }
+    
+    public List<BaseModel> findAll(Session session, BaseModel obj, int page, int nombre) throws Exception {
+        return this.getHibernateDao().findAll(session, obj, page, nombre);
+    }
+    
+    public List<BaseModel> findAll(BaseModel obj, int page, int nombre) throws Exception {
+        return this.getHibernateDao().findAll(obj, page, nombre);
+    }
 
 //    public List<BaseModel> rechercher(BaseModel bm) throws Exception {
 //        return this.getHibernateDao().findAllCritere(bm);

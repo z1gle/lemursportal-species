@@ -115,11 +115,11 @@ app.controller("taxonomi", function ($scope, $http) {
             }
         }).then(function success(response) {
             $scope.photos = response.data;
-            alert("la photo a Ã©tÃ© tÃ©lÃ©chargÃ©e avec succes");
+            alert("la photo a été téléchargée avec succes");
             $('#uploadPhoto')[0].reset();
         }, function error(response) {
             console.log(response.statusText);
-            alert("un probleme est survenu lors du tÃ©lÃ©chargement de la photo");
+            alert("un probleme est survenu lors du téléchargement de la photo");
         });
     };
     
@@ -140,7 +140,8 @@ app.controller("taxonomi", function ($scope, $http) {
         });    
     };
     
-    $scope.uploadByLink = function() {                
+    $scope.uploadByLink = function() {        
+        $('#modal-upload_spinner').modal({backdrop: 'static'});;
         $http({
             method: 'GET',
             url: 'uploadByLink?url='+$('#link').val(),            
@@ -151,9 +152,13 @@ app.controller("taxonomi", function ($scope, $http) {
         }).then(function success(response) {
             console.log(response);            
             getall();
+//            $scope.showAppLoader = false;
+            $('#modal-upload_spinner').hide();
 //            $scope.photos = response.data;            
         }, function error(response) {
             console.log(response.statusText);     
+//            $scope.showAppLoader = false;
+            $('#modal-upload_spinner').hide();
             alert("un erreur est survenu lors de l'upload");
         });    
     };

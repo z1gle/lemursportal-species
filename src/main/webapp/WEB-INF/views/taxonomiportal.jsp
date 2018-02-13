@@ -49,7 +49,7 @@
                                                 if (moderateur == 0) {
                                             %>
                                         <li><a href="" onclick="window.location='taxonomiCsv'"><i class="fa fa-download"></i> Telecharger_CSV</a></li>
-                                        <li><a href="" data-toggle='modal' data-target='#modal-upload_by_link'><i class="fa fa-upload"></i>Upload_CSV</a></li>
+                                        <!--<li></li>-->
                                         <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li>
                                             <%}%>
                                     </ul>
@@ -304,29 +304,8 @@
         </div>
     </div>
                                 
-    <div id='modal-upload_by_link' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class="modal-header">
-                    <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title"><center>Upload</center></h4>
-                </div>
-                <div class='modal-body'>
-                    <div class='row'>
-                        <div class='col-md-10 col-md-offset-1'>                            
-                            <div class="col-sm-12">
-                                <textarea placeholder="Ecrire le lien du fichier ici" id="link" class="form-control"></textarea>                                
-                            </div>                                    
-                        </div>
-                    </div>
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>
-                    <button type='button' ng-click="uploadByLink()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    
 
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>

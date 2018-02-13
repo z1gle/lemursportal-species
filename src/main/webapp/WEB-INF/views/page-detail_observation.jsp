@@ -500,8 +500,8 @@
 </script>
 <script>
     function initMap() {
-        var centre = {lat:  <%out.print(dwc.getDecimallatitude());%>, lng: <%out.print(dwc.getDecimallongitude());%>};
-        var mark = {lat:  <%out.print(dwc.getDecimallatitude());%>, lng: <%out.print(dwc.getDecimallongitude());%>};
+        var centre = {lat: <%out.print(dwc.getDecimallatitude());%>, lng: <%out.print(dwc.getDecimallongitude());%>};
+        var mark = {lat: <%out.print(dwc.getDecimallatitude());%>, lng: <%out.print(dwc.getDecimallongitude());%>};
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 6,
             center: centre
@@ -510,7 +510,10 @@
             position: mark,
             map: map
         });
+
+//        var transitLayer = new google.maps.TransitLayer();
+//        transitLayer.setMap(map);
     }
-    google.maps.event.addDomListener(window, "load", initMap);
+//    google.maps.event.addDomListener(window, "load", initMap);
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

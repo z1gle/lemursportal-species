@@ -403,6 +403,18 @@ public class DarwinCore extends BaseModel {
     
     @Column(name="idutilisateurupload")
     private Integer idUtilisateurUpload;                
+    
+    @Column(name="idrebioma")
+    private Integer idRebioma;       
+    
+    @Column(name="lien_source")
+    private String lienSource;                
+    
+    @Column(name="validated")
+    private String validated;                
+    
+    @Column(name="reviewed")
+    private String reviewed;                
 
     public String getInstitutioncode() {
         return institutioncode;
@@ -1435,5 +1447,42 @@ public class DarwinCore extends BaseModel {
     public void setIdUtilisateurUpload(Integer idUtilisateurUpload) {
         this.idUtilisateurUpload = idUtilisateurUpload;
     }
-          
+
+    public Integer getIdRebioma() {
+        return idRebioma;
+    }
+
+    public void setIdRebioma(Integer idRebioma) {
+        this.idRebioma = idRebioma;
+    }
+    
+    public void setIdRebioma(String idRebioma) {
+        this.idRebioma = Integer.getInteger(idRebioma);
+    }
+
+    public String getLienSource() {
+        return lienSource;
+    }
+
+    public void setLienSource(String lienSource) {
+        this.lienSource = lienSource;
+    }
+
+    public String getValidated() {
+        return validated;
+    }
+
+    public void setValidated(String validated) {
+        this.validated = validated;
+    }
+
+    public String getReviewed() {
+        return reviewed;
+    }
+
+    public void setReviewed(String reviewed) {
+        this.reviewed = reviewed;
+    }
+
+    
 }

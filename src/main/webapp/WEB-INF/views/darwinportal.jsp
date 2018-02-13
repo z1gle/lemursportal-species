@@ -56,6 +56,7 @@
                     <!-- Stat -->                    
                     <h5 style="width: 10%; display: inline-block; float: right;" class="stat">Tous (<b>{{liste.length}}</b>)</h5>
                     <button style="width: 5%; display: inline-block; float: right;" ng-click="getColonnes()" class="btn btn-primary"><i class="fa fa-download"></i></button>
+                    <button style="width: 5%; display: inline-block; float: right; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn btn-primary"><i class="fa fa-upload"></i></button>
                     <ul class="nav nav-tabs">
                         <li class="" id="tab-pellicule"><a href="" onclick="pellicule()">Pellicule</a></li>
                         <li class="" id="tab-liste"><a href="" onclick="liste()">Liste</a></li>
@@ -102,7 +103,7 @@
                                         <%
                                             Integer role = ((Integer) request.getAttribute("role"));
                                             Integer idChercheur = ((Integer) request.getAttribute("idChercheur"));
-                                            if(role == 0) {
+                                            if (role == 0) {
                                         %>
                                         <td class="text-center">Remarque</td>
                                         <%}%>
@@ -123,15 +124,15 @@
                                         <td class="text-center">{{dwc.dwc.genus}}</td>
                                         <td class="text-center">{{dwc.dwc.dateidentified}}(vérifier)</td>
                                         <td class="text-center">780(vérifier)</td>    
-                                        <%if(role == 0) {%>
-                                            <td class="">
-                                                <ul>
-                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.annee == false">vérifier la colonne année</li>
-                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.accepted_speces == false">vérifier les champs du verbamite speces</li>
-                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.collecteur == false">vérifier la colonne collecteur</li>
-                                                    <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.gps == false">vérifier la colonne gps</li>
-                                                </ul>
-                                            </td>    
+                                        <%if (role == 0) {%>
+                                        <td class="">
+                                            <ul>
+                                                <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.annee == false">vérifier la colonne année</li>
+                                                <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.accepted_speces == false">vérifier les champs du verbamite speces</li>
+                                                <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.collecteur == false">vérifier la colonne collecteur</li>
+                                                <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.gps == false">vérifier la colonne gps</li>
+                                            </ul>
+                                        </td>    
                                         <%}%>
                                         <%if (expert == 0) {%>
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == -1" class="number text-center">en attente</td>
@@ -149,15 +150,13 @@
                     </div>
                     <!-- BEGIN PAGINATION -->
                     <ul class="pagination">
-                        <li class="disabled"><a href="#">«</a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">»</a></li>
+                        <li class="" id="previous"><a href="#" ng-click="rechercher(1)">«</a></li>
+                        <!--                        <li class="active"><a href="#">1</a></li>                        -->
+                        <li><a href="#" ng-click="rechercher(temp)" ng-repeat="temp in pages">{{temp}}</a></li>
+                        <li><a href="#"ng-click="rechercherFin()" id="next">»</a></li>
+                        <input type="hidden" id="pageFin">
                     </ul>
-                    <%                        
+                    <%
                         if (role == 0) {
                     %>
                     <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
@@ -299,6 +298,69 @@
             </div>
         </div>
     </div>
+    <div id='modal-upload_spinner' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Upload</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <h3><small>Veuiller patienter pendant que le système télécharge les données...</small></h3>
+                            <img src="/resources/assets/img/user-default.jpg" class="img-responsive">
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <div id='modal-upload_by_link' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Upload</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                <textarea placeholder="Ecrire le lien du fichier ici" id="link" class="form-control"></textarea>                                
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>
+                    <button type='button' ng-click="uploadByLink()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal-alert' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>ERREUR</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                Un erreur est survenu lors du téléchargement. Veuiller vérifier votre acréditation ou le liens source.
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>OK</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end darwin -->
 
 </main>
@@ -323,7 +385,6 @@
                             document.getElementById("tab-liste").class = '';
                         }
                         pellicule();
-
                         function showModal(status) {
                             if (status == 0)
                                 $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
@@ -331,7 +392,6 @@
                                 $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
                         }
                         ;
-
 //                        function showCommentair() {
 //                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
 //                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
@@ -375,7 +435,6 @@
                             });
                         }
                         ;
-
                         function continueValidate(status, etat) {
                             var data = "?continuer=";
                             var temp = $('#commentaires').val();

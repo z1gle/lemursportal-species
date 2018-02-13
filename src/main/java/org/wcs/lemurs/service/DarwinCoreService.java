@@ -6,11 +6,16 @@
 package org.wcs.lemurs.service;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -114,7 +119,7 @@ public class DarwinCoreService extends BaseService {
                 ValidationDarwinCore vdc = new ValidationDarwinCore();
                 vdc.setIdDarwinCore(dw.getId());
                 try {
-                    vdc = (ValidationDarwinCore) findMultiCritere(vdc).get(0);
+                    vdc = (ValidationDarwinCore) findMultiCritere(session, vdc).get(0);
                 } catch (Exception e) {
                 }
                 vdc.setAcceptedSpeces(checkVerbatimspecies(session, dw));
@@ -340,6 +345,69 @@ public class DarwinCoreService extends BaseService {
     public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueValidationDarwinCore darwinCore) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(darwinCore);
+        List<PhotoDarwinCore> photos = new ArrayList<>();
+        try {
+            List<VueValidationDarwinCore> toCheck = getListObservationAndEtatFor(utilisateur);
+//            val.removeAll(toCheck);
+            for (int i = 0; i < val.size(); i++) {
+                for (int j = 0; j < toCheck.size(); j++) {
+                    if (val.get(i).getId() == toCheck.get(j).getId()) {
+                        val.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+            for (VueValidationDarwinCore dwc : toCheck) {
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                temp.put("validation", 1);
+                valiny.add(temp);
+            }
+            PhotoDarwinCore photoDarwinCoreTemp = new PhotoDarwinCore();
+            photoDarwinCoreTemp.setProfil(Boolean.TRUE);
+            photos = (List<PhotoDarwinCore>) (List<?>) this.findMultiCritere(photoDarwinCoreTemp);
+        } catch (Exception e) {
+            throw e;
+        }
+        for (VueValidationDarwinCore dwc : val) {
+            HashMap<String, Object> temp = new HashMap<>();
+            temp.put("dwc", dwc);
+            temp.put("validation", 0);
+//            int iterator = 0;
+//            for (PhotoDarwinCore pdc : photos) {
+//                if (dwc.getId().intValue() == pdc.getIdDarwinCore().intValue()) {
+//                    temp.put("photo", pdc.getChemin());
+//                    break;
+//                } else {
+//                    iterator++;
+//                }
+//            }
+//            if (iterator == photos.size()) {
+//                temp.put("photo", photos.get(0).getChemin().substring(0, photos.get(0).getChemin().lastIndexOf("/")) + "default.jpg");
+//            }
+            valiny.add(temp);
+        }
+        for (HashMap<String, Object> v : valiny) {
+            int iterator = 0;
+            for (PhotoDarwinCore pdc : photos) {
+                if (((VueValidationDarwinCore) v.get("dwc")).getId().intValue() == pdc.getIdDarwinCore().intValue()) {
+                    v.put("photo", pdc.getChemin());
+                    break;
+                } else {
+                    iterator++;
+                }
+            }
+            if (iterator == photos.size()) {
+                v.put("photo", photos.get(0).getChemin().substring(0, photos.get(0).getChemin().lastIndexOf("/")) + "/default.jpg");
+            }
+        }
+        return valiny;
+    }
+    
+    public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueValidationDarwinCore darwinCore, int nombre, int page) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) super.findAll(darwinCore, page, nombre);
         List<PhotoDarwinCore> photos = new ArrayList<>();
         try {
             List<VueValidationDarwinCore> toCheck = getListObservationAndEtatFor(utilisateur);
@@ -812,6 +880,51 @@ public class DarwinCoreService extends BaseService {
                 photoDarwinCoreWithIdDarwinCore.setProfil(profil);
             }
         }
+    }
+    
+    public void uploadDwc(String url) throws Exception {
+        URL dwcCsv = new URL(url);
+        BufferedReader in = new BufferedReader(new InputStreamReader(dwcCsv.openStream()));
+        String header = in.readLine();
+        String[] colonnesHeader = header.split(";");
+        Field[] attriburs = DarwinCore.class.getDeclaredFields();
+        List<HashMap<String,Object>> fonctions = new ArrayList<>();
+        for(Field f : attriburs) {
+            for(int i = 0; i < colonnesHeader.length; i++) {
+                String csv = colonnesHeader[i].toLowerCase();
+                String base = f.getName().toLowerCase();
+                base = base.replaceAll("dwc", "");
+                base = base.replaceAll("darwinclass", "class");
+                base = base.replaceAll("darwinorder", "order");
+                base = base.replaceAll("idrebioma","id");
+                if(base.compareTo(csv)==0) {
+                    HashMap<String, Object> fonction = new HashMap<>();
+                    fonction.put("id", i);
+                    fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
+                    fonctions.add(fonction);
+                    break;
+                }
+            }
+        }
+        List<DarwinCore> listeToSave = new ArrayList<>();
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+            String[] dwcLine = inputLine.split(";");
+            DarwinCore dwcTemp = new DarwinCore();
+            for(HashMap<String, Object> fonction : fonctions) {                
+                Method m = (Method)fonction.get("fonction");
+                try {
+                    m.invoke(dwcTemp, dwcLine[(Integer)fonction.get("id")]);
+                } catch(ArrayIndexOutOfBoundsException aioobe) {                    
+                }
+            }
+            listeToSave.add(dwcTemp);
+        }
+        for(DarwinCore t : listeToSave) {
+            t.setLienSource(url);
+        }
+        upload(listeToSave);
+        in.close();
     }
 
     public DarwinCoreDao getDarwinCoreDao() {

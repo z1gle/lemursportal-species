@@ -9,6 +9,7 @@ app.controller("darwin", function ($scope, $http) {
     $scope.darwin = {};
     $scope.recherche = "";
     $scope.file = {};
+    $scope.pages = [];
     getall();
     function getall() {
         $http({
@@ -21,9 +22,26 @@ app.controller("darwin", function ($scope, $http) {
             }
         }).then(function success(response) {
             $scope.liste = response.data;
+            paginer($scope.liste[0].total, 20, 1);
         }, function error(response) {
             console.log(response);
         });
+    }
+    function paginer(liste, pas, position) {
+        console.log(liste);
+        $scope.pages = [];
+        var temp = liste / pas;
+        if (temp * pas < liste)
+            temp += 1;
+        temp = temp.toFixed(0);
+        var index = 0;
+        for (var i = 0; i < temp; i++) {
+            if (position - 3 <= i && i < position + 3) {
+                $scope.pages[index] = i + 1;
+                index++;
+            }
+        }
+        $('#pageFin').val(temp);
     }
 
     $scope.rechercher = function () {
@@ -110,7 +128,7 @@ app.controller("darwin", function ($scope, $http) {
             data: formData,
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': undefined 
+                'Content-Type': undefined
             }
         }).then(function success(response) {
             $scope.liste = response.data;
@@ -183,5 +201,78 @@ app.controller("darwin", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
+
+    $scope.rechercher = function (page) {
+        var formData = new FormData();
+//        var dwcs = angular.toJson($scope.darwin);                
+//        var temp = dwcs.scientificName;
+        var dwcs = $scope.darwin.scientificName;
+        if(dwcs == undefined) dwcs = null;
+        console.log(dwcs);        
+        formData.append("dwcs", dwcs);
+        formData.append("page", page);
+        $http({
+            method: 'POST',
+            url: 'findByespeceDwcPaginated',
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': undefined
+            }
+        }).then(function success(response) {
+            $scope.liste = response.data;
+            paginer($scope.liste[0].total, 20, page);
+            $scope.recherche = $scope.darwin.scientificname;
+        }, function error(response) {
+            console.log(response.statusText);
+        });
+    };
+    
+    $scope.rechercherFin = function () {
+        var formData = new FormData();
+//        var dwcs = angular.toJson($scope.darwin);                
+//        var temp = dwcs.scientificName;
+        var dwcs = $scope.darwin.scientificName;
+        if(dwcs == undefined) dwcs = null;
+        console.log(dwcs);        
+        console.log($('#pageFin').val());
+        formData.append("dwcs", dwcs);
+        formData.append("page", $('#pageFin').val());
+        $http({
+            method: 'POST',
+            url: 'findByespeceDwcPaginated',
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': undefined
+            }
+        }).then(function success(response) {
+            $scope.liste = response.data;
+            paginer($scope.liste[0].total, 20, $('#pageFin').val());
+            $scope.recherche = $scope.darwin.scientificname;
+        }, function error(response) {
+            console.log(response.statusText);
+        });
+    };
+    
+    $scope.uploadByLink = function() {        
+        $('#modal-upload_spinner').modal({backdrop: 'static'});
+        $http({
+            method: 'GET',
+            url: 'uploadByLink?url='+$('#link').val(),            
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            console.log(response);            
+            getall();
+            $('#modal-upload_spinner').modal('toggle');
+        }, function error(response) {
+            $('#modal-upload_spinner').modal('toggle');            
+            $('#modal-alert').modal({backdrop: 'static'});            
+        });    
+    };
+
 });
 
