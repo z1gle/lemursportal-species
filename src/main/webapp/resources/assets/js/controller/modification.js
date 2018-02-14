@@ -25,6 +25,7 @@ app.controller("object", function ($scope, $http) {
             }
         }).then(function success(response) {
             $scope.object = response.data;
+            console.log($scope.object);
         }, function error(response) {
             console.log(response);
         });

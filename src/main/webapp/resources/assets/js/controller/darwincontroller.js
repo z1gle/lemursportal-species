@@ -134,7 +134,7 @@ app.controller("darwin", function ($scope, $http) {
             $scope.liste = response.data;
             $scope.recherche = $scope.darwin.scientificname;
         }, function error(response) {
-            console.log(response.statusText);
+            $('#modal-alert').modal({backdrop: 'static'});            
         });
     };
 //    $(document).ready(function () {

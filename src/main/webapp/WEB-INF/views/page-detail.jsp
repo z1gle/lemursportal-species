@@ -172,6 +172,10 @@
                             <div style="float: left; margin-left: 35px; margin-right: 35px;"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">profil</div>
                             <button ng-click="uploadPhoto()">Enregistrer</button>
                         </form>
+                        <form id="uploadVideo" method="POST">
+                            <input id="lien" style="float: left;" type="text" placeholder="veuiller insérer le lien de la vidéo">                    
+                            <button ng-click="uploadVideo()">Enregistrer</button>
+                        </form>
                         <%}%>
                     </div>
                 </div>
@@ -305,11 +309,33 @@
                         <div class="pull-right divider" style="margin-right: 112px;">
                             <input class="btn btn-primary" ng-click="annuler()" value="Annuler">
                             <%if (moderateur == 0) {%>
-                            <input type="submit" class="btn btn-success" ng-click="save()" value="Enregistrer">
+                            <input type="submit" class="btn btn-success" ng-click="save()" value="Enregistrer">                            
                             <%}%>
                         </div>                                                            
                     </form>
                     <div class="col-sm-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal-alert' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>REMARQUE</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                {{alerte}}
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>OK</button>                    
                 </div>
             </div>
         </div>
@@ -320,18 +346,18 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/taxonomicontroller.js"/>"  charset="utf-8"></script>
 <script>
-                            function initMap() {
-                            var centre = {lat: - 18.9136800, lng: 47.5361300};
-                            var mark = {lat: - 18.9136800, lng: 47.5361300};
-                            var map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 6,
-                                    center: centre
-                            });
-                            var marker = new google.maps.Marker({
-                            position: mark,
-                                    map: map
-                            });
-                            }
-                            google.maps.event.addDomListener(window, "load", initMap);
+                        function initMap() {
+                        var centre = {lat: - 18.9136800, lng: 47.5361300};
+                        var mark = {lat: - 18.9136800, lng: 47.5361300};
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 6,
+                                center: centre
+                        });
+                        var marker = new google.maps.Marker({
+                        position: mark,
+                                map: map
+                        });
+                        }
+                        google.maps.event.addDomListener(window, "load", initMap);
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

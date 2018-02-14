@@ -6,6 +6,7 @@
 package org.wcs.lemurs.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,7 @@ import static org.wcs.lemurs.controller.BaseController.ROLE_MODERATEUR;
 import org.wcs.lemurs.model.PhotoTaxonomi;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
+import org.wcs.lemurs.model.VideoTaxonomi;
 import org.wcs.lemurs.modele_vue.VueRechercheTaxonomi;
 import org.wcs.lemurs.service.TaxonomiBaseService;
 import org.wcs.lemurs.util.UploadFile;
@@ -168,6 +170,31 @@ public class TaxonomiBaseController {
             }            
         } catch (Exception e) {            
         }        
+        return null;
+    }
+    
+    @RequestMapping(value = "/uploadVideoTaxonomi")
+    public List<VideoTaxonomi> uploadVideoTaxonomi(HttpSession session, @RequestParam("lien") String lien, @RequestParam("idTaxonomi") Integer idDarwinCore) {
+        try {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            if (taxonomiBaseService.checkRole(utilisateur, ROLE_MODERATEUR)) {
+                TaxonomiBase taxonomi = new TaxonomiBase();
+                taxonomi.setId(idDarwinCore);
+                taxonomiBaseService.findById(taxonomi);                
+                VideoTaxonomi vdc = new VideoTaxonomi();
+                vdc.setDateVideo(Calendar.getInstance().getTime());
+                vdc.setIdTaxonomi(idDarwinCore);
+                vdc.setIdUtilisateurUpload(utilisateur.getId());
+                vdc.setLien(lien);
+                taxonomiBaseService.save(vdc);
+                vdc = new VideoTaxonomi();
+                vdc.setIdTaxonomi(idDarwinCore);
+                return (List<VideoTaxonomi>)(List<?>)taxonomiBaseService.findMultiCritere(vdc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         return null;
     }
     

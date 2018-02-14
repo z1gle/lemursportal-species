@@ -115,6 +115,7 @@ public class DarwinCoreService extends BaseService {
             session = getHibernateDao().getSessionFactory().openSession();
             tr = session.beginTransaction();
             for (DarwinCore dw : list_dw) {
+                if(dw.getScientificname()==null) continue;
                 save(session, dw);
                 ValidationDarwinCore vdc = new ValidationDarwinCore();
                 vdc.setIdDarwinCore(dw.getId());
@@ -886,26 +887,26 @@ public class DarwinCoreService extends BaseService {
         URL dwcCsv = new URL(url);
         BufferedReader in = new BufferedReader(new InputStreamReader(dwcCsv.openStream()));
         String header = in.readLine();
-        String[] colonnesHeader = header.split(";");
+//        String[] colonnesHeader = header.split(";");
         Field[] attriburs = DarwinCore.class.getDeclaredFields();
-        List<HashMap<String,Object>> fonctions = new ArrayList<>();
-        for(Field f : attriburs) {
-            for(int i = 0; i < colonnesHeader.length; i++) {
-                String csv = colonnesHeader[i].toLowerCase();
-                String base = f.getName().toLowerCase();
-                base = base.replaceAll("dwc", "");
-                base = base.replaceAll("darwinclass", "class");
-                base = base.replaceAll("darwinorder", "order");
-                base = base.replaceAll("idrebioma","id");
-                if(base.compareTo(csv)==0) {
-                    HashMap<String, Object> fonction = new HashMap<>();
-                    fonction.put("id", i);
-                    fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
-                    fonctions.add(fonction);
-                    break;
-                }
-            }
-        }
+        List<HashMap<String,Object>> fonctions = getFonctionNumeroColonneDwc(attriburs, header);
+//        for(Field f : attriburs) {
+//            for(int i = 0; i < colonnesHeader.length; i++) {
+//                String csv = colonnesHeader[i].toLowerCase();
+//                String base = f.getName().toLowerCase();
+//                base = base.replaceAll("dwc", "");
+//                base = base.replaceAll("darwinclass", "class");
+//                base = base.replaceAll("darwinorder", "order");
+//                base = base.replaceAll("idrebioma","id");
+//                if(base.compareTo(csv)==0) {
+//                    HashMap<String, Object> fonction = new HashMap<>();
+//                    fonction.put("id", i);
+//                    fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
+//                    fonctions.add(fonction);
+//                    break;
+//                }
+//            }
+//        }
         List<DarwinCore> listeToSave = new ArrayList<>();
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
@@ -925,6 +926,33 @@ public class DarwinCoreService extends BaseService {
         }
         upload(listeToSave);
         in.close();
+    }
+    
+    public List<HashMap<String, Object>> getFonctionNumeroColonneDwc(Field[] attributs, String header) throws NoSuchMethodException {
+        String[] colonnesHeader = header.split(";");
+        List<HashMap<String,Object>> fonctions = new ArrayList<>();
+        for(Field f : attributs) {
+            for(int i = 0; i < colonnesHeader.length; i++) {
+                String csv = colonnesHeader[i].toLowerCase();
+                String base = f.getName().toLowerCase();
+                base = base.replaceAll("dwc", "");
+                base = base.replaceAll("darwinclass", "class");
+                base = base.replaceAll("darwinorder", "order");
+                base = base.replaceAll("idrebioma","id");
+                if(base.compareTo(csv)==0) {
+                    HashMap<String, Object> fonction = new HashMap<>();
+                    fonction.put("id", i);
+                    try {
+                        fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
+                    } catch(NoSuchMethodException nsme) {
+                        fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), Integer.class));
+                    }                    
+                    fonctions.add(fonction);
+                    break;
+                }
+            }
+        }
+        return fonctions;
     }
 
     public DarwinCoreDao getDarwinCoreDao() {

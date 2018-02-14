@@ -6,11 +6,13 @@
 package org.wcs.lemurs.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.wcs.lemurs.model.ResumeUtilisateur;
 import org.wcs.lemurs.model.Role;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 
@@ -40,8 +42,12 @@ public class UtilisateurService extends DarwinCoreService {
             VueRoleUtilisateur temp = new VueRoleUtilisateur();
             temp.setIdUtilisateur(idUtilisateur);
             List<VueRoleUtilisateur> toDelete = (List<VueRoleUtilisateur>) (List<?>) findMultiCritere(temp);
-            for(VueRoleUtilisateur v : toDelete) delete(session, v);
-            for(VueRoleUtilisateur v : toSave) save(session, v);
+            for (VueRoleUtilisateur v : toDelete) {
+                delete(session, v);
+            }
+            for (VueRoleUtilisateur v : toSave) {
+                save(session, v);
+            }
             tr.commit();
         } catch (Exception ex) {
             throw ex;
@@ -59,6 +65,13 @@ public class UtilisateurService extends DarwinCoreService {
             }
         }
         return null;
+    }
+
+    public ResumeUtilisateur resumeUtilisateur(int id) throws Exception {
+        ResumeUtilisateur valiny = new ResumeUtilisateur();
+        valiny.setId(id);
+        super.findById(valiny);
+        return valiny;
     }
 
 }

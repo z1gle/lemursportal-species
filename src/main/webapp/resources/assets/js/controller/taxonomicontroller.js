@@ -7,6 +7,7 @@ app.controller("taxonomi", function ($scope, $http) {
     $scope.liste = [];
     $scope.photos = [];
     $scope.recherche = "";
+    $scope.alerte = "";
     $scope.taxonomi = {};
     $scope.total;
     $scope.form = {};
@@ -115,11 +116,13 @@ app.controller("taxonomi", function ($scope, $http) {
             }
         }).then(function success(response) {
             $scope.photos = response.data;
-            alert("la photo a été téléchargée avec succes");
+            $scope.alerte = "le fichier a été téléchargé avec succes";
+            $('#modal-alert').modal({backdrop: 'static'});
             $('#uploadPhoto')[0].reset();
         }, function error(response) {
             console.log(response.statusText);
-            alert("un probleme est survenu lors du téléchargement de la photo");
+            $scope.alerte = "Une erreur est survenue lors du téléchargement du fichier";
+            $('#modal-alert').modal({backdrop: 'static'});
         });
     };
     
@@ -140,27 +143,56 @@ app.controller("taxonomi", function ($scope, $http) {
         });    
     };
     
-    $scope.uploadByLink = function() {        
-        $('#modal-upload_spinner').modal({backdrop: 'static'});;
+    $scope.uploadVideo = function () {
+        var formData = new FormData();        
+        var id = $('#idDwc').val();
+        var lien = $('#lien').val();                
+        formData.append("lien", lien);
+        formData.append("idTaxonomi", id);
+        console.log(lien);
+        console.log(formData);
         $http({
-            method: 'GET',
-            url: 'uploadByLink?url='+$('#link').val(),            
+            method: 'POST',
+            url: 'uploadVideoTaxonomi',
+//            enctype: 'multipart/form-data',
+            data: formData,
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': undefined
             }
         }).then(function success(response) {
-            console.log(response);            
-            getall();
-//            $scope.showAppLoader = false;
-            $('#modal-upload_spinner').hide();
-//            $scope.photos = response.data;            
+            $scope.photos = response.data;
+            $scope.alerte = "Le fichier a été téléchargé avec succes";
+            $('#modal-alert').modal({backdrop: 'static'});
+            $('#uploadPhoto')[0].reset();
         }, function error(response) {
-            console.log(response.statusText);     
-//            $scope.showAppLoader = false;
-            $('#modal-upload_spinner').hide();
-            alert("un erreur est survenu lors de l'upload");
-        });    
+            console.log(response.statusText);
+            $scope.alerte = "Une erreur est survenu lors du téléchargement du fichier";
+            $('#modal-alert').modal({backdrop: 'static'});
+        });
     };
+    
+//    $scope.uploadByLink = function() {        
+//        $('#modal-upload_spinner').modal({backdrop: 'static'});;
+//        $http({
+//            method: 'GET',
+//            url: 'uploadByLink?url='+$('#link').val(),            
+//            headers: {
+//                'Accept': 'application/json',
+//                'Content-Type': 'application/json'
+//            }
+//        }).then(function success(response) {
+//            console.log(response);            
+//            getall();
+////            $scope.showAppLoader = false;
+//            $('#modal-upload_spinner').hide();
+////            $scope.photos = response.data;            
+//        }, function error(response) {
+//            console.log(response.statusText);     
+////            $scope.showAppLoader = false;
+//            $('#modal-upload_spinner').hide();
+//            alert("un erreur est survenu lors de l'upload");
+//        });    
+//    };
 
 });

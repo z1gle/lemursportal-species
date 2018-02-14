@@ -350,7 +350,7 @@
                     <div class='row'>
                         <div class='col-md-10 col-md-offset-1'>                            
                             <div class="col-sm-12">
-                                Un erreur est survenu lors du téléchargement. Veuiller vérifier votre acréditation ou le liens source.
+                                Un erreur est survenu lors du téléchargement. Veuiller vérifier votre acréditation ou la structure des données.
                             </div>                                    
                         </div>
                     </div>

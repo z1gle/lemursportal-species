@@ -51,12 +51,12 @@ public class UtilisateurControleur {
             Integer observationEnAttente = 0;
             Integer observationValide = 0;
             Integer observationQuestionnable = 0;
-            
+
             Integer observationTotaleChercheur = 0;
             Integer observationEnAttenteChercheur = 0;
             Integer observationValideChercheur = 0;
             Integer observationQuestionnableChercheur = 0;
-            
+
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(u.getId());
             List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) utilisateurService.findMultiCritere(vru);
@@ -67,21 +67,29 @@ public class UtilisateurControleur {
                 if (v.getDesignation().compareTo(ROLE_EXPERT) == 0) {
 //                    observationTotale = utilisateurService.getListObservationAndEtatFor(u).size();
                     List<VueValidationDarwinCore> listeTotale = utilisateurService.getListObservationAndEtatFor(u);
-                    for(VueValidationDarwinCore vv : listeTotale) {
-                        if(vv.getValidationexpert()==0) observationQuestionnable++;
-                        else if(vv.getValidationexpert()==-1) observationEnAttente++;
-                        else if(vv.getValidationexpert()==1) observationValide++;
+                    for (VueValidationDarwinCore vv : listeTotale) {
+                        if (vv.getValidationexpert() == 0) {
+                            observationQuestionnable++;
+                        } else if (vv.getValidationexpert() == -1) {
+                            observationEnAttente++;
+                        } else if (vv.getValidationexpert() == 1) {
+                            observationValide++;
+                        }
                     }
                     observationTotale = listeTotale.size();
                 }
                 if (v.getDesignation().compareTo(ROLE_CHERCHEUR) == 0) {
                     VueValidationDarwinCore temp = new VueValidationDarwinCore();
                     temp.setIdUtilisateurUpload(u.getId());
-                    List<VueValidationDarwinCore> listeTotale = (List<VueValidationDarwinCore>)(List<?>)utilisateurService.findMultiCritere(temp);
-                    for(VueValidationDarwinCore vv : listeTotale) {
-                        if(vv.getValidationexpert()==0) observationQuestionnableChercheur++;
-                        else if(vv.getValidationexpert()==-1) observationEnAttenteChercheur++;
-                        else if(vv.getValidationexpert()==1) observationValideChercheur++;
+                    List<VueValidationDarwinCore> listeTotale = (List<VueValidationDarwinCore>) (List<?>) utilisateurService.findMultiCritere(temp);
+                    for (VueValidationDarwinCore vv : listeTotale) {
+                        if (vv.getValidationexpert() == 0) {
+                            observationQuestionnableChercheur++;
+                        } else if (vv.getValidationexpert() == -1) {
+                            observationEnAttenteChercheur++;
+                        } else if (vv.getValidationexpert() == 1) {
+                            observationValideChercheur++;
+                        }
                     }
                     observationTotaleChercheur = listeTotale.size();
                 }
@@ -275,5 +283,10 @@ public class UtilisateurControleur {
         } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @RequestMapping(value = "/resumeUtilisateur", method = RequestMethod.POST, headers = "Accept=application/json")
+    public Object load(@RequestBody Utilisateur utilisateur) throws Exception {
+        return utilisateurService.resumeUtilisateur(utilisateur.getId());
     }
 }

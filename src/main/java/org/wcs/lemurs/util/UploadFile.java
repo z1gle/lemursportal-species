@@ -12,8 +12,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -22,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.TaxonomiBase;
+import org.wcs.lemurs.service.DarwinCoreService;
 
 /**
  *
@@ -37,12 +40,12 @@ public class UploadFile {
         XSSFRow row = null;
         XSSFCell cell = null;
         Iterator rows = sheet.rowIterator();
-        
+
         String meth = "";
         Field[] colonnes = DarwinCore.class.getDeclaredFields();
         int iterator = 0;
         for (Field f : colonnes) {
-            meth += DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class)+",";
+            meth += DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class) + ",";
             iterator++;
             if (iterator == colonnes.length - 1) {
                 break;
@@ -225,18 +228,20 @@ public class UploadFile {
         Field[] colonnes = DarwinCore.class.getDeclaredFields();
         String line = "";
         line = br.readLine();
+        DarwinCoreService dcs = new DarwinCoreService();
+        List<HashMap<String, Object>> fonctions = dcs.getFonctionNumeroColonneDwc(colonnes, line);
         while ((line = br.readLine()) != null) {
             String[] cols = line.split(";");
-            if (cols.length < colonnes.length - 1) {
+            /*if (cols.length < colonnes.length - 4) {
                 throw new Exception("Le nombre de colonnes est manquantes cols = " + Integer.toString(cols.length) + " and dwc = " + Integer.toString(colonnes.length - 1));
-            } else if (cols.length == colonnes.length - 1) {
+            } else*/ if (cols.length <= colonnes.length - 4) {
                 DarwinCore dwcTemp = new DarwinCore();
-                int iterator = 0;
-                for (Field f : colonnes) {
-                    dwcTemp.getClass().getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class).invoke(dwcTemp, cols[iterator]);
-                    iterator++;
-                    if (iterator == colonnes.length - 1) {
-                        break;
+                for (HashMap<String, Object> fonction : fonctions) {
+                    Method m = (Method) fonction.get("fonction");
+                    try {
+                        m.invoke(dwcTemp, cols[(Integer) fonction.get("id")]);
+                    } catch (ArrayIndexOutOfBoundsException aioobe) {
+                        aioobe.printStackTrace();
                     }
                 }
                 list_dw.add(dwcTemp);
@@ -244,11 +249,18 @@ public class UploadFile {
                 DarwinCore dwcTemp = new DarwinCore();
                 dwcTemp.getClass().getMethod("setId", Integer.class).invoke(dwcTemp, Integer.parseInt(cols[0]));
                 int iterator = 1;
-                for (Field f : colonnes) {
-                    dwcTemp.getClass().getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class).invoke(dwcTemp, cols[iterator]);
-                    iterator++;
-                    if (iterator == colonnes.length - 1) {
-                        break;
+                for (HashMap<String, Object> fonction : fonctions) {
+                    Method m = (Method) fonction.get("fonction");
+                    try {
+                        m.invoke(dwcTemp, cols[(Integer) fonction.get("id")]);
+                    } catch(IllegalArgumentException iae) {
+                        try {
+                            m.invoke(dwcTemp, Integer.getInteger(cols[(Integer) fonction.get("id")]));
+                        } catch(Exception iaex) {
+                            iaex.printStackTrace();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException aioobe) {
+                        aioobe.printStackTrace();
                     }
                 }
                 list_dw.add(dwcTemp);

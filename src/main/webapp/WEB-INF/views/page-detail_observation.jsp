@@ -311,6 +311,10 @@
                     <div style="float: left; margin-left: 35px; margin-right: 35px;"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">profil</div>
                     <button ng-click="uploadPhoto()">Enregistrer</button>
                 </form>
+                <form id="uploadVideo" method="POST">
+                    <input id="lien" style="float: left;" type="text" placeholder="veuiller insérer le lien de la vidéo">                    
+                    <button ng-click="uploadVideo()">Enregistrer</button>
+                </form>
                 <%}%>
             </div>
         </div>
@@ -419,6 +423,28 @@
             </div>
         </div>
     </div>
+    <div id='modal-alert' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>REMARQUE</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                            
+                            <div class="col-sm-12">
+                                {{alerte}}
+                            </div>                                    
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>OK</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end dwcnomie -->
 
 </main>
@@ -426,77 +452,77 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"  charset="utf-8"></script>
 <script>
-                                        function showModal(status) {
-                                            if (status == 0)
-                                                $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
-                                            else
-                                                $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
-                                        }
-                                        ;
+                        function showModal(status) {
+                            if (status == 0)
+                                $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
+                            else
+                                $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
+                        }
+                        ;
 
-                                        function showCommentaires() {
-                                            $("#modal-liste-commentaires").modal({backdrop: 'static'});
-                                        }
-                                        ;
+                        function showCommentaires() {
+                            $("#modal-liste-commentaires").modal({backdrop: 'static'});
+                        }
+                        ;
 
-                                        function showCommentairFirst() {
-                                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
-                                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
-                                        }
+                        function showCommentairFirst() {
+                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+                        }
 
-                                        function validate(status) {
-                                            var valeurs = $('[name="dwc[]"]');
-                                            var data = "?dwc[]=<%out.print(dwc.getId());%>&";
-                                            var temp = $('#commentaires').val();
-                                            if (temp == undefined)
-                                                temp = "";
-                                            data = data + "status=" + status + "&commentaires=" + temp;
-                                            $.ajax({
-                                                type: 'get',
-                                                url: 'validerListDwc' + data,
+                        function validate(status) {
+                            var valeurs = $('[name="dwc[]"]');
+                            var data = "?dwc[]=<%out.print(dwc.getId());%>&";
+                            var temp = $('#commentaires').val();
+                            if (temp == undefined)
+                                temp = "";
+                            data = data + "status=" + status + "&commentaires=" + temp;
+                            $.ajax({
+                                type: 'get',
+                                url: 'validerListDwc' + data,
 //                                dataType: 'json',
 //                                enctype: 'multipart/form-data',
-                                                processData: false,
-                                                contentType: false,
-                                                cache: false,
-                                                success: function (json) {
-                                                    if (json.etat == 1) {
-                                                        console.log(json.etat);
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                success: function (json) {
+                                    if (json.etat == 1) {
+                                        console.log(json.etat);
 //                                        window.location = 'profil';
-                                                    } else if (json.etat == 0) {
-                                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                                        showModal(status);
-                                                    }
-                                                    $('#commentaires').val("");
-                                                }
-                                            });
-                                        }
-                                        ;
+                                    } else if (json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                                        showModal(status);
+                                    }
+                                    $('#commentaires').val("");
+                                }
+                            });
+                        }
+                        ;
 
-                                        function continueValidate(status, etat) {
-                                            var data = "?continuer=";
-                                            var temp = $('#commentaires').val();
-                                            if (temp == undefined)
-                                                temp = "";
-                                            data = data + etat + "&status=" + status + "&commentaires=" + temp;
-                                            $.ajax({
-                                                type: 'get',
-                                                url: 'continuerValiderListDwc' + data,
-                                                processData: false,
-                                                contentType: false,
-                                                cache: false,
-                                                success: function (json) {
-                                                    if (json.etat == 1) {
-                                                        console.log(json.etat);
+                        function continueValidate(status, etat) {
+                            var data = "?continuer=";
+                            var temp = $('#commentaires').val();
+                            if (temp == undefined)
+                                temp = "";
+                            data = data + etat + "&status=" + status + "&commentaires=" + temp;
+                            $.ajax({
+                                type: 'get',
+                                url: 'continuerValiderListDwc' + data,
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                success: function (json) {
+                                    if (json.etat == 1) {
+                                        console.log(json.etat);
 //                                        window.location = 'profil';
-                                                    } else if (json.etat == 0) {
-                                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                                        showModal(status);
-                                                    }
-                                                }
-                                            });
-                                        }
-                                        ;
+                                    } else if (json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                                        showModal(status);
+                                    }
+                                }
+                            });
+                        }
+                        ;
 </script>
 <script>
     function initMap() {

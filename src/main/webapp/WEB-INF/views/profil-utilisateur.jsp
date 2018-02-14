@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
-<main class="site-content" role="main">
+<main class="site-content" role="main" ng-controller="object">
 
     <!-- taxonomie -->
     <section id="taxonomie">
@@ -31,7 +31,7 @@
             </div>
         </div>
         <!-- Contenu -->
-        <div class="utilisateur" ng-controller="utilisateur">
+        <div class="utilisateur" >
             <div class="container">
                 <h1 class="titre-page">Utilisateur - <span>Profil</span></h1>
                 <div class="row">
@@ -49,6 +49,8 @@
                                         Integer nbrCommentaire = (Integer) request.getAttribute("nbrCommentaire");
                                         List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) request.getAttribute("roles");
                                     %>
+                                    <input type="hidden" value="<%out.print(s.getId());%>" id="idDwc"/>
+                                    <input type="hidden" value="resumeUtilisateur" id="load"/>
                                     <h2><%out.print(s.getPrenom() + " " + s.getNom());%></h2>
                                     <p><strong>Poste: </strong> <%out.print(s.getPoste());%> </p>
                                     <p><strong>Localisation: </strong> <%out.print(s.getLocalisation());%> </p>
@@ -60,7 +62,7 @@
                                                 if (r.getDesignation().compareTo("Expert vérificateur") == 0) {
                                                     expert = true;
                                                     break;
-                                                } else if(r.getDesignation().compareTo("Chercheur")==0) {
+                                                } else if (r.getDesignation().compareTo("Chercheur") == 0) {
                                                     chercheur = true;
                                                     break;
                                                 }
@@ -72,7 +74,7 @@
                                             Integer observationEnAttente = (Integer) request.getAttribute("observationEnAttente");
                                             Integer observationTotale = (Integer) request.getAttribute("observationTotale");
                                             Integer observationQuestionnable = (Integer) request.getAttribute("observationQuestionnable");
-                                            Integer observationValide = (Integer) request.getAttribute("observationValide");                                            
+                                            Integer observationValide = (Integer) request.getAttribute("observationValide");
                                     %>
                                     <h4>Récapitulatif expert</h4>
                                     <h4><a href="observationAValider?etatValidation=-1">Observations en attentes(<%out.print(observationEnAttente);%>)</a></h4>
@@ -81,7 +83,7 @@
                                     <h4><a href="observationAValider?etatValidation=-999">Observations totales(<%out.print(observationTotale);%>)</a></h4>
                                     <%}%>
                                     <%
-                                        if (chercheur) {                                            
+                                        if (chercheur) {
                                             Integer observationEnAttenteChercheur = (Integer) request.getAttribute("observationEnAttenteChercheur");
                                             Integer observationTotaleChercheur = (Integer) request.getAttribute("observationTotaleChercheur");
                                             Integer observationQuestionnableChercheur = (Integer) request.getAttribute("observationQuestionnableChercheur");
@@ -97,16 +99,16 @@
                             </div>
                             <div class="col-xs-12 divider text-center statistique-user">
                                 <div class="col-xs-12 col-sm-4 emphasis">
-                                    <h2><strong> <%out.print(nbrCommentaire);%> </strong></h2>                    
+                                    <h2><strong> {{object.nbrCommentaire}} </strong></h2>                    
                                     <p><small>Commentaires</small></p>
 
                                 </div>
                                 <div class="col-xs-12 col-sm-4 emphasis">
-                                    <h2><strong>0</strong></h2>                    
+                                    <h2><strong>{{object.nbrVideo}}</strong></h2>                    
                                     <p><small>Vidéos</small></p>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 emphasis">
-                                    <h2><strong>0</strong></h2>                    
+                                    <h2><strong>{{object.nbrPhoto}}</strong></h2>                    
                                     <p><small>Photos</small></p>
                                 </div>
                             </div>
@@ -127,4 +129,7 @@
     <!-- end taxonomie -->
 
 </main>
+<script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/modification.js"/>"></script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  
