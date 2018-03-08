@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -66,15 +68,18 @@ public class ReportGenerator {
 //        }
 //    }
 
-    public static void generateJasperReportPDF(File file, TaxonomiBase taxonomi, String realPath, String profil) throws IOException {
+    public  void generateJasperReportPDF(File file, TaxonomiBase taxonomi, String realPath, String profil) throws IOException {
         JRPdfExporter exporter = new JRPdfExporter();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {                        
             // - Chargement et compilation du rapport
-            String reportLocation = "C:\\Users\\vvizard\\JaspersoftWorkspace\\MyReports\\" + "Fiche" + ".jrxml";
-            JasperDesign jasperDesign = JRXmlLoader.load(reportLocation);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+          //  String reportLocation = "E:\\kandra\\lemurs\\src\\main\\resources\\Fiche.jrxml";
+           // JasperDesign jasperDesign = JRXmlLoader.load(reportLocation);
+            InputStream in = this.getClass().getClassLoader().getResourceAsStream("Fiche.jrxml");
 
+            JasperReport jasperReport = JasperCompileManager.compileReport(in);
+            jasperReport.setProperty("net.sf.jasperreports.awt.ignore.missing.font", "true");
+            
             // - Paramètres à envoyer au rapport
             Map parameters = new HashMap();
             parameters.put("entete", realPath+"resources\\assets\\img\\enteteFin.jpg");

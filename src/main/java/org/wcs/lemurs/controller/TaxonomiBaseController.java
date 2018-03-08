@@ -242,7 +242,8 @@ public class TaxonomiBaseController {
                     s = liste.get(0).getChemin();
                 }
             }
-            ReportGenerator.generateJasperReportPDF(file, donneeToDownload, realPath, s);
+            System.out.println(realPath);
+            new ReportGenerator().generateJasperReportPDF(file, donneeToDownload, realPath, s);
 //            exportService.genererPdfSujet(file, donneeToDownload, realPath);
             Files.copy(file.toPath(), response.getOutputStream());
         } catch (Exception ex) {
