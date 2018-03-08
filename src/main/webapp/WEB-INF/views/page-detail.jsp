@@ -83,7 +83,7 @@
                                         </p>-->
                     <br>
                     <p align="center">
-                        <button type="button" class="btn btn-primary" ng-click="editer(liste[<%out.print(taxo.getId());%>])">Modifier</button>
+                        <button type="button" class="btn btn-primary" ng-click="editer(liste)">Modifier</button>
                     </p>
                     <!--                    <p align="center">
                                             <button type="button" class="btn btn-primary" ng-click="editer(form)">Ajouter</button>
@@ -702,7 +702,7 @@
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/taxonomicontroller.js"/>"  charset="utf-8"></script>
+<script src="<c:url value="/resources/assets/js/controller/detailTaxonomiController.js"/>"  charset="utf-8"></script>
 <script>
                             function initMap() {
                             var centre = {lat: - 18.9136800, lng: 47.5361300};

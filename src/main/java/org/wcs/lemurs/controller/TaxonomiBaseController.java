@@ -59,6 +59,12 @@ public class TaxonomiBaseController {
     public List<VueRechercheTaxonomi> findByespece(@RequestBody VueRechercheTaxonomi t) throws Exception {
         return (List<VueRechercheTaxonomi>) (List<?>) taxonomiBaseService.findMultiCritere(t);
     }
+    
+    @RequestMapping(value = "/findByespeceTaxoId", method = RequestMethod.POST, headers = "Accept=application/json")
+    public VueRechercheTaxonomi findByespeceId(@RequestBody VueRechercheTaxonomi t) throws Exception {
+        taxonomiBaseService.findById(t);
+        return t;
+    }
 
 //    @RequestMapping(value = "/detailLemurien", method = RequestMethod.POST, headers = "Accept=application/json")
 //    public TaxonomiBase detailLemurien(@RequestParam(value = "idLemurien") int id) throws Exception {

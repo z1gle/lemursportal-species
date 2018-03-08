@@ -171,8 +171,10 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             $scope.recherche = $scope.darwin.scientificname;
+            $('#modal-upload-dwc').modal('hide');
         }, function error(response) {
             $('#modal-alert').modal({backdrop: 'static'});
+            $('#modal-upload-dwc').modal('hide');
         });
     };
 //    $(document).ready(function () {

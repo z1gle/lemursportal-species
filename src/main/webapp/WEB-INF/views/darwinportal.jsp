@@ -161,12 +161,13 @@
                     <%
                         if (role == 0) {
                     %>
-                    <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
-                        <div>Importer un fichier Excel:</div>
-                        <input id="csv-xl" name="excelfile" ng-model="file" type="file">
-                        <input id="publique" type="checkbox" value="1"> publique
-                        <input type="submit" id="publique" ng-click="upload()" value="Importer">
-                    </form>
+                    <!--                    <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
+                                            <div>Importer un fichier Excel:</div>
+                                            <input id="csv-xl" name="excelfile" ng-model="file" type="file">
+                                            <input id="publique" type="checkbox" value="1"> publique
+                                            <input type="submit" id="publique" ng-click="upload()" value="Importer">
+                                        </form>-->
+                    <button style="float: right;" class="btn btn-primary" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});">Ajouter darwin core</button>
                     <%}%>
                     <!-- END PAGINATION -->
                 </div>
@@ -364,6 +365,28 @@
             </div>
         </div>
     </div>
+
+    <div id='modal-upload-dwc' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Importer des darwin core</center></h4>
+                </div>
+                <div class='modal-body row'>   
+                    <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
+                        <div>Importer un fichier Excel:</div>
+                        <input id="csv-xl" name="excelfile" ng-model="file" type="file">
+                        <input id="publique" type="checkbox" value="1"> publique
+                    </form>
+                </div>
+                <div class='modal-footer row'>                        
+                    <input class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" value="Importer">                        
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>                    
+                </div>                    
+            </div>
+        </div>
+    </div>
     <!-- end darwin -->
 
 </main>
@@ -399,76 +422,78 @@
 //                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
 //                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
 //                        }
-                        function showCommentairFirst() {    
+                        function showCommentairFirst() {
                             $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
-                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});                            
+                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
                         }
 
-                        function validate(status) {                      
+                        function validate(status) {
                             var valeurs = $('[name="dwc[]"]');
                             var data = "?";
-                            for(var i = 0; i < valeurs.length; i++) {
-                                if(valeurs[i].checked == true) {
-                                    data = data + valeurs[i].name+"="+valeurs[i].value+"&";
+                            for (var i = 0; i < valeurs.length; i++) {
+                                if (valeurs[i].checked == true) {
+                                    data = data + valeurs[i].name + "=" + valeurs[i].value + "&";
                                     console.log(data);
                                 }
                             }
                             var temp = $('#commentaires').val();
                             console.log(temp);
-                            if(temp == undefined) temp = "";
-                            data = data + "status="+status+"&commentaires="+temp;
+                            if (temp == undefined)
+                                temp = "";
+                            data = data + "status=" + status + "&commentaires=" + temp;
                             console.log(data);
-                            $.ajax({                                
+                            $.ajax({
                                 type: 'get',
-                                url: 'validerListDwc'+data,
+                                url: 'validerListDwc' + data,
 //                                dataType: 'json',
 //                                enctype: 'multipart/form-data',
                                 processData: false,
                                 contentType: false,
                                 cache: false,
                                 success: function (json) {
-                                    if(json.etat == 1) {
+                                    if (json.etat == 1) {
                                         console.log(json.etat);
                                         angular.element('#controller').scope().getalls();
                                         angular.element('#controller').scope().$apply();
 //                                        window.location = 'profil';
-                                    }
-                                    else if(json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° '+json.n+' a déja été marqué comme '+json.status+' par '+json.expert);
+                                    } else if (json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
                                         showModal(status);
                                     }
-                                    $('#commentaires').value="";
+                                    $('#commentaires').value = "";
                                 }
                             });
-                        };
-                        
-                        function continueValidate(status, etat) {                      
-                            var data = "?continuer=";         
-                            var temp = $('#commentaires').val();                                   
+                        }
+                        ;
+
+                        function continueValidate(status, etat) {
+                            var data = "?continuer=";
+                            var temp = $('#commentaires').val();
                             console.log(temp);
-                            if(temp == undefined) temp = "";
-                            data = data + etat+"&status="+status+"&commentaires="+temp;
+                            if (temp == undefined)
+                                temp = "";
+                            data = data + etat + "&status=" + status + "&commentaires=" + temp;
                             console.log(data);
-                            $.ajax({                                
+                            $.ajax({
                                 type: 'get',
-                                url: 'continuerValiderListDwc'+data,
+                                url: 'continuerValiderListDwc' + data,
                                 processData: false,
                                 contentType: false,
                                 cache: false,
                                 success: function (json) {
-                                    if(json.etat == 1) {
+                                    if (json.etat == 1) {
                                         console.log(json.etat);
 //                                        window.location = 'profil';
                                         angular.element('#controller').scope().getalls();
                                         angular.element('#controller').scope().$apply();
-                                    }
-                                    else if(json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° '+json.n+' a déja été marqué comme '+json.status+' par '+json.expert);
+                                    } else if (json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
                                         showModal(status);
                                     }
-                                    $('#commentaires').value="";
+                                    $('#commentaires').value = "";
                                 }
                             });
-                        };
+                        }
+                        ;
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  
