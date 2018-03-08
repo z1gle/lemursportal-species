@@ -635,7 +635,7 @@
                                 <p><label>Protected area occurrences :</label><input class="form-control" type="text" ng-model ="form.protectedareaoccurrences"></p>
                                 <p><label>protected area occurrencesSources :</label><input class="form-control" type="text" ng-model ="form.protectedAreaOccurrencesSources"></p>
                                 <p><label>Species expert :</label><input class="form-control" type="text" ng-model ="form.speciesExpert"></p>
-                                <p><label>News and updates :</label><input class="form-control" type="text" ng-model ="form.newAndUpdates"></p>
+                                <p><label>News and updates :</label><input class="form-control" type="text" value = "<%out.print(taxo.getNewAndUpdates());%>"></p>
                                 <p><label>Top five publications :</label><input class="form-control" type="text" ng-model ="form.topFivePublication"></p>                                
                             </div>
                         </div>           

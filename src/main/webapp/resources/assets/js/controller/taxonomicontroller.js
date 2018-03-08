@@ -61,6 +61,9 @@ app.controller("taxonomi", function ($scope, $http) {
     };
 
     $scope.save = function () {
+        $scope.form.id = $("#idDwc").val();
+        console.log($("#idDwc").val());
+        console.log($scope.form);
         $http({
             method: 'POST',
             url: 'saveTaxo',
