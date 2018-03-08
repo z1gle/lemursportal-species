@@ -50,7 +50,7 @@
                                             %>
                                         <li><a href="" onclick="window.location='taxonomiCsv'"><i class="fa fa-download"></i> Telecharger_CSV</a></li>
                                         <!--<li></li>-->
-                                        <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li> 
                                             <%}%>
                                     </ul>
                                 </span>

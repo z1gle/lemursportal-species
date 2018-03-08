@@ -10,7 +10,7 @@
     <section id="taxonomie">
         <div class="banner-interieur" style="background:url(/lemurs/resources/assets/img/parallax/fexpert.jpg) no-repeat center center;">
             <div class="container" style="margin-top: 5%;">
-                <div class="col-md-6 col-md-offset-3">
+                <div class="col-md-6 col-md-offset-3"> 
                     <!-- Search Form -->
                     <form role="form">
                         <!-- Search Field -->
@@ -64,11 +64,9 @@
                                         <span class="tags"><%out.print(r.getDesignation());%></span> 
                                         <%
                                                 if (r.getDesignation().compareTo("EXPERT") == 0) {
-                                                    expert = true;
-                                                    break;
+                                                    expert = true;                                                    
                                                 } else if (r.getDesignation().compareTo("Chercheur") == 0) {
-                                                    chercheur = true;
-                                                    break;
+                                                    chercheur = true;                                                    
                                                 }
                                             }
                                         %>
