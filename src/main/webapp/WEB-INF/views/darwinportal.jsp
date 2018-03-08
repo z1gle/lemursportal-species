@@ -60,8 +60,9 @@
                     <ul class="nav nav-tabs">
                         <li class="" id="tab-pellicule"><a href="" onclick="pellicule()">Pellicule</a></li>
                         <li class="" id="tab-liste"><a href="" onclick="liste()">Liste</a></li>
-                    </ul>
-                    <!-- End Stat -->
+                    </ul>                    
+                    <!-- End Stat -->                    
+                    <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
                     <div class="col-md-12" id="pellicule">                        
                         <!-- Vignette -->
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-repeat="dwc in liste">

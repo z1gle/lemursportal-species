@@ -24,8 +24,10 @@ app.controller("taxonomi", function ($scope, $http) {
             }
         }).then(function success(response) {
             $scope.liste = response.data;
+            $("#loader-spinner").hide();
         }, function error(response) {
             console.log(response.statusText);
+            $("#loader-spinner").hide();
         });
     }
 
@@ -40,8 +42,10 @@ app.controller("taxonomi", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             $scope.recherche = $scope.taxonomi.test;
+            $("#loader-spinner").hide();
         }, function error(response) {
             console.log(response.statusText);
+            $("#loader-spinner").hide();
         });
     };
 

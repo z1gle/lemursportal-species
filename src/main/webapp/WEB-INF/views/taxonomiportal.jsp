@@ -56,8 +56,9 @@
                                 </span>
                             </div>
 
-                            <!-- TABLE RESULT -->
+                            <!-- TABLE RESULT -->                            
                             <div class="table-responsive">
+                                <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>

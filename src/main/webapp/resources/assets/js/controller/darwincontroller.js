@@ -42,8 +42,10 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             paginer($scope.liste[0].total, 20, 1);
+            $("#loader-spinner").hide();
         }, function error(response) {
             console.log(response);
+            $("#loader-spinner").hide();
         });
     }
     function paginer(liste, pas, position) {        
@@ -75,8 +77,10 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             $scope.recherche = $scope.darwin.scientificname;
+            $("#loader-spinner").hide();
         }, function error(response) {
             console.log(response.statusText);
+            $("#loader-spinner").hide();
         });
     };
     $scope.rechercherMulti = function () {
@@ -110,9 +114,11 @@ app.controller("darwin", function ($scope, $http) {
 //            dataType: 'json'
         }).then(function success(response) {
             $scope.liste = response.data;
+            $("#loader-spinner").hide();
 //            $scope.recherche=$scope.darwin.scientificname;
         }, function error(response) {
             console.log(response.statusText);
+            $("#loader-spinner").hide();
         });
     };
     $scope.getColonnes = function () {
