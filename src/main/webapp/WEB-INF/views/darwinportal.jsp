@@ -377,7 +377,8 @@
                     <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
                         <div>Importer un fichier Excel:</div>
                         <input id="csv-xl" name="excelfile" ng-model="file" type="file">
-                        <input id="publique" type="checkbox" value="1"> publique
+                        <input id="publique" type="checkbox" value="1"> publique <br>
+                        Termes et condition <a href="#" onclick="window.open('resources/assets/policy.pdf','_blank')">telecharger ici</a>
                     </form>
                 </div>
                 <div class='modal-footer row'>                        
