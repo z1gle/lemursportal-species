@@ -59,6 +59,10 @@
                     </div>
                     <p class="name-img"><%out.print(taxo.getAcceptednameusage());%> - Mammadia</p>
 
+                    <iframe class="img-responsive"
+                            src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                    </iframe>
+
                     <!-- /.carousel -->
 
 
@@ -66,7 +70,7 @@
                         <!--                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>-->
                     </div>
                     <p align="center">
-                        <button type="button" class="btn btn-primary"><span class="fa fa-download"></span> Télécharger la fiche</button>
+                        <button type="button" onclick="window.location = 'ficheTaxonomi?id=<%out.print(taxo.getId());%>';" class="btn btn-primary"><span class="fa fa-download"></span> Télécharger la fiche</button>
                     </p>
                     <%
                         if (moderateur == 0) {
@@ -94,18 +98,117 @@
                             Taxonomie
                         </p>
                         <ul>
-                            <li>Kingdom: <%out.print(taxo.getKingdom());%></li>
-                            <li>Phylum: <%out.print(taxo.getPhylum());%></li>
-                            <li>Class: <%out.print(taxo.getDwcclass());%></li>
-                            <li>Order: <%out.print(taxo.getDwcorder());%></li>
-                            <li>Family: <%out.print(taxo.getDwcfamily());%></li>
-                            <li>Genus: <%out.print(taxo.getGenus());%></li>
-                            <li>Scientific Name: <%out.print(taxo.getScientificname());%></li>
-                            <li>French Vernacular Name: <%out.print(taxo.getFrenchvernacularname());%></li>
-                            <li>Malagasy Vernacular Name: <%out.print(taxo.getMalagasyvernacularname());%></li>
-                            <li>English Vernacular Name: <%out.print(taxo.getEnglishvernacularname());%></li>
-                            <li>Germany Vernacular Name: <%out.print(taxo.getGermanyVernacularName());%></li>
+                            <div class="row">
+                                <li>                                
+                                    <div class="col-md-4">
+                                        Kingdom:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getKingdom());%>
+                                    </div>                                                                                                     
+                                </li>
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Phylum:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getPhylum());%>
+                                    </div>                                     
+                                </li>
+                            </div>   
+                            <div class="row">    
+                                <li>                                
+                                    <div class="col-md-4">
+                                        Class:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getDwcclass());%>
+                                    </div>                                                                     
+                                </li>
+                            </div>   
+                            <div class="row">
+                                <li>                                
+                                    <div class="col-md-4">
+                                        Order:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getDwcorder());%>
+                                    </div>                                                                        
+                                </li>             
+                            </div>
+                            <div class="row">    
+                                <li>                                
+                                    <div class="col-md-4">
+                                        Family:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getDwcfamily());%>
+                                    </div>                                                                     
+                                </li>
+                            </div>   
+                            <div class="row">    
+                                <li>                                
+                                    <div class="col-md-4">
+                                        Genus:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getGenus());%>
+                                    </div>                                                                     
+                                </li>
+                            </div>   
+                            <div class="row">    
+                                <li>
 
+                                    <div class="col-md-4">
+                                        Scientific Name:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getScientificname());%>
+                                    </div>                                                                     
+                                </li>
+                            </div>   
+                            <div class="row">
+                                <li>                                
+                                    <div class="col-md-4">
+                                        French Vernacular Name:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getFrenchvernacularname());%>
+                                    </div>                                                                     
+                                </li>
+                            </div>   
+                            <div class="row">
+                                <li>                                
+                                    <div class="col-md-4">
+                                        Malagasy Vernacular Name:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getMalagasyvernacularname());%>
+                                    </div>                                                                     
+                                </li>
+                            </div>   
+                            <div class="row">
+                                <li>                                
+                                    <div class="col-md-4">
+                                        English Vernacular Name:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getEnglishvernacularname());%>
+                                    </div>                                                                     
+                                </li>
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Germany Vernacular Name:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getGermanyVernacularName());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
                         </ul>
                     </div>
 
@@ -114,11 +217,56 @@
                             Morphologie
                         </p>
                         <ul>
-                            <li>Length and weight: <%out.print(taxo.getLengthAndWeight());%></li>
-                            <li>Length and weight source: <%out.print(taxo.getLengthAndWeightSource());%></li>
-                            <li>Color (EN): <%out.print(taxo.getColorEn());%></li>
-                            <li>Color (FR): <%out.print(taxo.getColorFr());%></li>
-                            <li>Color source: <%out.print(taxo.getColorSource());%></li>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Length and weight:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getLengthAndWeight());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Length and weight source:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getLengthAndWeightSource());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Color (EN): 
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getColorEn());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Color (FR):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getColorFr());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Color source:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getColorSource());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
                         </ul>
                     </div> 
 
@@ -127,11 +275,56 @@
                             Habitat et Densité de la population
                         </p>
                         <ul>
-                            <li>Habitat (EN): <%out.print(taxo.getHabitatEn());%></li>
-                            <li>Habitat (FR): <%out.print(taxo.getHabitatFr());%></li>
-                            <li>Habitat Source: <%out.print(taxo.getHabitatsource());%></li>
-                            <li>Population density: <%out.print(taxo.getPopulationDensity());%></li>
-                            <li>Population Density Source: <%out.print(taxo.getPopulationDensitySource());%></li>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Habitat (EN):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getHabitatEn());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Habitat (FR):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getHabitatFr());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Habitat Source: 
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getHabitatsource());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Population density:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getPopulationDensity());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Population Density Source:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getPopulationDensitySource());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
                         </ul> 
                     </div> 
 
@@ -140,12 +333,66 @@
                             Ecologie et comportement
                         </p>
                         <ul>
-                            <li>Ecology (EN): <%out.print(taxo.getEcologyEn());%></li>
-                            <li>Ecology (FR): <%out.print(taxo.getEcologyFr());%></li>
-                            <li>Ecology Source: <%out.print(taxo.getEcologysource());%></li>
-                            <li>Social behavior (EN): <%out.print(taxo.getBehaviorEn());%></li>
-                            <li>Social behavior (FR): <%out.print(taxo.getBehaviorFr());%></li>
-                            <li>Social behavior Source: <%out.print(taxo.getBehaviorsource());%></li>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Ecology (EN):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getEcologyEn());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Ecology (FR):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getEcologyFr());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Ecology Source:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getEcologysource());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Social behavior (EN):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getBehaviorEn());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Social behavior (FR):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getBehaviorFr());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Social behavior Source:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getBehaviorsource());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
                         </ul> 
                     </div> 
 
@@ -154,9 +401,36 @@
                             Menaces
                         </p>
                         <ul>
-                            <li>Menaces	Threat (EN): <%out.print(taxo.getThreatEn());%></li>
-                            <li>Threat (FR): <%out.print(taxo.getThreatFr());%></li>
-                            <li>Threat Source: <%out.print(taxo.getThreatsource());%></li>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Menaces	Threat (EN):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getThreatEn());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Threat (FR):
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getThreatFr());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-4">
+                                        Threat Source:
+                                    </div>
+                                    <div class="col-md-8">
+                                        <%out.print(taxo.getThreatsource());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
                         </ul>                        
                     </div>          
                 </div>
@@ -165,13 +439,9 @@
                     if (moderateur == 0) {
                 %>   
                 <div class="clearfix"></div>
-                <div class="col-md-12">
-                    <div class="tabbable-panel">
-                        <form id="uploadPhoto" method="POST" enctype="multipart/form-data">
-                            <input id="photo" style="float: left;" type="file">
-                            <div style="float: left; margin-left: 35px; margin-right: 35px;"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">profil</div>
-                            <button ng-click="uploadPhoto()">Enregistrer</button>
-                        </form>
+                <div class="col-md-12">                    
+                    <div class="tabbable-panel">                        
+                        <button style="float: right;" class="btn btn-primary" onclick="$('#modal-upload-photo').modal({backdrop: 'static'});">Ajout Photo</button>
                         <form id="uploadVideo" method="POST">
                             <input id="lien" style="float: left;" type="text" placeholder="veuiller insérer le lien de la vidéo">                    
                             <button ng-click="uploadVideo()">Enregistrer</button>
@@ -209,29 +479,92 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_uicn">
                                     <ul>
-                                        <li>Conservation Statut IUCN: <%out.print(taxo.getConservationStatus());%></li>
-                                        <li>IUCN Source: <%out.print(taxo.getIucnSource());%></li>
+                                        <div class="row">
+                                            <li>
+                                                <div class="col-md-4">
+                                                    Conservation Statut IUCN:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <%out.print(taxo.getConservationStatus());%>
+                                                </div>                                                                        
+                                            </li>                            
+                                        </div>
+                                        <div class="row">
+                                            <li>
+                                                <div class="col-md-4">
+                                                    IUCN Source:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <%out.print(taxo.getIucnSource());%>
+                                                </div>                                                                        
+                                            </li>                            
+                                        </div>
                                     </ul>                                    
                                 </div>
                                 <div class="tab-pane" id="tab_aire">
                                     <ul>
-                                        <li>Protected area occurrences: <%out.print(taxo.getProtectedareaoccurrences());%></li>
-                                        <li>protected area occurrences Sources: <%out.print(taxo.getProtectedAreaOccurrencesSources());%></li>
+                                        <div class="row">
+                                            <li>
+                                                <div class="col-md-4">
+                                                    Protected area occurrences:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <%out.print(taxo.getProtectedareaoccurrences());%>
+                                                </div>                                                                        
+                                            </li>                            
+                                        </div>
+                                        <div class="row">
+                                            <li>
+                                                <div class="col-md-4">
+                                                    protected area occurrences Sources:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <%out.print(taxo.getProtectedAreaOccurrencesSources());%>
+                                                </div>                                                                        
+                                            </li>                            
+                                        </div>
                                     </ul>
                                 </div>
                                 <div class="tab-pane" id="tab_expert">
                                     <ul>
-                                        <li>Species expert: <%out.print(taxo.getSpeciesExpert());%></li>
+                                        <div class="row">
+                                            <li>
+                                                <div class="col-md-4">
+                                                    Species expert: 
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <%out.print(taxo.getSpeciesExpert());%>
+                                                </div>                                                                        
+                                            </li>                            
+                                        </div>
                                     </ul>
                                 </div>
                                 <div class="tab-pane" id="tab_actu">
                                     <ul>
-                                        <li>News and updates: <%out.print(taxo.getNewAndUpdates());%></li>
+                                        <div class="row">
+                                            <li>
+                                                <div class="col-md-4">
+                                                    News and updates:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <%out.print(taxo.getNewAndUpdates());%>
+                                                </div>                                                                        
+                                            </li>                            
+                                        </div>                                        
                                     </ul>
                                 </div>
                                 <div class="tab-pane" id="tab_pub">
                                     <ul>
-                                        <li>Top five publications: <%out.print(taxo.getTopFivePublication());%></li>
+                                        <div class="row">
+                                            <li>
+                                                <div class="col-md-4">
+                                                    Top five publications:
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <%out.print(taxo.getTopFivePublication());%>
+                                                </div>                                                                        
+                                            </li>                            
+                                        </div>
                                     </ul>
                                 </div>
                             </div>
@@ -341,23 +674,48 @@
         </div>
     </div>
 
+    <div id='modal-upload-photo' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Ajouter une photo</center></h4>
+                </div>
+                <form id="uploadPhoto" method="POST" enctype="multipart/form-data">
+                    <div class='modal-body'>                    
+                        <input style="margin-bottom: 1px;" id="photo" class="form-control" type="file">
+                        <div style="margin-bottom: 1px;" class="form-control"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">Photo profil</div>
+                        <input class="form-control" type="date" id="datePrisePhoto" name="datePrisePhoto" placeholder="veuiller insérer la date quand la photo a été prise">                                            
+                        Termes et conditions
+                        <textarea readonly class="form-control" style="max-height: 100px; overflow-y: auto; background-color: white;">Vous pouvez utiliser nos produits uniquement si vous acceptez d'être lié à Lemurs portal par un contrat contraignant, et de vous conformer aux présentes conditions et à toutes les lois applicables. Lors de la création de votre compte Lemurs portal, vous devez nous fournir des renseignements exacts et complets. L'utilisation ou l'accès est interdit à toute personne âgée de moins de 13 ans. Si vous ouvrez un compte au nom d'une entreprise, d'une organisation ou de toute autre entité, alors (a) le terme « vous » désigne vous-même en tant que personne ainsi que cette entité, et (b) vous déclarez et garantissez que vous êtes habilité à accorder toutes les autorisations et licences citées dans ces conditions et à engager l'entité dans le cadre de ces conditions et que vous acceptez ces conditions au nom de l'entité. Certains de nos produits peuvent être des logiciels qui seront téléchargés sur votre ordinateur, téléphone, tablette ou tout autre appareil. Vous acceptez que nous procédions à une mise à jour automatique des produits et que les présentes conditions s'appliquent à de telles mises à jour.</textarea>
+                    </div>
+                    <div class='modal-footer'>
+                        <div style="float: left;">*Les termes et conditions doivent être accépter pour envoyer des photos</div>
+                        <button class="btn btn-success" ng-click="uploadPhoto()">Accepter et enregistrer</button>
+                        <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>                    
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/taxonomicontroller.js"/>"  charset="utf-8"></script>
 <script>
-                        function initMap() {
-                        var centre = {lat: - 18.9136800, lng: 47.5361300};
-                        var mark = {lat: - 18.9136800, lng: 47.5361300};
-                        var map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 6,
-                                center: centre
-                        });
-                        var marker = new google.maps.Marker({
-                        position: mark,
-                                map: map
-                        });
-                        }
-                        google.maps.event.addDomListener(window, "load", initMap);
+                            function initMap() {
+                            var centre = {lat: - 18.9136800, lng: 47.5361300};
+                            var mark = {lat: - 18.9136800, lng: 47.5361300};
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 6,
+                                    center: centre
+                            });
+                            var marker = new google.maps.Marker({
+                            position: mark,
+                                    map: map
+                            });
+                            }
+                            google.maps.event.addDomListener(window, "load", initMap);
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

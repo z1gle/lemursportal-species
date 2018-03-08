@@ -82,6 +82,26 @@ app.controller("controller", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
+    
+    $scope.getalls = function() {
+        var formData = {
+            'id': $('#idDwc').val(),
+            'idUtilisateurUpload' : $('#idUtilisateur').val()            
+        };
+        $http({
+            method: 'GET',
+            url: urlLoad,
+            data: formData,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            $scope.liste = response.data;
+        }, function error(response) {
+            console.log(response);
+        });
+    };
 //
 //    $scope.rechercherMulti=function(){
 //        var formData = {

@@ -195,7 +195,7 @@ public class TaxonomiBaseService extends BaseService {
         }
     }
 
-    public List<PhotoTaxonomi> enregistrerPhoto(MultipartFile photo, TaxonomiBase taxonomi, Utilisateur utilisateur, boolean profil, String cheminReal) throws IOException, Exception {
+    public List<PhotoTaxonomi> enregistrerPhoto(MultipartFile photo, TaxonomiBase taxonomi, Utilisateur utilisateur, boolean profil, String cheminReal, String datePrisePhoto) throws IOException, Exception {
         File fileTemp = File.createTempFile("temp", ".img");
         Session session = null;
         Transaction tr = null;
@@ -219,6 +219,7 @@ public class TaxonomiBaseService extends BaseService {
             photoTaxonomi.setChemin("resources/assets/img/photos/" + nomPhoto);
             photoTaxonomi.setDatePhoto(datePhoto);
             photoTaxonomi.setIdUtilisateurUpload(utilisateur.getId());
+            photoTaxonomi.setDatePrisPhotoString(datePrisePhoto);
 //            photoTaxonomi.setProfil(profil);
             save(session, photoTaxonomi);
             photoTaxonomi = new PhotoTaxonomi();
@@ -304,5 +305,46 @@ public class TaxonomiBaseService extends BaseService {
             save(t);
         }
         in.close();
+    }
+    
+    public void correctionSyntax() throws Exception {
+        Session session = null;
+        Transaction tr = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            tr = session.beginTransaction();
+            List<TaxonomiBase> liste = (List<TaxonomiBase>) (List<?>) this.findMultiCritere(session, new TaxonomiBase());
+            for (TaxonomiBase dw : liste) {
+                if (dw.getDwcfamily()!= null) {
+                    dw.setDwcfamily(MailService.formatterDarwinCore(dw.getDwcfamily().toUpperCase()));
+                }
+
+                if (dw.getGenus() != null) {
+                    dw.setGenus(MailService.formatterDarwinCore(dw.getGenus().toUpperCase()));
+                }
+
+                if (dw.getScientificname() != null) {
+                    String low = dw.getScientificname().toLowerCase();
+                    String[] listLow = low.split(" ");
+                    low = "";
+                    for (String s : listLow) {
+                        s = s.substring(0, 1).toUpperCase() + s.substring(1);
+                        low += s + " ";
+                    }
+                    low = low.substring(0, low.length() - 1);
+                    dw.setScientificname(MailService.formatterDarwinCore(low));
+                }
+
+                this.save(session, dw);
+            }
+            tr.commit();
+        } catch (Exception ex) {
+            tr.rollback();
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

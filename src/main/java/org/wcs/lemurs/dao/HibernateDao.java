@@ -147,6 +147,28 @@ public class HibernateDao {
         return criteria.list();
     }
 
+    public List<BaseModel> findMultiCritereSansLike(Session session, BaseModel obj) throws Exception {
+        Example example = Example.create(obj);
+        example.ignoreCase();
+        example.excludeZeroes();
+        Criteria criteria = session.createCriteria(obj.getClass()).add(example);
+        return criteria.list();
+    }
+
+    public List<BaseModel> findMultiCritereSansLike(BaseModel obj) throws Exception {
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            return findMultiCritereSansLike(session, obj);
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public void commit() {
         Session session = null;
         Transaction tr = null;
@@ -199,18 +221,20 @@ public class HibernateDao {
     public List<BaseModel> findAll(Session session, BaseModel obj, int page, int nombre) throws Exception {
         Criteria criteria = session.createCriteria(obj.getClass());
         Example example = Example.create(obj);
-        example.enableLike();
+        example.enableLike(MatchMode.ANYWHERE);
         example.ignoreCase();
         criteria.add(example);
-        criteria.setFirstResult(getFirstResult(page, nombre));
-        criteria.setMaxResults(nombre);
+        if (page > 0 && nombre > 0) {
+            criteria.setFirstResult(getFirstResult(page, nombre));
+            criteria.setMaxResults(nombre);
+        }
         return criteria.list();
     }
 
     public int getFirstResult(int page, int nombre) {
         return (page - 1) * nombre;
     }
-    
+
     public List<BaseModel> findAll(BaseModel obj, int page, int nombre) throws Exception {
         Session session = null;
         try {

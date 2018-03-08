@@ -235,3 +235,39 @@ var wow = new WOW ({
 });
 wow.init();
 
+// Deatils obs
+var $numberOfBullets = $(".nav-item-obs")
+var $numberOfSlides = $(".slide-obs");
+
+var counter = 0;
+
+function checkCounter() {
+  if(counter == 0) {
+    $("#more-up").css({"display":"none"});
+  }else if(counter == 5) {
+    $("#more-down").css({"display":"none"});
+  }else {
+    $("#more-up").css({"display":"block"});
+    $("#more-down").css({"display":"block"});
+  }
+}
+
+$(document).ready(function () {
+
+  /// MOVING BIG SLIDES
+  $(".nav-item-obs").click(function () {
+    var indexOfBullet = $(this).index();
+    $("#slides-obs").css({"left": "-500" * indexOfBullet, "transition": "1s" });
+  });
+
+  /// MOVING SMALL SLIDES
+  $("#more-down").click(function () {
+    $("#nav-images").css({"top": "-100" * ++counter, "transition": "1s"});
+    checkCounter();
+  });
+  $("#more-up").click(function () {
+    $("#nav-images").css({"top": "-100" * --counter, "transition": "1s"});
+    checkCounter();
+  });
+
+});

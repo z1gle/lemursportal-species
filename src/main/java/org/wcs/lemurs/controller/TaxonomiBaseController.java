@@ -5,13 +5,18 @@
  */
 package org.wcs.lemurs.controller;
 
+import java.io.File;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.ModelMap;
@@ -30,7 +35,9 @@ import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.VideoTaxonomi;
 import org.wcs.lemurs.modele_vue.VueRechercheTaxonomi;
+import org.wcs.lemurs.service.ExportService;
 import org.wcs.lemurs.service.TaxonomiBaseService;
+import org.wcs.lemurs.util.ReportGenerator;
 import org.wcs.lemurs.util.UploadFile;
 
 /**
@@ -42,7 +49,11 @@ public class TaxonomiBaseController {
 
     @Autowired(required = true)
     @Qualifier("taxonomiBaseService")
-    private TaxonomiBaseService taxonomiBaseService;    
+    private TaxonomiBaseService taxonomiBaseService;
+
+    @Autowired(required = true)
+    @Qualifier("exportService")
+    private ExportService exportService;
 
     @RequestMapping(value = "/findByespeceTaxo", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<VueRechercheTaxonomi> findByespece(@RequestBody VueRechercheTaxonomi t) throws Exception {
@@ -89,8 +100,8 @@ public class TaxonomiBaseController {
         List<String> nom = new ArrayList<>();
         nom.add("dwcf");
         List<Object> param = new ArrayList<>();
-        param.add(requestData);
-        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct genus from taxonomi_base where dwcfamily = :dwcf", nom, param);
+        param.add("%"+requestData+"%");
+        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct genus from taxonomi_base where dwcfamily ilike :dwcf", nom, param);
     }
 
     @RequestMapping(value = "/getEspece", method = RequestMethod.GET, headers = "Accept=application/json")
@@ -98,8 +109,8 @@ public class TaxonomiBaseController {
         List<String> nom = new ArrayList<>();
         nom.add("dwcgen");
         List<Object> param = new ArrayList<>();
-        param.add(requestData);
-        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct scientificname from taxonomi_base where genus = :dwcgen", nom, param);
+        param.add("%"+requestData+"%");
+        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct scientificname from taxonomi_base where genus ilike :dwcgen", nom, param);
     }
 
     @RequestMapping(value = "/assigner", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -158,7 +169,7 @@ public class TaxonomiBaseController {
     }
 
     @RequestMapping(value = "/uploadImageTaxonomi")
-    public List<PhotoTaxonomi> uploadImageTaxonomi(ModelMap model, HttpSession session, @RequestParam("profil") Integer profil, @RequestParam("photo") MultipartFile photo, @RequestParam("idTaxonomi") Integer idTaxonomi) {        
+    public List<PhotoTaxonomi> uploadImageTaxonomi(ModelMap model, HttpSession session, @RequestParam("profil") Integer profil, @RequestParam("photo") MultipartFile photo, @RequestParam("idTaxonomi") Integer idTaxonomi, @RequestParam("datePrisePhoto") String datePrisePhoto) {        
         try {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
             if (taxonomiBaseService.checkRole(utilisateur, ROLE_MODERATEUR)) {
@@ -166,9 +177,10 @@ public class TaxonomiBaseController {
                 taxonomi.setId(idTaxonomi);                
                 String realPath = session.getServletContext().getRealPath("/");
 //                System.out.println(realPath);
-                return taxonomiBaseService.enregistrerPhoto(photo, taxonomi, utilisateur, profil == 1, realPath);
+                return taxonomiBaseService.enregistrerPhoto(photo, taxonomi, utilisateur, profil == 1, realPath, datePrisePhoto);
             }            
         } catch (Exception e) {            
+            e.printStackTrace();
         }        
         return null;
     }
@@ -209,4 +221,32 @@ public class TaxonomiBaseController {
 //            e.printStackTrace();
 //        }        
 //    }
+    
+    @RequestMapping(value = "/ficheTaxonomi")
+    public void ficheTaxonomi(HttpSession session, HttpServletResponse response, @RequestParam(value = "id") int id) throws Exception {             
+        TaxonomiBase donneeToDownload = new TaxonomiBase();
+        donneeToDownload.setId(id);
+        taxonomiBaseService.findById(donneeToDownload);
+        response.setHeader("Content-Type", "application/pdf");
+        response.setHeader("Content-Disposition", "attachment;filename=\"fiche_"+donneeToDownload.getScientificname().replaceAll(" ", "_")+".pdf\"");
+        try {
+            File file = File.createTempFile("temp", ".pdf");                                   
+            String realPath = session.getServletContext().getRealPath("/");
+            PhotoTaxonomi profil = new PhotoTaxonomi();
+            profil.setProfil(Boolean.TRUE);
+            profil.setIdTaxonomi(donneeToDownload.getId());
+            List<PhotoTaxonomi> liste = (List<PhotoTaxonomi>)(List<?>)taxonomiBaseService.findMultiCritere(profil);
+            String s = "";
+            if(liste!=null) {
+                if(!liste.isEmpty()) {
+                    s = liste.get(0).getChemin();
+                }
+            }
+            ReportGenerator.generateJasperReportPDF(file, donneeToDownload, realPath, s);
+//            exportService.genererPdfSujet(file, donneeToDownload, realPath);
+            Files.copy(file.toPath(), response.getOutputStream());
+        } catch (Exception ex) {
+            throw ex;
+        }        
+    }
 }

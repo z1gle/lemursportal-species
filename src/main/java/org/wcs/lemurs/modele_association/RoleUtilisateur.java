@@ -7,10 +7,13 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
 
 
 
 @Entity
+@SQLDelete(sql = "DELETE FROM role_utilisateur WHERE id = ?", check=ResultCheckStyle.NONE)
 @AttributeOverrides({
     @AttributeOverride(name="id",column=@Column(name="id"))   
 })

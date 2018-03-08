@@ -97,12 +97,15 @@ app.controller("taxonomi", function ($scope, $http) {
         var file = $('#photo')[0].files[0];
         var id = $('#idDwc').val();
         var profil = $('#profil').is(":checked");
+        var datePrisePhoto = $('#datePrisePhoto').val();
+        console.log(datePrisePhoto);
         var valeurProfil = 0;
         if (profil)
             valeurProfil = 1;
         formData.append("photo", file);
         formData.append("profil", valeurProfil);
         formData.append("idTaxonomi", id);
+        formData.append("datePrisePhoto", datePrisePhoto);
         console.log(valeurProfil);
         console.log(formData);
         $http({
@@ -119,9 +122,11 @@ app.controller("taxonomi", function ($scope, $http) {
             $scope.alerte = "le fichier a été téléchargé avec succes";
             $('#modal-alert').modal({backdrop: 'static'});
             $('#uploadPhoto')[0].reset();
+            $('#modal-upload-photo').hide();
         }, function error(response) {
             console.log(response.statusText);
             $scope.alerte = "Une erreur est survenue lors du téléchargement du fichier";
+            $('#modal-upload-photo').hide();
             $('#modal-alert').modal({backdrop: 'static'});
         });
     };

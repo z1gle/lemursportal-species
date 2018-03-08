@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
-<main class="site-content" role="main" ng-controller="controller">
+<main id="controller" class="site-content" role="main" ng-controller="controller">
     <!--<input type="hidden" value="commentDwc" id="set"/>-->
     <!--<input type="hidden" value="" id="idDwc"/>-->
     <!--<input type="hidden" value="" id="idUtilisateur"/>-->
@@ -79,15 +79,15 @@
                                         <td class="text-center">Etat</td>
                                     </tr>
                                     <tr ng-repeat="dwc in liste">                                        
-                                        <td class="number text-center"><input name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox"></td>
-                                        <td class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
-                                        <td class="text-center">{{dwc.dwc.scientificName}}</td>
-                                        <td class="text-center">{{dwc.dwc.locality}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinOrder}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinClass}}</td>
-                                        <td class="text-center">{{dwc.dwc.genus}}</td>
-                                        <td class="text-center">{{dwc.dwc.dateidentified}}(vérifier)</td>
-                                        <td class="text-center">780(vérifier)</td>   
+                                        <td ng-if="dwc.validation == 1" class="number text-center"><input name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox"></td>
+                                        <td ng-if="dwc.validation == 1"  class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
+                                        <td ng-if="dwc.validation == 1"  class="text-center">{{dwc.dwc.scientificname}}</td>
+                                        <td ng-if="dwc.validation == 1"  class="text-center">{{dwc.dwc.locality}}</td>
+                                        <td ng-if="dwc.validation == 1"  class="text-center">{{dwc.dwc.darwinorder}}</td>
+                                        <td ng-if="dwc.validation == 1"  class="text-center">{{dwc.dwc.darwinclass}}</td>
+                                        <td ng-if="dwc.validation == 1"  class="text-center">{{dwc.dwc.genus}}</td>
+                                        <td ng-if="dwc.validation == 1"  class="text-center">{{dwc.dwc.dateidentified}}(vérifier)</td>
+                                        <td ng-if="dwc.validation == 1"  class="text-center">780(vérifier)</td>   
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == -1" class="number text-center">en attente</td>
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 0" class="number text-center">questionnable</td>
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 1" class="number text-center">validé</td>
@@ -219,9 +219,11 @@
                                     console.log(data);
                                 }
                             }
-                            var temp = $('#commentaires').val();                            
+                            var temp = $('#commentaires').val();
+                            console.log(temp);
                             if(temp == undefined) temp = "";
-                            data = data + "status="+status+"&commentaires="+temp;                            
+                            data = data + "status="+status+"&commentaires="+temp;
+                            console.log(data);
                             $.ajax({                                
                                 type: 'get',
                                 url: 'validerListDwc'+data,
@@ -233,22 +235,26 @@
                                 success: function (json) {
                                     if(json.etat == 1) {
                                         console.log(json.etat);
-                                        window.location = 'profil';
+                                        angular.element('#controller').scope().getalls();
+                                        angular.element('#controller').scope().$apply();
+//                                        window.location = 'profil';
                                     }
                                     else if(json.etat == 0) {
                                         $('.messageMod').html('L\'observation N° '+json.n+' a déja été marqué comme '+json.status+' par '+json.expert);
                                         showModal(status);
                                     }
-                                    $('#commentaires').val("");
+                                    $('#commentaires').value="";
                                 }
                             });
                         };
                         
                         function continueValidate(status, etat) {                      
                             var data = "?continuer=";         
-                            var temp = $('#commentaires').val();                            
+                            var temp = $('#commentaires').val();                                   
+                            console.log(temp);
                             if(temp == undefined) temp = "";
-                            data = data + etat+"&status="+status+"&commentaires="+temp;                            
+                            data = data + etat+"&status="+status+"&commentaires="+temp;
+                            console.log(data);
                             $.ajax({                                
                                 type: 'get',
                                 url: 'continuerValiderListDwc'+data,
@@ -258,12 +264,15 @@
                                 success: function (json) {
                                     if(json.etat == 1) {
                                         console.log(json.etat);
-                                        window.location = 'profil';
+//                                        window.location = 'profil';
+                                        angular.element('#controller').scope().getalls();
+                                        angular.element('#controller').scope().$apply();
                                     }
                                     else if(json.etat == 0) {
                                         $('.messageMod').html('L\'observation N° '+json.n+' a déja été marqué comme '+json.status+' par '+json.expert);
                                         showModal(status);
                                     }
+                                    $('#commentaires').value="";
                                 }
                             });
                         };

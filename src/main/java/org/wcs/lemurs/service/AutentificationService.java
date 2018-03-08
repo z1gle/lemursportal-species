@@ -24,7 +24,7 @@ public class AutentificationService extends BaseService {
 
     public Utilisateur checkLogin(String login, String pw) throws Exception {
         Utilisateur u = new Utilisateur();
-        u.setLogin(login);
+        u.setEmail(login);
         u.setMotdepasse(pw);
         List<Utilisateur> liste = (List<Utilisateur>)(List<?>)findMultiCritere(u);
         if(liste.isEmpty())return null;

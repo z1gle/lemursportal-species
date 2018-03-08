@@ -3,18 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller("controller", function ($scope, $http) {
+app.controller("controller", function ($scope, $http, $sce) {
     $scope.object = {};
     $scope.liste = [];
     $scope.photos = [];
+    $scope.videos = {};
     $scope.alerte = "";
     getallPhotos();
+    getallVideos();
     var urlLoad = $('#load').val();
     var urlSet = $('#set').val();
     var urlFind = $('#find').val();
     var nomVariableLoad = $('#nomVariableLoad').val();
     $scope.urlSave = "";
     load();
+    $scope.trustSrc = function (src) {
+        return $sce.trustAsResourceUrl(src);
+    }    
 
     function load() {
         var formData = {
@@ -102,50 +107,54 @@ app.controller("controller", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
-    
+
+//    $scope.uploadPhoto = function () {
+//        var formData = new FormData();
+//        var file = $('#photo')[0].files[0];
+//        var id = $('#idDwc').val();
+//        var profil = $('#profil').is(":checked");
+//        var valeurProfil = 0;
+//        var datePrisePhoto = $('#datePrisePhoto').val();
+//        console.log("1111");
+//        console.log(datePrisePhoto);
+//        if (profil)
+//            valeurProfil = 1;
+//        formData.append("photo", file);
+//        formData.append("profil", valeurProfil);
+//        formData.append("idDarwinCore", id);
+//        formData.append("datePrisePhoto", datePrisePhoto);                
+//        $http({
+//            method: 'POST',
+//            url: 'uploadImageDarwinCore',
+////            enctype: 'multipart/form-data',
+//            data: formData,
+//            headers: {
+//                'Accept': 'application/json',
+//                'Content-Type': undefined
+//            }
+//        }).then(function success(response) {
+//            $scope.photos = response.data;
+//            alert("la photo a été téléchargée avec succes");
+//            $('#uploadPhoto')[0].reset();
+//        }, function error(response) {
+//            console.log(response.statusText);
+//            alert("un probleme est survenu lors du téléchargement de la photo");
+//        });
+//    };
+
     $scope.uploadPhoto = function () {
         var formData = new FormData();
         var file = $('#photo')[0].files[0];
         var id = $('#idDwc').val();
         var profil = $('#profil').is(":checked");
         var valeurProfil = 0;
+        var datePrisePhoto = $('#datePrisePhoto').val();
         if (profil)
             valeurProfil = 1;
         formData.append("photo", file);
         formData.append("profil", valeurProfil);
         formData.append("idDarwinCore", id);
-        console.log(valeurProfil);
-        console.log(formData);
-        $http({
-            method: 'POST',
-            url: 'uploadImageDarwinCore',
-//            enctype: 'multipart/form-data',
-            data: formData,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': undefined
-            }
-        }).then(function success(response) {
-            $scope.photos = response.data;
-            alert("la photo a été téléchargée avec succes");
-            $('#uploadPhoto')[0].reset();
-        }, function error(response) {
-            console.log(response.statusText);
-            alert("un probleme est survenu lors du téléchargement de la photo");
-        });
-    };
-    
-    $scope.uploadPhoto = function () {
-        var formData = new FormData();
-        var file = $('#photo')[0].files[0];
-        var id = $('#idDwc').val();
-        var profil = $('#profil').is(":checked");
-        var valeurProfil = 0;
-        if (profil)
-            valeurProfil = 1;
-        formData.append("photo", file);
-        formData.append("profil", valeurProfil);
-        formData.append("idDarwinCore", id);
+        formData.append("datePrisePhoto", datePrisePhoto);
         console.log(valeurProfil);
         console.log(formData);
         $http({
@@ -162,17 +171,19 @@ app.controller("controller", function ($scope, $http) {
             $scope.alerte = "le fichier a été téléchargé avec succes";
             $('#modal-alert').modal({backdrop: 'static'});
             $('#uploadPhoto')[0].reset();
+            $('#modal-upload-photo').hide();
         }, function error(response) {
             console.log(response.statusText);
             $scope.alerte = "Une erreur est survenu lors du téléchargement du fichier.";
+            $('#modal-upload-photo').hide();
             $('#modal-alert').modal({backdrop: 'static'});
         });
     };
-    
+
     $scope.uploadVideo = function () {
-        var formData = new FormData();        
+        var formData = new FormData();
         var id = $('#idDwc').val();
-        var lien = $('#lien').val();                
+        var lien = $('#lien').val();
         formData.append("lien", lien);
         formData.append("idDarwinCore", id);
         console.log(lien);
@@ -197,23 +208,44 @@ app.controller("controller", function ($scope, $http) {
             $('#modal-alert').modal({backdrop: 'static'});
         });
     };
-    
-    function getallPhotos() {        
-        var data = "?idDarwinCore="+$('#idDwc').val();
+
+    function getallPhotos() {
+        var data = "?idDarwinCore=" + $('#idDwc').val();
         $http({
             method: 'GET',
-            url: 'getListPhotoDarwinCore' + data,            
+            url: 'getListPhotoDarwinCore' + data,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         }).then(function success(response) {
-            console.log(response);            
-            $scope.photos = response.data;            
+            console.log(response);
+            $scope.photos = response.data;
         }, function error(response) {
-            console.log(response.statusText);                                    
-        });    
-    };
+            console.log(response.statusText);
+        });
+    }
+    ;
+
+    function getallVideos() {
+        var data = "?idDarwinCore=" + $('#idDwc').val();
+        $http({
+            method: 'GET',
+            url: 'getListVideoDarwinCore' + data,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            console.log(response.data[0].lien);
+//            $scope.movie = {src: "http://www.youtube.com/embed/Lx7ycjC8qjE", title: "Egghead.io AngularJS Binding"};
+            $scope.videos = {src : response.data[0].lien, title : "lemuriens"};
+            console.log($scope.videos);
+        }, function error(response) {
+            console.log(response.statusText);
+        });
+    }
+    ;
 //
 //    $scope.rechercherMulti=function(){
 //        var formData = {

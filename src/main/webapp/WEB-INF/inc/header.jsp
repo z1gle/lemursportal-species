@@ -48,10 +48,17 @@
                 <nav class="collapse navbar-collapse navbar-right" role="navigation">
                     <ul id="nav" class="nav navbar-nav">
                         <li><a href="#body">Accueil</a></li>
-                        <li><a href="#about">Qui sommes-nous</a></li>
-                        <li><a href="#datapub">Datapublication</a></li>
-                        <li><a href="#experts">Les experts</a></li>
-                            <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                        <li><a onclick="window.location = 'taxonomi'" href="taxonomi">Espèces</a></li>
+                        <li><a onclick="window.location = 'darwinportal'" href="darwinportal">Observations</a></li>
+                        <li><a onclick="window.location = 'visualisation'" href="visualisation">Cartes</a></li>
+                        <li><a href="#experts">Les experts</a></li>                        
+
+                        <c:if test="${role10001 == 10001}">
+                            <li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>
+                        </c:if>
+
+
+                        <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-user" style="color:#fff!important; margin-left:25px; margin-right:10px;"></i>
@@ -63,6 +70,9 @@
                                         <li><a href="logout" onclick="window.location = 'logout'"><i class="fa fa-power-off"></i>&nbsp; Déconnexion</a></li>
                                     </ul>
                                 </li>
+                        </c:if>
+                        <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
+                            <li><a onclick="window.location = 'login'" href="login">Se connecter</a></li>
                         </c:if>
                     </ul>
                 </nav>

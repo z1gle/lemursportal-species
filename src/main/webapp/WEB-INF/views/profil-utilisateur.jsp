@@ -34,32 +34,36 @@
         <div class="utilisateur" >
             <div class="container">
                 <h1 class="titre-page">Utilisateur - <span>Profil</span></h1>
+                <%
+                    boolean expert = false;
+                    boolean chercheur = true;
+                    Utilisateur s = (Utilisateur) request.getAttribute("utilisateur");
+                    Integer nbrCommentaire = (Integer) request.getAttribute("nbrCommentaire");
+                    List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) request.getAttribute("roles");
+                %>
                 <div class="row">
                     <div class="well col-md-12">
                         <div class="profile col-md-4 photo-user" align="center">
-                            <img class="img-responsive img-circle" src="/lemurs/resources/assets/img/user-default.jpg"/>                            
+                            <img class="img-responsive img-circle" src="<%out.print(s.getPhotoProfil());%>"/>                            
                         </div>
                         <div class="profile col-md-8">
                             <div class="col-sm-12">
-                                <div class="col-xs-12 col-sm-12">
-                                    <%
-                                        boolean expert = false;
-                                        boolean chercheur = false;
-                                        Utilisateur s = (Utilisateur) request.getAttribute("utilisateur");
-                                        Integer nbrCommentaire = (Integer) request.getAttribute("nbrCommentaire");
-                                        List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) request.getAttribute("roles");
-                                    %>
+                                <div class="col-xs-12 col-sm-12">                                    
                                     <input type="hidden" value="<%out.print(s.getId());%>" id="idDwc"/>
                                     <input type="hidden" value="resumeUtilisateur" id="load"/>
                                     <h2><%out.print(s.getPrenom() + " " + s.getNom());%></h2>
+                                    <p><strong>Date de naissance: </strong> <%out.print(s.getDateNaissanceString());%> </p>
+                                    <p><strong>E-mail: </strong> <%out.print(s.getEmail());%> </p>
                                     <p><strong>Poste: </strong> <%out.print(s.getPoste());%> </p>
-                                    <p><strong>Localisation: </strong> <%out.print(s.getLocalisation());%> </p>
+                                    <p><strong>Institution </strong> <%out.print(s.getInstitution());%> </p>
+                                    <!--//              <p><strong>Localisation: </strong>  </p>-->
                                     <p><strong>Biographie: </strong> <%out.print(s.getBiographie());%> </p>
+                                    <p><strong>Biographie: </strong> <%out.print(s.getPublication());%> </p>
                                     <p><strong>Rôle: </strong>
                                         <%for (VueRoleUtilisateur r : roles) {%>
                                         <span class="tags"><%out.print(r.getDesignation());%></span> 
                                         <%
-                                                if (r.getDesignation().compareTo("Expert vérificateur") == 0) {
+                                                if (r.getDesignation().compareTo("EXPERT") == 0) {
                                                     expert = true;
                                                     break;
                                                 } else if (r.getDesignation().compareTo("Chercheur") == 0) {

@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -22,7 +25,14 @@
     </head>
 
     <body id="body" style="background:url(<c:url value="/resources/assets/img/bg-lemurs.jpg"/>) no-repeat center center; background-size:cover;">
-
+        <form>
+            <select id="langue" name="langue" onchange="submit()">
+                <option>Langue</option>
+                <option value="fr">Français</option>
+                <option value="en">English</option>
+                <option value="mg">Malagasy</option>
+            </select>
+        </form>
         <main class="site-content" role="main">
 
             <!-- taxonomie -->
@@ -54,9 +64,9 @@
                                 <input name="" value="" type="hidden">
 
 
-                                <input class="email" name="login" placeholder="Identifiant" type="text">
-                                <input class="pwd" name="password" placeholder="Votre mot de passe" type="password">
-                                <button class="submit" type="submit">Se connecter</button>
+                                <input class="email" name="login" placeholder="<spring:message code="login.label.username"/>" type="text">
+                                <input class="pwd" name="password" placeholder="<spring:message code="login.label.password"/>" type="password">
+                                <button class="submit" type="submit"><spring:message code="login.button.submit"/></button>
                                 <p class="message">
                                     <a href="" class="left">S'inscrire ?</a> &nbsp;&nbsp;
                                     <a href="#" class="right">Mot de passe oublié ?</a>

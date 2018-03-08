@@ -5,11 +5,13 @@
  */
 package org.wcs.lemurs.controller;
 
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,38 +24,42 @@ import org.wcs.lemurs.service.BaseService;
  */
 @Controller
 public class BaseController {
-    public static String ROLE_CHERCHEUR = "Chercheur";
-    public static String ROLE_EXPERT = "Expert vérificateur";
-    public static String ROLE_MODERATEUR = "Modérateur";
-    public static String ROLE_ADMINISTRATEUR = "Administrateur";
-    
+//    public static String ROLE_CHERCHEUR = "Chercheur";
+
+    public static String ROLE_EXPERT = "EXPERT";
+    public static String ROLE_MODERATEUR = "MODERATEUR";
+    public static String ROLE_ADMINISTRATEUR = "ADMIN";
+
     @Autowired(required = true)
     @Qualifier("baseService")
     private BaseService baseService;
-    
-    @RequestMapping(value="/")  
-    public ModelAndView darwinportal(HttpSession session){
+
+    @RequestMapping(value = "/")
+    public ModelAndView darwinportal(HttpSession session) {
         ModelAndView valiny = new ModelAndView("darwinportal");
         Utilisateur u = null;
         Integer b = -1;
         Integer expert = -1;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
-            if(baseService.checkRole(u, ROLE_CHERCHEUR)) b = 0;
-            else if(baseService.checkRole(u, ROLE_EXPERT)) expert = 0;            
-        } catch(NullPointerException npe) {
-            
-        }
-        catch (Exception ex) {
+            if (u != null) {
+                b = 0;
+            }
+            if (baseService.checkRole(u, ROLE_EXPERT)) {
+                expert = 0;
+            }
+        } catch (NullPointerException npe) {
+
+        } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        valiny.addObject("role", b);      
-        valiny.addObject("expert", expert);      
+        valiny.addObject("role", b);
+        valiny.addObject("expert", expert);
         return valiny;
     }
-    
-    @RequestMapping(value="/darwinportal")  
-    public ModelAndView darwinportals(HttpSession session){
+
+    @RequestMapping(value = "/darwinportal")
+    public ModelAndView darwinportals(HttpSession session) {
         ModelAndView valiny = new ModelAndView("darwinportal");
         Utilisateur u = null;
         Integer b = -1;
@@ -61,39 +67,43 @@ public class BaseController {
         Integer idChercheur = 0;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
-            if(baseService.checkRole(u, ROLE_CHERCHEUR)) {
-                idChercheur = u.getId();
-                b = 0;
+            idChercheur = u.getId();
+            b = 0;
+            if (baseService.checkRole(u, ROLE_EXPERT)) {
+                expert = 0;
             }
-            else if(baseService.checkRole(u, ROLE_EXPERT)) expert = 0;            
-        } catch(NullPointerException npe) {
-            
-        }
-        catch (Exception ex) {
+        } catch (NullPointerException npe) {
+
+        } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
         valiny.addObject("role", b);
         valiny.addObject("idChercheur", idChercheur);
-        valiny.addObject("expert", expert);      
+        valiny.addObject("expert", expert);
         return valiny;
     }
-    
-    @RequestMapping(value="/taxonomi")  
-    public ModelAndView taxoportal(HttpSession session){         
+
+    @RequestMapping(value = "/taxonomi")
+    public ModelAndView taxoportal(HttpSession session) {
         Integer moderateur = -1;
-        ModelAndView valiny = new ModelAndView("taxonomiportal");          
+        ModelAndView valiny = new ModelAndView("taxonomiportal");
         try {
             Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
-            if(baseService.checkRole(u, ROLE_MODERATEUR)) moderateur = 0;
+            if (baseService.checkRole(u, ROLE_MODERATEUR)) {
+                moderateur = 0;
+            }
         } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
         valiny.addObject("moderateur", moderateur);
         return valiny;
-    }        
-    
-    @RequestMapping(value="/login")  
-    public ModelAndView login(){
-        return new ModelAndView("login");  
-    }            
+    }
+
+    @RequestMapping(value = "/login")
+    public ModelAndView login() {
+        // obtain locale from LocaleContextHolder
+//        Locale currentLocale = LocaleContextHolder.getLocale();
+//        model.addAttribute("locale", currentLocale);
+        return new ModelAndView("login");
+    }
 }

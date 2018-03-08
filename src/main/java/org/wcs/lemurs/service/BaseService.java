@@ -75,6 +75,14 @@ public class BaseService {
     public List<BaseModel> findMultiCritere(Session session, BaseModel bm) throws Exception {
         return this.getHibernateDao().findMultiCritere(session, bm);
     }
+    
+    public List<BaseModel> findMultiCritereSansLike(BaseModel bm) throws Exception {
+        return this.getHibernateDao().findMultiCritereSansLike(bm);
+    }
+
+    public List<BaseModel> findMultiCritereSansLike(Session session, BaseModel bm) throws Exception {
+        return this.getHibernateDao().findMultiCritereSansLike(session, bm);
+    }
 
     public List<BaseModel> findMultiCritere(Session session, BaseModel bm, String colonne, int ordre) throws Exception {
         return this.getHibernateDao().findMultiCritere(session, bm, colonne, ordre);

@@ -41,30 +41,47 @@ public class UploadFile {
         XSSFCell cell = null;
         Iterator rows = sheet.rowIterator();
 
-        String meth = "";
+//        String meth = "";
         Field[] colonnes = DarwinCore.class.getDeclaredFields();
-        int iterator = 0;
-        for (Field f : colonnes) {
-            meth += DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class) + ",";
-            iterator++;
-            if (iterator == colonnes.length - 1) {
-                break;
-            }
-        }
-
-//        String methodes = "setInstitutioncode,setCollectioncode,setDatasetname,setOwnerinstitutioncode,setBasisofrecord,setInformationwithheld,setDatageneralizations,setDynamicproperties,setScientificname,setAcceptednameusage,setHigherclassification,setKingdom"
-//                + ",setPhylum,setDarwinclass,setDarwinorder,setFamily,setGenus,setSubgenus,setSpecificepithet,setInfraspecificepithet,setTaxonrank,setVerbatimtaxonrank,setScientificnameauthorship,setVernacularname,setNomenclaturalcode,setTaxonremarks,setCatalognumber"
-//                + ",setOccurrenceremarks,setRecordnumber,setRecordedby,setIndividualcount,setSex,setLifestage,setReproductivecondition,setBehavior,setPreparations,setDisposition,setOthercatalognumbers,setPreviousidentifications,setAssociatedmedia,setAssociatedreferences"
-//                + ",setAssociatedoccurrences,setAssociatedsequences,setAssociatedtaxa,setSamplingprotocol,setSamplingeffort,setEventdate,setEventtime,setStartdayofyear,setEnddayofyear,setDwcyear,setDwcmonth,setDwcday,setVerbatimeventdate,setHabitat,setFieldnumber,setFieldnotes"
-//                + ",setEventremarks,setHighergeography,setContinent,setWaterbody,setIslandgroup,setIsland,setCountry,setCountrycode,setStateprovince,setCounty,setMunicipality,setLocality,setVerbatimlocality,setVerbatimelevation,setMinimumelevationinmeters,setMaximumelevationinmeters"
-//                + ",setVerbatimdepth,setMinimumdepthinmeters,setMaximumdepthinmeters,setMinimumdistanceabovesurfaceinmeters,setMaximumdistanceabovesurfaceinmeters,setLocationaccordingto,setLocationremarks,setVerbatimcoordinates,setVerbatimlatitude,setVerbatimlongitude"
-//                + ",setVerbatimcoordinatesystem,setVerbatimsrs,setDecimallatitude,setDecimallongitude,setGeodeticdatum,setCoordinateuncertaintyinmeters,setCoordinateprecision,setPointradiusspatialfit,setFootprintwkt,setFootprintsrs,setFootprintspatialfit,setGeoreferencedby"
-//                + ",setGeoreferenceprotocol,setGeoreferencesources,setGeoreferenceverificationstatus,setGeoreferenceremarks,setIdentifiedby,setDateidentified,setIdentificationreferences,setIdentificationremarks,setIdentificationqualifier,setTypestatus";
-//        String[] allmethodes = methodes.split(",");
-        String[] allmethodes = meth.split(",");
+//        int iterator = 0;
+//        for (Field f : colonnes) {
+//            meth += DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class) + ",";
+//            iterator++;
+//            if (iterator == colonnes.length - 1) {
+//                break;
+//            }
+//        }
+//
+//        String[] allmethodes = meth.split(",");
 
         int count_cell = 0;
         row = (XSSFRow) rows.next();
+
+        List<HashMap<String, Object>> fonctions = new ArrayList<>();
+        List<String> colonnesHeader = new ArrayList<>();
+        for (int i = 0; i < row.getLastCellNum(); i++) {
+            colonnesHeader.add(row.getCell(i).toString());
+            String colonne = row.getCell(i).toString().toLowerCase();
+            for (Field f : colonnes) {
+                String base = f.getName().toLowerCase();
+                base = base.replaceAll("dwc", "");
+                base = base.replaceAll("darwinclass", "class");
+                base = base.replaceAll("darwinorder", "order");
+                base = base.replaceAll("idrebioma", "id");
+                if (base.compareTo(colonne) == 0) {
+                    HashMap<String, Object> fonction = new HashMap<>();
+                    fonction.put("id", i);
+                    try {
+                        fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
+                    } catch (NoSuchMethodException nsme) {
+                        fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), Integer.class));
+                    }
+                    fonctions.add(fonction);
+                    break;
+                }
+            }
+        }
+
         count_cell = row.getFirstCellNum() + row.getLastCellNum();
 
         int index_method = 0;
@@ -74,27 +91,54 @@ public class UploadFile {
 
             dw = new DarwinCore();
             row = (XSSFRow) rows.next();
-            while (index_cell < count_cell) {
 
-                cell = row.getCell(index_cell);
-                if (cell != null) {
-
-                    dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, cell.toString());
-                } else {
-
-                    dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, "-");
+            for (HashMap<String, Object> fonction : fonctions) {
+                Method m = (Method) fonction.get("fonction");
+                try {
+                    String valeur = "-";
+                    if (row.getCell((Integer) fonction.get("id")) != null) {
+                        valeur = row.getCell((Integer) fonction.get("id")).toString();
+                    }
+                    if (valeur.compareTo(" ") == 0) {
+                        valeur = "-";
+                    }
+                    m.invoke(dw, valeur);
+                } catch (IllegalArgumentException iae) {
+                    try {
+                        String sToInt = row.getCell((Integer) fonction.get("id")).toString();
+                        sToInt = sToInt.replaceAll(" ", "");
+                        Integer tempInt = Integer.decode(sToInt);
+                        m.invoke(dw, tempInt);
+                    } catch (Exception iaex) {
+                        throw iaex;
+                    }
+                } catch (ArrayIndexOutOfBoundsException aioobe) {
+                    aioobe.printStackTrace();
                 }
-                index_method++;
-                index_cell++;
             }
             list_dw.add(dw);
-            index_method = 0;
-            index_cell = 0;
+
+//            while (index_cell < count_cell) {
+//
+//                cell = row.getCell(index_cell);
+//                if (cell != null) {
+//
+//                    dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, cell.toString());
+//                } else {
+//
+//                    dw.getClass().getMethod(allmethodes[index_method], String.class).invoke(dw, "-");
+//                }
+//                index_method++;
+//                index_cell++;
+//            }
+//            list_dw.add(dw);
+//            index_method = 0;
+//            index_cell = 0;
         }
         return list_dw;
     }
 
-    public List<TaxonomiBase> import_taxonomi_base_excel(InputStream is) throws Exception {
+    public static List<TaxonomiBase> import_taxonomi_base_excel(InputStream is) throws Exception {
 
         List<TaxonomiBase> list_taxonomi = new ArrayList<>();
 
@@ -104,8 +148,13 @@ public class UploadFile {
         XSSFCell cell = null;
         Iterator rows = sheet.rowIterator();
         int i = 0;
-
-        String methodes = "setHigherclassification,setKingdom,setPhylum,setDwcclass,setDwcorder,setDwcfamily,setGenus,setGenussource,setSpecificepithet,setSpecificepithetsource,setInfraspecificepithet,setInfraspecificepithetsource,setScientificname,setScientificnameauthorship,setAcceptednameusage,setBasisofrecord,setFrenchvernacularname,setMalagasyvernacularname,setEnglishvernacularname,setHabitatFr,setHabitatEn,setHabitatsource,setEcologyFr,setEcologyEn,setEcologysource,setBehaviorFr,setBehaviorEn,setBehaviorsource,setThreatFr,setThreatEn,setThreatsource,setMorphologyFr,setMorphologyEn,setProtectedareaoccurrences";
+        String methodes = "";
+        
+        Field[] colonnes = TaxonomiBase.class.getDeclaredFields();
+        for (Field f : colonnes) {
+            methodes += "set"+f.getName().substring(0, 1).toUpperCase()+f.getName().substring(1)+",";
+        }
+        methodes = methodes.substring(0, methodes.length()-1);
         String[] allmethodes = methodes.split(",");
 
         int count_cell = 0;
@@ -231,15 +280,30 @@ public class UploadFile {
         DarwinCoreService dcs = new DarwinCoreService();
         List<HashMap<String, Object>> fonctions = dcs.getFonctionNumeroColonneDwc(colonnes, line);
         while ((line = br.readLine()) != null) {
+            line = line.replaceAll(";", " ;");
             String[] cols = line.split(";");
             /*if (cols.length < colonnes.length - 4) {
                 throw new Exception("Le nombre de colonnes est manquantes cols = " + Integer.toString(cols.length) + " and dwc = " + Integer.toString(colonnes.length - 1));
-            } else*/ if (cols.length <= colonnes.length - 4) {
+            } else*/
+            if (cols.length <= colonnes.length - 4) {
                 DarwinCore dwcTemp = new DarwinCore();
                 for (HashMap<String, Object> fonction : fonctions) {
                     Method m = (Method) fonction.get("fonction");
                     try {
-                        m.invoke(dwcTemp, cols[(Integer) fonction.get("id")]);
+                        String valeur = cols[(Integer) fonction.get("id")];
+                        if (valeur.compareTo(" ") == 0) {
+                            valeur = "-";
+                        }
+                        m.invoke(dwcTemp, valeur);
+                    } catch (IllegalArgumentException iae) {
+                        try {
+                            String sToInt = cols[(Integer) fonction.get("id")];
+                            sToInt = sToInt.replaceAll(" ", "");
+                            Integer tempInt = Integer.decode(sToInt);
+                            m.invoke(dwcTemp, tempInt);
+                        } catch (Exception iaex) {
+                            throw iaex;
+                        }
                     } catch (ArrayIndexOutOfBoundsException aioobe) {
                         aioobe.printStackTrace();
                     }
@@ -247,17 +311,28 @@ public class UploadFile {
                 list_dw.add(dwcTemp);
             } else {
                 DarwinCore dwcTemp = new DarwinCore();
-                dwcTemp.getClass().getMethod("setId", Integer.class).invoke(dwcTemp, Integer.parseInt(cols[0]));
+                try {
+                    dwcTemp.getClass().getMethod("setId", Integer.class).invoke(dwcTemp, Integer.parseInt(cols[0].replaceAll(" ", "")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new Exception("vérifier le nombre de colonne du darwin core");
+                }
+
                 int iterator = 1;
                 for (HashMap<String, Object> fonction : fonctions) {
                     Method m = (Method) fonction.get("fonction");
                     try {
                         m.invoke(dwcTemp, cols[(Integer) fonction.get("id")]);
-                    } catch(IllegalArgumentException iae) {
+                    } catch (IllegalArgumentException iae) {
                         try {
-                            m.invoke(dwcTemp, Integer.getInteger(cols[(Integer) fonction.get("id")]));
-                        } catch(Exception iaex) {
-                            iaex.printStackTrace();
+                            String sToInt = cols[(Integer) fonction.get("id")];
+                            sToInt = sToInt.replaceAll(" ", "");
+                            Integer tempInt = Integer.decode(sToInt);
+                            m.invoke(dwcTemp, tempInt);
+                        } catch (java.lang.NumberFormatException iaex) {
+                            System.out.println("valeur de " + m.getName() + " est de 0");
+                        } catch (Exception iaex) {
+                            throw iaex;
                         }
                     } catch (ArrayIndexOutOfBoundsException aioobe) {
                         aioobe.printStackTrace();

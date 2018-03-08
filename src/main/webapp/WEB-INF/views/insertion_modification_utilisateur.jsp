@@ -30,12 +30,11 @@
                             <div class="col-md-12">
                                 <p><label>Nom :</label><input class="form-control" type="text" value="{{object.nom}}" ng-model="object.nom"></p>
                                 <p><label>Prenom :</label><input class="form-control" type="text" value="{{object.prenom}}" ng-model="object.prenom"></p>
-                                <p><label>Identifiant :</label><input class="form-control" type="text" value="{{object.login}}" ng-model="object.login"></p>
-                                <p><label>Mot de passe :</label><input class="form-control" type="password" value="{{object.motdepasse}}" ng-model="object.motdepasse"></p>
                                 <p><label>E-mail :</label><input class="form-control" type="text" value="{{object.email}}" ng-model="object.email"></p>
-                                <p><label>Téléphone :</label><input class="form-control" type="text" value="{{object.telephone}}" ng-model="object.telephone"></p>
+                                <p><label>Mot de passe :</label><input class="form-control" type="password" value="{{object.motdepasse}}" ng-model="object.motdepasse"></p>                                
+                                <!--<p><label>Téléphone :</label><input class="form-control" type="text" value="{{object.telephone}}" ng-model="object.telephone"></p>-->
                                 <p><label>Poste :</label><input class="form-control" type="text" value="{{object.poste}}" ng-model="object.poste"></p>
-                                <p><label>Localisation :</label><input class="form-control" type="text" value="{{object.localisation}}" ng-model="object.localisation"></p>
+                                <!--<p><label>Localisation :</label><input class="form-control" type="text" value="{{object.localisation}}" ng-model="object.localisation"></p>-->
                                 <p><label>Biographie :</label><input class="form-control" type="text" value="{{object.biographie}}" ng-model="object.biographie"></p>                                
                             </div>                            
                         </div>
@@ -84,23 +83,15 @@
                 </div>
                 <div class='modal-body'>
                     <div class='row'>
-                        <div class='col-md-10 col-md-offset-1'>         
-<!--                            <div class="col-sm-12">
-                                <input ng-click="checkAll()" type="checkbox" id="checkAll">Tout Sélectionner
-                            </div>
-                            <br>
-                            <br>-->
+                        <div class='col-md-10 col-md-offset-1'>                                     
                             <div class="col-sm-12">
-                                <input id="administrateur" type="checkbox" name="col[]" value="1">Administrateur
+                                <input id="administrateur" type="checkbox" name="col[]" value="10001">Administrateur
                             </div>   
                             <div class="col-sm-12">
-                                <input id="moderateur" type="checkbox" name="col[]" value="2">Modérateur
+                                <input id="moderateur" type="checkbox" name="col[]" value="1001">Modérateur
                             </div>   
                             <div class="col-sm-12">
-                                <input id="xp" type="checkbox" name="col[]" value="3">Expert vérificateur
-                            </div>   
-                            <div class="col-sm-12">
-                                <input id="chercheur" type="checkbox" name="col[]" value="4">Chercheur    
+                                <input id="xp" type="checkbox" name="col[]" value="101">Expert
                             </div>                               
                         </div>                                    
                     </div>

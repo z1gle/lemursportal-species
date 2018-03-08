@@ -2,7 +2,11 @@ package org.wcs.lemurs.model;
 
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -34,6 +38,10 @@ public class PhotoDarwinCore extends BaseModel implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(name="date_photo")
     private Date datePhoto;
+    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column(name="date_pris_photo")
+    private Date datePrisPhoto;
 
     public Integer getIdDarwinCore() {
         return idDarwinCore;
@@ -75,5 +83,22 @@ public class PhotoDarwinCore extends BaseModel implements Serializable {
         this.datePhoto = datePhoto;
     }
 
-       
+    public Date getDatePrisPhoto() {
+        return datePrisPhoto;
+    }
+
+    public void setDatePrisPhoto(Date datePrisPhoto) {
+        this.datePrisPhoto = datePrisPhoto;
+    }   
+    
+    public void setDatePrisPhotoString(String datePrisPhoto) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            this.datePrisPhoto = formatter.parse(datePrisPhoto);
+        } catch (NullPointerException npe) {
+            System.out.println("la valeur de date de naissance est vide");            
+        } catch (ParseException ex) {
+            Logger.getLogger(PhotoTaxonomi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

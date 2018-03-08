@@ -20,326 +20,407 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
     @Column(name="nom")
     private String nom;
     
-    @Column(name="prenom")
+    @Column(name="prenoms")
     private String prenom;
     
-    @Column(name="institutioncode")
-    private String institutionCode;
-    
-    @Column(name="collectioncode")
-    private String collectionCode;
-    
-    @Column(name="datasetname")
-    private String datasetName;
-    
-    @Column(name="ownerinstitutioncode")
-    private String ownerInstitutionCode;
-    
-    @Column(name="basisofrecord")
-    private String basisOfRecord;
-    
-    @Column(name="informationwithheld")
-    private String informationWithHeld;
-    
-    @Column(name="datageneralizations")
-    private String dataGeneralizations;
-    
-    @Column(name="dynamicproperties")
-    private String dynamicProperties;
-    
-    @Column(name="scientificname")
-    private String scientificName;
-    
-    @Column(name="acceptednameusage")
-    private String acceptedNameUsage;
-    
-    @Column(name="higherclassification")
-    private String higherClassification;
-    
-    @Column(name="kingdom")
+    @Column(name = "institutioncode")
+    private String institutioncode;
+
+    @Column(name = "collectioncode")
+    private String collectioncode;
+
+    @Column(name = "datasetname")
+    private String datasetname;
+
+    @Column(name = "ownerinstitutioncode")
+    private String ownerinstitutioncode;
+
+    @Column(name = "basisofrecord")
+    private String basisofrecord;
+
+    @Column(name = "informationwithheld")
+    private String informationwithheld;
+
+    @Column(name = "datageneralizations")
+    private String datageneralizations;
+
+    @Column(name = "dynamicproperties")
+    private String dynamicproperties;
+
+    @Column(name = "taxon_id")
+    private String taxonId;
+
+    @Column(name = "scientific_name_id")
+    private String scientificNameId;
+
+    @Column(name = "accepted_name_usage_id")
+    private String acceptedNameUsageId;
+
+    @Column(name = "parent_name_usage_id")
+    private String parentNameUsageId;
+
+    @Column(name = "original_name_usage_id")
+    private String originalNameUsageId;
+
+    @Column(name = "name_according_to_id")
+    private String nameAccordingToId;
+
+    @Column(name = "name_published_in_id")
+    private String namePublishedInId;
+
+    @Column(name = "taxon_concept_id")
+    private String taxonConceptId;
+
+    @Column(name = "scientificname")
+    private String scientificname;
+
+    @Column(name = "acceptednameusage")
+    private String acceptednameusage;
+
+    @Column(name = "parent_name_usage")
+    private String parentNameUsage;
+
+    @Column(name = "original_name_usage")
+    private String originalNameUsage;
+
+    @Column(name = "name_according_to")
+    private String nameAccordingTo;
+
+    @Column(name = "name_published_in")
+    private String namePublishedIn;
+
+    @Column(name = "higherclassification")
+    private String higherclassification;
+
+    @Column(name = "kingdom")
     private String kingdom;
-    
-    @Column(name="phylum")
+
+    @Column(name = "phylum")
     private String phylum;
-    
-    @Column(name="darwinclass")
-    private String darwinClass;
-    
-    @Column(name="darwinorder")
-    private String darwinOrder;
-    
-    @Column(name="family")
+
+    @Column(name = "darwinclass")
+    private String darwinclass;
+
+    @Column(name = "darwinorder")
+    private String darwinorder;
+
+    @Column(name = "family")
     private String family;
-    
-    @Column(name="genus")
+
+    @Column(name = "genus")
     private String genus;
-    
-    @Column(name="subgenus")
+
+    @Column(name = "subgenus")
     private String subgenus;
-    
-    @Column(name="specificepithet")
-    private String specificEpithet;
-    
-    @Column(name="infraspecificepithet")
-    private String infraspecificEpithet;
-    
-    @Column(name="taxonrank")
+
+    @Column(name = "specificepithet")
+    private String specificepithet;
+
+    @Column(name = "infraspecificepithet")
+    private String infraspecificepithet;
+
+    @Column(name = "taxonrank")
     private String taxonrank;
-    
-    @Column(name="verbatimtaxonrank")
-    private String verbatimTaxonrank;
-    
-    @Column(name="scientificnameauthorship")
-    private String scientificNameAuthorship;
-    
-    @Column(name="vernacularname")
-    private String vernacularName;
-    
-    @Column(name="nomenclaturalcode")
-    private String nomenclaturalCode;
-    
-    @Column(name="taxonremarks")
-    private String taxonRemarks;
-    
-    @Column(name="catalognumber")
-    private String cataloNumber;
-    
-    @Column(name="occurrenceremarks")
-    private String occurrenceRemarks;
-    
-    @Column(name="recordnumber")
-    private String recordNumber;
-    
-    @Column(name="recordedby")
-    private String recordedBy;
-    
-    @Column(name="individualcount")
-    private String individualCount;
-    
-    @Column(name="sex")
+
+    @Column(name = "verbatimtaxonrank")
+    private String verbatimtaxonrank;
+
+    @Column(name = "scientificnameauthorship")
+    private String scientificnameauthorship;
+
+    @Column(name = "vernacularname")
+    private String vernacularname;
+
+    @Column(name = "nomenclaturalcode")
+    private String nomenclaturalcode;
+
+    @Column(name = "taxonomic_status")
+    private String taxonomicStatus;
+
+    @Column(name = "nomenclatural_status")
+    private String nomenclaturalStatus;
+
+    @Column(name = "taxonremarks")
+    private String taxonremarks;
+
+    @Column(name = "occurence_id")
+    private String occurrenceId;
+
+    @Column(name = "catalognumber")
+    private String catalognumber;
+
+    @Column(name = "occurence_details")
+    private String occurrenceDetails;
+
+    @Column(name = "occurrenceremarks")
+    private String occurrenceremarks;
+
+    @Column(name = "recordnumber")
+    private String recordnumber;
+
+    @Column(name = "recordedby")
+    private String recordedby;
+
+    @Column(name = "individual_id")
+    private String individualId;
+
+    @Column(name = "individualcount")
+    private String individualcount;
+
+    @Column(name = "sex")
     private String sex;
-    
-    @Column(name="lifestage")
+
+    @Column(name = "lifestage")
     private String lifestage;
-    
-    @Column(name="reproductivecondition")
-    private String reproductiveCondition;
-    
-    @Column(name="behavior")
+
+    @Column(name = "reproductivecondition")
+    private String reproductivecondition;
+
+    @Column(name = "behavior")
     private String behavior;
-    
-    @Column(name="preparations")
+
+    @Column(name = "establishment_means")
+    private String establishmentMeans;
+
+    @Column(name = "occurence_status")
+    private String occurrenceStatus;
+
+    @Column(name = "preparations")
     private String preparations;
-    
-    @Column(name="disposition")
+
+    @Column(name = "disposition")
     private String disposition;
-    
-    @Column(name="othercatalognumbers")
-    private String otherCatalogNumbers;
-    
-    @Column(name="previousidentifications")
-    private String previousIdentifications;
-    
-    @Column(name="associatedmedia")
-    private String associatedMedia;
-    
-    @Column(name="associatedreferences")
-    private String associatedReferences;
-    
-    @Column(name="associatedoccurrences")
-    private String associatedOccurrences;
-    
-    @Column(name="associatedsequences")
-    private String associatedSequences;
-    
-    @Column(name="associatedtaxa")
-    private String associatedTaxa;
-    
-    @Column(name="samplingprotocol")
-    private String samplingProtocol;
-    
-    @Column(name="samplingeffort")
-    private String samplingEffort;
-    
-    @Column(name="eventdate")
-    private String eventDate;
-    
-    @Column(name="eventtime")
-    private String eventTime;
-    
-    @Column(name="startdayofyear")
-    private String startDayOfYear;
-    
-    @Column(name="enddayofyear")
-    private String endDayOfYear;
-    
-    @Column(name="dwcyear")
-    private String dwcYear;
-    
-    @Column(name="dwcmonth")
-    private String dwcMonth;
-    
-    @Column(name="dwcday")
-    private String dwcDay;
-    
-    @Column(name="verbatimeventdate")
-    private String verbatimEventDate;
-    
-    @Column(name="habitat")
+
+    @Column(name = "othercatalognumbers")
+    private String othercatalognumbers;
+
+    @Column(name = "previousidentifications")
+    private String previousidentifications;
+
+    @Column(name = "associatedmedia")
+    private String associatedmedia;
+
+    @Column(name = "associatedreferences")
+    private String associatedreferences;
+
+    @Column(name = "associatedoccurrences")
+    private String associatedoccurrences;
+
+    @Column(name = "associatedsequences")
+    private String associatedsequences;
+
+    @Column(name = "associatedtaxa")
+    private String associatedtaxa;
+
+    @Column(name = "event_id")
+    private String eventId;
+
+    @Column(name = "samplingprotocol")
+    private String samplingprotocol;
+
+    @Column(name = "samplingeffort")
+    private String samplingeffort;
+
+    @Column(name = "eventdate")
+    private String eventdate;
+
+    @Column(name = "eventtime")
+    private String eventtime;
+
+    @Column(name = "startdayofyear")
+    private String startdayofyear;
+
+    @Column(name = "enddayofyear")
+    private String enddayofyear;
+
+    @Column(name = "dwcyear")
+    private String dwcyear;
+
+    @Column(name = "dwcmonth")
+    private String dwcmonth;
+
+    @Column(name = "dwcday")
+    private String dwcday;
+
+    @Column(name = "verbatimeventdate")
+    private String verbatimeventdate;
+
+    @Column(name = "habitat")
     private String habitat;
-    
-    @Column(name="fieldnumber")
-    private String fieldNumber;
-    
-    @Column(name="fieldnotes")
-    private String fieldNotes;
-    
-    @Column(name="eventremarks")
-    private String eventRemarks;
-    
-    @Column(name="highergeography")
-    private String higherGeography;
-    
-    @Column(name="continent")
+
+    @Column(name = "fieldnumber")
+    private String fieldnumber;
+
+    @Column(name = "fieldnotes")
+    private String fieldnotes;
+
+    @Column(name = "eventremarks")
+    private String eventremarks;
+
+    @Column(name = "location_id")
+    private String locationId;
+
+    @Column(name = "higher_geography_id")
+    private String higherGeographyId;
+
+    @Column(name = "highergeography")
+    private String highergeography;
+
+    @Column(name = "continent")
     private String continent;
-    
-    @Column(name="waterbody")
-    private String waterBody;
-    
-    @Column(name="islandgroup")
-    private String islandGroup;
-    
-    @Column(name="island")
+
+    @Column(name = "waterbody")
+    private String waterbody;
+
+    @Column(name = "islandgroup")
+    private String islandgroup;
+
+    @Column(name = "island")
     private String island;
-    
-    @Column(name="country")
+
+    @Column(name = "country")
     private String country;
-    
-    @Column(name="countrycode")
-    private String countryCode;
-    
-    @Column(name="stateprovince")
-    private String stateProvince;
-    
-    @Column(name="county")
+
+    @Column(name = "countrycode")
+    private String countrycode;
+
+    @Column(name = "stateprovince")
+    private String stateprovince;
+
+    @Column(name = "county")
     private String county;
-    
-    @Column(name="municipality")
+
+    @Column(name = "municipality")
     private String municipality;
-    
-    @Column(name="locality")
+
+    @Column(name = "locality")
     private String locality;
-    
-    @Column(name="verbatimlocality")
-    private String verbatimLocality;
-    
-    @Column(name="verbatimelevation")
-    private String verbatimElevation;
-    
-    @Column(name="minimumelevationinmeters")
-    private String minimumElevationInMeters;
-    
-    @Column(name="maximumelevationinmeters")
-    private String maximumElevationInMeters;
-    
-    @Column(name="verbatimdepth")
-    private String verbatimDepth;
-    
-    @Column(name="minimumdepthinmeters")
-    private String minimumDepthInmeters;
-    
-    @Column(name="maximumdepthinmeters")
-    private String maximumDepthInMeters;
-    
-    @Column(name="minimumdistanceabovesurfaceinmeters")
-    private String minimumDistanceAboveSurfaceInMeters;
-    
-    @Column(name="maximumdistanceabovesurfaceinmeters")
-    private String maximumDistanceAboveSurfaceInMeters;
-        
-    @Column(name="locationaccordingto")
-    private String locationAccordingTo;
-    
-    @Column(name="locationremarks")
-    private String locationRemarks;
-    
-    @Column(name="verbatimcoordinates")
-    private String verbatimCoordinates;
-    
-    @Column(name="verbatimlatitude")
-    private String verbatimLatitude;
-    
-    @Column(name="verbatimlongitude")
-    private String verbatimLongitude;
-    
-    @Column(name="verbatimcoordinatesystem")
-    private String verbatimCoordinateSystem;
-    
-    @Column(name="verbatimsrs")
-    private String verbatimSrs;
-    
-    @Column(name="decimallatitude")
-    private String decimalLatitude;
-    
-    @Column(name="decimallongitude")
-    private String decimalLongitude;
-    
-    @Column(name="geodeticdatum")
+
+    @Column(name = "verbatimlocality")
+    private String verbatimlocality;
+
+    @Column(name = "verbatimelevation")
+    private String verbatimelevation;
+
+    @Column(name = "minimumelevationinmeters")
+    private String minimumelevationinmeters;
+
+    @Column(name = "maximumelevationinmeters")
+    private String maximumelevationinmeters;
+
+    @Column(name = "verbatimdepth")
+    private String verbatimdepth;
+
+    @Column(name = "minimumdepthinmeters")
+    private String minimumdepthinmeters;
+
+    @Column(name = "maximumdepthinmeters")
+    private String maximumdepthinmeters;
+
+    @Column(name = "minimumdistanceabovesurfaceinmeters")
+    private String minimumdistanceabovesurfaceinmeters;
+
+    @Column(name = "maximumdistanceabovesurfaceinmeters")
+    private String maximumdistanceabovesurfaceinmeters;
+
+    @Column(name = "locationaccordingto")
+    private String locationaccordingto;
+
+    @Column(name = "locationremarks")
+    private String locationremarks;
+
+    @Column(name = "verbatimcoordinates")
+    private String verbatimcoordinates;
+
+    @Column(name = "verbatimlatitude")
+    private String verbatimlatitude;
+
+    @Column(name = "verbatimlongitude")
+    private String verbatimlongitude;
+
+    @Column(name = "verbatimcoordinatesystem")
+    private String verbatimcoordinatesystem;
+
+    @Column(name = "verbatimsrs")
+    private String verbatimsrs;
+
+    @Column(name = "decimallatitude")
+    private String decimallatitude;
+
+    @Column(name = "decimallongitude")
+    private String decimallongitude;
+
+    @Column(name = "geodeticdatum")
     private String geodeticdatum;
-    
-    @Column(name="coordinateuncertaintyinmeters")
-    private String coordinateUncertaintyInMeters;
-    
-    @Column(name="coordinateprecision")
-    private String coordinatePrecision;
-    
-    @Column(name="pointradiusspatialfit")
-    private String pointRadiusSpatialFit;
-    
-    @Column(name="footprintwkt")
-    private String footPrintWkt;
-    
-    @Column(name="footprintsrs")
-    private String footPrintSrs;
-    
-    @Column(name="footprintspatialfit")
-    private String footPrintSpatialFit;
-    
-    @Column(name="georeferencedby")
-    private String georeferencedBy;
-    
-    @Column(name="georeferenceprotocol")
-    private String georeferenceProtocol;
-    
-    @Column(name="georeferencesources")
-    private String georeferenceSources;
-    
-    @Column(name="georeferenceverificationstatus")
-    private String georeferenceVerificationStatus;
-    
-    @Column(name="georeferenceremarks")
-    private String georeferenceRemarks;
-    
-    @Column(name="identifiedby")
-    private String identifiedBy;
-    
-    @Column(name="dateidentified")
-    private String dateIdentified;
-    
-    @Column(name="identificationreferences")
-    private String identificationReferences;
-    
-    @Column(name="identificationremarks")
-    private String identificationRemarks;
-    
-    @Column(name="identificationqualifier")
-    private String identificationQualifier;
-    
-    @Column(name="typestatus")
-    private String typeStatus;
-    
-    @Column(name="idutilisateurupload")
+
+    @Column(name = "coordinateuncertaintyinmeters")
+    private String coordinateuncertaintyinmeters;
+
+    @Column(name = "coordinateprecision")
+    private String coordinateprecision;
+
+    @Column(name = "pointradiusspatialfit")
+    private String pointradiusspatialfit;
+
+    @Column(name = "footprintwkt")
+    private String footprintwkt;
+
+    @Column(name = "footprintsrs")
+    private String footprintsrs;
+
+    @Column(name = "footprintspatialfit")
+    private String footprintspatialfit;
+
+    @Column(name = "georeferencedby")
+    private String georeferencedby;
+
+    @Column(name = "georeferenceprotocol")
+    private String georeferenceprotocol;
+
+    @Column(name = "georeferencesources")
+    private String georeferencesources;
+
+    @Column(name = "georeferenceverificationstatus")
+    private String georeferenceverificationstatus;
+
+    @Column(name = "georeferenceremarks")
+    private String georeferenceremarks;
+
+    @Column(name = "identification_id")
+    private String identificationId;
+
+    @Column(name = "identifiedby")
+    private String identifiedby;
+
+    @Column(name = "dateidentified")
+    private String dateidentified;
+
+    @Column(name = "identificationreferences")
+    private String identificationreferences;
+
+    @Column(name = "identificationremarks")
+    private String identificationremarks;
+
+    @Column(name = "identificationqualifier")
+    private String identificationqualifier;
+
+    @Column(name = "typestatus")
+    private String typestatus;
+
+    @Column(name = "idutilisateurupload")
     private Integer idUtilisateurUpload;
+
+    @Column(name = "idrebioma")
+    private Integer idRebioma;
+
+    @Column(name = "lien_source")
+    private String lienSource;
+
+    @Column(name = "validated")
+    private String validated;
+
+    @Column(name = "reviewed")
+    private String reviewed;
     
     @Column(name="gps")
     private Boolean gps;
@@ -355,6 +436,9 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
     
     @Column(name="validationexpert")
     private Integer validationexpert;
+    
+    @Column(name = "est_publique")
+    private Boolean publique;
 
     public String getNom() {
         return nom;
@@ -372,92 +456,188 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.prenom = prenom;
     }
 
-    public String getInstitutionCode() {
-        return institutionCode;
+    public String getInstitutioncode() {
+        return institutioncode;
     }
 
-    public void setInstitutionCode(String institutionCode) {
-        this.institutionCode = institutionCode;
+    public void setInstitutioncode(String institutioncode) {
+        this.institutioncode = institutioncode;
     }
 
-    public String getCollectionCode() {
-        return collectionCode;
+    public String getCollectioncode() {
+        return collectioncode;
     }
 
-    public void setCollectionCode(String collectionCode) {
-        this.collectionCode = collectionCode;
+    public void setCollectioncode(String collectioncode) {
+        this.collectioncode = collectioncode;
     }
 
-    public String getDatasetName() {
-        return datasetName;
+    public String getDatasetname() {
+        return datasetname;
     }
 
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
+    public void setDatasetname(String datasetname) {
+        this.datasetname = datasetname;
     }
 
-    public String getOwnerInstitutionCode() {
-        return ownerInstitutionCode;
+    public String getOwnerinstitutioncode() {
+        return ownerinstitutioncode;
     }
 
-    public void setOwnerInstitutionCode(String ownerInstitutionCode) {
-        this.ownerInstitutionCode = ownerInstitutionCode;
+    public void setOwnerinstitutioncode(String ownerinstitutioncode) {
+        this.ownerinstitutioncode = ownerinstitutioncode;
     }
 
-    public String getBasisOfRecord() {
-        return basisOfRecord;
+    public String getBasisofrecord() {
+        return basisofrecord;
     }
 
-    public void setBasisOfRecord(String basisOfRecord) {
-        this.basisOfRecord = basisOfRecord;
+    public void setBasisofrecord(String basisofrecord) {
+        this.basisofrecord = basisofrecord;
     }
 
-    public String getInformationWithHeld() {
-        return informationWithHeld;
+    public String getInformationwithheld() {
+        return informationwithheld;
     }
 
-    public void setInformationWithHeld(String informationWithHeld) {
-        this.informationWithHeld = informationWithHeld;
+    public void setInformationwithheld(String informationwithheld) {
+        this.informationwithheld = informationwithheld;
     }
 
-    public String getDataGeneralizations() {
-        return dataGeneralizations;
+    public String getDatageneralizations() {
+        return datageneralizations;
     }
 
-    public void setDataGeneralizations(String dataGeneralizations) {
-        this.dataGeneralizations = dataGeneralizations;
+    public void setDatageneralizations(String datageneralizations) {
+        this.datageneralizations = datageneralizations;
     }
 
-    public String getDynamicProperties() {
-        return dynamicProperties;
+    public String getDynamicproperties() {
+        return dynamicproperties;
     }
 
-    public void setDynamicProperties(String dynamicProperties) {
-        this.dynamicProperties = dynamicProperties;
+    public void setDynamicproperties(String dynamicproperties) {
+        this.dynamicproperties = dynamicproperties;
     }
 
-    public String getScientificName() {
-        return scientificName;
+    public String getTaxonId() {
+        return taxonId;
     }
 
-    public void setScientificName(String scientificName) {
-        this.scientificName = scientificName;
+    public void setTaxonId(String taxonId) {
+        this.taxonId = taxonId;
     }
 
-    public String getAcceptedNameUsage() {
-        return acceptedNameUsage;
+    public String getScientificNameId() {
+        return scientificNameId;
     }
 
-    public void setAcceptedNameUsage(String acceptedNameUsage) {
-        this.acceptedNameUsage = acceptedNameUsage;
+    public void setScientificNameId(String scientificNameId) {
+        this.scientificNameId = scientificNameId;
     }
 
-    public String getHigherClassification() {
-        return higherClassification;
+    public String getAcceptedNameUsageId() {
+        return acceptedNameUsageId;
     }
 
-    public void setHigherClassification(String higherClassification) {
-        this.higherClassification = higherClassification;
+    public void setAcceptedNameUsageId(String acceptedNameUsageId) {
+        this.acceptedNameUsageId = acceptedNameUsageId;
+    }
+
+    public String getParentNameUsageId() {
+        return parentNameUsageId;
+    }
+
+    public void setParentNameUsageId(String parentNameUsageId) {
+        this.parentNameUsageId = parentNameUsageId;
+    }
+
+    public String getOriginalNameUsageId() {
+        return originalNameUsageId;
+    }
+
+    public void setOriginalNameUsageId(String originalNameUsageId) {
+        this.originalNameUsageId = originalNameUsageId;
+    }
+
+    public String getNameAccordingToId() {
+        return nameAccordingToId;
+    }
+
+    public void setNameAccordingToId(String nameAccordingToId) {
+        this.nameAccordingToId = nameAccordingToId;
+    }
+
+    public String getNamePublishedInId() {
+        return namePublishedInId;
+    }
+
+    public void setNamePublishedInId(String namePublishedInId) {
+        this.namePublishedInId = namePublishedInId;
+    }
+
+    public String getTaxonConceptId() {
+        return taxonConceptId;
+    }
+
+    public void setTaxonConceptId(String taxonConceptId) {
+        this.taxonConceptId = taxonConceptId;
+    }
+
+    public String getScientificname() {
+        return scientificname;
+    }
+
+    public void setScientificname(String scientificname) {
+        this.scientificname = scientificname;
+    }
+
+    public String getAcceptednameusage() {
+        return acceptednameusage;
+    }
+
+    public void setAcceptednameusage(String acceptednameusage) {
+        this.acceptednameusage = acceptednameusage;
+    }
+
+    public String getParentNameUsage() {
+        return parentNameUsage;
+    }
+
+    public void setParentNameUsage(String parentNameUsage) {
+        this.parentNameUsage = parentNameUsage;
+    }
+
+    public String getOriginalNameUsage() {
+        return originalNameUsage;
+    }
+
+    public void setOriginalNameUsage(String originalNameUsage) {
+        this.originalNameUsage = originalNameUsage;
+    }
+
+    public String getNameAccordingTo() {
+        return nameAccordingTo;
+    }
+
+    public void setNameAccordingTo(String nameAccordingTo) {
+        this.nameAccordingTo = nameAccordingTo;
+    }
+
+    public String getNamePublishedIn() {
+        return namePublishedIn;
+    }
+
+    public void setNamePublishedIn(String namePublishedIn) {
+        this.namePublishedIn = namePublishedIn;
+    }
+
+    public String getHigherclassification() {
+        return higherclassification;
+    }
+
+    public void setHigherclassification(String higherclassification) {
+        this.higherclassification = higherclassification;
     }
 
     public String getKingdom() {
@@ -476,20 +656,20 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.phylum = phylum;
     }
 
-    public String getDarwinClass() {
-        return darwinClass;
+    public String getDarwinclass() {
+        return darwinclass;
     }
 
-    public void setDarwinClass(String darwinClass) {
-        this.darwinClass = darwinClass;
+    public void setDarwinclass(String darwinclass) {
+        this.darwinclass = darwinclass;
     }
 
-    public String getDarwinOrder() {
-        return darwinOrder;
+    public String getDarwinorder() {
+        return darwinorder;
     }
 
-    public void setDarwinOrder(String darwinOrder) {
-        this.darwinOrder = darwinOrder;
+    public void setDarwinorder(String darwinorder) {
+        this.darwinorder = darwinorder;
     }
 
     public String getFamily() {
@@ -516,20 +696,20 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.subgenus = subgenus;
     }
 
-    public String getSpecificEpithet() {
-        return specificEpithet;
+    public String getSpecificepithet() {
+        return specificepithet;
     }
 
-    public void setSpecificEpithet(String specificEpithet) {
-        this.specificEpithet = specificEpithet;
+    public void setSpecificepithet(String specificepithet) {
+        this.specificepithet = specificepithet;
     }
 
-    public String getInfraspecificEpithet() {
-        return infraspecificEpithet;
+    public String getInfraspecificepithet() {
+        return infraspecificepithet;
     }
 
-    public void setInfraspecificEpithet(String infraspecificEpithet) {
-        this.infraspecificEpithet = infraspecificEpithet;
+    public void setInfraspecificepithet(String infraspecificepithet) {
+        this.infraspecificepithet = infraspecificepithet;
     }
 
     public String getTaxonrank() {
@@ -540,84 +720,124 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.taxonrank = taxonrank;
     }
 
-    public String getVerbatimTaxonrank() {
-        return verbatimTaxonrank;
+    public String getVerbatimtaxonrank() {
+        return verbatimtaxonrank;
     }
 
-    public void setVerbatimTaxonrank(String verbatimTaxonrank) {
-        this.verbatimTaxonrank = verbatimTaxonrank;
+    public void setVerbatimtaxonrank(String verbatimtaxonrank) {
+        this.verbatimtaxonrank = verbatimtaxonrank;
     }
 
-    public String getScientificNameAuthorship() {
-        return scientificNameAuthorship;
+    public String getScientificnameauthorship() {
+        return scientificnameauthorship;
     }
 
-    public void setScientificNameAuthorship(String scientificNameAuthorship) {
-        this.scientificNameAuthorship = scientificNameAuthorship;
+    public void setScientificnameauthorship(String scientificnameauthorship) {
+        this.scientificnameauthorship = scientificnameauthorship;
     }
 
-    public String getVernacularName() {
-        return vernacularName;
+    public String getVernacularname() {
+        return vernacularname;
     }
 
-    public void setVernacularName(String vernacularName) {
-        this.vernacularName = vernacularName;
+    public void setVernacularname(String vernacularname) {
+        this.vernacularname = vernacularname;
     }
 
-    public String getNomenclaturalCode() {
-        return nomenclaturalCode;
+    public String getNomenclaturalcode() {
+        return nomenclaturalcode;
     }
 
-    public void setNomenclaturalCode(String nomenclaturalCode) {
-        this.nomenclaturalCode = nomenclaturalCode;
+    public void setNomenclaturalcode(String nomenclaturalcode) {
+        this.nomenclaturalcode = nomenclaturalcode;
     }
 
-    public String getTaxonRemarks() {
-        return taxonRemarks;
+    public String getTaxonomicStatus() {
+        return taxonomicStatus;
     }
 
-    public void setTaxonRemarks(String taxonRemarks) {
-        this.taxonRemarks = taxonRemarks;
+    public void setTaxonomicStatus(String taxonomicStatus) {
+        this.taxonomicStatus = taxonomicStatus;
     }
 
-    public String getCataloNumber() {
-        return cataloNumber;
+    public String getNomenclaturalStatus() {
+        return nomenclaturalStatus;
     }
 
-    public void setCataloNumber(String cataloNumber) {
-        this.cataloNumber = cataloNumber;
+    public void setNomenclaturalStatus(String nomenclaturalStatus) {
+        this.nomenclaturalStatus = nomenclaturalStatus;
     }
 
-    public String getOccurrenceRemarks() {
-        return occurrenceRemarks;
+    public String getTaxonremarks() {
+        return taxonremarks;
     }
 
-    public void setOccurrenceRemarks(String occurrenceRemarks) {
-        this.occurrenceRemarks = occurrenceRemarks;
+    public void setTaxonremarks(String taxonremarks) {
+        this.taxonremarks = taxonremarks;
     }
 
-    public String getRecordNumber() {
-        return recordNumber;
+    public String getOccurrenceId() {
+        return occurrenceId;
     }
 
-    public void setRecordNumber(String recordNumber) {
-        this.recordNumber = recordNumber;
+    public void setOccurrenceId(String occurrenceId) {
+        this.occurrenceId = occurrenceId;
     }
 
-    public String getRecordedBy() {
-        return recordedBy;
+    public String getCatalognumber() {
+        return catalognumber;
     }
 
-    public void setRecordedBy(String recordedBy) {
-        this.recordedBy = recordedBy;
+    public void setCatalognumber(String catalognumber) {
+        this.catalognumber = catalognumber;
     }
 
-    public String getIndividualCount() {
-        return individualCount;
+    public String getOccurrenceDetails() {
+        return occurrenceDetails;
     }
 
-    public void setIndividualCount(String individualCount) {
-        this.individualCount = individualCount;
+    public void setOccurrenceDetails(String occurrenceDetails) {
+        this.occurrenceDetails = occurrenceDetails;
+    }
+
+    public String getOccurrenceremarks() {
+        return occurrenceremarks;
+    }
+
+    public void setOccurrenceremarks(String occurrenceremarks) {
+        this.occurrenceremarks = occurrenceremarks;
+    }
+
+    public String getRecordnumber() {
+        return recordnumber;
+    }
+
+    public void setRecordnumber(String recordnumber) {
+        this.recordnumber = recordnumber;
+    }
+
+    public String getRecordedby() {
+        return recordedby;
+    }
+
+    public void setRecordedby(String recordedby) {
+        this.recordedby = recordedby;
+    }
+
+    public String getIndividualId() {
+        return individualId;
+    }
+
+    public void setIndividualId(String individualId) {
+        this.individualId = individualId;
+    }
+
+    public String getIndividualcount() {
+        return individualcount;
+    }
+
+    public void setIndividualcount(String individualcount) {
+        this.individualcount = individualcount;
     }
 
     public String getSex() {
@@ -636,12 +856,12 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.lifestage = lifestage;
     }
 
-    public String getReproductiveCondition() {
-        return reproductiveCondition;
+    public String getReproductivecondition() {
+        return reproductivecondition;
     }
 
-    public void setReproductiveCondition(String reproductiveCondition) {
-        this.reproductiveCondition = reproductiveCondition;
+    public void setReproductivecondition(String reproductivecondition) {
+        this.reproductivecondition = reproductivecondition;
     }
 
     public String getBehavior() {
@@ -650,6 +870,22 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
 
     public void setBehavior(String behavior) {
         this.behavior = behavior;
+    }
+
+    public String getEstablishmentMeans() {
+        return establishmentMeans;
+    }
+
+    public void setEstablishmentMeans(String establishmentMeans) {
+        this.establishmentMeans = establishmentMeans;
+    }
+
+    public String getOccurrenceStatus() {
+        return occurrenceStatus;
+    }
+
+    public void setOccurrenceStatus(String occurrenceStatus) {
+        this.occurrenceStatus = occurrenceStatus;
     }
 
     public String getPreparations() {
@@ -668,140 +904,148 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.disposition = disposition;
     }
 
-    public String getOtherCatalogNumbers() {
-        return otherCatalogNumbers;
+    public String getOthercatalognumbers() {
+        return othercatalognumbers;
     }
 
-    public void setOtherCatalogNumbers(String otherCatalogNumbers) {
-        this.otherCatalogNumbers = otherCatalogNumbers;
+    public void setOthercatalognumbers(String othercatalognumbers) {
+        this.othercatalognumbers = othercatalognumbers;
     }
 
-    public String getPreviousIdentifications() {
-        return previousIdentifications;
+    public String getPreviousidentifications() {
+        return previousidentifications;
     }
 
-    public void setPreviousIdentifications(String previousIdentifications) {
-        this.previousIdentifications = previousIdentifications;
+    public void setPreviousidentifications(String previousidentifications) {
+        this.previousidentifications = previousidentifications;
     }
 
-    public String getAssociatedMedia() {
-        return associatedMedia;
+    public String getAssociatedmedia() {
+        return associatedmedia;
     }
 
-    public void setAssociatedMedia(String associatedMedia) {
-        this.associatedMedia = associatedMedia;
+    public void setAssociatedmedia(String associatedmedia) {
+        this.associatedmedia = associatedmedia;
     }
 
-    public String getAssociatedReferences() {
-        return associatedReferences;
+    public String getAssociatedreferences() {
+        return associatedreferences;
     }
 
-    public void setAssociatedReferences(String associatedReferences) {
-        this.associatedReferences = associatedReferences;
+    public void setAssociatedreferences(String associatedreferences) {
+        this.associatedreferences = associatedreferences;
     }
 
-    public String getAssociatedOccurrences() {
-        return associatedOccurrences;
+    public String getAssociatedoccurrences() {
+        return associatedoccurrences;
     }
 
-    public void setAssociatedOccurrences(String associatedOccurrences) {
-        this.associatedOccurrences = associatedOccurrences;
+    public void setAssociatedoccurrences(String associatedoccurrences) {
+        this.associatedoccurrences = associatedoccurrences;
     }
 
-    public String getAssociatedSequences() {
-        return associatedSequences;
+    public String getAssociatedsequences() {
+        return associatedsequences;
     }
 
-    public void setAssociatedSequences(String associatedSequences) {
-        this.associatedSequences = associatedSequences;
+    public void setAssociatedsequences(String associatedsequences) {
+        this.associatedsequences = associatedsequences;
     }
 
-    public String getAssociatedTaxa() {
-        return associatedTaxa;
+    public String getAssociatedtaxa() {
+        return associatedtaxa;
     }
 
-    public void setAssociatedTaxa(String associatedTaxa) {
-        this.associatedTaxa = associatedTaxa;
+    public void setAssociatedtaxa(String associatedtaxa) {
+        this.associatedtaxa = associatedtaxa;
     }
 
-    public String getSamplingProtocol() {
-        return samplingProtocol;
+    public String getEventId() {
+        return eventId;
     }
 
-    public void setSamplingProtocol(String samplingProtocol) {
-        this.samplingProtocol = samplingProtocol;
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
-    public String getSamplingEffort() {
-        return samplingEffort;
+    public String getSamplingprotocol() {
+        return samplingprotocol;
     }
 
-    public void setSamplingEffort(String samplingEffort) {
-        this.samplingEffort = samplingEffort;
+    public void setSamplingprotocol(String samplingprotocol) {
+        this.samplingprotocol = samplingprotocol;
     }
 
-    public String getEventDate() {
-        return eventDate;
+    public String getSamplingeffort() {
+        return samplingeffort;
     }
 
-    public void setEventDate(String eventDate) {
-        this.eventDate = eventDate;
+    public void setSamplingeffort(String samplingeffort) {
+        this.samplingeffort = samplingeffort;
     }
 
-    public String getEventTime() {
-        return eventTime;
+    public String getEventdate() {
+        return eventdate;
     }
 
-    public void setEventTime(String eventTime) {
-        this.eventTime = eventTime;
+    public void setEventdate(String eventdate) {
+        this.eventdate = eventdate;
     }
 
-    public String getStartDayOfYear() {
-        return startDayOfYear;
+    public String getEventtime() {
+        return eventtime;
     }
 
-    public void setStartDayOfYear(String startDayOfYear) {
-        this.startDayOfYear = startDayOfYear;
+    public void setEventtime(String eventtime) {
+        this.eventtime = eventtime;
     }
 
-    public String getEndDayOfYear() {
-        return endDayOfYear;
+    public String getStartdayofyear() {
+        return startdayofyear;
     }
 
-    public void setEndDayOfYear(String endDayOfYear) {
-        this.endDayOfYear = endDayOfYear;
+    public void setStartdayofyear(String startdayofyear) {
+        this.startdayofyear = startdayofyear;
     }
 
-    public String getDwcYear() {
-        return dwcYear;
+    public String getEnddayofyear() {
+        return enddayofyear;
     }
 
-    public void setDwcYear(String dwcYear) {
-        this.dwcYear = dwcYear;
+    public void setEnddayofyear(String enddayofyear) {
+        this.enddayofyear = enddayofyear;
     }
 
-    public String getDwcMonth() {
-        return dwcMonth;
+    public String getDwcyear() {
+        return dwcyear;
     }
 
-    public void setDwcMonth(String dwcMonth) {
-        this.dwcMonth = dwcMonth;
+    public void setDwcyear(String dwcyear) {
+        this.dwcyear = dwcyear;
     }
 
-    public String getDwcDay() {
-        return dwcDay;
+    public String getDwcmonth() {
+        return dwcmonth;
     }
 
-    public void setDwcDay(String dwcDay) {
-        this.dwcDay = dwcDay;
+    public void setDwcmonth(String dwcmonth) {
+        this.dwcmonth = dwcmonth;
     }
 
-    public String getVerbatimEventDate() {
-        return verbatimEventDate;
+    public String getDwcday() {
+        return dwcday;
     }
 
-    public void setVerbatimEventDate(String verbatimEventDate) {
-        this.verbatimEventDate = verbatimEventDate;
+    public void setDwcday(String dwcday) {
+        this.dwcday = dwcday;
+    }
+
+    public String getVerbatimeventdate() {
+        return verbatimeventdate;
+    }
+
+    public void setVerbatimeventdate(String verbatimeventdate) {
+        this.verbatimeventdate = verbatimeventdate;
     }
 
     public String getHabitat() {
@@ -812,36 +1056,52 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.habitat = habitat;
     }
 
-    public String getFieldNumber() {
-        return fieldNumber;
+    public String getFieldnumber() {
+        return fieldnumber;
     }
 
-    public void setFieldNumber(String fieldNumber) {
-        this.fieldNumber = fieldNumber;
+    public void setFieldnumber(String fieldnumber) {
+        this.fieldnumber = fieldnumber;
     }
 
-    public String getFieldNotes() {
-        return fieldNotes;
+    public String getFieldnotes() {
+        return fieldnotes;
     }
 
-    public void setFieldNotes(String fieldNotes) {
-        this.fieldNotes = fieldNotes;
+    public void setFieldnotes(String fieldnotes) {
+        this.fieldnotes = fieldnotes;
     }
 
-    public String getEventRemarks() {
-        return eventRemarks;
+    public String getEventremarks() {
+        return eventremarks;
     }
 
-    public void setEventRemarks(String eventRemarks) {
-        this.eventRemarks = eventRemarks;
+    public void setEventremarks(String eventremarks) {
+        this.eventremarks = eventremarks;
     }
 
-    public String getHigherGeography() {
-        return higherGeography;
+    public String getLocationId() {
+        return locationId;
     }
 
-    public void setHigherGeography(String higherGeography) {
-        this.higherGeography = higherGeography;
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getHigherGeographyId() {
+        return higherGeographyId;
+    }
+
+    public void setHigherGeographyId(String higherGeographyId) {
+        this.higherGeographyId = higherGeographyId;
+    }
+
+    public String getHighergeography() {
+        return highergeography;
+    }
+
+    public void setHighergeography(String highergeography) {
+        this.highergeography = highergeography;
     }
 
     public String getContinent() {
@@ -852,20 +1112,20 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.continent = continent;
     }
 
-    public String getWaterBody() {
-        return waterBody;
+    public String getWaterbody() {
+        return waterbody;
     }
 
-    public void setWaterBody(String waterBody) {
-        this.waterBody = waterBody;
+    public void setWaterbody(String waterbody) {
+        this.waterbody = waterbody;
     }
 
-    public String getIslandGroup() {
-        return islandGroup;
+    public String getIslandgroup() {
+        return islandgroup;
     }
 
-    public void setIslandGroup(String islandGroup) {
-        this.islandGroup = islandGroup;
+    public void setIslandgroup(String islandgroup) {
+        this.islandgroup = islandgroup;
     }
 
     public String getIsland() {
@@ -884,20 +1144,20 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.country = country;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getCountrycode() {
+        return countrycode;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
     }
 
-    public String getStateProvince() {
-        return stateProvince;
+    public String getStateprovince() {
+        return stateprovince;
     }
 
-    public void setStateProvince(String stateProvince) {
-        this.stateProvince = stateProvince;
+    public void setStateprovince(String stateprovince) {
+        this.stateprovince = stateprovince;
     }
 
     public String getCounty() {
@@ -924,148 +1184,148 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.locality = locality;
     }
 
-    public String getVerbatimLocality() {
-        return verbatimLocality;
+    public String getVerbatimlocality() {
+        return verbatimlocality;
     }
 
-    public void setVerbatimLocality(String verbatimLocality) {
-        this.verbatimLocality = verbatimLocality;
+    public void setVerbatimlocality(String verbatimlocality) {
+        this.verbatimlocality = verbatimlocality;
     }
 
-    public String getVerbatimElevation() {
-        return verbatimElevation;
+    public String getVerbatimelevation() {
+        return verbatimelevation;
     }
 
-    public void setVerbatimElevation(String verbatimElevation) {
-        this.verbatimElevation = verbatimElevation;
+    public void setVerbatimelevation(String verbatimelevation) {
+        this.verbatimelevation = verbatimelevation;
     }
 
-    public String getMinimumElevationInMeters() {
-        return minimumElevationInMeters;
+    public String getMinimumelevationinmeters() {
+        return minimumelevationinmeters;
     }
 
-    public void setMinimumElevationInMeters(String minimumElevationInMeters) {
-        this.minimumElevationInMeters = minimumElevationInMeters;
+    public void setMinimumelevationinmeters(String minimumelevationinmeters) {
+        this.minimumelevationinmeters = minimumelevationinmeters;
     }
 
-    public String getMaximumElevationInMeters() {
-        return maximumElevationInMeters;
+    public String getMaximumelevationinmeters() {
+        return maximumelevationinmeters;
     }
 
-    public void setMaximumElevationInMeters(String maximumElevationInMeters) {
-        this.maximumElevationInMeters = maximumElevationInMeters;
+    public void setMaximumelevationinmeters(String maximumelevationinmeters) {
+        this.maximumelevationinmeters = maximumelevationinmeters;
     }
 
-    public String getVerbatimDepth() {
-        return verbatimDepth;
+    public String getVerbatimdepth() {
+        return verbatimdepth;
     }
 
-    public void setVerbatimDepth(String verbatimDepth) {
-        this.verbatimDepth = verbatimDepth;
+    public void setVerbatimdepth(String verbatimdepth) {
+        this.verbatimdepth = verbatimdepth;
     }
 
-    public String getMinimumDepthInmeters() {
-        return minimumDepthInmeters;
+    public String getMinimumdepthinmeters() {
+        return minimumdepthinmeters;
     }
 
-    public void setMinimumDepthInmeters(String minimumDepthInmeters) {
-        this.minimumDepthInmeters = minimumDepthInmeters;
+    public void setMinimumdepthinmeters(String minimumdepthinmeters) {
+        this.minimumdepthinmeters = minimumdepthinmeters;
     }
 
-    public String getMaximumDepthInMeters() {
-        return maximumDepthInMeters;
+    public String getMaximumdepthinmeters() {
+        return maximumdepthinmeters;
     }
 
-    public void setMaximumDepthInMeters(String maximumDepthInMeters) {
-        this.maximumDepthInMeters = maximumDepthInMeters;
+    public void setMaximumdepthinmeters(String maximumdepthinmeters) {
+        this.maximumdepthinmeters = maximumdepthinmeters;
     }
 
-    public String getMinimumDistanceAboveSurfaceInMeters() {
-        return minimumDistanceAboveSurfaceInMeters;
+    public String getMinimumdistanceabovesurfaceinmeters() {
+        return minimumdistanceabovesurfaceinmeters;
     }
 
-    public void setMinimumDistanceAboveSurfaceInMeters(String minimumDistanceAboveSurfaceInMeters) {
-        this.minimumDistanceAboveSurfaceInMeters = minimumDistanceAboveSurfaceInMeters;
+    public void setMinimumdistanceabovesurfaceinmeters(String minimumdistanceabovesurfaceinmeters) {
+        this.minimumdistanceabovesurfaceinmeters = minimumdistanceabovesurfaceinmeters;
     }
 
-    public String getMaximumDistanceAboveSurfaceInMeters() {
-        return maximumDistanceAboveSurfaceInMeters;
+    public String getMaximumdistanceabovesurfaceinmeters() {
+        return maximumdistanceabovesurfaceinmeters;
     }
 
-    public void setMaximumDistanceAboveSurfaceInMeters(String maximumDistanceAboveSurfaceInMeters) {
-        this.maximumDistanceAboveSurfaceInMeters = maximumDistanceAboveSurfaceInMeters;
+    public void setMaximumdistanceabovesurfaceinmeters(String maximumdistanceabovesurfaceinmeters) {
+        this.maximumdistanceabovesurfaceinmeters = maximumdistanceabovesurfaceinmeters;
     }
 
-    public String getLocationAccordingTo() {
-        return locationAccordingTo;
+    public String getLocationaccordingto() {
+        return locationaccordingto;
     }
 
-    public void setLocationAccordingTo(String locationAccordingTo) {
-        this.locationAccordingTo = locationAccordingTo;
+    public void setLocationaccordingto(String locationaccordingto) {
+        this.locationaccordingto = locationaccordingto;
     }
 
-    public String getLocationRemarks() {
-        return locationRemarks;
+    public String getLocationremarks() {
+        return locationremarks;
     }
 
-    public void setLocationRemarks(String locationRemarks) {
-        this.locationRemarks = locationRemarks;
+    public void setLocationremarks(String locationremarks) {
+        this.locationremarks = locationremarks;
     }
 
-    public String getVerbatimCoordinates() {
-        return verbatimCoordinates;
+    public String getVerbatimcoordinates() {
+        return verbatimcoordinates;
     }
 
-    public void setVerbatimCoordinates(String verbatimCoordinates) {
-        this.verbatimCoordinates = verbatimCoordinates;
+    public void setVerbatimcoordinates(String verbatimcoordinates) {
+        this.verbatimcoordinates = verbatimcoordinates;
     }
 
-    public String getVerbatimLatitude() {
-        return verbatimLatitude;
+    public String getVerbatimlatitude() {
+        return verbatimlatitude;
     }
 
-    public void setVerbatimLatitude(String verbatimLatitude) {
-        this.verbatimLatitude = verbatimLatitude;
+    public void setVerbatimlatitude(String verbatimlatitude) {
+        this.verbatimlatitude = verbatimlatitude;
     }
 
-    public String getVerbatimLongitude() {
-        return verbatimLongitude;
+    public String getVerbatimlongitude() {
+        return verbatimlongitude;
     }
 
-    public void setVerbatimLongitude(String verbatimLongitude) {
-        this.verbatimLongitude = verbatimLongitude;
+    public void setVerbatimlongitude(String verbatimlongitude) {
+        this.verbatimlongitude = verbatimlongitude;
     }
 
-    public String getVerbatimCoordinateSystem() {
-        return verbatimCoordinateSystem;
+    public String getVerbatimcoordinatesystem() {
+        return verbatimcoordinatesystem;
     }
 
-    public void setVerbatimCoordinateSystem(String verbatimCoordinateSystem) {
-        this.verbatimCoordinateSystem = verbatimCoordinateSystem;
+    public void setVerbatimcoordinatesystem(String verbatimcoordinatesystem) {
+        this.verbatimcoordinatesystem = verbatimcoordinatesystem;
     }
 
-    public String getVerbatimSrs() {
-        return verbatimSrs;
+    public String getVerbatimsrs() {
+        return verbatimsrs;
     }
 
-    public void setVerbatimSrs(String verbatimSrs) {
-        this.verbatimSrs = verbatimSrs;
+    public void setVerbatimsrs(String verbatimsrs) {
+        this.verbatimsrs = verbatimsrs;
     }
 
-    public String getDecimalLatitude() {
-        return decimalLatitude;
+    public String getDecimallatitude() {
+        return decimallatitude;
     }
 
-    public void setDecimalLatitude(String decimalLatitude) {
-        this.decimalLatitude = decimalLatitude;
+    public void setDecimallatitude(String decimallatitude) {
+        this.decimallatitude = decimallatitude;
     }
 
-    public String getDecimalLongitude() {
-        return decimalLongitude;
+    public String getDecimallongitude() {
+        return decimallongitude;
     }
 
-    public void setDecimalLongitude(String decimalLongitude) {
-        this.decimalLongitude = decimalLongitude;
+    public void setDecimallongitude(String decimallongitude) {
+        this.decimallongitude = decimallongitude;
     }
 
     public String getGeodeticdatum() {
@@ -1076,140 +1336,148 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
         this.geodeticdatum = geodeticdatum;
     }
 
-    public String getCoordinateUncertaintyInMeters() {
-        return coordinateUncertaintyInMeters;
+    public String getCoordinateuncertaintyinmeters() {
+        return coordinateuncertaintyinmeters;
     }
 
-    public void setCoordinateUncertaintyInMeters(String coordinateUncertaintyInMeters) {
-        this.coordinateUncertaintyInMeters = coordinateUncertaintyInMeters;
+    public void setCoordinateuncertaintyinmeters(String coordinateuncertaintyinmeters) {
+        this.coordinateuncertaintyinmeters = coordinateuncertaintyinmeters;
     }
 
-    public String getCoordinatePrecision() {
-        return coordinatePrecision;
+    public String getCoordinateprecision() {
+        return coordinateprecision;
     }
 
-    public void setCoordinatePrecision(String coordinatePrecision) {
-        this.coordinatePrecision = coordinatePrecision;
+    public void setCoordinateprecision(String coordinateprecision) {
+        this.coordinateprecision = coordinateprecision;
     }
 
-    public String getPointRadiusSpatialFit() {
-        return pointRadiusSpatialFit;
+    public String getPointradiusspatialfit() {
+        return pointradiusspatialfit;
     }
 
-    public void setPointRadiusSpatialFit(String pointRadiusSpatialFit) {
-        this.pointRadiusSpatialFit = pointRadiusSpatialFit;
+    public void setPointradiusspatialfit(String pointradiusspatialfit) {
+        this.pointradiusspatialfit = pointradiusspatialfit;
     }
 
-    public String getFootPrintWkt() {
-        return footPrintWkt;
+    public String getFootprintwkt() {
+        return footprintwkt;
     }
 
-    public void setFootPrintWkt(String footPrintWkt) {
-        this.footPrintWkt = footPrintWkt;
+    public void setFootprintwkt(String footprintwkt) {
+        this.footprintwkt = footprintwkt;
     }
 
-    public String getFootPrintSrs() {
-        return footPrintSrs;
+    public String getFootprintsrs() {
+        return footprintsrs;
     }
 
-    public void setFootPrintSrs(String footPrintSrs) {
-        this.footPrintSrs = footPrintSrs;
+    public void setFootprintsrs(String footprintsrs) {
+        this.footprintsrs = footprintsrs;
     }
 
-    public String getFootPrintSpatialFit() {
-        return footPrintSpatialFit;
+    public String getFootprintspatialfit() {
+        return footprintspatialfit;
     }
 
-    public void setFootPrintSpatialFit(String footPrintSpatialFit) {
-        this.footPrintSpatialFit = footPrintSpatialFit;
+    public void setFootprintspatialfit(String footprintspatialfit) {
+        this.footprintspatialfit = footprintspatialfit;
     }
 
-    public String getGeoreferencedBy() {
-        return georeferencedBy;
+    public String getGeoreferencedby() {
+        return georeferencedby;
     }
 
-    public void setGeoreferencedBy(String georeferencedBy) {
-        this.georeferencedBy = georeferencedBy;
+    public void setGeoreferencedby(String georeferencedby) {
+        this.georeferencedby = georeferencedby;
     }
 
-    public String getGeoreferenceProtocol() {
-        return georeferenceProtocol;
+    public String getGeoreferenceprotocol() {
+        return georeferenceprotocol;
     }
 
-    public void setGeoreferenceProtocol(String georeferenceProtocol) {
-        this.georeferenceProtocol = georeferenceProtocol;
+    public void setGeoreferenceprotocol(String georeferenceprotocol) {
+        this.georeferenceprotocol = georeferenceprotocol;
     }
 
-    public String getGeoreferenceSources() {
-        return georeferenceSources;
+    public String getGeoreferencesources() {
+        return georeferencesources;
     }
 
-    public void setGeoreferenceSources(String georeferenceSources) {
-        this.georeferenceSources = georeferenceSources;
+    public void setGeoreferencesources(String georeferencesources) {
+        this.georeferencesources = georeferencesources;
     }
 
-    public String getGeoreferenceVerificationStatus() {
-        return georeferenceVerificationStatus;
+    public String getGeoreferenceverificationstatus() {
+        return georeferenceverificationstatus;
     }
 
-    public void setGeoreferenceVerificationStatus(String georeferenceVerificationStatus) {
-        this.georeferenceVerificationStatus = georeferenceVerificationStatus;
+    public void setGeoreferenceverificationstatus(String georeferenceverificationstatus) {
+        this.georeferenceverificationstatus = georeferenceverificationstatus;
     }
 
-    public String getGeoreferenceRemarks() {
-        return georeferenceRemarks;
+    public String getGeoreferenceremarks() {
+        return georeferenceremarks;
     }
 
-    public void setGeoreferenceRemarks(String georeferenceRemarks) {
-        this.georeferenceRemarks = georeferenceRemarks;
+    public void setGeoreferenceremarks(String georeferenceremarks) {
+        this.georeferenceremarks = georeferenceremarks;
     }
 
-    public String getIdentifiedBy() {
-        return identifiedBy;
+    public String getIdentificationId() {
+        return identificationId;
     }
 
-    public void setIdentifiedBy(String identifiedBy) {
-        this.identifiedBy = identifiedBy;
+    public void setIdentificationId(String identificationId) {
+        this.identificationId = identificationId;
     }
 
-    public String getDateIdentified() {
-        return dateIdentified;
+    public String getIdentifiedby() {
+        return identifiedby;
     }
 
-    public void setDateIdentified(String dateIdentified) {
-        this.dateIdentified = dateIdentified;
+    public void setIdentifiedby(String identifiedby) {
+        this.identifiedby = identifiedby;
     }
 
-    public String getIdentificationReferences() {
-        return identificationReferences;
+    public String getDateidentified() {
+        return dateidentified;
     }
 
-    public void setIdentificationReferences(String identificationReferences) {
-        this.identificationReferences = identificationReferences;
+    public void setDateidentified(String dateidentified) {
+        this.dateidentified = dateidentified;
     }
 
-    public String getIdentificationRemarks() {
-        return identificationRemarks;
+    public String getIdentificationreferences() {
+        return identificationreferences;
     }
 
-    public void setIdentificationRemarks(String identificationRemarks) {
-        this.identificationRemarks = identificationRemarks;
+    public void setIdentificationreferences(String identificationreferences) {
+        this.identificationreferences = identificationreferences;
     }
 
-    public String getIdentificationQualifier() {
-        return identificationQualifier;
+    public String getIdentificationremarks() {
+        return identificationremarks;
     }
 
-    public void setIdentificationQualifier(String identificationQualifier) {
-        this.identificationQualifier = identificationQualifier;
+    public void setIdentificationremarks(String identificationremarks) {
+        this.identificationremarks = identificationremarks;
     }
 
-    public String getTypeStatus() {
-        return typeStatus;
+    public String getIdentificationqualifier() {
+        return identificationqualifier;
     }
 
-    public void setTypeStatus(String typeStatus) {
-        this.typeStatus = typeStatus;
+    public void setIdentificationqualifier(String identificationqualifier) {
+        this.identificationqualifier = identificationqualifier;
+    }
+
+    public String getTypestatus() {
+        return typestatus;
+    }
+
+    public void setTypestatus(String typestatus) {
+        this.typestatus = typestatus;
     }
 
     public Integer getIdUtilisateurUpload() {
@@ -1218,6 +1486,38 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
 
     public void setIdUtilisateurUpload(Integer idUtilisateurUpload) {
         this.idUtilisateurUpload = idUtilisateurUpload;
+    }
+
+    public Integer getIdRebioma() {
+        return idRebioma;
+    }
+
+    public void setIdRebioma(Integer idRebioma) {
+        this.idRebioma = idRebioma;
+    }
+
+    public String getLienSource() {
+        return lienSource;
+    }
+
+    public void setLienSource(String lienSource) {
+        this.lienSource = lienSource;
+    }
+
+    public String getValidated() {
+        return validated;
+    }
+
+    public void setValidated(String validated) {
+        this.validated = validated;
+    }
+
+    public String getReviewed() {
+        return reviewed;
+    }
+
+    public void setReviewed(String reviewed) {
+        this.reviewed = reviewed;
     }
 
     public Boolean getGps() {
@@ -1258,6 +1558,14 @@ public class VueValidationDarwinCore extends BaseModel implements Serializable {
 
     public void setValidationexpert(Integer validationexpert) {
         this.validationexpert = validationexpert;
+    }
+
+    public Boolean getPublique() {
+        return publique;
+    }
+
+    public void setPublique(Boolean publique) {
+        this.publique = publique;
     }
     
     

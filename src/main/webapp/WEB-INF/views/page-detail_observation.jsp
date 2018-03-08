@@ -85,13 +85,13 @@
                     <p class="name-img"><%out.print(dwc.getAcceptednameusage());%> - Mammadia</p>
                     <!-- /.carousel -->
 
+                    <iframe class="img-responsive" ng-src="{{trustSrc(videos.src)}}">
+                    </iframe>
+
 
                     <div class="map-detail-obs" id="map">
                         <!--                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>-->
-                    </div>
-                    <p align="center">
-                        <button type="button" class="btn btn-primary"><span class="fa fa-download"></span> Télécharger la fiche</button>
-                    </p>
+                    </div>                    
                     <%if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId())) {%>
                     <br>
                     <p align="center">
@@ -108,14 +108,86 @@
                             Record-Level Terms
                         </p>
                         <ul>
-                            <li>InstitutionCode: <%out.print(dwc.getInstitutioncode());%></li>
-                            <li>CollectionCode: <%out.print(dwc.getCollectioncode());%></li>
-                            <li>DatasetName: <%out.print(dwc.getDatasetname());%></li>
-                            <li>OwnerInstitutionCode: <%out.print(dwc.getOwnerinstitutioncode());%></li>
-                            <li>BasisOfRecord: <%out.print(dwc.getBasisofrecord());%></li>
-                            <li>InformationWithheld: <%out.print(dwc.getInformationwithheld());%></li>
-                            <li>DataGeneralizations: <%out.print(dwc.getDatageneralizations());%></li>
-                            <li>DynamicProperties: <%out.print(dwc.getDynamicproperties());%></li>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        InstitutionCode:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getInstitutioncode());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        CollectionCode:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getCollectioncode());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        DatasetName:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDatasetname());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        ToOwnerInstitutionCode:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOwnerinstitutioncode());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        BasisOfRecord:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getBasisofrecord());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        InformationWithheld:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getInformationwithheld());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        DataGeneralizations:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDatageneralizations());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        DynamicProperties:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDynamicproperties());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                                                 
                         </ul>
                     </div>
 
@@ -124,38 +196,326 @@
                             Taxon
                         </p>
                         <ul>
-                            <li>TaxonID: <%out.print(dwc.getTaxonId());%></li>
-                            <li>ScientificNameID: <%out.print(dwc.getScientificNameId());%></li>
-                            <li>AcceptedNameUsageID: <%out.print(dwc.getAcceptedNameUsageId());%></li>
-                            <li>ParentNameUsageID: <%out.print(dwc.getParentNameUsageId());%></li>
-                            <li>OriginalNameUsageID: <%out.print(dwc.getOriginalNameUsageId());%></li>
-                            <li>NameAccordingToID: <%out.print(dwc.getNameAccordingToId());%></li>
-                            <li>NamePublishedInID: <%out.print(dwc.getNamePublishedInId());%></li>
-                            <li>TaxonConceptID: <%out.print(dwc.getTaxonConceptId());%></li>
-                            <li>ScientificName: <%out.print(dwc.getScientificname());%></li>
-                            <li>AcceptedNameUsage: <%out.print(dwc.getAcceptednameusage());%></li>
-                            <li>ParentNameUsage: <%out.print(dwc.getParentNameUsage());%></li>
-                            <li>OriginalNameUsage: <%out.print(dwc.getOriginalNameUsage());%></li>
-                            <li>NameAccordingTo: <%out.print(dwc.getNameAccordingTo());%></li>
-                            <li>NamePublishedIn: <%out.print(dwc.getNamePublishedIn());%></li>
-                            <li>HigherClassification: <%out.print(dwc.getHigherclassification());%></li>
-                            <li>Kingdom: <%out.print(dwc.getKingdom());%></li>
-                            <li>Phylum: <%out.print(dwc.getPhylum());%></li>
-                            <li>Class: <%out.print(dwc.getDarwinclass());%></li>
-                            <li>Order: <%out.print(dwc.getDarwinorder());%></li>
-                            <li>Family: <%out.print(dwc.getFamily());%></li>
-                            <li>Genus: <%out.print(dwc.getGenus());%></li>
-                            <li>Subgenus: <%out.print(dwc.getSubgenus());%></li>
-                            <li>SpecificEpithet: <%out.print(dwc.getSpecificepithet());%></li>
-                            <li>InfraspecificEpithet: <%out.print(dwc.getInfraspecificepithet());%></li>
-                            <li>TaxonRank: <%out.print(dwc.getTaxonrank());%></li>
-                            <li>VerbatimTaxonRank: <%out.print(dwc.getVerbatimtaxonrank());%></li>
-                            <li>ScientificNameAuthorship: <%out.print(dwc.getScientificnameauthorship());%></li>
-                            <li>VernacularName: <%out.print(dwc.getVernacularname());%></li>
-                            <li>NomenclaturalCode: <%out.print(dwc.getNomenclaturalcode());%></li>
-                            <li>TaxonomicStatus: <%out.print(dwc.getTaxonomicStatus());%></li>
-                            <li>NomenclaturalStatus: <%out.print(dwc.getNomenclaturalStatus());%></li>
-                            <li>TaxonRemarks: <%out.print(dwc.getTaxonremarks());%></li>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        TaxonID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getTaxonId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        ScientificNameID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getScientificNameId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        AcceptedNameUsageID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getAcceptedNameUsageId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        ParentNameUsageID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getParentNameUsageId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        OriginalNameUsageID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOriginalNameUsageId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        NameAccordingToID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getNameAccordingToId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        NamePublishedInID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getNamePublishedInId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        TaxonConceptID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getTaxonConceptId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        ScientificName:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getScientificname());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        AcceptedNameUsage:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getAcceptednameusage());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        ParentNameUsage:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getParentNameUsage());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        OriginalNameUsage:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOriginalNameUsage());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        NameAccordingTo:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getNameAccordingTo());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        NamePublishedIn:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getNamePublishedIn());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        HigherClassification:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getHigherclassification());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Kingdom:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getKingdom());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Phylum:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getPhylum());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Class:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDarwinclass());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Order:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDarwinorder());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Family:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getFamily());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Genus:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getGenus());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Subgenus:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getSubgenus());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        SpecificEpithet:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getSpecificepithet());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        InfraspecificEpithet:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getInfraspecificepithet());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        TaxonRank:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getTaxonrank());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimTaxonRank:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimtaxonrank());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        ScientificNameAuthorship:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getScientificnameauthorship());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VernacularName:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVernacularname());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        NomenclaturalCode:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getNomenclaturalcode());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        TaxonomicStatus:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getTaxonomicStatus());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        NomenclaturalStatus:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getNomenclaturalStatus());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        TaxonRemarks:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getTaxonremarks());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
                         </ul>
                     </div> 
 
@@ -164,29 +524,236 @@
                             Occurrence
                         </p>
                         <ul>
-                            <li>OccurrenceID: <%out.print(dwc.getOccurrenceId());%></li>
-                            <li>CatalogNumber: <%out.print(dwc.getCatalognumber());%></li>
-                            <li>OccurrenceDetails: <%out.print(dwc.getOccurrenceDetails());%></li>
-                            <li>OccurrenceRemarks: <%out.print(dwc.getOccurrenceremarks());%></li>
-                            <li>RecordNumber: <%out.print(dwc.getRecordnumber());%></li>
-                            <li>RecordedBy: <%out.print(dwc.getRecordedby());%></li>
-                            <li>IndividualID: <%out.print(dwc.getIndividualId());%></li>
-                            <li>IndividualCount: <%out.print(dwc.getIndividualcount());%></li>
-                            <li>Sex: <%out.print(dwc.getSex());%></li>
-                            <li>LifeStage: <%out.print(dwc.getLifestage());%></li>
-                            <li>ReproductiveCondition: <%out.print(dwc.getReproductivecondition());%></li>
-                            <li>Behavior: <%out.print(dwc.getBehavior());%></li>
-                            <li>EstablishmentMeans: <%out.print(dwc.getEstablishmentMeans());%></li>
-                            <li>OccurrenceStatus: <%out.print(dwc.getOccurrenceStatus());%></li>
-                            <li>Preparations: <%out.print(dwc.getPreparations());%></li>
-                            <li>Disposition: <%out.print(dwc.getDisposition());%></li>
-                            <li>OtherCatalogNumbers: <%out.print(dwc.getOthercatalognumbers());%></li>
-                            <li>PreviousIdentifications: <%out.print(dwc.getPreviousidentifications());%></li>
-                            <li>AssociatedMedia: <%out.print(dwc.getAssociatedmedia());%></li>
-                            <li>AssociatedReferences: <%out.print(dwc.getAssociatedreferences());%></li>
-                            <li>AssociatedOccurrences: <%out.print(dwc.getAssociatedoccurrences());%></li>
-                            <li>AssociatedSequences: <%out.print(dwc.getAssociatedsequences());%></li>
-                            <li>AssociatedTaxa: <%out.print(dwc.getAssociatedtaxa());%></li>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        OccurrenceID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOccurrenceId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        CatalogNumber:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getCatalognumber());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        OccurrenceDetails:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOccurrenceDetails());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        OccurrenceRemarks:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOccurrenceremarks());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        RecordNumber:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getRecordnumber());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        RecordedBy:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getRecordedby());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        IndividualID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIndividualId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        IndividualCount:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIndividualcount());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Sex:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getSex());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        LifeStage:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getLifestage());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        ReproductiveCondition:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getReproductivecondition());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Behavior:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getBehavior());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        EstablishmentMeans:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getEstablishmentMeans());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        OccurrenceStatus:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOccurrenceStatus());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Preparations:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getPreparations());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Disposition:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDisposition());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        OtherCatalogNumbers:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getOthercatalognumbers());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        PreviousIdentifications:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getPreviousidentifications());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        AssociatedMedia:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getAssociatedmedia());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        AssociatedReferences:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getAssociatedreferences());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        AssociatedOccurrences:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getAssociatedoccurrences());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        AssociatedSequences:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getAssociatedsequences());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        AssociatedTaxa:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getAssociatedtaxa());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                                                        
                         </ul> 
                     </div> 
 
@@ -195,21 +762,156 @@
                             Event
                         </p>
                         <ul>
-                            <li>EventID <%out.print(dwc.getEventId());%></li>
-                            <li>SamplingProtocol <%out.print(dwc.getSamplingprotocol());%></li>
-                            <li>SamplingEffort <%out.print(dwc.getSamplingeffort());%></li>
-                            <li>EventDate <%out.print(dwc.getEventdate());%></li>
-                            <li>EventTime <%out.print(dwc.getEventtime());%></li>
-                            <li>StartDayOfYear <%out.print(dwc.getStartdayofyear());%></li>
-                            <li>EndDayOfYear <%out.print(dwc.getEnddayofyear());%></li>
-                            <li>Year <%out.print(dwc.getDwcyear());%></li>
-                            <li>Month <%out.print(dwc.getDwcmonth());%></li>
-                            <li>Day <%out.print(dwc.getDwcday());%></li>
-                            <li>VerbatimEventDate <%out.print(dwc.getVerbatimeventdate());%></li>
-                            <li>Habitat <%out.print(dwc.getHabitat());%></li>
-                            <li>FieldNumber <%out.print(dwc.getFieldnumber());%></li>
-                            <li>FieldNotes <%out.print(dwc.getFieldnotes());%></li>
-                            <li>EventRemarks <%out.print(dwc.getEventremarks());%></li>
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        EventID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getEventId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        SamplingProtocol:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getSamplingprotocol());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        SamplingEffort:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getSamplingeffort());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        EventDate:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getEventdate());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        EventTime:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getEventtime());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        StartDayOfYear:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getStartdayofyear());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        EndDayOfYear:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getEnddayofyear());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Year:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDwcyear());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Month:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDwcmonth());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Day:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDwcday());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimEventDate:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimeventdate());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Habitat: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getHabitat());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        FieldNumber: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getFieldnumber());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        FieldNotes: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getFieldnotes());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        EventRemarks: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getEventremarks());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
                         </ul> 
                     </div> 
 
@@ -218,49 +920,436 @@
                             Location
                         </p>
                         <ul>
-                            <li>LocationID <%out.print(dwc.getLocationId());%></li>
-                            <li>HigherGeographyID <%out.print(dwc.getHigherGeographyId());%></li>
-                            <li>HigherGeography <%out.print(dwc.getHighergeography());%></li>
-                            <li>Continent <%out.print(dwc.getContinent());%></li>
-                            <li>WaterBody <%out.print(dwc.getWaterbody());%></li>
-                            <li>IslandGroup <%out.print(dwc.getIslandgroup());%></li>
-                            <li>Island <%out.print(dwc.getIsland());%></li>
-                            <li>Country <%out.print(dwc.getCountry());%></li>
-                            <li>CountryCode <%out.print(dwc.getCountrycode());%></li>
-                            <li>StateProvince <%out.print(dwc.getStateprovince());%></li>
-                            <li>County <%out.print(dwc.getCounty());%></li>
-                            <li>Municipality <%out.print(dwc.getMunicipality());%></li>
-                            <li>Locality <%out.print(dwc.getLocality());%></li>
-                            <li>VerbatimLocality <%out.print(dwc.getVerbatimlocality());%></li>
-                            <li>VerbatimElevation <%out.print(dwc.getVerbatimelevation());%></li>
-                            <li>MinimumElevationInMeters <%out.print(dwc.getMinimumelevationinmeters());%></li>
-                            <li>MaximumElevationInMeters <%out.print(dwc.getMaximumelevationinmeters());%></li>
-                            <li>VerbatimDepth <%out.print(dwc.getVerbatimdepth());%></li>
-                            <li>MinimumDepthInMeters <%out.print(dwc.getMinimumdepthinmeters());%></li>
-                            <li>MaximumDepthInMeters <%out.print(dwc.getMaximumdepthinmeters());%></li>
-                            <li>MinimumDistanceAboveSurfaceInMeters <%out.print(dwc.getMinimumdistanceabovesurfaceinmeters());%></li>
-                            <li>MaximumDistanceAboveSurfaceInMeters <%out.print(dwc.getMaximumdistanceabovesurfaceinmeters());%></li>
-                            <li>LocationAccordingTo <%out.print(dwc.getLocationaccordingto());%></li>
-                            <li>LocationRemarks <%out.print(dwc.getLocationremarks());%></li>
-                            <li>VerbatimCoordinates <%out.print(dwc.getVerbatimcoordinates());%></li>
-                            <li>VerbatimLatitude <%out.print(dwc.getVerbatimlatitude());%></li>
-                            <li>VerbatimLongitude <%out.print(dwc.getVerbatimlongitude());%></li>
-                            <li>VerbatimCoordinateSystem <%out.print(dwc.getVerbatimcoordinatesystem());%></li>
-                            <li>VerbatimSRS <%out.print(dwc.getVerbatimsrs());%></li>
-                            <li>DecimalLatitude <%out.print(dwc.getDecimallatitude());%></li>
-                            <li>DecimalLongitude <%out.print(dwc.getDecimallongitude());%></li>
-                            <li>GeodeticDatum <%out.print(dwc.getGeodeticdatum());%></li>
-                            <li>CoordinateUncertaintyInMeters <%out.print(dwc.getCoordinateuncertaintyinmeters());%></li>
-                            <li>CoordinatePrecision <%out.print(dwc.getCoordinateprecision());%></li>
-                            <li>PointRadiusSpatialFit <%out.print(dwc.getPointradiusspatialfit());%></li>
-                            <li>FootprintWKT <%out.print(dwc.getFootprintwkt());%></li>
-                            <li>FootprintSRS <%out.print(dwc.getFootprintsrs());%></li>
-                            <li>FootprintSpatialFit <%out.print(dwc.getFootprintspatialfit());%></li>
-                            <li>GeoreferencedBy <%out.print(dwc.getGeoreferencedby());%></li>
-                            <li>GeoreferenceProtocol <%out.print(dwc.getGeoreferenceprotocol());%></li>
-                            <li>GeoreferenceSources <%out.print(dwc.getGeoreferencesources());%></li>
-                            <li>GeoreferenceVerificationStatus <%out.print(dwc.getGeoreferenceverificationstatus());%></li>
-                            <li>GeoreferenceRemarks <%out.print(dwc.getGeoreferenceremarks());%></li>                                                                                                                
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        LocationID: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getLocationId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        HigherGeographyID: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getHigherGeographyId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        HigherGeography:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getHighergeography());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Continent: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getContinent());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        WaterBody:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getWaterbody());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        IslandGroup:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIslandgroup());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Island:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIsland());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Country:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getCountry());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        CountryCode:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getCountrycode());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        StateProvince:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getStateprovince());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        County:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getCounty());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Municipality: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getMunicipality());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        Locality:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getLocality());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimLocality: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimlocality());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimElevation: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimelevation());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        MinimumElevationInMeters:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getMinimumelevationinmeters());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        MaximumElevationInMeters:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getMaximumelevationinmeters());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimDepth:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimdepth());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        MinimumDepthInMeters:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getMinimumdepthinmeters());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        MaximumDepthInMeters: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getMaximumdepthinmeters());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        MinimumDistanceAboveSurfaceInMeters:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getMinimumdistanceabovesurfaceinmeters());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        MaximumDistanceAboveSurfaceInMeters:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getMaximumdistanceabovesurfaceinmeters());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        LocationAccordingTo:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getLocationaccordingto());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        LocationRemarks:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getLocationremarks());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimCoordinates:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimcoordinates());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimLatitude:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimlatitude());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimLongitude:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimlongitude());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimCoordinateSystem:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimcoordinatesystem());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        VerbatimSRS
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getVerbatimsrs());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        DecimalLatitude:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDecimallatitude());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        DecimalLongitude:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDecimallongitude());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        GeodeticDatum:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getGeodeticdatum());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        CoordinateUncertaintyInMeters:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getCoordinateuncertaintyinmeters());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        CoordinatePrecision:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getCoordinateprecision());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        PointRadiusSpatialFit:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getPointradiusspatialfit());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        FootprintWKT:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getFootprintwkt());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        FootprintSRS: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getFootprintsrs());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        FootprintSpatialFit: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getFootprintspatialfit());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        GeoreferencedBy: 
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getGeoreferencedby());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        GeoreferenceProtocol:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getGeoreferenceprotocol());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        GeoreferenceSources:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getGeoreferencesources());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        GeoreferenceVerificationStatus:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getGeoreferenceverificationstatus());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        GeoreferenceRemarks:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getGeoreferenceremarks());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                                                                                                                                       
                         </ul>                        
                     </div>         
                     <div class="desc-primary">
@@ -268,13 +1357,76 @@
                             Identification
                         </p>
                         <ul>
-                            <li>identificationID <%out.print(dwc.getIdentificationId());%></li>
-                            <li>identifiedBy <%out.print(dwc.getIdentifiedby());%></li>
-                            <li>dateIdentified <%out.print(dwc.getDateidentified());%></li>
-                            <li>identificationReferences <%out.print(dwc.getIdentificationreferences());%></li>
-                            <li>identificationRemarks <%out.print(dwc.getIdentificationremarks());%></li>
-                            <li>identificationQualifier <%out.print(dwc.getIdentificationqualifier());%></li>
-                            <li>typeStatus <%out.print(dwc.getTypestatus());%></li>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        identificationID:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIdentificationId());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        identifiedBy:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIdentifiedby());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        dateIdentified:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getDateidentified());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        identificationReferences:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIdentificationreferences());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        identificationRemarks:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIdentificationremarks());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        identificationQualifier:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getIdentificationqualifier());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                            
+                            <div class="row">
+                                <li>
+                                    <div class="col-md-5">
+                                        typeStatus:
+                                    </div>
+                                    <div class="col-md-7">
+                                        <%out.print(dwc.getTypestatus());%>
+                                    </div>                                                                        
+                                </li>                            
+                            </div>                                                     
                         </ul> 
                     </div>         
 
@@ -306,11 +1458,7 @@
         <div class="clearfix"></div>
         <div class="col-md-12">
             <div class="tabbable-panel">
-                <form id="uploadPhoto" method="POST" enctype="multipart/form-data">
-                    <input id="photo" style="float: left;" type="file">
-                    <div style="float: left; margin-left: 35px; margin-right: 35px;"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">profil</div>
-                    <button ng-click="uploadPhoto()">Enregistrer</button>
-                </form>
+                <button style="float: right;" class="btn btn-primary" onclick="$('#modal-upload-photo').modal({backdrop: 'static'});">Ajout Photo</button>
                 <form id="uploadVideo" method="POST">
                     <input id="lien" style="float: left;" type="text" placeholder="veuiller insérer le lien de la vidéo">                    
                     <button ng-click="uploadVideo()">Enregistrer</button>
@@ -407,7 +1555,7 @@
                             <div class="col-sm-12">
                                 <div id="commentaire" ng-repeat="cdc in liste">
                                     <div style="background: #fbffff; border-radius: 4px; margin-bottom: 5px;" class="form-control">
-                                        {{cdc.commentaire}}
+                                        {{cdc.prenom}} {{cdc.nom}}> {{cdc.commentaire}} ({{cdc.dateCommentaire}})
                                     </div>                    
                                 </div>                
                                 <form>
@@ -445,6 +1593,30 @@
             </div>
         </div>
     </div>
+    <div id='modal-upload-photo' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Ajouter une photo</center></h4>
+                </div>
+                <form id="uploadPhoto" method="POST" enctype="multipart/form-data">
+                    <div class='modal-body'>                    
+                        <input style="margin-bottom: 1px;" id="photo" class="form-control" type="file">
+                        <div style="margin-bottom: 1px;" class="form-control"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">Photo profil</div>
+                        <input class="form-control" type="date" id="datePrisePhoto" name="datePrisePhoto" placeholder="veuiller insérer la date quand la photo a été prise">                                            
+                        Termes et conditions
+                        <textarea readonly class="form-control" style="max-height: 100px; overflow-y: auto; background-color: white;">Vous pouvez utiliser nos produits uniquement si vous acceptez d'être lié à Lemurs portal par un contrat contraignant, et de vous conformer aux présentes conditions et à toutes les lois applicables. Lors de la création de votre compte Lemurs portal, vous devez nous fournir des renseignements exacts et complets. L'utilisation ou l'accès est interdit à toute personne âgée de moins de 13 ans. Si vous ouvrez un compte au nom d'une entreprise, d'une organisation ou de toute autre entité, alors (a) le terme « vous » désigne vous-même en tant que personne ainsi que cette entité, et (b) vous déclarez et garantissez que vous êtes habilité à accorder toutes les autorisations et licences citées dans ces conditions et à engager l'entité dans le cadre de ces conditions et que vous acceptez ces conditions au nom de l'entité. Certains de nos produits peuvent être des logiciels qui seront téléchargés sur votre ordinateur, téléphone, tablette ou tout autre appareil. Vous acceptez que nous procédions à une mise à jour automatique des produits et que les présentes conditions s'appliquent à de telles mises à jour.</textarea>
+                    </div>
+                    <div class='modal-footer'>
+                        <div style="float: left;">*Les termes et conditions doivent être accépter pour envoyer des photos</div>
+                        <button class="btn btn-success" ng-click="uploadPhoto()">Accepter et enregistrer</button>
+                        <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>                    
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- end dwcnomie -->
 
 </main>
@@ -452,77 +1624,77 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"  charset="utf-8"></script>
 <script>
-                        function showModal(status) {
-                            if (status == 0)
-                                $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
-                            else
-                                $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
-                        }
-                        ;
+                            function showModal(status) {
+                                if (status == 0)
+                                    $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
+                                else
+                                    $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
+                            }
+                            ;
 
-                        function showCommentaires() {
-                            $("#modal-liste-commentaires").modal({backdrop: 'static'});
-                        }
-                        ;
+                            function showCommentaires() {
+                                $("#modal-liste-commentaires").modal({backdrop: 'static'});
+                            }
+                            ;
 
-                        function showCommentairFirst() {
-                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
-                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
-                        }
+                            function showCommentairFirst() {
+                                $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+                                $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+                            }
 
-                        function validate(status) {
-                            var valeurs = $('[name="dwc[]"]');
-                            var data = "?dwc[]=<%out.print(dwc.getId());%>&";
-                            var temp = $('#commentaires').val();
-                            if (temp == undefined)
-                                temp = "";
-                            data = data + "status=" + status + "&commentaires=" + temp;
-                            $.ajax({
-                                type: 'get',
-                                url: 'validerListDwc' + data,
+                            function validate(status) {
+                                var valeurs = $('[name="dwc[]"]');
+                                var data = "?dwc[]=<%out.print(dwc.getId());%>&";
+                                var temp = $('#commentaires').val();
+                                if (temp == undefined)
+                                    temp = "";
+                                data = data + "status=" + status + "&commentaires=" + temp;
+                                $.ajax({
+                                    type: 'get',
+                                    url: 'validerListDwc' + data,
 //                                dataType: 'json',
 //                                enctype: 'multipart/form-data',
-                                processData: false,
-                                contentType: false,
-                                cache: false,
-                                success: function (json) {
-                                    if (json.etat == 1) {
-                                        console.log(json.etat);
+                                    processData: false,
+                                    contentType: false,
+                                    cache: false,
+                                    success: function (json) {
+                                        if (json.etat == 1) {
+                                            console.log(json.etat);
 //                                        window.location = 'profil';
-                                    } else if (json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                        showModal(status);
+                                        } else if (json.etat == 0) {
+                                            $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                                            showModal(status);
+                                        }
+                                        $('#commentaires').val("");
                                     }
-                                    $('#commentaires').val("");
-                                }
-                            });
-                        }
-                        ;
+                                });
+                            }
+                            ;
 
-                        function continueValidate(status, etat) {
-                            var data = "?continuer=";
-                            var temp = $('#commentaires').val();
-                            if (temp == undefined)
-                                temp = "";
-                            data = data + etat + "&status=" + status + "&commentaires=" + temp;
-                            $.ajax({
-                                type: 'get',
-                                url: 'continuerValiderListDwc' + data,
-                                processData: false,
-                                contentType: false,
-                                cache: false,
-                                success: function (json) {
-                                    if (json.etat == 1) {
-                                        console.log(json.etat);
+                            function continueValidate(status, etat) {
+                                var data = "?continuer=";
+                                var temp = $('#commentaires').val();
+                                if (temp == undefined)
+                                    temp = "";
+                                data = data + etat + "&status=" + status + "&commentaires=" + temp;
+                                $.ajax({
+                                    type: 'get',
+                                    url: 'continuerValiderListDwc' + data,
+                                    processData: false,
+                                    contentType: false,
+                                    cache: false,
+                                    success: function (json) {
+                                        if (json.etat == 1) {
+                                            console.log(json.etat);
 //                                        window.location = 'profil';
-                                    } else if (json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                        showModal(status);
+                                        } else if (json.etat == 0) {
+                                            $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                                            showModal(status);
+                                        }
                                     }
-                                }
-                            });
-                        }
-                        ;
+                                });
+                            }
+                            ;
 </script>
 <script>
     function initMap() {

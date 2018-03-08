@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
-<main class="site-content" role="main" ng-controller="darwin">
+<main id="controller" class="site-content" role="main" ng-controller="darwin">
 
     <!-- darwin -->
     <section id="taxonomie">
@@ -12,13 +12,13 @@
             <div class="container" style="margin-top: 5%;">
                 <div class="col-md-6 col-md-offset-3">
                     <!-- Search Form -->
-                    <form ng-submit="rechercher()">
+                    <form ng-submit="rechercher(1)">
                         <!-- Search Field -->
                         <div class="row search-header">
                             <h4 class="text-left">Rechercher un espèce</h4>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input class="form-control" type="text" ng-model="darwin.scientificName" name="search" placeholder="Nom scientifique de l'espèce" required/>
+                                    <input class="form-control" type="text" ng-model="darwin.scientificname" name="search" placeholder="Nom scientifique de l'espèce" required/>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
                                     </span>
@@ -66,14 +66,14 @@
                         <!-- Vignette -->
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-repeat="dwc in liste">
                             <div class="vignette">
-                                <img ng-src="{{dwc.photo}}" alt="{{dwc.dwc.scientificName}}" >
+                                <img ng-src="{{dwc.photo}}" alt="{{dwc.dwc.scientificname}}" >
                                 <div class="offer">
                                     <span><i class="fa fa-comment"></i>120</span>
                                     <span class="pull-right valid"><i class="fa fa-check"></i></span>
                                 </div>
                                 <div class="detail">
                                     <a href="detailLemurien?id={{dwc.dwc.id}}">
-                                        <h3>{{dwc.dwc.scientificName}}</h3>
+                                        <h3>{{dwc.dwc.scientificname}}</h3>
                                         <p><i class="fa fa-angle-down"></i></p>
                                     </a>
                                 </div>
@@ -110,6 +110,7 @@
                                         <%if (expert == 0) {%>
                                         <td class="text-center">Etat</td>
                                         <%}%>
+                                        <td></td>
                                     </tr>
                                     <tr ng-repeat="dwc in liste">
                                         <%if (expert == 0) {%>
@@ -117,10 +118,10 @@
                                         <td ng-if="dwc.validation == 0" class="number text-center"></td>
                                         <%}%>
                                         <td class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
-                                        <td class="text-center">{{dwc.dwc.scientificName}}</td>
+                                        <td class="text-center">{{dwc.dwc.scientificname}}</td>
                                         <td class="text-center">{{dwc.dwc.locality}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinOrder}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinClass}}</td>
+                                        <td class="text-center">{{dwc.dwc.darwinorder}}</td>
+                                        <td class="text-center">{{dwc.dwc.darwinclass}}</td>
                                         <td class="text-center">{{dwc.dwc.genus}}</td>
                                         <td class="text-center">{{dwc.dwc.dateidentified}}(vérifier)</td>
                                         <td class="text-center">780(vérifier)</td>    
@@ -135,10 +136,11 @@
                                         </td>    
                                         <%}%>
                                         <%if (expert == 0) {%>
-                                        <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == -1" class="number text-center">en attente</td>
+                                        <td ng-if="dwc.dwc.validationexpert == -1" class="number text-center">en attente</td>
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 0" class="number text-center">questionnable</td>
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 1" class="number text-center">validé</td>
                                         <%}%>
+                                        <td ng-if="dwc.dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.dwc.idRebioma}}&p=false&page=1&asearch=Id={{dwc.dwc.idRebioma}}&type=all occurrences">Rebioma</a></td>
                                     </tr>                                                   
                                 </tbody>
                             </table>
@@ -162,7 +164,8 @@
                     <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
                         <div>Importer un fichier Excel:</div>
                         <input id="csv-xl" name="excelfile" ng-model="file" type="file">
-                        <input type="submit" ng-click="upload()" value="Importer">
+                        <input id="publique" type="checkbox" value="1"> publique
+                        <input type="submit" id="publique" ng-click="upload()" value="Importer">
                     </form>
                     <%}%>
                     <!-- END PAGINATION -->
@@ -195,7 +198,7 @@
                 </div>
                 <div class='modal-footer'>
                     <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
-                    <button type='button' id="boutonQuestionnable" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
+                    <button type='button' id="" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
                 </div>
             </div>
         </div>
@@ -396,68 +399,76 @@
 //                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
 //                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
 //                        }
-                        function showCommentairFirst() {
-                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+                        function showCommentairFirst() {    
                             $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});                            
                         }
 
-                        function validate(status) {
+                        function validate(status) {                      
                             var valeurs = $('[name="dwc[]"]');
                             var data = "?";
-                            for (var i = 0; i < valeurs.length; i++) {
-                                if (valeurs[i].checked == true) {
-                                    data = data + valeurs[i].name + "=" + valeurs[i].value + "&";
+                            for(var i = 0; i < valeurs.length; i++) {
+                                if(valeurs[i].checked == true) {
+                                    data = data + valeurs[i].name+"="+valeurs[i].value+"&";
                                     console.log(data);
                                 }
                             }
                             var temp = $('#commentaires').val();
-                            if (temp == undefined)
-                                temp = "";
-                            data = data + "status=" + status + "&commentaires=" + temp;
-                            $.ajax({
+                            console.log(temp);
+                            if(temp == undefined) temp = "";
+                            data = data + "status="+status+"&commentaires="+temp;
+                            console.log(data);
+                            $.ajax({                                
                                 type: 'get',
-                                url: 'validerListDwc' + data,
+                                url: 'validerListDwc'+data,
 //                                dataType: 'json',
 //                                enctype: 'multipart/form-data',
                                 processData: false,
                                 contentType: false,
                                 cache: false,
                                 success: function (json) {
-                                    if (json.etat == 1) {
+                                    if(json.etat == 1) {
                                         console.log(json.etat);
-                                        window.location = 'profil';
-                                    } else if (json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                                        angular.element('#controller').scope().getalls();
+                                        angular.element('#controller').scope().$apply();
+//                                        window.location = 'profil';
+                                    }
+                                    else if(json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° '+json.n+' a déja été marqué comme '+json.status+' par '+json.expert);
                                         showModal(status);
                                     }
-                                    $('#commentaires').val("");
+                                    $('#commentaires').value="";
                                 }
                             });
-                        }
-                        ;
-                        function continueValidate(status, etat) {
-                            var data = "?continuer=";
-                            var temp = $('#commentaires').val();
-                            if (temp == undefined)
-                                temp = "";
-                            data = data + etat + "&status=" + status + "&commentaires=" + temp;
-                            $.ajax({
+                        };
+                        
+                        function continueValidate(status, etat) {                      
+                            var data = "?continuer=";         
+                            var temp = $('#commentaires').val();                                   
+                            console.log(temp);
+                            if(temp == undefined) temp = "";
+                            data = data + etat+"&status="+status+"&commentaires="+temp;
+                            console.log(data);
+                            $.ajax({                                
                                 type: 'get',
-                                url: 'continuerValiderListDwc' + data,
+                                url: 'continuerValiderListDwc'+data,
                                 processData: false,
                                 contentType: false,
                                 cache: false,
                                 success: function (json) {
-                                    if (json.etat == 1) {
+                                    if(json.etat == 1) {
                                         console.log(json.etat);
-                                        window.location = 'profil';
-                                    } else if (json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+//                                        window.location = 'profil';
+                                        angular.element('#controller').scope().getalls();
+                                        angular.element('#controller').scope().$apply();
+                                    }
+                                    else if(json.etat == 0) {
+                                        $('.messageMod').html('L\'observation N° '+json.n+' a déja été marqué comme '+json.status+' par '+json.expert);
                                         showModal(status);
                                     }
+                                    $('#commentaires').value="";
                                 }
                             });
-                        }
-                        ;
+                        };
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

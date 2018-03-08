@@ -746,7 +746,6 @@ span.tags {
 }
 
 /* Detail img */
-/* Carousel base class */
 .carousel {
   margin-bottom: 5px;
 }
@@ -758,12 +757,10 @@ span.tags {
 	margin-top:0;
 }
 
-/* Since positioning the image, we need to help out the caption */
 .carousel-caption {
   z-index: 1;
 }
 
-/* Declare heights because of positioning of img element */
 .carousel .item {
   height: 200px;
   width:auto;
@@ -777,6 +774,124 @@ span.tags {
   width:auto;
 }
 
+.visu .list-group-item:first-child {
+	border-radius:0;
+}
+
+.visu a.list-group-item.strong {
+	color:#fff;
+	text-transform:uppercase;
+	margin-bottom:1px;
+}
+
+.visu a.list-group-item.strong:hover, 
+.visu a.list-group-item.strong:focus {
+	color:#fff;
+	font-weight:bold;
+}
+
+.visu .advance.col-md-12 {
+	padding:0;
+}
+
+.visu .panel {
+	border:0;
+	border-radius:0;
+	background:#f7f7f7;
+}
+
+.visu input[type=text] {
+	padding:3px 10px;
+	font-size:12px;
+}
+
+.visu .form-control {
+	height:inherit;
+	padding:3px 10px;
+	font-size:12px;
+}
+
+.filter-col {
+    padding:10px 10px 0 10px;
+	background:#f7f7f7;
+}
+
+.visu .checkbox label {
+	display:block;
+}
+
+.visu label.filter-col {
+	font-weight:bold;
+}
+
+.visu .list-group-item {
+	padding:3px 15px;
+	border:0;
+	border-radius:0;
+}
+
+.visu .list-group-submenu a {
+	background:#F8F8F8;
+}
+
+.visu .rech {
+	padding-bottom:10px;
+	margin-bottom:15px;
+	border-bottom:1px solid #ccc;
+}
+
+/*** PANEL DEFAULT ***/
+.with-nav-tabs.panel-default .nav-tabs > li > a,
+.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+    color: #777;
+}
+.with-nav-tabs.panel-default .nav-tabs > .open > a,
+.with-nav-tabs.panel-default .nav-tabs > .open > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > .open > a:focus,
+.with-nav-tabs.panel-default .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li > a:focus {
+    color: #777;
+	background-color: #ddd;
+	border-color: transparent;
+}
+.with-nav-tabs.panel-default .nav-tabs > li.active > a,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li.active > a:focus {
+	color: #555;
+	background-color: #fff;
+	border-color: #ddd;
+	border-bottom-color: transparent;
+}
+.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a {
+    color: #777;   
+}
+.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+    background-color: #ddd;
+}
+.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+.with-nav-tabs.panel-default .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+    color: #fff;
+    background-color: #555;
+}
+
+.visu .tabb {
+	margin-top:2em;
+}
+
+.visu .panel-heading {
+    padding: 10px 15px 0 15px;
+}
+
+.visu .panel-body {
+	padding:0;
+}
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
@@ -786,9 +901,8 @@ span.tags {
   /* Navbar positioning foo */
   .navbar-wrapper {
     margin-top: 20px;
-    margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+    margin-bottom: -90px; 
   }
-  /* The navbar becomes detached from the top, so we round the corners */
   .navbar-wrapper .navbar {
     border-radius: 4px;
   }

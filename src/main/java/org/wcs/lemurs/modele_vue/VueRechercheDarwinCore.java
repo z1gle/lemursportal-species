@@ -1,6 +1,7 @@
-package org.wcs.lemurs.model;
+package org.wcs.lemurs.modele_vue;
 // Generated 5 déc. 2017 15:52:27 by Hibernate Tools 4.3.1
 
+import org.wcs.lemurs.model.*;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -14,8 +15,8 @@ import javax.persistence.Table;
 @AttributeOverrides({
     @AttributeOverride(name = "id", column = @Column(name = "iddwc"))
 })
-@Table(name = "darwin_core")
-public class DarwinCore extends BaseModel {
+@Table(name = "vue_recherche_darwin_core")
+public class VueRechercheDarwinCore extends BaseModel {
 
     @Column(name = "institutioncode")
     private String institutioncode;
@@ -415,6 +416,9 @@ public class DarwinCore extends BaseModel {
 
     @Column(name = "reviewed")
     private String reviewed;
+    
+    @Column(name = "champ")
+    private String champ;
     
     @Column(name = "est_publique")
     private Boolean publique;
@@ -1488,6 +1492,14 @@ public class DarwinCore extends BaseModel {
     public void setReviewed(String reviewed) {
         this.reviewed = reviewed;
     }
+
+    public String getChamp() {
+        return champ;
+    }
+
+    public void setChamp(String champ) {
+        this.champ = champ;
+    }        
 
     public Boolean getPublique() {
         return publique;

@@ -61,14 +61,18 @@
                                             <th></th>
                                         </tr>
                                         <tr ng-repeat="dwc in liste">
-                                            <td class="number text-center">{{dwc.id}}</td>
-                                            <td class="text-center">{{dwc.prenom}} {{dwc.nom}}</td>
-                                            <td class="text-center">{{dwc.role}}</td>
-                                            <td class="text-center">0</td>
-                                            <td class="text-center">0</td>
-                                            <td class="text-center">0</td>
-                                            <td class="text-center"><a href="detailUtilisateur?idUtilisateur={{dwc.id}}"><i class="fa fa-eye"></i></a></td>
-                                            <td class="text-center"><a href="" ng-click="delete(dwc.id)"><i class="fa fa-remove"></i></a></td>
+                                            <td class="number text-center">{{dwc.utilisateur.id}}</td>
+                                            <td class="text-center">{{dwc.utilisateur.prenom}} {{dwc.utilisateur.nom}}</td>
+                                            <td class="text-left">
+                                                <ul>
+                                                    <li ng-repeat="r in dwc.roles">{{r.designation}}</li>
+                                                </ul>                                                
+                                            </td>
+                                            <td class="text-center">{{dwc.resume.nbrCommentaire}}</td>
+                                            <td class="text-center">{{dwc.resume.nbrVideo}}</td>
+                                            <td class="text-center">{{dwc.resume.nbrPhoto}}</td>
+                                            <td class="text-center"><a href="detailUtilisateur?idUtilisateur={{dwc.utilisateur.id}}"><i class="fa fa-eye"></i></a></td>
+                                            <td class="text-center"><a href="" ng-click="delete(dwc.utilisateur.id)"><i class="fa fa-remove"></i></a></td>
                                         </tr>                                                
                                     </tbody>
                                 </table>

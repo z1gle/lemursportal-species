@@ -20,11 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import static org.wcs.lemurs.controller.BaseController.ROLE_ADMINISTRATEUR;
-import static org.wcs.lemurs.controller.BaseController.ROLE_CHERCHEUR;
 import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
-import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 import org.wcs.lemurs.service.UtilisateurService;
@@ -78,21 +76,19 @@ public class UtilisateurControleur {
                     }
                     observationTotale = listeTotale.size();
                 }
-                if (v.getDesignation().compareTo(ROLE_CHERCHEUR) == 0) {
-                    VueValidationDarwinCore temp = new VueValidationDarwinCore();
-                    temp.setIdUtilisateurUpload(u.getId());
-                    List<VueValidationDarwinCore> listeTotale = (List<VueValidationDarwinCore>) (List<?>) utilisateurService.findMultiCritere(temp);
-                    for (VueValidationDarwinCore vv : listeTotale) {
-                        if (vv.getValidationexpert() == 0) {
-                            observationQuestionnableChercheur++;
-                        } else if (vv.getValidationexpert() == -1) {
-                            observationEnAttenteChercheur++;
-                        } else if (vv.getValidationexpert() == 1) {
-                            observationValideChercheur++;
-                        }
+                VueValidationDarwinCore temp = new VueValidationDarwinCore();
+                temp.setIdUtilisateurUpload(u.getId());
+                List<VueValidationDarwinCore> listeTotale = (List<VueValidationDarwinCore>) (List<?>) utilisateurService.findMultiCritere(temp);
+                for (VueValidationDarwinCore vv : listeTotale) {
+                    if (vv.getValidationexpert() == 0) {
+                        observationQuestionnableChercheur++;
+                    } else if (vv.getValidationexpert() == -1) {
+                        observationEnAttenteChercheur++;
+                    } else if (vv.getValidationexpert() == 1) {
+                        observationValideChercheur++;
                     }
-                    observationTotaleChercheur = listeTotale.size();
                 }
+                observationTotaleChercheur = listeTotale.size();
             }
 
             ModelAndView val = new ModelAndView("profil-utilisateur");
@@ -140,8 +136,8 @@ public class UtilisateurControleur {
     }
 
     @RequestMapping(value = "/findAllUtilisateur", method = RequestMethod.POST, headers = "Accept=application/json")
-    public List<Utilisateur> findAllUtilisateur() throws Exception {
-        return (List<Utilisateur>) (List<?>) utilisateurService.findMultiCritere(new Utilisateur());
+    public List<HashMap<String, Object>> findAllUtilisateur() throws Exception {
+        return utilisateurService.findListeUtilisateur(new Utilisateur());
     }
 
     @RequestMapping(value = "/rechercherUtilisateur", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -284,7 +280,7 @@ public class UtilisateurControleur {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @RequestMapping(value = "/resumeUtilisateur", method = RequestMethod.POST, headers = "Accept=application/json")
     public Object load(@RequestBody Utilisateur utilisateur) throws Exception {
         return utilisateurService.resumeUtilisateur(utilisateur.getId());

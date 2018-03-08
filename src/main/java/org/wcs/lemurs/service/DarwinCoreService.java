@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,6 +40,7 @@ import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.modele_association.AssignationExpert;
 import org.wcs.lemurs.modele_association.HistoriqueStatus;
+import org.wcs.lemurs.modele_vue.VueRechercheDarwinCore;
 import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 
 /**
@@ -47,11 +49,11 @@ import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
  */
 @Service
 @Transactional
-public class DarwinCoreService extends BaseService {
+public class DarwinCoreService extends MailService {
 
     @Autowired(required = true)
     @Qualifier("darwinCoreDao")
-    private DarwinCoreDao DarwinCoreDao;
+    private DarwinCoreDao darwinCoreDao;
 
 //    @Transactional
 //    public void save(DarwinCore darwinCore) throws Exception {
@@ -108,6 +110,72 @@ public class DarwinCoreService extends BaseService {
 //            save(dw);
 //        }
 //    }
+    public void correctionSyntax() throws Exception {
+        Session session = null;
+        Transaction tr = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            tr = session.beginTransaction();
+            List<DarwinCore> liste = (List<DarwinCore>) (List<?>) this.findMultiCritere(session, new DarwinCore());
+            for (DarwinCore dw : liste) {
+                if (dw.getFamily() != null) {
+                    dw.setFamily(dw.getFamily().toUpperCase());
+                }
+
+                if (dw.getGenus() != null) {
+                    dw.setGenus(dw.getGenus().toUpperCase());
+                }
+
+                if (dw.getScientificname() != null) {
+                    String low = dw.getScientificname().toLowerCase();
+                    String[] listLow = low.split(" ");
+                    low = "";
+                    for (String s : listLow) {
+                        s = s.substring(0, 1).toUpperCase() + s.substring(1);
+                        low += s + " ";
+                    }
+                    low = low.substring(0, low.length() - 1);
+                    dw.setScientificname(low);
+                }
+
+                this.save(session, dw);
+            }
+            tr.commit();
+        } catch (Exception ex) {
+            tr.rollback();
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public void correctionSyntax(DarwinCore dw) {
+        try {
+            if (dw.getFamily() != null) {
+                dw.setFamily(formatterDarwinCore(dw.getFamily().toUpperCase()));
+            }
+            if (dw.getGenus() != null) {
+                dw.setGenus(formatterDarwinCore(dw.getGenus().toUpperCase()));
+            }
+            if (dw.getScientificname() != null) {
+                String low = dw.getScientificname().toLowerCase();
+                String[] listLow = low.split(" ");
+                low = "";
+                for (String s : listLow) {
+                    s = s.substring(0, 1).toUpperCase() + s.substring(1);
+                    low += s + " ";
+                }
+                low = low.substring(0, low.length() - 1);
+                dw.setScientificname(formatterDarwinCore(low));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
+    }
+
     public List<DarwinCore> upload(List<DarwinCore> list_dw) throws Exception {
         Session session = null;
         Transaction tr = null;
@@ -115,8 +183,27 @@ public class DarwinCoreService extends BaseService {
             session = getHibernateDao().getSessionFactory().openSession();
             tr = session.beginTransaction();
             for (DarwinCore dw : list_dw) {
-                if(dw.getScientificname()==null) continue;
-                save(session, dw);
+                if (dw.getScientificname() == null) {
+                    continue;
+                }
+                if (dw.getIdRebioma() != null) {
+                    try {
+                        DarwinCore dcTemp = new DarwinCore();
+                        dcTemp.setIdRebioma(dw.getIdRebioma());
+                        List<DarwinCore> liste = (List<DarwinCore>) (List<?>) this.findMultiCritere(session, dcTemp);
+                        DarwinCore tempDwc = liste.get(0);
+                        dw.setId(tempDwc.getId());
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("insertion nouveau darwin_core de rebioma");
+                    }
+                }
+                correctionSyntax(dw);
+                try {
+                    this.save(session, dw);
+                } catch (NonUniqueObjectException nuoe) {
+                    System.out.println(dw);
+                    session.merge(dw);
+                }
                 ValidationDarwinCore vdc = new ValidationDarwinCore();
                 vdc.setIdDarwinCore(dw.getId());
                 try {
@@ -142,6 +229,7 @@ public class DarwinCoreService extends BaseService {
                 vdc.setValidationExpert(-1);
                 save(session, vdc);
             }
+            this.sendMailToExpert(list_dw);
             tr.commit();
             return list_dw;
         } catch (Exception ex) {
@@ -208,7 +296,7 @@ public class DarwinCoreService extends BaseService {
     }
 
     public boolean checkVerbatimspecies(Session session, DarwinCore dw) throws Exception {
-        String qry = "select count(*) from (select *,genus || specificepithet || infraspecificepithet as verbatimspecies from taxonomi_base) as sous where sous.verbatimspecies = :verbatimspecies";
+        String qry = "select count(*) from (select *,genus || specificepithet || infraspecificepithet as verbatimspecies from taxonomi_base) as sous where sous.verbatimspecies ilike :verbatimspecies";
         Query query = session.createSQLQuery(qry);
         String verbatimspecies = dw.getGenus() + dw.getSpecificepithet() + dw.getInfraspecificepithet();
         query.setParameter("verbatimspecies", verbatimspecies);
@@ -247,21 +335,21 @@ public class DarwinCoreService extends BaseService {
             List<String> name = new ArrayList<>();
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
-            parameter.add(a.getEspece());
+            parameter.add(MailService.formatterDarwinCore(a.getEspece()));
             return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where scientificname = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
         }
         if ((a.getGenre() != null && !a.getGenre().isEmpty()) && (a.getEspece() == null || a.getEspece().isEmpty()) && (a.getFamille() == null || a.getFamille().isEmpty())) {
             List<String> name = new ArrayList<>();
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
-            parameter.add(a.getGenre());
+            parameter.add(MailService.formatterDarwinCore(a.getGenre()));
             return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where genus = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
         }
         if ((a.getEspece() == null || a.getEspece().isEmpty()) && (a.getGenre() == null || a.getGenre().isEmpty()) && (a.getFamille() != null && !a.getFamille().isEmpty())) {
             List<String> name = new ArrayList<>();
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
-            parameter.add(a.getFamille());
+            parameter.add(MailService.formatterDarwinCore(a.getFamille()));
             return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where family = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
         } else {
             return null;
@@ -293,6 +381,27 @@ public class DarwinCoreService extends BaseService {
         AssignationExpert aes = new AssignationExpert();
         aes.setIdExpert(utilisateur.getId());
         List<AssignationExpert> domaine = (List<AssignationExpert>) (List<?>) this.findMultiCritere(aes);
+        List<VueValidationDarwinCore> valiny = new ArrayList<>();
+        Session session = null;
+        try {
+            session = this.getHibernateDao().getSessionFactory().openSession();
+            for (AssignationExpert a : domaine) {
+                valiny.addAll(this.GetListObservationEtat(session, a));
+            }
+            return valiny;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public List<VueValidationDarwinCore> getListObservationAndEtatFor(Utilisateur utilisateur, int page, int nombre) throws Exception {
+        AssignationExpert aes = new AssignationExpert();
+        aes.setIdExpert(utilisateur.getId());
+        List<AssignationExpert> domaine = (List<AssignationExpert>) (List<?>) this.findAll(aes, page, nombre);
         List<VueValidationDarwinCore> valiny = new ArrayList<>();
         Session session = null;
         try {
@@ -405,27 +514,60 @@ public class DarwinCoreService extends BaseService {
         }
         return valiny;
     }
-    
+
+    public boolean checkValidable(Session session, VueValidationDarwinCore dwc, Utilisateur u) throws Exception {
+        AssignationExpert ase = new AssignationExpert();
+        ase.setIdExpert(u.getId());
+        List<AssignationExpert> listeAseTemp = (List<AssignationExpert>) (List<?>) this.findMultiCritere(ase);
+        for (AssignationExpert aeTemp : listeAseTemp) {
+            if (dwc.getIdRebioma() != null || dwc.getIdUtilisateurUpload() == null) {
+                return false;
+            }
+            try {
+                String df = dwc.getFamily();
+                String uf = MailService.formatterDarwinCore(aeTemp.getFamille());
+                if (MailService.formatterDarwinCore(df).compareToIgnoreCase(uf) == 0) {
+                    return true;
+                }
+            } catch (NullPointerException npe) {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (MailService.formatterDarwinCore(dwc.getGenus()).compareToIgnoreCase(MailService.formatterDarwinCore(aeTemp.getGenre())) == 0) {
+                    return true;
+                }
+            } catch (NullPointerException npe) {
+            }
+            try {
+                if (MailService.formatterDarwinCore(dwc.getScientificname()).compareToIgnoreCase(MailService.formatterDarwinCore(aeTemp.getEspece())) == 0) {
+                    return true;
+                }
+            } catch (NullPointerException npe) {
+            }
+        }
+        return false;
+    }
+
     public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueValidationDarwinCore darwinCore, int nombre, int page) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
-        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) super.findAll(darwinCore, page, nombre);
+        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) findAll(utilisateur, darwinCore, page, nombre);
         List<PhotoDarwinCore> photos = new ArrayList<>();
+        Session session = null;
         try {
-            List<VueValidationDarwinCore> toCheck = getListObservationAndEtatFor(utilisateur);
-//            val.removeAll(toCheck);
-            for (int i = 0; i < val.size(); i++) {
-                for (int j = 0; j < toCheck.size(); j++) {
-                    if (val.get(i).getId() == toCheck.get(j).getId()) {
-                        val.remove(i);
-                        i--;
-                        break;
-                    }
-                }
-            }
-            for (VueValidationDarwinCore dwc : toCheck) {
+            session = getHibernateDao().getSessionFactory().openSession();
+            for (VueValidationDarwinCore dwc : val) {
                 HashMap<String, Object> temp = new HashMap<>();
                 temp.put("dwc", dwc);
-                temp.put("validation", 1);
+                try {
+                    if (checkValidable(session, dwc, utilisateur)) {
+                        temp.put("validation", 1);
+                    } else {
+                        temp.put("validation", 0);
+                    }
+                } catch (java.lang.NullPointerException npe) {
+                    temp.put("validation", 0);
+                }
                 valiny.add(temp);
             }
             PhotoDarwinCore photoDarwinCoreTemp = new PhotoDarwinCore();
@@ -433,24 +575,10 @@ public class DarwinCoreService extends BaseService {
             photos = (List<PhotoDarwinCore>) (List<?>) this.findMultiCritere(photoDarwinCoreTemp);
         } catch (Exception e) {
             throw e;
-        }
-        for (VueValidationDarwinCore dwc : val) {
-            HashMap<String, Object> temp = new HashMap<>();
-            temp.put("dwc", dwc);
-            temp.put("validation", 0);
-//            int iterator = 0;
-//            for (PhotoDarwinCore pdc : photos) {
-//                if (dwc.getId().intValue() == pdc.getIdDarwinCore().intValue()) {
-//                    temp.put("photo", pdc.getChemin());
-//                    break;
-//                } else {
-//                    iterator++;
-//                }
-//            }
-//            if (iterator == photos.size()) {
-//                temp.put("photo", photos.get(0).getChemin().substring(0, photos.get(0).getChemin().lastIndexOf("/")) + "default.jpg");
-//            }
-            valiny.add(temp);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         for (HashMap<String, Object> v : valiny) {
             int iterator = 0;
@@ -463,7 +591,7 @@ public class DarwinCoreService extends BaseService {
                 }
             }
             if (iterator == photos.size()) {
-                v.put("photo", photos.get(0).getChemin().substring(0, photos.get(0).getChemin().lastIndexOf("/")) + "/default.jpg");
+                v.put("photo", "resources/assets/img/photos/default.jpg");
             }
         }
         return valiny;
@@ -475,23 +603,16 @@ public class DarwinCoreService extends BaseService {
         for (DarwinCore dwc : val) {
             HashMap<String, Object> temp = new HashMap<>();
             temp.put("dwc", dwc);
-            temp.put("validation", 1);
+            if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
+                temp.put("validation", 1);
+            } else {
+                temp.put("validation", 0);
+            }
             valiny.add(temp);
         }
         return valiny;
     }
 
-//    public List<HashMap<String, Object>> findObservationAndEtatCheck(Utilisateur utilisateur) throws Exception {
-//        List<HashMap<String, Object>> valiny = new ArrayList<>();
-//        List<VueValidationDarwinCore> val = getListObservationAndEtatFor(utilisateur);
-//        for (VueValidationDarwinCore dwc : val) {
-//            HashMap<String, Object> temp = new HashMap<>();
-//            temp.put("dwc", dwc);
-//            temp.put("validation", 1);
-//            valiny.add(temp);
-//        }
-//        return valiny;
-//    }
     public List<HashMap<String, Object>> findObservationAndEtatCheck(Utilisateur utilisateur, int etatValidation) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         List<VueValidationDarwinCore> val = getListObservationAndEtatFor(utilisateur);
@@ -499,7 +620,11 @@ public class DarwinCoreService extends BaseService {
             for (VueValidationDarwinCore dwc : val) {
                 HashMap<String, Object> temp = new HashMap<>();
                 temp.put("dwc", dwc);
-                temp.put("validation", 1);
+                if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
+                    temp.put("validation", 1);
+                } else {
+                    temp.put("validation", 0);
+                }
                 valiny.add(temp);
             }
         } else {
@@ -507,7 +632,42 @@ public class DarwinCoreService extends BaseService {
                 if (dwc.getValidationexpert() == etatValidation) {
                     HashMap<String, Object> temp = new HashMap<>();
                     temp.put("dwc", dwc);
+                    if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
+                        temp.put("validation", 1);
+                    } else {
+                        temp.put("validation", 0);
+                    }
+                    valiny.add(temp);
+                }
+            }
+        }
+        return valiny;
+    }
+
+    public List<HashMap<String, Object>> findObservationAndEtatCheck(Utilisateur utilisateur, int etatValidation, int page, int nombre) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        List<VueValidationDarwinCore> val = getListObservationAndEtatFor(utilisateur, page, nombre);
+        if (etatValidation == -999) {
+            for (VueValidationDarwinCore dwc : val) {
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
                     temp.put("validation", 1);
+                } else {
+                    temp.put("validation", 0);
+                }
+                valiny.add(temp);
+            }
+        } else {
+            for (VueValidationDarwinCore dwc : val) {
+                if (dwc.getValidationexpert() == etatValidation) {
+                    HashMap<String, Object> temp = new HashMap<>();
+                    temp.put("dwc", dwc);
+                    if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
+                        temp.put("validation", 1);
+                    } else {
+                        temp.put("validation", 0);
+                    }
                     valiny.add(temp);
                 }
             }
@@ -524,7 +684,11 @@ public class DarwinCoreService extends BaseService {
             for (VueValidationDarwinCore dwc : val) {
                 HashMap<String, Object> temp = new HashMap<>();
                 temp.put("dwc", dwc);
-                temp.put("validation", 1);
+                if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
+                    temp.put("validation", 1);
+                } else {
+                    temp.put("validation", 0);
+                }
                 valiny.add(temp);
             }
         } else {
@@ -532,7 +696,44 @@ public class DarwinCoreService extends BaseService {
                 if (dwc.getValidationexpert() == etatValidation) {
                     HashMap<String, Object> temp = new HashMap<>();
                     temp.put("dwc", dwc);
+                    if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
+                        temp.put("validation", 1);
+                    } else {
+                        temp.put("validation", 0);
+                    }
+                    valiny.add(temp);
+                }
+            }
+        }
+        return valiny;
+    }
+
+    public List<HashMap<String, Object>> findObservationAndEtatCheckOf(Utilisateur utilisateur, int etatValidation, int page, int nombre) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        VueValidationDarwinCore vvdTemp = new VueValidationDarwinCore();
+        vvdTemp.setIdUtilisateurUpload(utilisateur.getId());
+        List<VueValidationDarwinCore> val = (List<VueValidationDarwinCore>) (List<?>) findAll(vvdTemp, page, nombre);
+        if (etatValidation == -999) {
+            for (VueValidationDarwinCore dwc : val) {
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
                     temp.put("validation", 1);
+                } else {
+                    temp.put("validation", 0);
+                }
+                valiny.add(temp);
+            }
+        } else {
+            for (VueValidationDarwinCore dwc : val) {
+                if (dwc.getValidationexpert() == etatValidation) {
+                    HashMap<String, Object> temp = new HashMap<>();
+                    temp.put("dwc", dwc);
+                    if (dwc.getIdRebioma() == null && dwc.getIdUtilisateurUpload() != null) {
+                        temp.put("validation", 1);
+                    } else {
+                        temp.put("validation", 0);
+                    }
                     valiny.add(temp);
                 }
             }
@@ -582,6 +783,9 @@ public class DarwinCoreService extends BaseService {
         vdc.setIdExpert(utilisateur.getId());
         vdc.setDateValidation(Calendar.getInstance().getTime());
         save(vdc);
+        List<DarwinCore> ltemp = new ArrayList<>();
+        ltemp.add(dwc);
+//        this.sendMailToChercheur(vdc);
     }
 
     public void changeStatusValidationDarwinCore(Session session, DarwinCore dwc, Utilisateur utilisateur, String status) throws Exception {
@@ -602,6 +806,7 @@ public class DarwinCoreService extends BaseService {
         vdc.setIdExpert(utilisateur.getId());
         vdc.setDateValidation(Calendar.getInstance().getTime());
         save(vdc);
+//        this.sendMailToChercheur(session, vdc);
     }
 
     public HistoriqueStatus checkStatus(DarwinCore observation) throws Exception {
@@ -679,6 +884,9 @@ public class DarwinCoreService extends BaseService {
             hs.setValidation(newStatus);
             save(hs);
             changeStatusValidationDarwinCore(session, observation, expert, newStatus);
+            List<DarwinCore> ltemp = new ArrayList<>();
+            ltemp.add(observation);
+//            this.sendMailToExpert(ltemp);
         } catch (Exception e) {
             throw e;
         }
@@ -810,7 +1018,7 @@ public class DarwinCoreService extends BaseService {
         }
     }
 
-    public List<PhotoDarwinCore> enregistrerPhoto(MultipartFile photo, DarwinCore darwinCore, Utilisateur utilisateur, boolean profil, String cheminReal) throws IOException, Exception {
+    public List<PhotoDarwinCore> enregistrerPhoto(MultipartFile photo, DarwinCore darwinCore, Utilisateur utilisateur, boolean profil, String cheminReal, String datePrisePhoto) throws IOException, Exception {
         File fileTemp = File.createTempFile("temp", ".img");
         Session session = null;
         Transaction tr = null;
@@ -837,6 +1045,7 @@ public class DarwinCoreService extends BaseService {
             photoDarwinCore.setChemin("resources/assets/img/photos/" + nomPhoto);
             photoDarwinCore.setDatePhoto(datePhoto);
             photoDarwinCore.setIdUtilisateurUpload(utilisateur.getId());
+            photoDarwinCore.setDatePrisPhotoString(datePrisePhoto);
 //            photoDarwinCore.setProfil(profil);
             save(session, photoDarwinCore);
             tr.commit();
@@ -882,71 +1091,67 @@ public class DarwinCoreService extends BaseService {
             }
         }
     }
-    
+
     public void uploadDwc(String url) throws Exception {
         URL dwcCsv = new URL(url);
         BufferedReader in = new BufferedReader(new InputStreamReader(dwcCsv.openStream()));
         String header = in.readLine();
-//        String[] colonnesHeader = header.split(";");
         Field[] attriburs = DarwinCore.class.getDeclaredFields();
-        List<HashMap<String,Object>> fonctions = getFonctionNumeroColonneDwc(attriburs, header);
-//        for(Field f : attriburs) {
-//            for(int i = 0; i < colonnesHeader.length; i++) {
-//                String csv = colonnesHeader[i].toLowerCase();
-//                String base = f.getName().toLowerCase();
-//                base = base.replaceAll("dwc", "");
-//                base = base.replaceAll("darwinclass", "class");
-//                base = base.replaceAll("darwinorder", "order");
-//                base = base.replaceAll("idrebioma","id");
-//                if(base.compareTo(csv)==0) {
-//                    HashMap<String, Object> fonction = new HashMap<>();
-//                    fonction.put("id", i);
-//                    fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
-//                    fonctions.add(fonction);
-//                    break;
-//                }
-//            }
-//        }
+        List<HashMap<String, Object>> fonctions = getFonctionNumeroColonneDwc(attriburs, header);
         List<DarwinCore> listeToSave = new ArrayList<>();
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
+            inputLine = inputLine.replaceAll(";", " ;");
             String[] dwcLine = inputLine.split(";");
             DarwinCore dwcTemp = new DarwinCore();
-            for(HashMap<String, Object> fonction : fonctions) {                
-                Method m = (Method)fonction.get("fonction");
+            for (HashMap<String, Object> fonction : fonctions) {
+                Method m = (Method) fonction.get("fonction");
                 try {
-                    m.invoke(dwcTemp, dwcLine[(Integer)fonction.get("id")]);
-                } catch(ArrayIndexOutOfBoundsException aioobe) {                    
+                    m.invoke(dwcTemp, dwcLine[(Integer) fonction.get("id")]);
+                } catch (IllegalArgumentException iae) {
+                    try {
+                        String sToInt = dwcLine[(Integer) fonction.get("id")];
+                        sToInt = sToInt.replaceAll(" ", "");
+                        Integer tempInt = Integer.decode(sToInt);
+                        m.invoke(dwcTemp, tempInt);
+                    } catch (Exception iaex) {
+                        throw iaex;
+                    }
+                } catch (IndexOutOfBoundsException aioobe) {
+                    try {
+                        m.invoke(dwcTemp, "");
+                    } catch (IllegalArgumentException iae) {
+                    }
                 }
             }
             listeToSave.add(dwcTemp);
         }
-        for(DarwinCore t : listeToSave) {
+        for (DarwinCore t : listeToSave) {
             t.setLienSource(url);
         }
         upload(listeToSave);
         in.close();
     }
-    
+
     public List<HashMap<String, Object>> getFonctionNumeroColonneDwc(Field[] attributs, String header) throws NoSuchMethodException {
         String[] colonnesHeader = header.split(";");
-        List<HashMap<String,Object>> fonctions = new ArrayList<>();
-        for(Field f : attributs) {
-            for(int i = 0; i < colonnesHeader.length; i++) {
+        List<HashMap<String, Object>> fonctions = new ArrayList<>();
+        for (Field f : attributs) {
+            for (int i = 0; i < colonnesHeader.length; i++) {
                 String csv = colonnesHeader[i].toLowerCase();
                 String base = f.getName().toLowerCase();
                 base = base.replaceAll("dwc", "");
                 base = base.replaceAll("darwinclass", "class");
                 base = base.replaceAll("darwinorder", "order");
-                base = base.replaceAll("idrebioma","id");
-                if(base.compareTo(csv)==0) {
+                base = base.replaceAll("idrebioma", "id");
+                if (base.compareTo(csv) == 0) {
                     HashMap<String, Object> fonction = new HashMap<>();
                     fonction.put("id", i);
                     try {
                         fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), String.class));
-                    } catch(NoSuchMethodException nsme) {
+                    } catch (NoSuchMethodException nsme) {
                         fonction.put("fonction", DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), Integer.class));
-                    }                    
+                    }
                     fonctions.add(fonction);
                     break;
                 }
@@ -955,12 +1160,107 @@ public class DarwinCoreService extends BaseService {
         return fonctions;
     }
 
+//    public List<DarwinCore> findMultiCritere(Utilisateur u, DarwinCore dwc) throws Exception {
+//        if (u == null || u.getId() == null) {
+//            return (List<DarwinCore>) (List<?>) super.findMultiCritere(dwc);
+//        }
+//        dwc.setPublique(Boolean.TRUE);
+//        List<DarwinCore> valinyPublique = (List<DarwinCore>) (List<?>) super.findMultiCritere(dwc);
+//        dwc.setPublique(Boolean.FALSE);
+//        dwc.setIdUtilisateurUpload(u.getId());
+//        valinyPublique.addAll((List<DarwinCore>) (List<?>) super.findMultiCritere(dwc));
+//        return valinyPublique;
+//    }
+//    
+//    public List<VueRechercheDarwinCore> findMultiCritere(Utilisateur u, VueRechercheDarwinCore dwc) throws Exception {
+//        if (u == null || u.getId() == null) {
+//            return (List<VueRechercheDarwinCore>) (List<?>) super.findMultiCritere(dwc);
+//        }
+//        dwc.setPublique(Boolean.TRUE);
+//        List<VueRechercheDarwinCore> valinyPublique = (List<VueRechercheDarwinCore>) (List<?>) super.findMultiCritere(dwc);
+//        dwc.setPublique(Boolean.FALSE);
+//        dwc.setIdUtilisateurUpload(u.getId());
+//        valinyPublique.addAll((List<VueRechercheDarwinCore>) (List<?>) super.findMultiCritere(dwc));
+//        return valinyPublique;
+//    }
+//    
+//    public List<VueValidationDarwinCore> findMultiCritere(Utilisateur u, VueValidationDarwinCore dwc) throws Exception {
+//        if (u == null || u.getId() == null) {
+//            return (List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(dwc);
+//        }
+//        dwc.setPublique(Boolean.TRUE);
+//        List<VueValidationDarwinCore> valinyPublique = (List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(dwc);
+//        dwc.setPublique(Boolean.FALSE);
+//        dwc.setIdUtilisateurUpload(u.getId());
+//        valinyPublique.addAll((List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(dwc));
+//        return valinyPublique;
+//    }
+//    
+//    public List<DarwinCore> findMultiCritere(Session session, Utilisateur u, DarwinCore dwc) throws Exception {
+//        if (u == null || u.getId() == null) {
+//            return (List<DarwinCore>) (List<?>) super.findMultiCritere(session, dwc);
+//        }
+//        dwc.setPublique(Boolean.TRUE);
+//        List<DarwinCore> valinyPublique = (List<DarwinCore>) (List<?>) super.findMultiCritere(session, dwc);
+//        dwc.setPublique(Boolean.FALSE);
+//        dwc.setIdUtilisateurUpload(u.getId());
+//        valinyPublique.addAll((List<DarwinCore>) (List<?>) super.findMultiCritere(session, dwc));
+//        return valinyPublique;
+//    }
+//    
+//    public List<VueRechercheDarwinCore> findMultiCritere(Session session, Utilisateur u, VueRechercheDarwinCore dwc) throws Exception {
+//        if (u == null || u.getId() == null) {
+//            return (List<VueRechercheDarwinCore>) (List<?>) super.findMultiCritere(session, dwc);
+//        }
+//        dwc.setPublique(Boolean.TRUE);
+//        List<VueRechercheDarwinCore> valinyPublique = (List<VueRechercheDarwinCore>) (List<?>) super.findMultiCritere(session, dwc);
+//        dwc.setPublique(Boolean.FALSE);
+//        dwc.setIdUtilisateurUpload(u.getId());
+//        valinyPublique.addAll((List<VueRechercheDarwinCore>) (List<?>) super.findMultiCritere(session, dwc));
+//        return valinyPublique;
+//    }
+//    
+//    public List<VueValidationDarwinCore> findMultiCritere(Session session, Utilisateur u, VueValidationDarwinCore dwc) throws Exception {
+//        if (u == null || u.getId() == null) {
+//            return (List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(session, dwc);
+//        }
+//        dwc.setPublique(Boolean.TRUE);
+//        List<VueValidationDarwinCore> valinyPublique = (List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(session, dwc);
+//        dwc.setPublique(Boolean.FALSE);
+//        dwc.setIdUtilisateurUpload(u.getId());
+//        valinyPublique.addAll((List<VueValidationDarwinCore>) (List<?>) super.findMultiCritere(session, dwc));
+//        return valinyPublique;
+//    }
+    public List<DarwinCore> findAll(Utilisateur utilisateur, DarwinCore darwinCore) throws Exception {
+        return darwinCoreDao.findAll(utilisateur, darwinCore);
+    }
+
+    public List<DarwinCore> findAll(Utilisateur utilisateur, VueRechercheDarwinCore darwinCore) throws Exception {
+        return darwinCoreDao.findAll(utilisateur, darwinCore);
+    }
+
+    public List<DarwinCore> findAll(Utilisateur utilisateur, VueRechercheDarwinCore darwinCore, int page, int nombre) throws Exception {
+        return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
+    }
+
+    public List<DarwinCore> findAll(Utilisateur utilisateur, DarwinCore darwinCore, int page, int nombre) throws Exception {
+        return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
+    }
+
+    public List<DarwinCore> findAll(Utilisateur utilisateur, VueValidationDarwinCore darwinCore) throws Exception {
+        return darwinCoreDao.findAll(utilisateur, darwinCore);
+    }
+
+    public List<DarwinCore> findAll(Utilisateur utilisateur, VueValidationDarwinCore darwinCore, int page, int nombre) throws Exception {
+        return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
+    }
+
     public DarwinCoreDao getDarwinCoreDao() {
-        return DarwinCoreDao;
+        return darwinCoreDao;
     }
 
     public void setDarwinCoreDao(DarwinCoreDao DarwinCoreDao) {
-        this.DarwinCoreDao = DarwinCoreDao;
+        this.darwinCoreDao = DarwinCoreDao;
     }
 
 }

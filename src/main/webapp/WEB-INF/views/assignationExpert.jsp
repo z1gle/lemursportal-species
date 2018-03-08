@@ -30,6 +30,7 @@
         <div class="vignette-result">
             <div class="container">
                 <h1 class="titre-page">Utilisateur - <span>Assignation expertise</span></h1>
+                <button style="float: right;" class="btn btn-primary" onclick="history.back()">Précédent</button>
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="stat" ng-show="recherche.length === 0">Tous (<b>{{liste.length}}</b> trouvés)</h5>
