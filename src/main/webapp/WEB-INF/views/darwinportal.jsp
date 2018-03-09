@@ -147,8 +147,20 @@
                             </table>
                             <%if (expert == 0) {%>
                             <button onclick="showCommentairFirst();" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
-                            <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>                                                        
+                            <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>   
+                             
                             <%}%>
+                            <%
+                                    if (role == 0) {
+                                %>
+                                <!--                    <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
+                                                        <div>Importer un fichier Excel:</div>
+                                                        <input id="csv-xl" name="excelfile" ng-model="file" type="file">
+                                                        <input id="publique" type="checkbox" value="1"> publique
+                                                        <input type="submit" id="publique" ng-click="upload()" value="Importer">
+                                                    </form>-->
+                                <button style="float: left;  margin-left: 2px;" class="btn btn-primary" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});">Upload Observation</button>
+                                <%}%>
                         </form>
                     </div>
                     <!-- BEGIN PAGINATION -->
@@ -159,17 +171,7 @@
                         <li><a href="#"ng-click="rechercherFin()" id="next">»</a></li>
                         <input type="hidden" id="pageFin">
                     </ul>
-                    <%
-                        if (role == 0) {
-                    %>
-                    <!--                    <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
-                                            <div>Importer un fichier Excel:</div>
-                                            <input id="csv-xl" name="excelfile" ng-model="file" type="file">
-                                            <input id="publique" type="checkbox" value="1"> publique
-                                            <input type="submit" id="publique" ng-click="upload()" value="Importer">
-                                        </form>-->
-                    <button style="float: right;" class="btn btn-primary" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});">Ajouter darwin core</button>
-                    <%}%>
+                   
                     <!-- END PAGINATION -->
                 </div>
             </div>
