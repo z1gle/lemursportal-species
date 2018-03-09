@@ -110,6 +110,28 @@ public class DarwinCoreService extends MailService {
 //            save(dw);
 //        }
 //    }
+    private void prettySyntax(DarwinCore dw) {
+        if (dw.getFamily() != null) {
+            dw.setFamily(dw.getFamily().toUpperCase());
+        }
+
+        if (dw.getGenus() != null) {
+            dw.setGenus(dw.getGenus().toUpperCase());
+        }
+
+        if (dw.getScientificname() != null && !dw.getScientificname().isEmpty()) {
+            String low = dw.getScientificname().toLowerCase();
+            String[] listLow = low.split(" ");
+            low = "";
+            for (String s : listLow) {
+                s = s.substring(0, 1).toUpperCase() + s.substring(1);
+                low += s + " ";
+            }
+            low = low.substring(0, low.length() - 1);
+            dw.setScientificname(low);
+        }
+    }
+
     public void correctionSyntax() throws Exception {
         Session session = null;
         Transaction tr = null;
@@ -126,7 +148,7 @@ public class DarwinCoreService extends MailService {
                     dw.setGenus(dw.getGenus().toUpperCase());
                 }
 
-                if (dw.getScientificname() != null) {
+                if (dw.getScientificname() != null && !dw.getScientificname().isEmpty()) {
                     String low = dw.getScientificname().toLowerCase();
                     String[] listLow = low.split(" ");
                     low = "";
@@ -159,7 +181,7 @@ public class DarwinCoreService extends MailService {
             if (dw.getGenus() != null) {
                 dw.setGenus(formatterDarwinCore(dw.getGenus().toUpperCase()));
             }
-            if (dw.getScientificname() != null) {
+            if (dw.getScientificname() != null && !dw.getScientificname().isEmpty()) {
                 String low = dw.getScientificname().toLowerCase();
                 String[] listLow = low.split(" ");
                 low = "";
@@ -186,6 +208,7 @@ public class DarwinCoreService extends MailService {
                 if (dw.getScientificname() == null) {
                     continue;
                 }
+                prettySyntax(dw);
                 if (dw.getIdRebioma() != null) {
                     try {
                         DarwinCore dcTemp = new DarwinCore();
@@ -212,7 +235,7 @@ public class DarwinCoreService extends MailService {
                 }
                 vdc.setAcceptedSpeces(checkVerbatimspecies(session, dw));
                 try {
-                    vdc.setAnnee(!dw.getDwcyear().isEmpty() && dw.getDateidentified().compareTo("-") != 0);
+                    vdc.setAnnee(!dw.getDwcyear().isEmpty() && dw.getDwcyear().compareTo("-") != 0);
                 } catch (NullPointerException npe) {
                     vdc.setAnnee(Boolean.FALSE);
                 }
@@ -222,7 +245,7 @@ public class DarwinCoreService extends MailService {
                     vdc.setCollecteur(Boolean.FALSE);
                 }
                 try {
-                    vdc.setGps(!dw.getDecimallatitude().isEmpty() && !dw.getDecimallongitude().isEmpty() & dw.getDecimallatitude().compareTo("-") != 0 && dw.getDecimallongitude().compareTo("-") != 0);
+                    vdc.setGps(!dw.getDecimallatitude().isEmpty() && !dw.getDecimallongitude().isEmpty() && dw.getDecimallatitude().compareTo("-") != 0 && dw.getDecimallongitude().compareTo("-") != 0);
                 } catch (NullPointerException npe) {
                     vdc.setGps(Boolean.FALSE);
                 }
@@ -520,6 +543,9 @@ public class DarwinCoreService extends MailService {
         ase.setIdExpert(u.getId());
         List<AssignationExpert> listeAseTemp = (List<AssignationExpert>) (List<?>) this.findMultiCritere(ase);
         for (AssignationExpert aeTemp : listeAseTemp) {
+            if (!dwc.getAnnee() || !dwc.getAccepted_speces() || !dwc.getCollecteur() || !dwc.getGps()) {
+                return false;
+            }
             if (dwc.getIdRebioma() != null || dwc.getIdUtilisateurUpload() == null) {
                 return false;
             }

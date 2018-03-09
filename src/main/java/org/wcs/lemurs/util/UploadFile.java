@@ -98,8 +98,9 @@ public class UploadFile {
                     String valeur = "-";
                     if (row.getCell((Integer) fonction.get("id")) != null) {
                         valeur = row.getCell((Integer) fonction.get("id")).toString();
+                        valeur = enleverEspaceDebutFin(valeur);
                     }
-                    if (valeur.compareTo(" ") == 0) {
+                    if (valeur.compareTo(" ") == 0 || valeur.isEmpty()) {
                         valeur = "-";
                     }
                     m.invoke(dw, valeur);
@@ -149,12 +150,12 @@ public class UploadFile {
         Iterator rows = sheet.rowIterator();
         int i = 0;
         String methodes = "";
-        
+
         Field[] colonnes = TaxonomiBase.class.getDeclaredFields();
         for (Field f : colonnes) {
-            methodes += "set"+f.getName().substring(0, 1).toUpperCase()+f.getName().substring(1)+",";
+            methodes += "set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1) + ",";
         }
-        methodes = methodes.substring(0, methodes.length()-1);
+        methodes = methodes.substring(0, methodes.length() - 1);
         String[] allmethodes = methodes.split(",");
 
         int count_cell = 0;
@@ -270,6 +271,40 @@ public class UploadFile {
         writer.flush();
     }
 
+    public static String checkSyntaxEnleverEspaceFin(String texte) {
+        String valiny = "";
+        if (texte.endsWith(" ")) {
+            valiny = texte.substring(0, texte.length() - 1);
+            if (valiny.endsWith(" ")) {
+                return checkSyntaxEnleverEspaceFin(valiny);
+            } else {
+                return valiny;
+            }
+        } else {
+            return valiny;
+        }
+    }
+
+    public static String checkSyntaxEnleverEspaceDebut(String texte) {
+        String valiny = "";
+        if (texte.startsWith(" ")) {
+            valiny = texte.substring(1);
+            if (valiny.startsWith(" ")) {
+                return checkSyntaxEnleverEspaceDebut(valiny);
+            } else {
+                return valiny;
+            }
+        } else {
+            return valiny;
+        }
+    }
+
+    public static String enleverEspaceDebutFin(String texte) {
+        texte = checkSyntaxEnleverEspaceFin(texte);
+        texte = checkSyntaxEnleverEspaceDebut(texte);
+        return texte;
+    }
+
     public static List<DarwinCore> import_darwin_core_csv(InputStream is) throws SQLException, Exception {
 
         List<DarwinCore> list_dw = new ArrayList<>();
@@ -280,7 +315,7 @@ public class UploadFile {
         DarwinCoreService dcs = new DarwinCoreService();
         List<HashMap<String, Object>> fonctions = dcs.getFonctionNumeroColonneDwc(colonnes, line);
         while ((line = br.readLine()) != null) {
-            line = line.replaceAll(";", " ;");
+            line = line.replaceAll(";", " ; ");
             String[] cols = line.split(";");
             /*if (cols.length < colonnes.length - 4) {
                 throw new Exception("Le nombre de colonnes est manquantes cols = " + Integer.toString(cols.length) + " and dwc = " + Integer.toString(colonnes.length - 1));
@@ -291,7 +326,8 @@ public class UploadFile {
                     Method m = (Method) fonction.get("fonction");
                     try {
                         String valeur = cols[(Integer) fonction.get("id")];
-                        if (valeur.compareTo(" ") == 0) {
+                        valeur = enleverEspaceDebutFin(valeur);
+                        if (valeur.compareTo(" ") == 0 || valeur.isEmpty()) {
                             valeur = "-";
                         }
                         m.invoke(dwcTemp, valeur);

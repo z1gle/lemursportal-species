@@ -625,7 +625,7 @@ public class DarwinCoreController {
             for (HashMap<String, Object> v : valiny) {
                 v.put("photo", "resources/assets/img/photos/default.jpg");
             }
-            darwinCoreService.correctionSyntax();
+//            darwinCoreService.correctionSyntax();
             return valiny;
         } catch (Exception e) {
             e.printStackTrace();
