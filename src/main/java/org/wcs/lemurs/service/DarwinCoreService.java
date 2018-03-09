@@ -1154,6 +1154,7 @@ public class DarwinCoreService extends MailService {
         }
         for (DarwinCore t : listeToSave) {
             t.setLienSource(url);
+            t.setPublique(Boolean.TRUE);
         }
         upload(listeToSave);
         in.close();

@@ -25,8 +25,10 @@ public class MailService extends BaseService {
 
     public static String formatterDarwinCore(String valeur) {
         if(valeur == null) return null;
+        int temp = valeur.length();
         while (valeur.charAt(0) == ' ') {
             valeur = valeur.substring(1);
+            if(valeur.isEmpty()) return valeur;
         }
         while (valeur.charAt(valeur.length() - 1) == ' ') {
             valeur = valeur.substring(0, valeur.length() - 1);
