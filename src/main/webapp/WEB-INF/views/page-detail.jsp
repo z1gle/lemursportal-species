@@ -59,9 +59,9 @@
                     </div>
                     <p class="name-img"><%out.print(taxo.getAcceptednameusage());%> - Mammadia</p>
 
-                    <iframe class="img-responsive"
+<!--                    <iframe class="img-responsive"
                             src="https://www.youtube.com/embed/tgbNymZ7vqY">
-                    </iframe>
+                    </iframe>-->
 
                     <!-- /.carousel -->
 
