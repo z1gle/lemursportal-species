@@ -252,7 +252,11 @@ public class DarwinCoreService extends MailService {
                 vdc.setValidationExpert(-1);
                 save(session, vdc);
             }
-            this.sendMailToExpert(list_dw);
+            try {
+                this.sendMailToExpert(list_dw);
+            } catch(Exception e) {
+                System.out.println("L'envoied de l'email est un echec, veuiller vérifier si les conditions sont optimales");
+            }            
             tr.commit();
             return list_dw;
         } catch (Exception ex) {

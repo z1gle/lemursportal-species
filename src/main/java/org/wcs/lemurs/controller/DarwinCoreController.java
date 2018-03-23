@@ -38,7 +38,6 @@ import org.wcs.lemurs.modele_vue.VueRechercheDarwinCore;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 import org.wcs.lemurs.service.DarwinCoreService;
-import org.wcs.lemurs.util.ReportGenerator;
 import org.wcs.lemurs.util.UploadFile;
 
 /**
@@ -277,6 +276,13 @@ public class DarwinCoreController {
 //            rg.main(new String[]{"test", "tata"});
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
             List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, dwcs, nombre, page);
+            try {
+                HashMap<String, Object> temp = valiny.get(0);
+                temp.put("total", total);
+            } catch (java.lang.ArrayIndexOutOfBoundsException iaoob) {
+                System.out.println("Il n'y a aucune observation dans la base de donnée");
+                throw iaoob;
+            }
             HashMap<String, Object> temp = valiny.get(0);
             temp.put("total", total);
             return valiny;
