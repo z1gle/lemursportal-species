@@ -41,8 +41,8 @@ app.controller("darwin", function ($scope, $http) {
             }
         }).then(function success(response) {
             $scope.liste = response.data;
-            paginer($scope.liste[0].total, 20, 1);
             $("#loader-spinner").hide();
+            paginer($scope.liste[0].total, 20, 1);            
         }, function error(response) {
             console.log(response);
             $("#loader-spinner").hide();

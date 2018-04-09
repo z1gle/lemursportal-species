@@ -279,12 +279,12 @@ public class DarwinCoreController {
             try {
                 HashMap<String, Object> temp = valiny.get(0);
                 temp.put("total", total);
-            } catch (java.lang.ArrayIndexOutOfBoundsException iaoob) {
+            } catch (java.lang.IndexOutOfBoundsException iaoob) {
                 System.out.println("Il n'y a aucune observation dans la base de donnée");
-                throw iaoob;
+//                throw iaoob;
             }
-            HashMap<String, Object> temp = valiny.get(0);
-            temp.put("total", total);
+//            HashMap<String, Object> temp = valiny.get(0);
+//            temp.put("total", total);
             return valiny;
         } catch (Exception e) {
             e.printStackTrace();

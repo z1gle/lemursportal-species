@@ -82,12 +82,16 @@ public class ReportGenerator {
             
             // - Paramètres à envoyer au rapport
             Map parameters = new HashMap();
-            parameters.put("entete", realPath+"resources\\assets\\img\\enteteFin.jpg");
+            String sep = "/";
+            if(!realPath.contains(sep)) {
+                sep = "\\";
+            }
+            parameters.put("entete", realPath+"resources"+sep+"assets"+sep+"img"+sep+"enteteFin.jpg");
             if(profil.isEmpty()) {
-                parameters.put("profil", realPath+"resources\\assets\\img\\photos\\default.jpg");
+                parameters.put("profil", realPath+"resources"+sep+"assets"+sep+"img"+sep+"photos"+sep+"default.jpg");
             }
             else {
-                String p = realPath + profil.replace("/", "\\");
+                String p = realPath + profil.replace("/", sep);
                 parameters.put("profil", p);
             }
             Field[] field = taxonomi.getClass().getDeclaredFields();
