@@ -82,7 +82,7 @@
                             <span class="icon-next"></span>
                         </a>  
                     </div>
-                    <p class="name-img"><%out.print(dwc.getAcceptednameusage());%> - Mammadia</p>
+                    <p class="name-img"><%out.print(dwc.getAcceptednameusage());%></p>
                     <!-- /.carousel -->
 
                     <iframe class="img-responsive" ng-src="{{trustSrc(videos.src)}}">

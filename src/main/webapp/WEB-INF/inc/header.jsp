@@ -39,7 +39,7 @@
 
                     <!-- logo -->
                     <h1 class="navbar-brand">
-                        <a href="#body"><img src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>"></a>
+                        <a href="/"><img src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>"></a>
                     </h1>
                     <!-- /logo -->
                 </div>
@@ -47,11 +47,11 @@
                 <!-- main nav -->
                 <nav class="collapse navbar-collapse navbar-right" role="navigation">
                     <ul id="nav" class="nav navbar-nav">
-                        <li><a href="#body">Accueil</a></li>
+                        <li><a href="/">Accueil</a></li>
                         <li><a onclick="window.location = 'taxonomi'" href="taxonomi">Espèces</a></li>
                         <li><a onclick="window.location = 'darwinportal'" href="darwinportal">Observations</a></li>
                         <li><a onclick="window.location = 'visualisation'" href="visualisation">Cartes</a></li>
-                        <li><a href="#experts">Les experts</a></li>                        
+                        <li><a onclick="window.location = '/forum/experts/'" href="/forum/experts/">Les experts</a></li>                        
 
                         <c:if test="${role10001 == 10001}">
                             <li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>

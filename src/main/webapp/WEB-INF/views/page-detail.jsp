@@ -57,7 +57,7 @@
                             <span class="icon-next"></span>
                         </a>  
                     </div>
-                    <p class="name-img"><%out.print(taxo.getAcceptednameusage());%> - Mammadia</p>
+                    <p class="name-img"><%out.print(taxo.getAcceptednameusage());%></p>
 
 <!--                    <iframe class="img-responsive"
                             src="https://www.youtube.com/embed/tgbNymZ7vqY">

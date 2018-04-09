@@ -141,7 +141,7 @@
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 0" class="number text-center">questionnable</td>
                                         <td ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 1" class="number text-center">validé</td>
                                         <%}%>
-                                        <td ng-if="dwc.dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.dwc.idRebioma}}&p=false&page=1&asearch=Id={{dwc.dwc.idRebioma}}&type=all occurrences">Rebioma</a></td>
+                                        <td ng-if="dwc.dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
                                     </tr>                                                   
                                 </tbody>
                             </table>
@@ -316,7 +316,7 @@
                     <div class='row'>
                         <div class='col-md-10 col-md-offset-1'>                            
                             <h3><small>Veuiller patienter pendant que le système télécharge les données...</small></h3>
-                            <img src="/resources/assets/img/user-default.jpg" class="img-responsive">
+                            <img src="resources/assets/img/loaderB32.gif" class="img-responsive" style="margin: 5px auto;">
                         </div>
                     </div>
                 </div>                
