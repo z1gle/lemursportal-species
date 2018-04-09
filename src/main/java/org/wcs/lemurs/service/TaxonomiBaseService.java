@@ -209,7 +209,11 @@ public class TaxonomiBaseService extends BaseService {
                 }
                 stream.flush();
             }
-            String cheminDepuisServeur = "resources\\assets\\img\\photos\\";
+            String sep = "/";
+            if(!cheminReal.contains(sep)) {
+                sep = "\\";
+            }
+            String cheminDepuisServeur = "resources"+sep+"assets"+sep+"img"+sep+"photos"+sep+"";
             Date datePhoto = Calendar.getInstance().getTime();
             String nomPhoto = "taxonomi_id_" + taxonomi.getId() + "_chercheur_id_" + utilisateur.getId() + "_date_" + datePhoto.getTime() + ".jpg";
             deplacerPhoto(fileTemp, cheminReal + cheminDepuisServeur, nomPhoto);
