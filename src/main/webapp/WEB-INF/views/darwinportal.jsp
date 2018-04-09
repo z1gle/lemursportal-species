@@ -54,7 +54,7 @@
                 </div>
                 <div class="row">
                     <!-- Stat -->                    
-                    <h5 style="width: 10%; display: inline-block; float: right;" class="stat">Tous (<b>{{liste.length}}</b>)</h5>
+                    <h5 style="width: 10%; display: inline-block; float: right;" class="stat">Tous (<b>{{liste[0].total}}</b>)</h5>
                     <button style="width: 5%; display: inline-block; float: right;" ng-click="getColonnes()" class="btn btn-primary"><i class="fa fa-download"></i></button>
                         <%
                             Integer adminOuModerateur = ((Integer) request.getAttribute("adminOuModerateur"));
