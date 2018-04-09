@@ -40,6 +40,7 @@ public class BaseController {
         Utilisateur u = null;
         Integer b = -1;
         Integer expert = -1;
+        Integer adminModerateur = -1;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
             if (u != null) {
@@ -48,6 +49,10 @@ public class BaseController {
             if (baseService.checkRole(u, ROLE_EXPERT)) {
                 expert = 0;
             }
+            
+            if (baseService.checkRole(u, ROLE_ADMINISTRATEUR) || baseService.checkRole(u, ROLE_MODERATEUR)) {
+                adminModerateur = 0;
+            }
         } catch (NullPointerException npe) {
 
         } catch (Exception ex) {
@@ -55,6 +60,7 @@ public class BaseController {
         }
         valiny.addObject("role", b);
         valiny.addObject("expert", expert);
+        valiny.addObject("adminOuModerateur", adminModerateur);
         return valiny;
     }
 
@@ -65,12 +71,16 @@ public class BaseController {
         Integer b = -1;
         Integer expert = -1;
         Integer idChercheur = 0;
+        Integer adminModerateur = -1;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
             idChercheur = u.getId();
             b = 0;
             if (baseService.checkRole(u, ROLE_EXPERT)) {
                 expert = 0;
+            }
+            if (baseService.checkRole(u, ROLE_ADMINISTRATEUR) || baseService.checkRole(u, ROLE_MODERATEUR)) {
+                adminModerateur = 0;
             }
         } catch (NullPointerException npe) {
 
@@ -80,6 +90,7 @@ public class BaseController {
         valiny.addObject("role", b);
         valiny.addObject("idChercheur", idChercheur);
         valiny.addObject("expert", expert);
+        valiny.addObject("adminOuModerateur", adminModerateur);
         return valiny;
     }
 

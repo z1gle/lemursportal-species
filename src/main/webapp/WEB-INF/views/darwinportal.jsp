@@ -56,7 +56,14 @@
                     <!-- Stat -->                    
                     <h5 style="width: 10%; display: inline-block; float: right;" class="stat">Tous (<b>{{liste.length}}</b>)</h5>
                     <button style="width: 5%; display: inline-block; float: right;" ng-click="getColonnes()" class="btn btn-primary"><i class="fa fa-download"></i></button>
+                        <%
+                            Integer adminOuModerateur = ((Integer) request.getAttribute("adminOuModerateur"));
+                            if (adminOuModerateur == 0) {
+                        %>
                     <button style="width: 5%; display: inline-block; float: right; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn btn-primary"><i class="fa fa-upload"></i></button>
+                        <%
+                            }
+                        %>
                     <ul class="nav nav-tabs">
                         <li class="" id="tab-pellicule"><a href="" onclick="pellicule()">Pellicule</a></li>
                         <li class="" id="tab-liste"><a href="" onclick="liste()">Liste</a></li>
@@ -148,19 +155,19 @@
                             <%if (expert == 0) {%>
                             <button onclick="showCommentairFirst();" style="float: right; margin-left: 2px;" class="btn btn-success">Questionnable</button>
                             <button onclick="validate(1);" style="float: right; background-color: #4CAF50!important;" class="btn btn-success">Valider</button>   
-                             
+
                             <%}%>
                             <%
-                                    if (role == 0) {
-                                %>
-                                <!--                    <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
-                                                        <div>Importer un fichier Excel:</div>
-                                                        <input id="csv-xl" name="excelfile" ng-model="file" type="file">
-                                                        <input id="publique" type="checkbox" value="1"> publique
-                                                        <input type="submit" id="publique" ng-click="upload()" value="Importer">
-                                                    </form>-->
-                                <button style="float: left;  margin-left: 2px;" class="btn btn-primary" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});">Upload Observation</button>
-                                <%}%>
+                                if (role == 0) {
+                            %>
+                            <!--                    <form id="uploadForm" method="POST" style="float: right;" enctype="multipart/form-data">
+                                                    <div>Importer un fichier Excel:</div>
+                                                    <input id="csv-xl" name="excelfile" ng-model="file" type="file">
+                                                    <input id="publique" type="checkbox" value="1"> publique
+                                                    <input type="submit" id="publique" ng-click="upload()" value="Importer">
+                                                </form>-->
+                            <button style="float: left;  margin-left: 2px;" class="btn btn-primary" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});">Upload Observation</button>
+                            <%}%>
                         </form>
                     </div>
                     <!-- BEGIN PAGINATION -->
@@ -171,7 +178,7 @@
                         <li><a href="#"ng-click="rechercherFin()" id="next">»</a></li>
                         <input type="hidden" id="pageFin">
                     </ul>
-                   
+
                     <!-- END PAGINATION -->
                 </div>
             </div>
@@ -381,7 +388,7 @@
                         <div>Importer un fichier Excel:</div>
                         <input id="csv-xl" name="excelfile" ng-model="file" type="file">
                         <input id="publique" type="checkbox" value="1"> publique <br>
-                        Termes et condition <a href="#" onclick="window.open('resources/assets/policy.pdf','_blank')">telecharger ici</a>
+                        Termes et condition <a href="#" onclick="window.open('resources/assets/policy.pdf', '_blank')">telecharger ici</a>
                     </form>
                 </div>
                 <div class='modal-footer row'>                        
