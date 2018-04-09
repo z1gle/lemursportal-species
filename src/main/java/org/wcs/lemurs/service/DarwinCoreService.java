@@ -255,12 +255,14 @@ public class DarwinCoreService extends MailService {
             try {
                 this.sendMailToExpert(list_dw);
             } catch(Exception e) {
-                System.out.println("L'envoied de l'email est un echec, veuiller vérifier si les conditions sont optimales");
+                System.out.println("L'envoie de l'email est un echec, veuiller vérifier si les conditions sont optimales");
             }            
             tr.commit();
             return list_dw;
         } catch (Exception ex) {
             tr.rollback();
+            System.out.println("Erreur lors de l'upload : l'erreur suit");
+            ex.printStackTrace();
             throw ex;
         } finally {
             if (session != null) {

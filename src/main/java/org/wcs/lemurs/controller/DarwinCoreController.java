@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import static org.wcs.lemurs.controller.BaseController.ROLE_ADMINISTRATEUR;
 import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import static org.wcs.lemurs.controller.BaseController.ROLE_MODERATEUR;
 import org.wcs.lemurs.exception.StatusAlreadyExistException;
@@ -643,7 +644,7 @@ public class DarwinCoreController {
     public void uploadByLink(HttpSession session, @RequestParam("url") String url) throws Exception {
         try {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-            if (darwinCoreService.checkRole(utilisateur, ROLE_MODERATEUR)) {
+            if (darwinCoreService.checkRole(utilisateur, ROLE_MODERATEUR) || darwinCoreService.checkRole(utilisateur, ROLE_ADMINISTRATEUR)) {
                 darwinCoreService.uploadDwc(url);
             }
         } catch (Exception e) {
