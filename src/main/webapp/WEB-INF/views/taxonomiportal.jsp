@@ -41,14 +41,13 @@
                                 <h3 class="panel-title">&nbsp;</h3>
                                 <span class="pull-right">
                                     <!-- Tabs -->
-                                    <ul class="nav panel-tabs">
-                                        <li><a href="#"><i class="fa fa-list"></i> Liste</a></li>
-                                        <li><a href="#"><i class="fa fa-globe"></i> Localisation</a></li>                                        
+                                    <ul class="nav panel-tabs">                                        
                                             <%
                                                 Integer moderateur = (Integer) request.getAttribute("moderateur");
                                                 if (moderateur == 0) {
                                             %>
-                                        <li><a href="" onclick="window.location='taxonomiCsv'"><i class="fa fa-download"></i> Telecharger_CSV</a></li>
+                                            
+                                        <!--<li><a href="" onclick="window.location='taxonomiCsv'"><i class="fa fa-download"></i> Telecharger_CSV</a></li>-->
                                         <!--<li></li>-->
                                         <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li> 
                                             <%}%>
