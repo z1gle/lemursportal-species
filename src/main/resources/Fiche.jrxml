@@ -116,7 +116,7 @@
 			<textField>
 				<reportElement x="35" y="3" width="488" height="35" isPrintWhenDetailOverflows="true" uuid="903bed86-587c-4dbe-960c-379ababc3c03"/>
 				<textElement>
-					<font fontName="Arial" size="21" isBold="true" isItalic="true"/>
+					<font fontName="Arial" size="21" isBold="true" isItalic="true" pdfFontName="Helvetica-Oblique"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{scientificname}]]></textFieldExpression>
 			</textField>
@@ -242,7 +242,7 @@
 			<textField>
 				<reportElement x="281" y="446" width="280" height="21" uuid="1be6ae24-6d7a-493e-bde5-42327453a642"/>
 				<textElement>
-					<font fontName="Arial" size="14" isBold="false" isItalic="true"/>
+					<font fontName="Arial" size="14" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{scientificname}]]></textFieldExpression>
 			</textField>
