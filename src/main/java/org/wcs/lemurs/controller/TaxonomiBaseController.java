@@ -57,7 +57,7 @@ public class TaxonomiBaseController {
 
     @RequestMapping(value = "/findByespeceTaxo", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<VueRechercheTaxonomi> findByespece(@RequestBody VueRechercheTaxonomi t) throws Exception {
-        return (List<VueRechercheTaxonomi>) (List<?>) taxonomiBaseService.findMultiCritere(t);
+        return (List<VueRechercheTaxonomi>) (List<?>) taxonomiBaseService.findMultiCritere(t, "genus", 0);
     }
     
     @RequestMapping(value = "/findByespeceTaxoId", method = RequestMethod.POST, headers = "Accept=application/json")

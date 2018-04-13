@@ -55,7 +55,9 @@
                                 <input style="max-width: 20%; float: left;" class="form-control" type="text"  name="espece" placeholder="Espèce à rechercher"/>                            
                                 <ul style=" margin-left: 10px;">
                                     <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="1" type="checkbox" checked> Publique</li>
-                                    <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="0" type="checkbox"> Sensible</li>
+                                        <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                                        <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="0" type="checkbox"> Sensible</li>
+                                        </c:if>
                                 </ul>                                
                                 <span class="input-group-btn">
                                     <button  style="margin-top: -8px; margin-bottom: 0px; max-height: 25px; padding-top: 3px;" onclick="rechercheSearch()" class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
@@ -231,10 +233,10 @@
 <script src="<c:url value="/resources/assets/js/controller/darwincontroller.js"/>"></script>
 
 <script>
-    window.onload = function () {
-        rechercheGlobalePaginee("a", 1, 10);
-    };
-    
+                                                            window.onload = function () {
+                                                                rechercheGlobalePaginee("a", 1, 10);
+                                                            };
+
                                                             var map;
                                                             var markers;
                                                             var markersGlobal;
@@ -426,8 +428,8 @@
                                                                 var champ = $('#rechercheGlobale').val();
                                                                 rechercheGlobaleArg(champ);
                                                             }
-                                                            
-                                                            function rechercheGlobaleArg(arg) {                                                                
+
+                                                            function rechercheGlobaleArg(arg) {
                                                                 $.ajax({
                                                                     url: 'rechercherEspeceDcw?champ=' + arg,
                                                                     dataType: 'json',
@@ -439,9 +441,9 @@
                                                                     }
                                                                 });
                                                             }
-                                                            function rechercheGlobalePaginee(champ, page, limite) {                                                                
+                                                            function rechercheGlobalePaginee(champ, page, limite) {
                                                                 $.ajax({
-                                                                    url: 'rechercherEspeceDcwPaginee?champ=' + champ +'&page=' + page + '&limite=' + limite,
+                                                                    url: 'rechercherEspeceDcwPaginee?champ=' + champ + '&page=' + page + '&limite=' + limite,
                                                                     dataType: 'json',
                                                                     success: function (json) {
                                                                         if (json.etat == true) {
