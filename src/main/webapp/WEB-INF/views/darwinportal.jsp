@@ -5,6 +5,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
 <main id="controller" class="site-content" role="main" ng-controller="darwin">
+    <input type="hidden" id="pageEnCours">
 
     <!-- darwin -->
     <section id="taxonomie">
@@ -33,24 +34,39 @@
         <!-- Contenu -->
         <div class="vignette-result">
             <div class="container">
-                <div class="row">
-                    <form class="col-md-6" style="float: right; max-width: 70%;" ng-submit="rechercherMulti()" id="form-search">
+                <div class="row" style="margin-top: 10px;">
+                    <form class="col-md-12" style="float: right; max-width: 100%;" id="form-search">
                         <!-- Search Field -->                                                    
                         <div class="form-group">
-                            <div class="input-group">
-                                <select id="validation" name="validation" style="max-width: 50%; float: right;" class="form-control" >                                    
-                                    <option value="-1">Validation</option>
+                            <div class="input-group">     
+                                <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                                    <select id="validation" name="validationMine" style="max-width: 20%; float: right; max-height: 25px; padding-top: 1px; font-size: 12px;" class="form-control" >                                    
+                                        <option value="-999">Mes données</option>
+                                        <option value="-1000">Tous</option>
+                                        <option value="1">Validé</option>
+                                        <option value="0">Questionnable</option>
+                                        <option value="-1">En attente de validation</option>
+                                    </select>
+                                </c:if>
+                                <select id="validation" name="validation" style="max-width: 20%; float: right; max-height: 25px; padding-top: 1px; font-size: 12px;" class="form-control" >                                    
+                                    <option value="-999">Données</option>
                                     <option value="1">Validé</option>
-                                    <option value="0">En attente de validation</option>                                
+                                    <option value="0">Questionnable</option>
+                                    <option value="-1">En attente de validation</option>
                                 </select>
-                                <input style="max-width: 50%; float: right;" class="form-control" type="text"  name="chercheur" placeholder="Nom prénom du chercheur"/>                            
+                                <input style="max-width: 20%; float: left; max-height: 25px; padding-top: 1px; font-size: 12px;" class="form-control" type="text"  name="espece" placeholder="Espèce à rechercher"/>                            
+                                <ul style=" margin-left: 10px;">
+                                    <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="1" type="checkbox" checked> Publique</li>
+                                        <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                                        <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="0" type="checkbox"> Sensible</li>
+                                        </c:if>
+                                </ul>                                
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
-                                </span>
+                                    <button  style="margin-top: -8px; margin-bottom: 0px; max-height: 25px; padding-top: 3px;" ng-click="rechercherAvancee()" class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
+                                </span>                                
                             </div>
                         </div>                        
-                    </form>
-                    <h1 style="max-width: 30%;" class="titre-page col-md-6">Observation - <span>Liste</span></h1>  
+                    </form>                    
                 </div>
                 <div class="row">
                     <!-- Stat -->                    

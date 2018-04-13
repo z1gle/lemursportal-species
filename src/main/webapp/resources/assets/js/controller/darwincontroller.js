@@ -42,19 +42,20 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             $("#loader-spinner").hide();
-            paginer($scope.liste[0].total, 20, 1);            
+            paginer($scope.liste[0].total, 20, 1);
+//            $('#pageEnCours').val(1);
         }, function error(response) {
             console.log(response);
             $("#loader-spinner").hide();
         });
     }
-    function paginer(liste, pas, position) {        
+    function paginer(liste, pas, position) {
         $scope.pages = [];
         var temp = liste / pas;
         temp = temp.toFixed(0);
-        temp = parseInt(temp);        
+        temp = parseInt(temp);
         if (temp * pas < liste)
-            temp += 1;             
+            temp += 1;
         var index = 0;
         for (var i = 0; i < temp; i++) {
             if (position - 3 <= i && i < position + 3) {
@@ -63,13 +64,41 @@ app.controller("darwin", function ($scope, $http) {
             }
         }
         $('#pageFin').val(temp);
+        $('#pageEnCours').val(position);
     }
 
-    $scope.rechercher = function () {
+    $scope.rechercherAvancee = function () {
+        var etat = $('[name="etat[]"]');
+        var state = [];
+        var etatS = "";
+        var j = 0;
+        for (var i = 0; i < etat.length; i++) {
+            if (etat[i].checked == true) {
+                state[j] = etat[i].value;
+                j++;
+                etatS += etat[i].value;
+                if (i > 0) {
+                    etatS += "&etat[]=" + etat[i].value;
+                }
+            }
+        }
+        var validationMine = parseInt($('[name="validationMine"]').val());
+        console.log(validationMine);
+        if (isNaN(validationMine))
+            validationMine = -999;
+
+        var formData = {
+            'validation': parseInt($('select[name=validation]').val()),
+            'etat': state,
+            'validationMine': validationMine,
+            'espece': $('input[name=espece]').val()
+        };
+        var dta = "validation=" + parseInt($('select[name=validation]').val()) + "&etat[]=" + state + "&validationMine=" + validationMine + "&espece=" + $('input[name=espece]').val();
+        console.log(dta);
+        
         $http({
-            method: 'POST',
-            url: 'findByespeceDwc',
-            data: angular.toJson($scope.darwin),
+            method: 'GET',
+            url: 'findByespeceDwcAvancee?'+dta,            
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -77,6 +106,7 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             $scope.recherche = $scope.darwin.scientificname;
+            paginer($scope.liste[0].total, 20, 1);
             $("#loader-spinner").hide();
         }, function error(response) {
             console.log(response.statusText);
@@ -95,7 +125,8 @@ app.controller("darwin", function ($scope, $http) {
         }
         var validationMine = parseInt($('[name="validationMine"]').val());
         console.log(validationMine);
-        if(isNaN(validationMine)) validationMine = -999;
+        if (isNaN(validationMine))
+            validationMine = -999;
 
         var formData = {
             'validation': parseInt($('select[name=validation]').val()),
@@ -147,14 +178,36 @@ app.controller("darwin", function ($scope, $http) {
         var data = "?";
         for (var i = 0; i < col.length; i++) {
             if (col[i].checked == true) {
-                data = data + col[i].name + "=" + col[i].value + "&";
-                console.log(data);
+                data = data + col[i].name + "=" + col[i].value + "&";                
+            }
+        }        
+        //new change
+        var page = $('#pageEnCours').val();
+        var formData = new FormData();
+        var dwcs = $scope.darwin.scientificname;
+        if (dwcs == undefined)
+            dwcs = null;
+        
+        var etat = $('[name="etat[]"]');
+        var state = [];
+        var etatS = "";
+        var j = 0;
+        for (var i = 0; i < etat.length; i++) {
+            if (etat[i].checked == true) {
+                state[j] = etat[i].value;
+                j++;
+                etatS += etat[i].value;
+                if (i > 0) {
+                    etatS += "&etat[]=" + etat[i].value;
+                }
             }
         }
-        var validation = $('select[name=validation]').val();
-        var chercheur = $('input[name=chercheur]').val();
-        data = data + "validation=" + validation + "&chercheur=" + chercheur;
-        window.location = 'dwcCsv' + data;
+        var validationMine = parseInt($('[name="validationMine"]').val());        
+        if (isNaN(validationMine))
+            validationMine = -999;                
+        
+        var dta = "validation=" + parseInt($('select[name=validation]').val()) + "&etat[]=" + state + "&validationMine=" + validationMine + "&espece=" + $('input[name=espece]').val() + "&page=" + page;
+        window.location = 'dwcCsv' + data + dta;
     }
     ;
     $scope.upload = function () {
@@ -162,9 +215,10 @@ app.controller("darwin", function ($scope, $http) {
         var file = $('#csv-xl')[0].files[0];
         formData.append("excelfile", file);
         console.log(document.getElementById("publique").checked);
-        if(document.getElementById("publique").checked) {
+        if (document.getElementById("publique").checked) {
             formData.append("publique", 1);
-        } else formData.append("publique", 0);
+        } else
+            formData.append("publique", 0);
         $http({
             method: 'POST',
             url: 'processExcel',
@@ -248,19 +302,70 @@ app.controller("darwin", function ($scope, $http) {
         });
     };
 
+//    $scope.rechercher = function (page) {
+//        var formData = new FormData();
+////        var dwcs = angular.toJson($scope.darwin);                
+////        var temp = dwcs.scientificName;
+//        var dwcs = $scope.darwin.scientificname;
+//        if (dwcs == undefined)
+//            dwcs = null;
+//        console.log(dwcs);
+//        formData.append("dwcs", dwcs);
+//        formData.append("page", page);
+//        $http({
+//            method: 'POST',
+//            url: 'findByespeceDwcPaginated',
+//            data: formData,
+//            headers: {
+//                'Accept': 'application/json',
+//                'Content-Type': undefined
+//            }
+//        }).then(function success(response) {
+//            $scope.liste = response.data;
+//            paginer($scope.liste[0].total, 20, page);
+//            $scope.recherche = $scope.darwin.scientificname;
+//        }, function error(response) {
+//            console.log(response.statusText);
+//        });
+//    };
+
     $scope.rechercher = function (page) {
         var formData = new FormData();
-//        var dwcs = angular.toJson($scope.darwin);                
-//        var temp = dwcs.scientificName;
         var dwcs = $scope.darwin.scientificname;
         if (dwcs == undefined)
             dwcs = null;
+        
+        var etat = $('[name="etat[]"]');
+        var state = [];
+        var etatS = "";
+        var j = 0;
+        for (var i = 0; i < etat.length; i++) {
+            if (etat[i].checked == true) {
+                state[j] = etat[i].value;
+                j++;
+                etatS += etat[i].value;
+                if (i > 0) {
+                    etatS += "&etat[]=" + etat[i].value;
+                }
+            }
+        }
+        var validationMine = parseInt($('[name="validationMine"]').val());
+        console.log(validationMine);
+        if (isNaN(validationMine))
+            validationMine = -999;
+        
         console.log(dwcs);
         formData.append("dwcs", dwcs);
         formData.append("page", page);
+        
+        formData.append("validation", parseInt($('select[name=validation]').val()));
+        formData.append("etat[]", state);
+        formData.append("validationMine", validationMine);
+        formData.append("espece", $('input[name=espece]').val());
+        
         $http({
             method: 'POST',
-            url: 'findByespeceDwcPaginated',
+            url: 'findByespeceDwcPaginatedSearch',
             data: formData,
             headers: {
                 'Accept': 'application/json',
@@ -269,7 +374,8 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             paginer($scope.liste[0].total, 20, page);
-            $scope.recherche = $scope.darwin.scientificname;
+//            $('#pageEnCours').val(page);
+//            $scope.recherche = $scope.darwin.scientificname;
         }, function error(response) {
             console.log(response.statusText);
         });
@@ -284,11 +390,38 @@ app.controller("darwin", function ($scope, $http) {
             dwcs = null;
         console.log(dwcs);
         console.log($('#pageFin').val());
+        
+        var etat = $('[name="etat[]"]');
+        var state = [];
+        var etatS = "";
+        var j = 0;
+        for (var i = 0; i < etat.length; i++) {
+            if (etat[i].checked == true) {
+                state[j] = etat[i].value;
+                j++;
+                etatS += etat[i].value;
+                if (i > 0) {
+                    etatS += "&etat[]=" + etat[i].value;
+                }
+            }
+        }
+        var validationMine = parseInt($('[name="validationMine"]').val());
+        console.log(validationMine);
+        if (isNaN(validationMine))
+            validationMine = -999;
+        
+        
         formData.append("dwcs", dwcs);
         formData.append("page", $('#pageFin').val());
+        
+        formData.append("validation", parseInt($('select[name=validation]').val()));
+        formData.append("etat[]", state);
+        formData.append("validationMine", validationMine);
+        formData.append("espece", $('input[name=espece]').val());
+        
         $http({
             method: 'POST',
-            url: 'findByespeceDwcPaginated',
+            url: 'findByespeceDwcPaginatedSearch',
             data: formData,
             headers: {
                 'Accept': 'application/json',
@@ -297,6 +430,7 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             paginer($scope.liste[0].total, 20, $('#pageFin').val());
+//            $('#pageEnCours').val($('#pageFin').val());
             $scope.recherche = $scope.darwin.scientificname;
         }, function error(response) {
             console.log(response.statusText);
@@ -344,8 +478,8 @@ app.controller("darwin", function ($scope, $http) {
             $("#genre-" + famille).html('<ul id="genre-{{famille}}"></ul>');
         }
     };
-    
-    $scope.getalls = function() {
+
+    $scope.getalls = function () {
         $http({
             method: 'POST',
             url: 'findByespeceDwc',
@@ -357,6 +491,7 @@ app.controller("darwin", function ($scope, $http) {
         }).then(function success(response) {
             $scope.liste = response.data;
             paginer($scope.liste[0].total, 20, 1);
+//            $('#pageEnCours').val(1);
         }, function error(response) {
             console.log(response);
         });

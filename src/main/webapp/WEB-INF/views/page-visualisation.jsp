@@ -231,6 +231,10 @@
 <script src="<c:url value="/resources/assets/js/controller/darwincontroller.js"/>"></script>
 
 <script>
+    window.onload = function () {
+        rechercheGlobalePaginee("a", 1, 10);
+    };
+    
                                                             var map;
                                                             var markers;
                                                             var markersGlobal;
@@ -420,8 +424,24 @@
 
                                                             function rechercheGlobale() {
                                                                 var champ = $('#rechercheGlobale').val();
+                                                                rechercheGlobaleArg(champ);
+                                                            }
+                                                            
+                                                            function rechercheGlobaleArg(arg) {                                                                
                                                                 $.ajax({
-                                                                    url: 'rechercherEspeceDcw?champ=' + champ,
+                                                                    url: 'rechercherEspeceDcw?champ=' + arg,
+                                                                    dataType: 'json',
+                                                                    success: function (json) {
+                                                                        if (json.etat == true) {
+                                                                            addMarkersGlobal(json.dwc);
+                                                                        } else
+                                                                            clearMarkersGlobal();
+                                                                    }
+                                                                });
+                                                            }
+                                                            function rechercheGlobalePaginee(champ, page, limite) {                                                                
+                                                                $.ajax({
+                                                                    url: 'rechercherEspeceDcwPaginee?champ=' + champ +'&page=' + page + '&limite=' + limite,
                                                                     dataType: 'json',
                                                                     success: function (json) {
                                                                         if (json.etat == true) {

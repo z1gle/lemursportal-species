@@ -24,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.TaxonomiBase;
+import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 import org.wcs.lemurs.service.DarwinCoreService;
 
 /**
@@ -225,7 +226,7 @@ public class UploadFile {
         writer.flush();
     }
 
-    public void writeDwcCsv(List<DarwinCore> taxonomies, int[] listeColonnes, char separator, OutputStream output, int idU) throws Exception {
+    public void writeDwcCsv(List<VueValidationDarwinCore> taxonomies, int[] listeColonnes, char separator, OutputStream output, int idU) throws Exception {
         output.write(239);
         output.write(187);
         output.write(191);
@@ -248,7 +249,7 @@ public class UploadFile {
         header = header.substring(0, header.length() - 1);
         writer.append(header);
         writer.newLine();
-        for (DarwinCore row : taxonomies) {
+        for (VueValidationDarwinCore row : taxonomies) {
             String field = "";
             if (idU > 0) {
                 field += Integer.toString(row.getId()) + ";";

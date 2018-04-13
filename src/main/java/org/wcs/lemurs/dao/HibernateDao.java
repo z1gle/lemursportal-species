@@ -15,6 +15,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -229,6 +230,29 @@ public class HibernateDao {
             criteria.setMaxResults(nombre);
         }
         return criteria.list();
+    }
+    
+    public long countTotal(Session session, BaseModel obj) throws Exception {
+        Criteria criteria = session.createCriteria(obj.getClass());
+        Example example = Example.create(obj);
+        example.enableLike(MatchMode.ANYWHERE);
+        example.ignoreCase();
+        criteria.add(example);        
+        return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+    }
+    
+    public long countTotalDwc(BaseModel obj) throws Exception {
+        Session session = null;
+        try {
+            session = this.getSessionFactory().openSession();
+            return countTotal(session, obj);
+        } catch(Exception e) {
+            throw e;
+        } finally {
+            if(session != null) {
+                session.close();
+            }
+        }
     }
 
     public int getFirstResult(int page, int nombre) {

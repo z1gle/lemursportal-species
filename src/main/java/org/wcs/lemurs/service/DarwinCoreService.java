@@ -38,6 +38,7 @@ import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.PhotoDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
+import org.wcs.lemurs.model.VideoDarwinCore;
 import org.wcs.lemurs.modele_association.AssignationExpert;
 import org.wcs.lemurs.modele_association.HistoriqueStatus;
 import org.wcs.lemurs.modele_vue.VueRechercheDarwinCore;
@@ -1191,6 +1192,50 @@ public class DarwinCoreService extends MailService {
             }
         }
         return fonctions;
+    }
+    
+    public void delete(DarwinCore dwc) {
+        Session session = null;
+        Transaction tr = null;
+        try {
+            session = this.darwinCoreDao.getSessionFactory().openSession();
+            ValidationDarwinCore vdc = new ValidationDarwinCore();
+            vdc.setIdDarwinCore(dwc.getId());
+            List<ValidationDarwinCore> listeVdcToDelete = (List<ValidationDarwinCore>)(List<?>)super.findAll(session, vdc, -1, -1);
+            PhotoDarwinCore pdc = new PhotoDarwinCore();
+            pdc.setIdDarwinCore(dwc.getId());
+            List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>)(List<?>) super.findAll(session, pdc, -1, -1);
+            VideoDarwinCore vidc = new VideoDarwinCore();
+            vidc.setIdDarwinCore(dwc.getId());
+            List<VideoDarwinCore> listeVidc = (List<VideoDarwinCore>)(List<?>) super.findAll(session, vidc, -1, -1);
+            tr = session.beginTransaction();
+            if(!listeVdcToDelete.isEmpty()) {
+                for(ValidationDarwinCore v : listeVdcToDelete) {
+                    super.delete(session, v);
+                }
+            }
+            if(!listePdc.isEmpty()) {
+                for(PhotoDarwinCore p : listePdc) {
+                    super.delete(session, p);
+                }
+            }
+            if(!listeVidc.isEmpty()) {
+                for(VideoDarwinCore v : listeVidc) {
+                    super.delete(session, v);
+                }
+            }
+            super.delete(session, dwc);
+            tr.commit();
+        } catch (Exception e) {
+            if(tr != null) {
+                tr.rollback();
+            }
+            e.printStackTrace();            
+        } finally {
+            if(session != null) {
+                session.close();
+            }
+        }
     }
 
 //    public List<DarwinCore> findMultiCritere(Utilisateur u, DarwinCore dwc) throws Exception {

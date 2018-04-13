@@ -162,7 +162,7 @@ public class DarwinCoreController {
     @RequestMapping(value = "/getCommentDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<VueCommentaireDarwinCore> getComment(HttpSession session, @RequestBody DarwinCore dwc) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-        if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT) || (utilisateur.getId() == dwc.getIdUtilisateurUpload())) {
+        if (darwinCoreService.checkRole(utilisateur, ROLE_EXPERT) || (utilisateur.getId().intValue() == dwc.getIdUtilisateurUpload().intValue())) {
             VueCommentaireDarwinCore cdc = new VueCommentaireDarwinCore();
             cdc.setIdDarwinCore(dwc.getId());
             return (List<VueCommentaireDarwinCore>) (List<?>) darwinCoreService.findMultiCritere(cdc, "dateCommentaire", 0);
@@ -297,6 +297,62 @@ public class DarwinCoreController {
         }
     }
 
+    @RequestMapping(value = "/findByespeceDwcAvancee", method = RequestMethod.GET)
+    public List<HashMap<String, Object>> getallAvancee(HttpSession session, @RequestParam String espece, @RequestParam Integer validation, @RequestParam Integer validationMine, @RequestParam(value = "etat[]") List<String> etat) throws Exception {
+        int page = 1;
+        int nombre = 20;
+        Long total = null;
+
+        Utilisateur u = new Utilisateur();
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+        } catch (Exception e) {
+            u = new Utilisateur();
+            System.out.println("aucun utilisateur connecté");
+        }
+        VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
+        if (!espece.isEmpty()) {
+            vvdc.setScientificname(espece);
+        }
+        if (validationMine != -999) {
+            if (validationMine == -1000) {
+                vvdc.setIdUtilisateurUpload(u.getId());
+            } else {
+                vvdc.setValidationexpert(validationMine);
+                vvdc.setIdUtilisateurUpload(u.getId());
+            }
+        } else if (validation != -999) {
+            vvdc.setValidationexpert(validation);
+        }
+        if (etat.size() != 0 && etat.size() < 2) {
+            if (Integer.parseInt(etat.get(0)) == 0) {
+                vvdc.setPublique(Boolean.FALSE);
+                vvdc.setIdUtilisateurUpload(u.getId());
+            } else if (Integer.parseInt(etat.get(0)) == 1) {
+                vvdc.setPublique(Boolean.TRUE);
+            }
+        }
+        try {
+            total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vvdc);
+
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vvdc, nombre, page);
+            try {
+                HashMap<String, Object> temp = valiny.get(0);
+                temp.put("total", total);
+            } catch (java.lang.IndexOutOfBoundsException iaoob) {
+                System.out.println("Il n'y a aucune observation dans la base de donnée");
+            }
+            return valiny;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utilisateur utilisateur = new Utilisateur();
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, vvdc, nombre, page);
+            HashMap<String, Object> temp = valiny.get(0);
+            temp.put("total", total);
+            return valiny;
+        }
+    }
+
     @RequestMapping(value = "/findByespeceDwcPaginated", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, Object>> getallPaginated(HttpSession session, @RequestParam String dwcs, @RequestParam Integer page) throws Exception {
         VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
@@ -316,6 +372,62 @@ public class DarwinCoreController {
             }
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
             List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, vvdc, nombre, page);
+            HashMap<String, Object> temp = valiny.get(0);
+            temp.put("total", total);
+            return valiny;
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                Utilisateur utilisateur = new Utilisateur();
+                List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, vvdc, nombre, page);
+                HashMap<String, Object> temp = valiny.get(0);
+                temp.put("total", total);
+                return valiny;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+    }
+
+    @RequestMapping(value = "/findByespeceDwcPaginatedSearch", method = RequestMethod.POST, headers = "Accept=application/json")
+    public List<HashMap<String, Object>> getallPaginatedSearch(HttpSession session, @RequestParam String espece, @RequestParam Integer validation, @RequestParam Integer validationMine, @RequestParam(value = "etat[]") List<String> etat, @RequestParam Integer page) throws Exception {
+        VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
+        int nombre = 20;
+        Long total = null;
+
+        Utilisateur u = new Utilisateur();
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+        } catch (Exception e) {
+            u = new Utilisateur();
+            System.out.println("aucun utilisateur connecté");
+        }
+//        VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
+        if (!espece.isEmpty()) {
+            vvdc.setScientificname(espece);
+        }
+        if (validationMine != -999) {
+            if (validationMine == -1000) {
+                vvdc.setIdUtilisateurUpload(u.getId());
+            } else {
+                vvdc.setValidationexpert(validationMine);
+                vvdc.setIdUtilisateurUpload(u.getId());
+            }
+        } else if (validation != -999) {
+            vvdc.setValidationexpert(validation);
+        }
+        if (etat.size() != 0 && etat.size() < 2) {
+            if (Integer.parseInt(etat.get(0)) == 0) {
+                vvdc.setPublique(Boolean.FALSE);
+                vvdc.setIdUtilisateurUpload(u.getId());
+            } else if (Integer.parseInt(etat.get(0)) == 1) {
+                vvdc.setPublique(Boolean.TRUE);
+            }
+        }
+        total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vvdc);
+
+        try {
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vvdc, nombre, page);
             HashMap<String, Object> temp = valiny.get(0);
             temp.put("total", total);
             return valiny;
@@ -369,10 +481,21 @@ public class DarwinCoreController {
     @RequestMapping(value = "/saveDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public void saveOrupdate(HttpSession session, @RequestBody DarwinCore dwc) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-        if (utilisateur.getId() == dwc.getIdUtilisateurUpload()) {
+        if (utilisateur.getId().intValue() == dwc.getIdUtilisateurUpload().intValue()) {
             List<DarwinCore> ldc = new ArrayList<>();
             ldc.add(dwc);
             darwinCoreService.upload(ldc);
+        }
+    }
+
+    @RequestMapping(value = "/delDwc", method = RequestMethod.POST, headers = "Accept=application/json")
+    public void del(HttpSession session, @RequestParam Integer idDwc) throws Exception {
+        DarwinCore dwc = darwinCoreService.findById(idDwc);
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        if (utilisateur.getId().intValue() == dwc.getIdUtilisateurUpload().intValue()) {
+            darwinCoreService.delete(dwc);
+        } else {
+            throw new Exception("Vous n'avez pas l'accréditation nécessaire à cette action");
         }
     }
 
@@ -475,17 +598,50 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/dwcCsv")
-    public void dwcCsv(HttpSession session, HttpServletResponse response, @RequestParam(value = "validation") int validation, @RequestParam(value = "chercheur") String chercheur, @RequestParam(value = "col[]") int[] colonnes) throws Exception {
-//        String chercheur = requestData.get("chercheur");
-//        int validation = Integer.parseInt(requestData.get("validation"));         
+    public void dwcCsv(HttpSession session, HttpServletResponse response, @RequestParam String espece, @RequestParam Integer validation, @RequestParam Integer validationMine, @RequestParam(value = "etat[]") List<String> etat, @RequestParam(value = "col[]") int[] colonnes, @RequestParam Integer page) throws Exception {
+
+        VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
+        int nombre = 20;
+        Long total = null;
+
+        Utilisateur u = new Utilisateur();
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+        } catch (Exception e) {
+            u = new Utilisateur();
+            System.out.println("aucun utilisateur connecté");
+        }
+//        VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
+        if (!espece.isEmpty()) {
+            vvdc.setScientificname(espece);
+        }
+        if (validationMine != -999) {
+            if (validationMine == -1000) {
+                vvdc.setIdUtilisateurUpload(u.getId());
+            } else {
+                vvdc.setValidationexpert(validationMine);
+                vvdc.setIdUtilisateurUpload(u.getId());
+            }
+        } else if (validation != -999) {
+            vvdc.setValidationexpert(validation);
+        }
+        if (etat.size() != 0 && etat.size() < 2) {
+            if (Integer.parseInt(etat.get(0)) == 0) {
+                vvdc.setPublique(Boolean.FALSE);
+                vvdc.setIdUtilisateurUpload(u.getId());
+            } else if (Integer.parseInt(etat.get(0)) == 1) {
+                vvdc.setPublique(Boolean.TRUE);
+            }
+        }
+
         int idU;
-        Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
         try {
             idU = u.getId();
         } catch (NullPointerException npe) {
             idU = -999;
         }
-        List<DarwinCore> liste = darwinCoreService.findValidation(validation, chercheur);
+        List<DarwinCore> listeTemp = darwinCoreService.findAll(u, vvdc, page, nombre);
+        List<VueValidationDarwinCore> liste = (List<VueValidationDarwinCore>) (List<?>) listeTemp;
         response.setHeader("Content-Type", "text/csv");
         response.setHeader("Content-Disposition", "attachment;filename=\"observations.csv\"");
         UploadFile upf = new UploadFile();
@@ -702,6 +858,28 @@ public class DarwinCoreController {
         VueRechercheDarwinCore vrdc = new VueRechercheDarwinCore();
         vrdc.setChamp(champ);
         List<DarwinCore> dwc = darwinCoreService.findAll(u, vrdc);
+        valiny.put("etat", !dwc.isEmpty());
+        valiny.put("dwc", dwc);
+        return valiny;
+    }
+
+    @RequestMapping(value = "/rechercherEspeceDcwPaginee", method = RequestMethod.GET, headers = "Accept=application/json")
+    public HashMap<String, Object> rechercherEspeceDwcPaginee(HttpSession session, @RequestParam String champ, @RequestParam Integer page, @RequestParam Integer limite) throws Exception {
+        HashMap<String, Object> valiny = new HashMap<>();
+        if (champ.isEmpty()) {
+            valiny.put("etat", Boolean.FALSE);
+            return valiny;
+        }
+        Utilisateur u = null;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+        } catch (Exception e) {
+            System.out.println("User not logged in");
+            u = null;
+        }
+        VueRechercheDarwinCore vrdc = new VueRechercheDarwinCore();
+        vrdc.setChamp(champ);
+        List<DarwinCore> dwc = darwinCoreService.findAll(u, vrdc, page, limite);
         valiny.put("etat", !dwc.isEmpty());
         valiny.put("dwc", dwc);
         return valiny;

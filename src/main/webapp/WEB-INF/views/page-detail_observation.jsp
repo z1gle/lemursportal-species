@@ -53,7 +53,7 @@
                         List<String> remarques = null;
                         Integer chercheur = ((Integer) request.getAttribute("chercheur"));
                         Integer expert = ((Integer) request.getAttribute("expert"));
-                        if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId())) {
+                        if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {
                             remarques = (List<String>) request.getAttribute("remarques");
                             if (!remarques.isEmpty()) {
                                 for (String s : remarques) {
@@ -92,7 +92,7 @@
                     <div class="map-detail-obs" id="map">
                         <!--                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>-->
                     </div>                    
-                    <%if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId())) {%>
+                    <%if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {%>
                     <br>
                     <p align="center">
                         <button type="button" onclick="showCommentaires()" class="btn btn-primary"> Commentaires</button>
@@ -1443,17 +1443,18 @@
                 </div>  
                 <%}%>
                 <%
-                    if (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId()) {
+                    if (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
+                        int j = 5;
                 %>
                 <div class="pull-right divider">
                     <button type="button" class="btn btn-primary" onclick="window.location = 'addDarwinCore?id=<%out.print(dwc.getId());%>'"><span class="fa fa-edit"></span> Modifier</button>
-                    <button type="button" class="btn btn-primary"><span class="fa fa-remove"></span> Supprimer </button>
+                    <button type="button" class="btn btn-primary" onclick="del(<%out.print(dwc.getId());%>)"><span class="fa fa-remove"></span> Supprimer </button>
                 </div>  
                 <%}%>                
             </div>
         </div>
         <%
-            if (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId()) {
+            if (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
         %>   
         <div class="clearfix"></div>
         <div class="col-md-12">
@@ -1606,7 +1607,7 @@
                         <div style="margin-bottom: 1px;" class="form-control"><input style="margin-right: 5px;" type="checkbox" value="1" id="profil" name="profil">Photo profil</div>
                         <input class="form-control" type="date" id="datePrisePhoto" name="datePrisePhoto" placeholder="veuiller insérer la date quand la photo a été prise">                                            
                         Termes et conditions
-                        <a href="#" onclick="window.open('resources/assets/policy.pdf','_blank')">telecharger ici</a>
+                        <a href="#" onclick="window.open('resources/assets/policy.pdf', '_blank')">telecharger ici</a>
                     </div>
                     <div class='modal-footer'>
                         <div style="float: left;">*Les termes et conditions doivent être accépter pour envoyer des photos</div>
@@ -1624,6 +1625,20 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"  charset="utf-8"></script>
 <script>
+                            function del(idDwc) {
+                                $.ajax({
+                                    method: 'POST',
+                                    url: 'delDwc?idDwc='+idDwc,                                    
+                                    success: function (json) {
+                                        window.location = 'darwinportal';
+                                    },
+                                    error: function (json) {
+                                        console.log(json.statusText);
+                                    }
+                                });                                
+                            }
+                            ;
+
                             function showModal(status) {
                                 if (status == 0)
                                     $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});

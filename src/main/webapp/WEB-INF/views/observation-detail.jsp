@@ -49,7 +49,7 @@
                             List<String> remarques = null;
                             Integer chercheur = ((Integer) request.getAttribute("chercheur"));
                             Integer expert = ((Integer) request.getAttribute("expert"));
-                            if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId())) {
+                            if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {
                                  remarques = (List<String>) request.getAttribute("remarques");
                                 if (!remarques.isEmpty()) {
                                     for (String s : remarques) {
@@ -93,7 +93,7 @@
                     </div>  
                     <%}%>
                     <%
-                        if (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId()) {
+                        if (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
                     %>
                     <div class="pull-right divider">
                         <button type="button" class="btn btn-primary" onclick="window.location = 'addDarwinCore?id=<%out.print(dwc.getId());%>'"><span class="fa fa-edit"></span> Modifier</button>
@@ -104,7 +104,7 @@
             </div>
         </div>
         <!--Commentaire-->
-        <%if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload() == u.getId())) {%>
+        <%if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {%>
         <div class="detail-result">
             <div class="container">
                 <h3>Commentaires</h3>

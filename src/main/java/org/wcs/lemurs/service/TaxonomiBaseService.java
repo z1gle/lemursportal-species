@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +32,7 @@ import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.PhotoTaxonomi;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
+import org.wcs.lemurs.model.VideoTaxonomi;
 import org.wcs.lemurs.modele_association.AssignationExpert;
 import org.wcs.lemurs.util.PhotoService;
 
@@ -62,7 +62,39 @@ public class TaxonomiBaseService extends BaseService {
 
     @Transactional
     public void delete(TaxonomiBase taxonomiBase) throws Exception {
-        hibernateDao.delete(taxonomiBase);
+        Session session = null;
+        Transaction tr = null;
+        try {
+            session = this.hibernateDao.getSessionFactory().openSession();            
+            PhotoTaxonomi pdc = new PhotoTaxonomi();
+            pdc.setIdTaxonomi(taxonomiBase.getId());
+            List<PhotoTaxonomi> listePdc = (List<PhotoTaxonomi>)(List<?>) super.findAll(session, pdc, -1, -1);
+            VideoTaxonomi vidc = new VideoTaxonomi();
+            vidc.setIdTaxonomi(taxonomiBase.getId());
+            List<VideoTaxonomi> listeVidc = (List<VideoTaxonomi>)(List<?>) super.findAll(session, vidc, -1, -1);
+            tr = session.beginTransaction();            
+            if(!listePdc.isEmpty()) {
+                for(PhotoTaxonomi p : listePdc) {
+                    super.delete(session, p);
+                }
+            }
+            if(!listeVidc.isEmpty()) {
+                for(VideoTaxonomi v : listeVidc) {
+                    super.delete(session, v);
+                }
+            }
+            super.delete(session, taxonomiBase);
+            tr.commit();
+        } catch (Exception e) {
+            if(tr != null) {
+                tr.rollback();
+            }
+            e.printStackTrace();            
+        } finally {
+            if(session != null) {
+                session.close();
+            }
+        }
     }
 
     public TaxonomiBase findById(int idtaxonomibase) throws Exception {
