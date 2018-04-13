@@ -640,7 +640,7 @@ public class DarwinCoreController {
         } catch (NullPointerException npe) {
             idU = -999;
         }
-        List<DarwinCore> listeTemp = darwinCoreService.findAll(u, vvdc, page, nombre);
+        List<DarwinCore> listeTemp = darwinCoreService.findAll(u, vvdc);
         List<VueValidationDarwinCore> liste = (List<VueValidationDarwinCore>) (List<?>) listeTemp;
         response.setHeader("Content-Type", "text/csv");
         response.setHeader("Content-Disposition", "attachment;filename=\"observations.csv\"");
