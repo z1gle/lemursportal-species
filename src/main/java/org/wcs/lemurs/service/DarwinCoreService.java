@@ -41,6 +41,7 @@ import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.model.VideoDarwinCore;
 import org.wcs.lemurs.modele_association.AssignationExpert;
 import org.wcs.lemurs.modele_association.HistoriqueStatus;
+import org.wcs.lemurs.modele_vue.VueDarwinCoreRechercheGlobale;
 import org.wcs.lemurs.modele_vue.VueRechercheDarwinCore;
 import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 
@@ -581,6 +582,43 @@ public class DarwinCoreService extends MailService {
         }
         return false;
     }
+    
+    public boolean checkValidable(Session session, VueDarwinCoreRechercheGlobale dwc, Utilisateur u) throws Exception {
+        AssignationExpert ase = new AssignationExpert();
+        ase.setIdExpert(u.getId());
+        List<AssignationExpert> listeAseTemp = (List<AssignationExpert>) (List<?>) this.findMultiCritere(ase);
+        for (AssignationExpert aeTemp : listeAseTemp) {
+            if (!dwc.getAnnee() || !dwc.getAccepted_speces() || !dwc.getCollecteur() || !dwc.getGps()) {
+                return false;
+            }
+            if (dwc.getIdRebioma() != null || dwc.getIdUtilisateurUpload() == null) {
+                return false;
+            }
+            try {
+                String df = dwc.getFamily();
+                String uf = MailService.formatterDarwinCore(aeTemp.getFamille());
+                if (MailService.formatterDarwinCore(df).compareToIgnoreCase(uf) == 0) {
+                    return true;
+                }
+            } catch (NullPointerException npe) {
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (MailService.formatterDarwinCore(dwc.getGenus()).compareToIgnoreCase(MailService.formatterDarwinCore(aeTemp.getGenre())) == 0) {
+                    return true;
+                }
+            } catch (NullPointerException npe) {
+            }
+            try {
+                if (MailService.formatterDarwinCore(dwc.getScientificname()).compareToIgnoreCase(MailService.formatterDarwinCore(aeTemp.getEspece())) == 0) {
+                    return true;
+                }
+            } catch (NullPointerException npe) {
+            }
+        }
+        return false;
+    }
 
     public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueValidationDarwinCore darwinCore, int nombre, int page) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
@@ -590,6 +628,54 @@ public class DarwinCoreService extends MailService {
         try {
             session = getHibernateDao().getSessionFactory().openSession();
             for (VueValidationDarwinCore dwc : val) {
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("dwc", dwc);
+                try {
+                    if (checkValidable(session, dwc, utilisateur)) {
+                        temp.put("validation", 1);
+                    } else {
+                        temp.put("validation", 0);
+                    }
+                } catch (java.lang.NullPointerException npe) {
+                    temp.put("validation", 0);
+                }
+                valiny.add(temp);
+            }
+            PhotoDarwinCore photoDarwinCoreTemp = new PhotoDarwinCore();
+            photoDarwinCoreTemp.setProfil(Boolean.TRUE);
+            photos = (List<PhotoDarwinCore>) (List<?>) this.findMultiCritere(photoDarwinCoreTemp);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        for (HashMap<String, Object> v : valiny) {
+            int iterator = 0;
+            for (PhotoDarwinCore pdc : photos) {
+                if (((VueValidationDarwinCore) v.get("dwc")).getId().intValue() == pdc.getIdDarwinCore().intValue()) {
+                    v.put("photo", pdc.getChemin());
+                    break;
+                } else {
+                    iterator++;
+                }
+            }
+            if (iterator == photos.size()) {
+                v.put("photo", "resources/assets/img/photos/default.jpg");
+            }
+        }
+        return valiny;
+    }
+    
+    public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int nombre, int page) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        List<VueDarwinCoreRechercheGlobale> val = (List<VueDarwinCoreRechercheGlobale>) (List<?>) findAll(utilisateur, darwinCore, page, nombre);
+        List<PhotoDarwinCore> photos = new ArrayList<>();
+        Session session = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            for (VueDarwinCoreRechercheGlobale dwc : val) {
                 HashMap<String, Object> temp = new HashMap<>();
                 temp.put("dwc", dwc);
                 try {
@@ -1330,6 +1416,9 @@ public class DarwinCoreService extends MailService {
     }
 
     public List<DarwinCore> findAll(Utilisateur utilisateur, VueValidationDarwinCore darwinCore, int page, int nombre) throws Exception {
+        return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
+    }
+    public List<DarwinCore> findAll(Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int page, int nombre) throws Exception {
         return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
     }
 

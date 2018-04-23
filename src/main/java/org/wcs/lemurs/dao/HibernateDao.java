@@ -16,6 +16,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -221,35 +222,69 @@ public class HibernateDao {
 
     public List<BaseModel> findAll(Session session, BaseModel obj, int page, int nombre) throws Exception {
         Criteria criteria = session.createCriteria(obj.getClass());
+        boolean invalide = false;
+        if (obj.getClass().getSimpleName().compareToIgnoreCase("VueValidationDarwinCore") == 0) {
+            if (((org.wcs.lemurs.modele_vue.VueValidationDarwinCore) obj).getValidationexpert() != null) {
+                if (((org.wcs.lemurs.modele_vue.VueValidationDarwinCore) obj).getValidationexpert() == -2) {
+                    ((org.wcs.lemurs.modele_vue.VueValidationDarwinCore) obj).setValidationexpert(null);
+                    invalide = true;
+                }
+            }
+        }
         Example example = Example.create(obj);
         example.enableLike(MatchMode.ANYWHERE);
         example.ignoreCase();
         criteria.add(example);
+        //Darwin core invalide
+        if (invalide) {
+            criteria.add(Restrictions.or(Restrictions.eq("annee", Boolean.FALSE), Restrictions.eq("collecteur", Boolean.FALSE), Restrictions.eq("accepted_speces", Boolean.FALSE), Restrictions.eq("gps", Boolean.FALSE)));
+            System.out.println("recherche sur les données invalides");
+        }
+        //
         if (page > 0 && nombre > 0) {
             criteria.setFirstResult(getFirstResult(page, nombre));
             criteria.setMaxResults(nombre);
         }
         return criteria.list();
     }
-    
+
     public long countTotal(Session session, BaseModel obj) throws Exception {
+        boolean invalide = false;
+        if (obj.getClass().getSimpleName().compareToIgnoreCase("VueValidationDarwinCore") == 0) {
+            if (((org.wcs.lemurs.modele_vue.VueValidationDarwinCore) obj).getValidationexpert() != null) {
+                if (((org.wcs.lemurs.modele_vue.VueValidationDarwinCore) obj).getValidationexpert() == -2) {
+                    ((org.wcs.lemurs.modele_vue.VueValidationDarwinCore) obj).setValidationexpert(null);
+                    invalide = true;
+                }
+            }
+        }
         Criteria criteria = session.createCriteria(obj.getClass());
         Example example = Example.create(obj);
         example.enableLike(MatchMode.ANYWHERE);
         example.ignoreCase();
-        criteria.add(example);        
-        return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+        //Darwin core invalide
+        if (invalide) {
+            criteria.add(Restrictions.or(Restrictions.eq("annee", Boolean.FALSE), Restrictions.eq("collecteur", Boolean.FALSE), Restrictions.eq("accepted_speces", Boolean.FALSE), Restrictions.eq("gps", Boolean.FALSE)));
+            System.out.println("recherche sur les données invalides");
+        }
+        //
+        criteria.add(example);
+        Long valiny = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+        if (invalide) {
+            ((org.wcs.lemurs.modele_vue.VueValidationDarwinCore) obj).setValidationexpert(-2);
+        }
+        return valiny;
     }
-    
+
     public long countTotalDwc(BaseModel obj) throws Exception {
         Session session = null;
         try {
             session = this.getSessionFactory().openSession();
             return countTotal(session, obj);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw e;
         } finally {
-            if(session != null) {
+            if (session != null) {
                 session.close();
             }
         }

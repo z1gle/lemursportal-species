@@ -166,7 +166,7 @@
                                             <input id="{{famille}}" type="checkbox" name="valeur[]" value="typeFamille-{{famille}}" ng-click="getGenre(famille)" >  {{famille}}
                                             <ul style="list-style-type:none; margin-left: 5px;" id="genre-{{famille}}"></ul>
                                         </div>
-                                        <button style=" margin-bottom: 5px; color: white;" type="button" class="btn btn-primary form-control" onclick="addMarkers();">
+                                        <button style=" margin-bottom: 5px; color: white;" type="button" class="btn btn-primary form-control" onclick="addMarkers2();">
                                             Afficher
                                         </button>                                        
                                     </div>                                    
@@ -230,7 +230,7 @@
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/darwincontroller.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/visualisationcontroller.js"/>"></script>
 
 <script>
                                                             window.onload = function () {
@@ -242,6 +242,7 @@
                                                             var markersGlobal;
                                                             var markersSearch;
                                                             var ctr;
+
                                                             function initMap() {
                                                                 var centre = {lat: -18.9136800, lng: 47.5361300};
                                                                 var mark = {lat: -18.9136800, lng: 47.5361300};
@@ -254,22 +255,21 @@
                                                                     map: map
                                                                 });
                                                                 marker.setVisible(false);
+
+                                                                // markers pour tout type de recherche
                                                                 markers = [];
                                                                 markersGlobal = [];
                                                                 markersSearch = [];
-                                                                var input = /** @type {!HTMLInputElement} */(
-                                                                        document.getElementById('pac-input'));
+
+                                                                var input = (document.getElementById('pac-input'));
+
+                                                                // Autocomplete pour les recherches de localisation
                                                                 var autocomplete = new google.maps.places.Autocomplete(input);
                                                                 autocomplete.bindTo('bounds', map);
-//                                                var infowindow = new google.maps.InfoWindow();
-
                                                                 autocomplete.addListener('place_changed', function () {
-//                                                    infowindow.close();
                                                                     marker.setVisible(false);
                                                                     var place = autocomplete.getPlace();
                                                                     if (!place.geometry) {
-                                                                        // User entered the name of a Place that was not suggested and
-                                                                        // pressed the Enter key, or the Place Details request failed.
                                                                         window.alert("Google map ne parvient pas a trouver l'endroit nomé : '" + place.name + "'");
                                                                         return;
                                                                     }
@@ -299,12 +299,10 @@
                                                                             (place.address_components[2] && place.address_components[2].short_name || '')
                                                                         ].join(' ');
                                                                     }
-
-//                                                    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-//                                                    infowindow.open(map, marker);
                                                                 });
                                                             }
 
+                                                            // Mettre l'attribut map sur les markers
                                                             function setMapOnAll(map) {
                                                                 for (var i = 0; i < markers.length; i++) {
                                                                     markers[i].setMap(map);
@@ -323,6 +321,7 @@
                                                                 }
                                                             }
 
+                                                            // Effacer les markers : mettre l'attribut map du marker à null
                                                             function clearMarkers() {
                                                                 setMapOnAll(null);
                                                             }
@@ -335,17 +334,22 @@
                                                                 setMapOnAllSearch(null);
                                                             }
                                                             ;
+
+                                                            // Ajouter les markers pour le recherche globale
                                                             function addMarkerGlobal(mark) {
-//                                                                console.log(mark);
                                                                 var marker = new google.maps.Marker({
                                                                     position: {lat: parseFloat(mark.decimallatitude), lng: parseFloat(mark.decimallongitude)},
                                                                     map: map
                                                                 });
                                                                 var infowindow = new google.maps.InfoWindow();
                                                                 infowindow.setContent('<div><strong>' + mark.scientificname + '</strong><br>');
-                                                                infowindow.open(map, marker);
+//                                                                infowindow.open(map, marker);
                                                                 markersGlobal.push(marker);
                                                                 map.setCenter(ctr);
+                                                                // Ajouter event on click to the marker
+                                                                google.maps.event.addListener(marker, 'click', function () {
+                                                                    infowindow.open(map, this);
+                                                                });
                                                             }
                                                             ;
                                                             function addMarkersGlobal(mark) {
@@ -357,6 +361,7 @@
                                                             }
                                                             ;
 
+                                                            // Ajouter les markers pour les recherches multicritères
                                                             function addMarkerSearch(mark) {
 //                                                                console.log(mark);
                                                                 var marker = new google.maps.Marker({
@@ -365,9 +370,13 @@
                                                                 });
                                                                 var infowindow = new google.maps.InfoWindow();
                                                                 infowindow.setContent('<div><strong>' + mark.scientificname + '</strong><br>');
-                                                                infowindow.open(map, marker);
+//                                                                infowindow.open(map, marker);
                                                                 markersSearch.push(marker);
                                                                 map.setCenter(ctr);
+                                                                // Ajouter event on click to the marker
+                                                                google.maps.event.addListener(marker, 'click', function () {
+                                                                    infowindow.open(map, this);
+                                                                });
                                                             }
                                                             ;
                                                             function addMarkersSearch(mark) {
@@ -378,40 +387,82 @@
                                                                 }
                                                             }
                                                             ;
+                                                            // Ancienne version de l'ajout des markers via l'explorateur
+//                                                            function addMarkers() {
+//                                                                var col = $('[name="espece[]"]');
+//                                                                clearMarkers();
+//                                                                markers = [];
+//                                                                for (var i = 0; i < col.length; i++) {
+//                                                                    if (col[i].checked == true) {
+//                                                                        var temp = col[i].value;
+//                                                                        var latlong = temp.split(",");
+//                                                                        var marker = new google.maps.Marker({
+//                                                                            position: {lat: parseFloat(latlong[0]), lng: parseFloat(latlong[1])},
+//                                                                            map: map
+//                                                                        });
+//                                                                        var infowindow = new google.maps.InfoWindow();
+//                                                                        infowindow.setContent('<div><strong>' + latlong[2] + '</strong><br>');
+//                                                                        infowindow.open(map, marker);
+//                                                                        markers.push(marker);
+//                                                                        map.setCenter(ctr);
+//                                                                    }
+//                                                                }
+//                                                            }
+//                                                            ;
 
-                                                            function addMarkers() {
+                                                            // Version recent pour ajouter les markers depuis l'explorateur à gauche
+//                                                            function afficherInfo(inc) {
+//                                                                console.log(infowindowExploration[inc].open(map, markers[inc]));
+//                                                            }
+                                                            function addMarkers2() {
                                                                 var col = $('[name="espece[]"]');
                                                                 clearMarkers();
+                                                                infowindowExploration = [];
                                                                 markers = [];
                                                                 for (var i = 0; i < col.length; i++) {
                                                                     if (col[i].checked == true) {
-                                                                        var temp = col[i].value;
-                                                                        var latlong = temp.split(",");
-                                                                        var marker = new google.maps.Marker({
-                                                                            position: {lat: parseFloat(latlong[0]), lng: parseFloat(latlong[1])},
-                                                                            map: map
+                                                                        $.ajax({
+                                                                            method: 'POST',
+                                                                            url: 'findByespeceDwcPaginatedSearch?espece=' + col[i].value + '&validation=' + -999 + '&validationMine=' + -999 + '&etat[]=' + '' + '&page=' + -1,
+                                                                            dataType: 'json',
+                                                                            success: function (mark) {
+                                                                                for (var i = 0; i < mark.length; i++) {
+                                                                                    var marker = new google.maps.Marker({
+                                                                                        position: {lat: parseFloat(mark[i].dwc.decimallatitude), lng: parseFloat(mark[i].dwc.decimallongitude)},
+                                                                                        map: map
+                                                                                    });
+                                                                                    var infowindow = new google.maps.InfoWindow();
+                                                                                    infowindow.setContent('<div><strong>' + mark[i].dwc.scientificname + '</strong><br>');
+                                                                                    infowindowExploration.push(infowindow);
+                                                                                    markers.push(marker);
+                                                                                    map.setCenter(ctr);
+                                                                                    // Ajouter event on click to the marker
+                                                                                    google.maps.event.addListener(marker, 'click', function () {
+                                                                                        infowindow.open(map, this);
+                                                                                    });
+                                                                                }
+//                                                                                for (var i = 0; i < markers.length; i++) {    
+//                                                                                    afficherInfo(i);
+//                                                                                    google.maps.event.addListener(markers[i], 'click', function() {afficherInfo(i);});
+//                                                                                }
+                                                                            }
                                                                         });
-                                                                        var infowindow = new google.maps.InfoWindow();
-                                                                        infowindow.setContent('<div><strong>' + latlong[2] + '</strong><br>');
-                                                                        infowindow.open(map, marker);
-                                                                        markers.push(marker);
-                                                                        map.setCenter(ctr);
                                                                     }
                                                                 }
                                                             }
                                                             ;
+
+                                                            // Fonction pour chercher les espèces pour l'explorateur à gauche
                                                             function getEspece(famille, genre) {
-//                                                                console.log(document.getElementById("typeGenre-famille-" + famille + "-genre-" + genre).checked);
-//                                                                console.log(genre);
                                                                 if (document.getElementById("typeGenre-famille-" + famille + "-genre-" + genre).checked) {
                                                                     $.ajax({
-                                                                        url: 'getEspeceDwc?genre=' + genre,
+                                                                        url: 'getEspece?genre=' + genre,
                                                                         dataType: 'json',
                                                                         success: function (json) {
                                                                             var option = "";
                                                                             for (var i = 0; i < json.length; i++) {
-                                                                                option = option + "<li>" + '<input name="espece[]" type="checkbox" value="' + json[i].decimallatitude + ',' + json[i].decimallongitude + ',' + json[i].scientificname + '" >';
-                                                                                option = option + json[i].scientificname;
+                                                                                option = option + "<li>" + '<input name="espece[]" type="checkbox" value="' + json[i] + '" >';
+                                                                                option = option + json[i];
                                                                                 option = option + "</li>";
                                                                             }
                                                                             $("#espece-" + genre).append(option).trigger('change');
@@ -419,11 +470,11 @@
                                                                     });
                                                                 } else {
                                                                     $("#espece-" + genre).html('<ul id="espece-' + genre + '"></ul>');
-//                                                                $("#titreEspece").hide();
                                                                 }
                                                             }
                                                             ;
 
+                                                            // Fonctions pour les recherches globales
                                                             function rechercheGlobale() {
                                                                 var champ = $('#rechercheGlobale').val();
                                                                 rechercheGlobaleArg(champ);
@@ -441,6 +492,7 @@
                                                                     }
                                                                 });
                                                             }
+                                                            // Avec pagination
                                                             function rechercheGlobalePaginee(champ, page, limite) {
                                                                 $.ajax({
                                                                     url: 'rechercherEspeceDcwPaginee?champ=' + champ + '&page=' + page + '&limite=' + limite,
@@ -453,6 +505,8 @@
                                                                     }
                                                                 });
                                                             }
+
+                                                            // Fonction pour recherche multicritère
                                                             function rechercheSearch() {
                                                                 var etat = $('[name="etat[]"]');
                                                                 var state = [];

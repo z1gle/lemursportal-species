@@ -46,6 +46,7 @@
                                         <option value="1">Validé</option>
                                         <option value="0">Questionnable</option>
                                         <option value="-1">En attente de validation</option>
+                                        <option value="-2">Invalide</option>
                                     </select>
                                 </c:if>
                                 <select id="validation" name="validation" style="max-width: 20%; float: right; max-height: 25px; padding-top: 1px; font-size: 12px;" class="form-control" >                                    
@@ -123,7 +124,7 @@
                                         <td class="text-center">Classe</td>
                                         <td class="text-center">Genre</td>
                                         <td class="text-center">Date</td>
-                                        <td class="text-center">Statistique</td>
+                                        <td class="text-center">Institution</td>
                                         <%
                                             Integer role = ((Integer) request.getAttribute("role"));
                                             Integer idChercheur = ((Integer) request.getAttribute("idChercheur"));
@@ -147,8 +148,8 @@
                                         <td class="text-center">{{dwc.dwc.darwinorder}}</td>
                                         <td class="text-center">{{dwc.dwc.darwinclass}}</td>
                                         <td class="text-center">{{dwc.dwc.genus}}</td>
-                                        <td class="text-center">{{dwc.dwc.dateidentified}}(vérifier)</td>
-                                        <td class="text-center">780(vérifier)</td>    
+                                        <td class="text-center">{{dwc.dwc.dwcyear}}</td>
+                                        <td class="text-center">{{dwc.dwc.institutioncode}}</td>    
                                         <%if (role == 0) {%>
                                         <td class="">
                                             <ul>
@@ -194,8 +195,18 @@
                         <li><a href="#"ng-click="rechercherFin()" id="next">»</a></li>
                         <input type="hidden" id="pageFin">
                     </ul>
-
                     <!-- END PAGINATION -->
+                    
+                    <div style="float: right; max-width: 350px; margin-top: 18px;" class="form-group">
+                        <div class="input-group">
+                            <input style="max-height: 30px;" class="controls form-control" id="rechercheGlobale" type="text" placeholder="Recherche globale">
+                            <span class="input-group-btn">
+                                <button style="max-height: 30px; padding-top: 3px;" ng-click="rechercheGlobale()" class="btn btn-primary btn-success" type="button"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>

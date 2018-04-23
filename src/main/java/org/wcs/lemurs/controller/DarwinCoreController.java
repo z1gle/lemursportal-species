@@ -35,6 +35,7 @@ import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.model.VideoDarwinCore;
 import org.wcs.lemurs.modele_vue.VueCommentaireDarwinCore;
+import org.wcs.lemurs.modele_vue.VueDarwinCoreRechercheGlobale;
 import org.wcs.lemurs.modele_vue.VueRechercheDarwinCore;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
@@ -841,6 +842,81 @@ public class DarwinCoreController {
         return (List<DarwinCore>) (List<?>) darwinCoreService.findMultiCritere(dwc);
     }
 
+    @RequestMapping(value = "/rechercherGlobaleEspeceDcw", method = RequestMethod.GET, headers = "Accept=application/json")
+    public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session, @RequestParam String champ) throws Exception {        
+
+        int page = 1;
+        int nombre = 20;
+        Long total = null;                
+        
+        Utilisateur u = null;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+        } catch (Exception e) {
+            System.out.println("User not logged in");
+            u = null;
+        }
+        VueDarwinCoreRechercheGlobale vrdc = new VueDarwinCoreRechercheGlobale();
+        vrdc.setChamp(champ);
+        
+        try {
+            total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vrdc);
+
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vrdc, nombre, page);
+            try {
+                HashMap<String, Object> temp = valiny.get(0);
+                temp.put("total", total);
+            } catch (java.lang.IndexOutOfBoundsException iaoob) {
+                System.out.println("Il n'y a aucune observation dans la base de donnée");
+            }
+            return valiny;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utilisateur utilisateur = new Utilisateur();
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, vrdc, nombre, page);
+            HashMap<String, Object> temp = valiny.get(0);
+            temp.put("total", total);
+            return valiny;
+        }                                
+    }
+    
+    @RequestMapping(value = "/rechercherGlobaleEspeceDcwPage", method = RequestMethod.GET, headers = "Accept=application/json")
+    public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session, @RequestParam String champ, @RequestParam Integer page) throws Exception {        
+        
+        int nombre = 20;
+        Long total = null;                
+        
+        Utilisateur u = null;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+        } catch (Exception e) {
+            System.out.println("User not logged in");
+            u = null;
+        }
+        VueDarwinCoreRechercheGlobale vrdc = new VueDarwinCoreRechercheGlobale();
+        vrdc.setChamp(champ);
+        
+        try {
+            total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vrdc);
+
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vrdc, nombre, page);
+            try {
+                HashMap<String, Object> temp = valiny.get(0);
+                temp.put("total", total);
+            } catch (java.lang.IndexOutOfBoundsException iaoob) {
+                System.out.println("Il n'y a aucune observation dans la base de donnée");
+            }
+            return valiny;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utilisateur utilisateur = new Utilisateur();
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, vrdc, nombre, page);
+            HashMap<String, Object> temp = valiny.get(0);
+            temp.put("total", total);
+            return valiny;
+        }                                
+    }
+    
     @RequestMapping(value = "/rechercherEspeceDcw", method = RequestMethod.GET, headers = "Accept=application/json")
     public HashMap<String, Object> rechercherEspeceDwc(HttpSession session, @RequestParam String champ) throws Exception {
         HashMap<String, Object> valiny = new HashMap<>();
