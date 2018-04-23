@@ -309,9 +309,11 @@ public class DarwinCoreDao extends HibernateDao {
 
         //invalide
         boolean invalide = false;
+        if (darwinCore.getValidationexpert() != null) {
         if (darwinCore.getValidationexpert() == -2) {
             darwinCore.setValidationexpert(null);
             invalide = true;
+        }
         }
 
         Criteria criteria = session.createCriteria(darwinCore.getClass());
@@ -391,7 +393,7 @@ public class DarwinCoreDao extends HibernateDao {
         }
         return criteria.list();
     }
-    
+
     public List<DarwinCore> findAll(Session session, Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int page, int nombre) throws Exception {
         // page < 0 => tout prendre
         // nombre < 0 => tout prendre
@@ -409,9 +411,11 @@ public class DarwinCoreDao extends HibernateDao {
 
         //invalide
         boolean invalide = false;
-        if (darwinCore.getValidationexpert() == -2) {
-            darwinCore.setValidationexpert(null);
-            invalide = true;
+        if (darwinCore.getValidationexpert() != null) {
+            if (darwinCore.getValidationexpert() == -2) {
+                darwinCore.setValidationexpert(null);
+                invalide = true;
+            }
         }
 
         Criteria criteria = session.createCriteria(darwinCore.getClass());
@@ -507,9 +511,11 @@ public class DarwinCoreDao extends HibernateDao {
 
         //invalide
         boolean invalide = false;
-        if (darwinCore.getValidationexpert() == -2) {
-            darwinCore.setValidationexpert(null);
-            invalide = true;
+        if (darwinCore.getValidationexpert() != null) {
+            if (darwinCore.getValidationexpert() == -2) {
+                darwinCore.setValidationexpert(null);
+                invalide = true;
+            }
         }
 
         Criteria criteria = session.createCriteria(darwinCore.getClass());
@@ -586,7 +592,7 @@ public class DarwinCoreDao extends HibernateDao {
         }
         return valiny;
     }
-    
+
     public long countTotalDwc(Session session, Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore) throws Exception {
         if (utilisateur == null) {
             darwinCore.setPublique(Boolean.TRUE);
@@ -602,9 +608,11 @@ public class DarwinCoreDao extends HibernateDao {
 
         //invalide
         boolean invalide = false;
-        if (darwinCore.getValidationexpert() == -2) {
-            darwinCore.setValidationexpert(null);
-            invalide = true;
+        if (darwinCore.getValidationexpert() != null) {
+            if (darwinCore.getValidationexpert() == -2) {
+                darwinCore.setValidationexpert(null);
+                invalide = true;
+            }
         }
 
         Criteria criteria = session.createCriteria(darwinCore.getClass());
@@ -695,6 +703,7 @@ public class DarwinCoreDao extends HibernateDao {
             }
         }
     }
+
     public long countTotalDwc(Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore) throws Exception {
         Session session = null;
         try {
@@ -723,7 +732,7 @@ public class DarwinCoreDao extends HibernateDao {
             }
         }
     }
-    
+
     public List<DarwinCore> findAll(Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int page, int nombre) throws Exception {
         Session session = null;
         try {
