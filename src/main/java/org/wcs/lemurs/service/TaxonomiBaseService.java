@@ -27,13 +27,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.wcs.lemurs.dao.HibernateDao;
+import org.wcs.lemurs.dao.TaxonomiBaseDao;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.PhotoTaxonomi;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.VideoTaxonomi;
 import org.wcs.lemurs.modele_association.AssignationExpert;
+import org.wcs.lemurs.modele_vue.VueRechercheTaxonomi;
 import org.wcs.lemurs.util.PhotoService;
 
 /**
@@ -45,19 +46,19 @@ import org.wcs.lemurs.util.PhotoService;
 public class TaxonomiBaseService extends BaseService {
 
     @Autowired(required = true)
-    @Qualifier("hibernateDao")
-    private HibernateDao hibernateDao;
+    @Qualifier("taxonomiBaseDao")
+    private TaxonomiBaseDao taxonomiBaseDao;
     @Autowired(required = true)
     private PhotoService photoService;
 
     @Transactional
     public void save(TaxonomiBase taxonomiBase) throws Exception {
-        hibernateDao.save(taxonomiBase);
+        taxonomiBaseDao.save(taxonomiBase);
     }
 
     @Transactional
     public void update(TaxonomiBase taxonomiBase) throws Exception {
-        hibernateDao.save(taxonomiBase);
+        taxonomiBaseDao.save(taxonomiBase);
     }
 
     @Transactional
@@ -65,7 +66,7 @@ public class TaxonomiBaseService extends BaseService {
         Session session = null;
         Transaction tr = null;
         try {
-            session = this.hibernateDao.getSessionFactory().openSession();            
+            session = this.taxonomiBaseDao.getSessionFactory().openSession();            
             PhotoTaxonomi pdc = new PhotoTaxonomi();
             pdc.setIdTaxonomi(taxonomiBase.getId());
             List<PhotoTaxonomi> listePdc = (List<PhotoTaxonomi>)(List<?>) super.findAll(session, pdc, -1, -1);
@@ -100,12 +101,12 @@ public class TaxonomiBaseService extends BaseService {
     public TaxonomiBase findById(int idtaxonomibase) throws Exception {
         TaxonomiBase taxonomiBase = new TaxonomiBase();
         taxonomiBase.setId(idtaxonomibase);
-        hibernateDao.findById(taxonomiBase);
+        taxonomiBaseDao.findById(taxonomiBase);
         return taxonomiBase;
     }
 
     public List<TaxonomiBase> findAll() throws Exception {
-        List<BaseModel> list_bm = hibernateDao.findAll(new TaxonomiBase());
+        List<BaseModel> list_bm = taxonomiBaseDao.findAll(new TaxonomiBase());
         List<TaxonomiBase> res = new ArrayList<>();
         for (BaseModel bm : list_bm) {
 
@@ -115,7 +116,7 @@ public class TaxonomiBaseService extends BaseService {
     }
 
     public List<TaxonomiBase> findMultiCritere(TaxonomiBase taxonomiBase) throws Exception {
-        List<BaseModel> list_bm = hibernateDao.findMultiCritere(taxonomiBase);
+        List<BaseModel> list_bm = taxonomiBaseDao.findMultiCritere(taxonomiBase);
         List<TaxonomiBase> res = new ArrayList<>();
         for (BaseModel bm : list_bm) {
 
@@ -193,7 +194,7 @@ public class TaxonomiBaseService extends BaseService {
         Session session = null;
         Transaction tr = null;
         try {
-            session = this.hibernateDao.getSessionFactory().openSession();
+            session = this.taxonomiBaseDao.getSessionFactory().openSession();
             tr = session.beginTransaction();
             List<AssignationExpert> valiny = new ArrayList<>();
             List<AssignationExpert> ase = checkGenre(valeur, idExpert);
@@ -232,7 +233,7 @@ public class TaxonomiBaseService extends BaseService {
         Session session = null;
         Transaction tr = null;
         try {
-            session = getHibernateDao().getSessionFactory().openSession();
+            session = this.taxonomiBaseDao.getSessionFactory().openSession();
             tr = session.beginTransaction();
             try (InputStream is = photo.getInputStream(); BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fileTemp))) {
                 int i;
@@ -347,7 +348,7 @@ public class TaxonomiBaseService extends BaseService {
         Session session = null;
         Transaction tr = null;
         try {
-            session = getHibernateDao().getSessionFactory().openSession();
+            session = this.taxonomiBaseDao.getSessionFactory().openSession();
             tr = session.beginTransaction();
             List<TaxonomiBase> liste = (List<TaxonomiBase>) (List<?>) this.findMultiCritere(session, new TaxonomiBase());
             for (TaxonomiBase dw : liste) {
@@ -382,5 +383,9 @@ public class TaxonomiBaseService extends BaseService {
                 session.close();
             }
         }
+    }
+        
+    public List<BaseModel> findMultiCritere(VueRechercheTaxonomi obj, String colonne, int ordre) throws Exception {
+        return this.taxonomiBaseDao.findMulticritereListeAll(obj, colonne, ordre);
     }
 }

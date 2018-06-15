@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
 <main class="site-content" role="main" ng-controller="taxonomi">
@@ -12,10 +13,10 @@
                     <form ng-submit="rechercher()">
                         <!-- Search Field -->
                         <div class="row search-header">
-                            <h4 class="text-left">Rechercher un espèce</h4>
+                            <h4 class="text-left"><spring:message code="species.label.search"/></h4>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input class="form-control" type="text" ng-model="taxonomi.test" name="search" placeholder="Nom scientifique de l'espèce" required/>
+                                    <input class="form-control" type="text" ng-model="taxonomi.test" name="search" placeholder="<spring:message code="species.label.search.hover"/>"/>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
                                     </span>
@@ -30,7 +31,7 @@
         <!-- Contenu -->
         <div class="vignette-result">
             <div class="container">
-                <h1 class="titre-page">Taxonomie - <span>Tableau</span></h1>
+                <h1 class="titre-page"><spring:message code="species.label.taxonomi"/> - <span><spring:message code="species.label.tableau"/></span></h1>
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="stat" ng-show="recherche.length === 0">Tous (<b>{{liste.length}}</b> trouvés)</h5>
@@ -46,9 +47,6 @@
                                                 Integer moderateur = (Integer) request.getAttribute("moderateur");
                                                 if (moderateur == 0) {
                                             %>
-                                            
-                                        <!--<li><a href="" onclick="window.location='taxonomiCsv'"><i class="fa fa-download"></i> Telecharger_CSV</a></li>-->
-                                        <!--<li></li>-->
                                         <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li> 
                                             <%}%>
                                     </ul>
@@ -62,12 +60,12 @@
                                     <tbody>
                                         <tr>
                                             <td class="number text-center">#</td>
-                                            <td class="text-center">Ordre</td>
-                                            <td class="text-center">Classe</td>
-                                            <td class="text-center">Famille</td>
-                                            <td class="text-center">Genre</td>
-                                            <td class="text-center">Espèce</td>
-                                            <td class="text-center">Détails</td>                                            
+                                            <td class="text-center"><spring:message code="species.label.taxonomi.order"/></td>
+                                            <td class="text-center"><spring:message code="species.label.taxonomi.class"/></td>
+                                            <td class="text-center"><spring:message code="species.label.taxonomi.family"/></td>
+                                            <td class="text-center"><spring:message code="species.label.taxonomi.genus"/></td>
+                                            <td class="text-center"><spring:message code="species.label.taxonomi.species"/></td>
+                                            <td class="text-center"><spring:message code="species.label.tableau.details"/></td>                                            
                                             <%if (moderateur == 0) {%>
                                             <td class="text-center">Action</td>
                                             <%}%>

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,33 +48,44 @@
                 <!-- main nav -->
                 <nav class="collapse navbar-collapse navbar-right" role="navigation">
                     <ul id="nav" class="nav navbar-nav">
-                        <li><a href="/">Accueil</a></li>
-                        <li><a onclick="window.location = 'taxonomi'" href="taxonomi">Espèces</a></li>
-                        <li><a onclick="window.location = 'darwinportal'" href="darwinportal">Observations</a></li>
-                        <li><a onclick="window.location = 'visualisation'" href="visualisation">Cartes</a></li>
-                        <li><a onclick="window.location = '/forum/experts/'" href="/forum/experts/">Les experts</a></li>                        
+                        <li><a href="/"><spring:message code="header.label.home"/></a></li>
+                        <li><a onclick="window.location = 'taxonomi'" href="taxonomi"><spring:message code="header.label.species"/></a></li>
+                        <li><a onclick="window.location = 'darwinportal'" href="darwinportal"><spring:message code="header.label.observations"/></a></li>
+                        <li><a onclick="window.location = 'visualisation'" href="visualisation"><spring:message code="header.label.map"/></a></li>
+                        <li><a onclick="window.location = '/forum/experts/'" href="/forum/experts/"><spring:message code="header.label.experts"/></a></li>                        
 
                         <c:if test="${role10001 == 10001}">
                             <li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>
-                        </c:if>
+                            </c:if>
 
 
                         <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-user" style="color:#fff!important; margin-left:25px; margin-right:10px;"></i>
-                                    Bonjour, <c:out value="${utilisateur.nom}"></c:out> <b class="caret"></b>
+                                    <spring:message code="header.label.greating"/>, <c:out value="${utilisateur.nom}"></c:out> <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="#" onclick="window.location = 'profil'"><i class="fa fa-dashboard"></i>&nbsp; Mon compte</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="logout" onclick="window.location = 'logout'"><i class="fa fa-power-off"></i>&nbsp; Déconnexion</a></li>
+                                        <li><a href="logout" onclick="logout()"><i class="fa fa-power-off"></i>&nbsp; Déconnexion</a></li>
                                     </ul>
                                 </li>
+                                <script>
+                                    function logout() {
+                                        $.ajax({
+                                            type: 'post',
+                                            url: 'http://localhost:8085/LemursPortal-web/logout',
+                                            success: function (json) {
+                                                window.location = 'logout';
+                                            }
+                                        });
+                                    }
+                                </script>
                         </c:if>
                         <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
                             <li><a onclick="window.location = 'login'" href="login">Se connecter</a></li>
-                        </c:if>
+                            </c:if>
                     </ul>
                 </nav>
                 <!-- /main nav -->

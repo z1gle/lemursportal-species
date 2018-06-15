@@ -15,6 +15,11 @@
        
     <context:component-scan base-package="org.wcs.lemurs.controller"/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="lang"></property>
+        </bean>
+    </mvc:interceptors>
     <mvc:annotation-driven />
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/views/"

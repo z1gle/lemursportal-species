@@ -350,16 +350,15 @@
                                                                 google.maps.event.addListener(marker, 'click', function () {
                                                                     infowindow.open(map, this);
                                                                 });
-                                                            }
-                                                            ;
+                                                            };
+                                                            
                                                             function addMarkersGlobal(mark) {
                                                                 clearMarkersGlobal();
                                                                 table = [];
                                                                 for (var i = 0; i < mark.length; i++) {
                                                                     addMarkerGlobal(mark[i]);
                                                                 }
-                                                            }
-                                                            ;
+                                                            };                                                            
 
                                                             // Ajouter les markers pour les recherches multicritères
                                                             function addMarkerSearch(mark) {
@@ -377,16 +376,16 @@
                                                                 google.maps.event.addListener(marker, 'click', function () {
                                                                     infowindow.open(map, this);
                                                                 });
-                                                            }
-                                                            ;
+                                                            };
+                                                            
                                                             function addMarkersSearch(mark) {
                                                                 clearMarkersSearch();
                                                                 table = [];
                                                                 for (var i = 0; i < mark.length; i++) {
                                                                     addMarkerSearch(mark[i]);
                                                                 }
-                                                            }
-                                                            ;
+                                                            };
+                                                            
                                                             // Ancienne version de l'ajout des markers via l'explorateur
 //                                                            function addMarkers() {
 //                                                                var col = $('[name="espece[]"]');
@@ -449,8 +448,7 @@
                                                                         });
                                                                     }
                                                                 }
-                                                            }
-                                                            ;
+                                                            };
 
                                                             // Fonction pour chercher les espèces pour l'explorateur à gauche
                                                             function getEspece(famille, genre) {
@@ -471,8 +469,7 @@
                                                                 } else {
                                                                     $("#espece-" + genre).html('<ul id="espece-' + genre + '"></ul>');
                                                                 }
-                                                            }
-                                                            ;
+                                                            };
 
                                                             // Fonctions pour les recherches globales
                                                             function rechercheGlobale() {

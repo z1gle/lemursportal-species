@@ -37,8 +37,8 @@
  
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <!--        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://vps381210.ovh.net/depa2" />
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <!--<property name="url" value="jdbc:postgresql://vps381210.ovh.net/depa2" />
         <property name="username" value="depa" />
         <property name="password" value="depa" />-->
         <property name="url" value="jdbc:postgresql://localhost:5432/lemursportal" />
@@ -58,51 +58,16 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- maxUploadSize=10MB -->
         <property name="maxUploadSize" value="10240000"/>
-    </bean>
+    </bean>            
+
+    <bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="en" />
+    </bean>        
     
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:text"/>
-        <property name="defaultEncoding" value="UTF-8"/>
+    <bean id="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="text" />
     </bean>
 
-    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="interceptors">
-        <list>
-            <ref bean="localeChangeInterceptor"/>
-        </list>
-    </property>
-    </bean>
-
-    <bean id="localeChangeInterceptor"
-          class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="langue"/>
-    </bean>
-
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/>
-
-<!--    <bean id="localeChangeInterceptor"
-              class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="langue" />
-    </bean>
-
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" >
-        <property name="interceptors">
-            <list>
-                <ref bean="localeChangeInterceptor" />
-            </list>
-        </property>
-    </bean>-->
-    
-    <!--        <mvc:interceptors>
-        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-            <property name="paramName" value="langue"/>
-        </bean>
-    </mvc:interceptors>-->
-
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/views/" />
-        <property name="suffix" value=".jsp" />
-    </bean>
-    
 </beans>

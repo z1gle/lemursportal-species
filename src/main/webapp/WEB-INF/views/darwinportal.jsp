@@ -196,7 +196,7 @@
                         <input type="hidden" id="pageFin">
                     </ul>
                     <!-- END PAGINATION -->
-                    
+
                     <div style="float: right; max-width: 350px; margin-top: 18px;" class="form-group">
                         <div class="input-group">
                             <input style="max-height: 30px;" class="controls form-control" id="rechercheGlobale" type="text" placeholder="Recherche globale">
@@ -424,114 +424,114 @@
                 </div>                    
             </div>
         </div>
-    </div>
+    </div>    
     <!-- end darwin -->
 
 </main>
-<script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/darwincontroller.js"/>"></script>
 <script>
-                        function liste() {
-                            document.getElementById("pellicule").style.display = 'none';
-                            document.getElementById("liste").style.display = 'block';
-                            document.getElementById("tab-liste").class = 'active';
-                            document.getElementById("tab-pellicule").class = '';
+        function liste() {
+            document.getElementById("pellicule").style.display = 'none';
+            document.getElementById("liste").style.display = 'block';
+            document.getElementById("tab-liste").class = 'active';
+            document.getElementById("tab-pellicule").class = '';
 //        $("liste").show();        
 //        $("pellicule").hide();
-                        }
-                        function pellicule() {
+        }
+        function pellicule() {
 //        $("liste").hide();
 //        $("pellicule").show();
-                            document.getElementById("pellicule").style.display = 'block';
-                            document.getElementById("liste").style.display = 'none';
-                            document.getElementById("tab-pellicule").class = 'active';
-                            document.getElementById("tab-liste").class = '';
-                        }
-                        pellicule();
-                        function showModal(status) {
-                            if (status == 0)
-                                $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
-                            else
-                                $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
-                        }
-                        ;
+            document.getElementById("pellicule").style.display = 'block';
+            document.getElementById("liste").style.display = 'none';
+            document.getElementById("tab-pellicule").class = 'active';
+            document.getElementById("tab-liste").class = '';
+        }
+        pellicule();
+        function showModal(status) {
+            if (status == 0)
+                $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
+            else
+                $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
+        }
+        ;
 //                        function showCommentair() {
 //                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
 //                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
 //                        }
-                        function showCommentairFirst() {
-                            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
-                            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
-                        }
+        function showCommentairFirst() {
+            $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+            $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+        }
 
-                        function validate(status) {
-                            var valeurs = $('[name="dwc[]"]');
-                            var data = "?";
-                            for (var i = 0; i < valeurs.length; i++) {
-                                if (valeurs[i].checked == true) {
-                                    data = data + valeurs[i].name + "=" + valeurs[i].value + "&";
-                                    console.log(data);
-                                }
-                            }
-                            var temp = $('#commentaires').val();
-                            console.log(temp);
-                            if (temp == undefined)
-                                temp = "";
-                            data = data + "status=" + status + "&commentaires=" + temp;
-                            console.log(data);
-                            $.ajax({
-                                type: 'get',
-                                url: 'validerListDwc' + data,
+        function validate(status) {
+            var valeurs = $('[name="dwc[]"]');
+            var data = "?";
+            for (var i = 0; i < valeurs.length; i++) {
+                if (valeurs[i].checked == true) {
+                    data = data + valeurs[i].name + "=" + valeurs[i].value + "&";
+                    console.log(data);
+                }
+            }
+            var temp = $('#commentaires').val();
+            console.log(temp);
+            if (temp == undefined)
+                temp = "";
+            data = data + "status=" + status + "&commentaires=" + temp;
+            console.log(data);
+            $.ajax({
+                type: 'get',
+                url: 'validerListDwc' + data,
 //                                dataType: 'json',
 //                                enctype: 'multipart/form-data',
-                                processData: false,
-                                contentType: false,
-                                cache: false,
-                                success: function (json) {
-                                    if (json.etat == 1) {
-                                        console.log(json.etat);
-                                        angular.element('#controller').scope().getalls();
-                                        angular.element('#controller').scope().$apply();
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (json) {
+                    if (json.etat == 1) {
+                        console.log(json.etat);
+                        angular.element('#controller').scope().getalls();
+                        angular.element('#controller').scope().$apply();
 //                                        window.location = 'profil';
-                                    } else if (json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                        showModal(status);
-                                    }
-                                    $('#commentaires').value = "";
-                                }
-                            });
-                        }
-                        ;
+                    } else if (json.etat == 0) {
+                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                        showModal(status);
+                    }
+                    $('#commentaires').value = "";
+                }
+            });
+        }
+        ;
 
-                        function continueValidate(status, etat) {
-                            var data = "?continuer=";
-                            var temp = $('#commentaires').val();
-                            console.log(temp);
-                            if (temp == undefined)
-                                temp = "";
-                            data = data + etat + "&status=" + status + "&commentaires=" + temp;
-                            console.log(data);
-                            $.ajax({
-                                type: 'get',
-                                url: 'continuerValiderListDwc' + data,
-                                processData: false,
-                                contentType: false,
-                                cache: false,
-                                success: function (json) {
-                                    if (json.etat == 1) {
-                                        console.log(json.etat);
+        function continueValidate(status, etat) {
+            var data = "?continuer=";
+            var temp = $('#commentaires').val();
+            console.log(temp);
+            if (temp == undefined)
+                temp = "";
+            data = data + etat + "&status=" + status + "&commentaires=" + temp;
+            console.log(data);
+            $.ajax({
+                type: 'get',
+                url: 'continuerValiderListDwc' + data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (json) {
+                    if (json.etat == 1) {
+                        console.log(json.etat);
 //                                        window.location = 'profil';
-                                        angular.element('#controller').scope().getalls();
-                                        angular.element('#controller').scope().$apply();
-                                    } else if (json.etat == 0) {
-                                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                        showModal(status);
-                                    }
-                                    $('#commentaires').value = "";
-                                }
-                            });
-                        }
-                        ;
+                        angular.element('#controller').scope().getalls();
+                        angular.element('#controller').scope().$apply();
+                    } else if (json.etat == 0) {
+                        $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                        showModal(status);
+                    }
+                    $('#commentaires').value = "";
+                }
+            });
+        }
+        ;
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

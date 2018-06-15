@@ -6,17 +6,14 @@
 package org.wcs.lemurs.controller;
 
 import java.io.File;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.ModelMap;
@@ -30,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import static org.wcs.lemurs.controller.BaseController.ROLE_ADMINISTRATEUR;
 import static org.wcs.lemurs.controller.BaseController.ROLE_EXPERT;
 import static org.wcs.lemurs.controller.BaseController.ROLE_MODERATEUR;
+import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.PhotoTaxonomi;
 import org.wcs.lemurs.model.TaxonomiBase;
 import org.wcs.lemurs.model.Utilisateur;
@@ -56,10 +54,11 @@ public class TaxonomiBaseController {
     private ExportService exportService;
 
     @RequestMapping(value = "/findByespeceTaxo", method = RequestMethod.POST, headers = "Accept=application/json")
-    public List<VueRechercheTaxonomi> findByespece(@RequestBody VueRechercheTaxonomi t) throws Exception {
-        return (List<VueRechercheTaxonomi>) (List<?>) taxonomiBaseService.findMultiCritere(t, "genus", 0);
+    public List<BaseModel> findByespece(@RequestBody VueRechercheTaxonomi t) throws Exception {
+        return (List<BaseModel>) (List<?>) taxonomiBaseService.findMultiCritere(t, "genus", 0);
     }
     
+    //Check pour return BaseModel
     @RequestMapping(value = "/findByespeceTaxoId", method = RequestMethod.POST, headers = "Accept=application/json")
     public VueRechercheTaxonomi findByespeceId(@RequestBody VueRechercheTaxonomi t) throws Exception {
         taxonomiBaseService.findById(t);

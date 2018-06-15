@@ -49,7 +49,7 @@ public class BaseController {
             if (baseService.checkRole(u, ROLE_EXPERT)) {
                 expert = 0;
             }
-            
+
             if (baseService.checkRole(u, ROLE_ADMINISTRATEUR) || baseService.checkRole(u, ROLE_MODERATEUR)) {
                 adminModerateur = 0;
             }
@@ -95,16 +95,18 @@ public class BaseController {
     }
 
     @RequestMapping(value = "/taxonomi")
-    public ModelAndView taxoportal(HttpSession session) {
+    public ModelAndView taxoportal(HttpSession session) throws Exception {
         Integer moderateur = -1;
         ModelAndView valiny = new ModelAndView("taxonomiportal");
-        try {
+        if (session.getAttribute("utilisateur") != null) {
             Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
-            if (baseService.checkRole(u, ROLE_MODERATEUR)) {
-                moderateur = 0;
+            try {
+                if (baseService.checkRole(u, ROLE_MODERATEUR)) {
+                    moderateur = 0;
+                }
+            } catch (Exception e) {
+                // Il doit y avoir un probleme concernant le role
             }
-        } catch (Exception ex) {
-            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
         valiny.addObject("moderateur", moderateur);
         return valiny;

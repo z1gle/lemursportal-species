@@ -25,14 +25,15 @@
     </head>
 
     <body id="body" style="background:url(<c:url value="/resources/assets/img/bg-lemurs.jpg"/>) no-repeat center center; background-size:cover;">
-        <form>
-            <select id="langue" name="langue" onchange="submit()">
+        <!--<form>-->
+            <spring:message code="global.label.language"/> : <a href="?lang=fr">Français</a>|<a href="?lang=en">English</a>|<a href="?lang=mg">Malagasy</a>
+<!--            <select id="langue" name="lang" onchange="submit()">
                 <option>Langue</option>
                 <option value="fr">Français</option>
                 <option value="en">English</option>
                 <option value="mg">Malagasy</option>
-            </select>
-        </form>
+            </select>-->            
+        <!--</form>-->
         <main class="site-content" role="main">
 
             <!-- taxonomie -->

@@ -7,12 +7,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-
-
 @Entity
 @AttributeOverride(name = "id", column = @Column(name = "idtaxonomibase"))
 @Table(name = "vue_recherche_taxonomi")
 public class VueRechercheTaxonomi extends BaseModel implements Serializable {
+    
+    public VueRechercheTaxonomi() {
+        
+    }
+    
+    public VueRechercheTaxonomi(int id, String dwcorder, String dwcclass, String dwcfamily, String genus, String scientificname) { 
+        this.setId(id);
+        this.dwcorder = dwcorder;
+        this.dwcclass = dwcclass;
+        this.dwcfamily = dwcfamily;
+        this.genus = genus;
+        this.scientificname = scientificname;
+    }    
+
     @Column(name = "higherclassification")
     private String higherclassification;
 
@@ -69,13 +81,13 @@ public class VueRechercheTaxonomi extends BaseModel implements Serializable {
 
     @Column(name = "englishvernacularname")
     private String englishvernacularname;
-    
+
     @Column(name = "germany_vernacular_name")
     private String germanyVernacularName;
 
     @Column(name = "length_and_weight")
     private String lengthAndWeight;
-    
+
     @Column(name = "length_and_weight_source")
     private String lengthAndWeightSource;
 
@@ -96,7 +108,7 @@ public class VueRechercheTaxonomi extends BaseModel implements Serializable {
 
     @Column(name = "habitatsource")
     private String habitatsource;
-    
+
     @Column(name = "population_density")
     private String populationDensity;
 
@@ -129,28 +141,28 @@ public class VueRechercheTaxonomi extends BaseModel implements Serializable {
 
     @Column(name = "threatsource")
     private String threatsource;
-    
+
     @Column(name = "conservation_status")
     private String conservationStatus;
 
     @Column(name = "iucn_source")
     private String iucnSource;
-    
+
     @Column(name = "protectedareaoccurrences")
-    private String protectedareaoccurrences;      
-    
+    private String protectedareaoccurrences;
+
     @Column(name = "protected_area_occurrences_sources")
     private String protectedAreaOccurrencesSources;
-    
+
     @Column(name = "species_expert")
     private String speciesExpert;
-    
+
     @Column(name = "new_and_updates")
     private String newAndUpdates;
-    
+
     @Column(name = "top_five_publication")
     private String topFivePublication;
-    
+
     @Column(name = "test")
     private String test;
 
@@ -529,6 +541,5 @@ public class VueRechercheTaxonomi extends BaseModel implements Serializable {
     public void setTest(String test) {
         this.test = test;
     }
-    
-    
+
 }
