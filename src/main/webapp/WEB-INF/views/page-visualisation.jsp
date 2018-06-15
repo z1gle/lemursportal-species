@@ -232,11 +232,7 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/visualisationcontroller.js"/>"></script>
 
-<script>
-                                                            window.onload = function () {
-                                                                rechercheGlobalePaginee("a", 1, 10);
-                                                            };
-
+<script>                                                            
                                                             var map;
                                                             var markers;
                                                             var markersGlobal;
