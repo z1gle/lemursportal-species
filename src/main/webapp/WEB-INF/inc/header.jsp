@@ -72,10 +72,19 @@
                                     </ul>
                                 </li>
                                 <script>
+//                                    function logout() {
+//                                        $.ajax({
+//                                            type: 'post',
+//                                            url: 'http://localhost:8085/LemursPortal-web/logout',
+//                                            success: function (json) {
+//                                                window.location = 'logout';
+//                                            }
+//                                        });
+//                                    }
                                     function logout() {
                                         $.ajax({
                                             type: 'post',
-                                            url: 'http://localhost:8085/LemursPortal-web/logout',
+                                            url: 'forum/logout',
                                             success: function (json) {
                                                 window.location = 'logout';
                                             }
@@ -84,8 +93,19 @@
                                 </script>
                         </c:if>
                         <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
-                            <li><a onclick="window.location = 'login'" href="login">Se connecter</a></li>
+                            <!--                            <li><a onclick="window.location = 'http://localhost:8085/LemursPortal-web/login'" href="http://localhost:8085/LemursPortal-web/login">Se connecter</a></li>-->
+                            <li><a onclick="window.location = 'forum/login'" href="forum/login">Se connecter</a></li>
                             </c:if>
+                        <li>
+                            <form>
+                                <select id="langue" name="lang" onchange="submit()" style=" margin-top: 12px;">
+                                    <option><spring:message code="global.label.language" /></option>
+                                    <option value="fr">Français</option>
+                                    <option value="en">English</option>
+                                    <option value="mg">Malagasy</option>
+                                </select>
+                            </form>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /main nav -->
