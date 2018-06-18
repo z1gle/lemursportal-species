@@ -84,7 +84,7 @@
                                     function logout() {
                                         $.ajax({
                                             type: 'post',
-                                            url: 'forum/logout',
+                                            url: 'https://www.lemursportal.org/forum/logout',
                                             success: function (json) {
                                                 window.location = 'logout';
                                             }
@@ -94,7 +94,7 @@
                         </c:if>
                         <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
                             <!--                            <li><a onclick="window.location = 'http://localhost:8085/LemursPortal-web/login'" href="http://localhost:8085/LemursPortal-web/login">Se connecter</a></li>-->
-                            <li><a onclick="window.location = 'forum/login'" href="forum/login">Se connecter</a></li>
+                            <li><a onclick="window.location = 'https://www.lemursportal.org/forum/login'" href="https://www.lemursportal.org/forum/login">Se connecter</a></li>
                             </c:if>
                         <li>
                             <form>
