@@ -68,6 +68,8 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="#" onclick="window.location = 'profil'"><i class="fa fa-dashboard"></i>&nbsp; Mon compte</a></li>
                                         <li class="divider"></li>
+                                        <li><a href="modification-observations" onclick="window.location = 'modification-observations'"><i class="fa fa-align-left"></i>&nbsp; Mes données</a></li>
+                                        <li class="divider"></li>
                                         <li><a href="logout" onclick="logout()"><i class="fa fa-power-off"></i>&nbsp; Déconnexion</a></li>
                                     </ul>
                                 </li>

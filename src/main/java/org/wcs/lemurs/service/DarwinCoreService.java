@@ -1421,6 +1421,9 @@ public class DarwinCoreService extends MailService {
     public List<DarwinCore> findAll(Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int page, int nombre) throws Exception {
         return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
     }
+//    public List<BaseModel> findAll(BaseModel darwinCore, int page, int nombre) throws Exception {
+//        return darwinCoreDao.findAll(darwinCore, page, nombre);
+//    }
 
     public DarwinCoreDao getDarwinCoreDao() {
         return darwinCoreDao;

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,7 @@ import org.wcs.lemurs.model.PhotoDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.model.VideoDarwinCore;
+import org.wcs.lemurs.model.json.Retour;
 import org.wcs.lemurs.modele_vue.VueCommentaireDarwinCore;
 import org.wcs.lemurs.modele_vue.VueDarwinCoreRechercheGlobale;
 import org.wcs.lemurs.modele_vue.VueRechercheDarwinCore;
@@ -843,12 +845,12 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/rechercherGlobaleEspeceDcw", method = RequestMethod.GET, headers = "Accept=application/json")
-    public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session, @RequestParam String champ) throws Exception {        
+    public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session, @RequestParam String champ) throws Exception {
 
         int page = 1;
         int nombre = 20;
-        Long total = null;                
-        
+        Long total = null;
+
         Utilisateur u = null;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
@@ -858,7 +860,7 @@ public class DarwinCoreController {
         }
         VueDarwinCoreRechercheGlobale vrdc = new VueDarwinCoreRechercheGlobale();
         vrdc.setChamp(champ);
-        
+
         try {
             total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vrdc);
 
@@ -877,15 +879,15 @@ public class DarwinCoreController {
             HashMap<String, Object> temp = valiny.get(0);
             temp.put("total", total);
             return valiny;
-        }                                
+        }
     }
-    
+
     @RequestMapping(value = "/rechercherGlobaleEspeceDcwPage", method = RequestMethod.GET, headers = "Accept=application/json")
-    public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session, @RequestParam String champ, @RequestParam Integer page) throws Exception {        
-        
+    public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session, @RequestParam String champ, @RequestParam Integer page) throws Exception {
+
         int nombre = 20;
-        Long total = null;                
-        
+        Long total = null;
+
         Utilisateur u = null;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
@@ -895,7 +897,7 @@ public class DarwinCoreController {
         }
         VueDarwinCoreRechercheGlobale vrdc = new VueDarwinCoreRechercheGlobale();
         vrdc.setChamp(champ);
-        
+
         try {
             total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vrdc);
 
@@ -914,9 +916,9 @@ public class DarwinCoreController {
             HashMap<String, Object> temp = valiny.get(0);
             temp.put("total", total);
             return valiny;
-        }                                
+        }
     }
-    
+
     @RequestMapping(value = "/rechercherEspeceDcw", method = RequestMethod.GET, headers = "Accept=application/json")
     public HashMap<String, Object> rechercherEspeceDwc(HttpSession session, @RequestParam String champ) throws Exception {
         HashMap<String, Object> valiny = new HashMap<>();
@@ -959,5 +961,84 @@ public class DarwinCoreController {
         valiny.put("etat", !dwc.isEmpty());
         valiny.put("dwc", dwc);
         return valiny;
+    }
+
+    @PostMapping(value = "/observations", headers = "Accept=application/json")
+    public Retour observationsaa(HttpSession session, @RequestBody(required = false) VueValidationDarwinCore dwc, @RequestParam(value = "page", required = false) Integer page) throws Exception {
+        Retour valiny = new Retour();
+        if (null == page) page = 1;
+        Utilisateur u = null;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+            if (!darwinCoreService.checkRole(u, ROLE_ADMINISTRATEUR)) {
+                u = (Utilisateur) darwinCoreService.findAll(u).get(0);
+                dwc.setIdUtilisateurUpload(u.getId());
+            }
+            valiny.setEtat(Boolean.TRUE);
+            valiny.setRetour(darwinCoreService.findAll(dwc, page, 20, true));            
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("User not logged in");
+            valiny.setEtat(Boolean.FALSE);            
+            valiny.setRetour(e.getMessage());
+        }
+        return valiny;
+    }
+
+    @RequestMapping(value = "/observations/delete", method = RequestMethod.POST, headers = "Accept=application/json")
+    public boolean delete(HttpSession session, @RequestParam(value = "liste[]") int[] liste) {
+        try {
+            List<DarwinCore> listeDwc = new ArrayList<>();
+            Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
+            for (Integer i : liste) {
+                DarwinCore dwc = new DarwinCore();
+                dwc.setId(i);
+                darwinCoreService.findById(dwc);
+                if (!darwinCoreService.checkRole(u, ROLE_ADMINISTRATEUR)) {
+                    if (!dwc.getIdUtilisateurUpload().equals(u.getId())) {
+                        throw new Exception("Vous n'avez pas l'acréditation nécessaire pour cette action");
+                    }
+                }
+                listeDwc.add(dwc);
+            }
+            listeDwc.forEach((dwc) -> {
+                darwinCoreService.delete(dwc);
+            });
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+
+    @RequestMapping(value = "/observations/update/status", method = RequestMethod.POST, headers = "Accept=application/json")
+    public boolean updateStatus(HttpSession session, @RequestParam(value = "liste[]") int[] liste, @RequestParam Integer status) {
+        try {
+            List<DarwinCore> listeDwc = new ArrayList<>();
+            Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
+            for (Integer i : liste) {
+                DarwinCore dwc = new DarwinCore();
+                dwc.setId(i);
+                darwinCoreService.findById(dwc);
+                if (!darwinCoreService.checkRole(u, ROLE_ADMINISTRATEUR)) {
+                    if (!dwc.getIdUtilisateurUpload().equals(u.getId())) {
+                        throw new Exception("Vous n'avez pas l'acréditation nécessaire pour cette action");
+                    }
+                }
+                listeDwc.add(dwc);
+            }
+            Boolean publique = false;
+            if (status == 0) {
+                publique = true;
+            }
+            for (DarwinCore dwc : listeDwc) {
+                dwc.setPublique(publique);
+                darwinCoreService.save(dwc);
+            }
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
     }
 }

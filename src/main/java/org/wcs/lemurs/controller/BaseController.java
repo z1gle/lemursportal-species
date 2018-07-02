@@ -119,4 +119,34 @@ public class BaseController {
 //        model.addAttribute("locale", currentLocale);
         return new ModelAndView("login");
     }
+    
+    @RequestMapping(value = "/modification-observations")
+    public ModelAndView observationModification(HttpSession session) {
+        ModelAndView valiny = new ModelAndView("modifObservation");
+        Utilisateur u = null;
+        Integer b = -1;
+        Integer expert = -1;
+        Integer adminModerateur = -1;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+            if (u != null) {
+                b = 0;
+            }
+            if (baseService.checkRole(u, ROLE_EXPERT)) {
+                expert = 0;
+            }
+
+            if (baseService.checkRole(u, ROLE_ADMINISTRATEUR) || baseService.checkRole(u, ROLE_MODERATEUR)) {
+                adminModerateur = 0;
+            }
+        } catch (NullPointerException npe) {
+
+        } catch (Exception ex) {
+            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        valiny.addObject("role", b);
+        valiny.addObject("expert", expert);
+        valiny.addObject("adminOuModerateur", adminModerateur);
+        return valiny;
+    }
 }

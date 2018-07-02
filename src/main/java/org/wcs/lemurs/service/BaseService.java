@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.wcs.lemurs.dao.HibernateDao;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.Utilisateur;
+import org.wcs.lemurs.model.json.Liste;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 
 /**
@@ -75,7 +76,7 @@ public class BaseService {
     public List<BaseModel> findMultiCritere(Session session, BaseModel bm) throws Exception {
         return this.getHibernateDao().findMultiCritere(session, bm);
     }
-    
+
     public List<BaseModel> findMultiCritereSansLike(BaseModel bm) throws Exception {
         return this.getHibernateDao().findMultiCritereSansLike(bm);
     }
@@ -91,11 +92,11 @@ public class BaseService {
     public List<BaseModel> findMultiCritere(BaseModel bm, String colonne, int ordre) throws Exception {
         return this.getHibernateDao().findMultiCritere(bm, colonne, ordre);
     }
-    
+
     public List<BaseModel> findAll(Session session, BaseModel obj, int page, int nombre) throws Exception {
         return this.getHibernateDao().findAll(session, obj, page, nombre);
     }
-    
+
     public List<BaseModel> findAll(BaseModel obj, int page, int nombre) throws Exception {
         return this.getHibernateDao().findAll(obj, page, nombre);
     }
@@ -271,6 +272,26 @@ public class BaseService {
         System.out.println("Photo " + photo);
         System.out.println("Destination " + nouveauPhoto);
         FileUtils.copyFile(photo, nouveauPhoto);
+    }
+
+    //Latest function
+    public Liste findAll(BaseModel obj, int page, int nombre, boolean liste) throws Exception {
+        Session session = null;
+        Liste valiny = new Liste();
+        try {
+            session = hibernateDao.getSessionFactory().openSession();
+            valiny.setTotal(hibernateDao.countTotal(session, obj));
+            valiny.setLastPage((int) Math.ceil(valiny.getTotal() / new Double(nombre)));
+            valiny.setPage(page);
+            valiny.setListe(this.getHibernateDao().findAll(session, obj, page, nombre));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }            
+        }
+        return valiny;
     }
 
     public HibernateDao getHibernateDao() {
