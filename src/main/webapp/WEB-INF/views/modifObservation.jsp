@@ -114,11 +114,13 @@
                     </div>
                     <!-- BEGIN PAGINATION -->
                     <ul class="pagination">
-<!--                        <li class="" id="previous"><a href="#" ng-click="rechercher(1)">«</a></li>
-                                                <li class="active"><a href="#">1</a></li>                        
-                        <li><a href="#" ng-click="rechercher(temp)" ng-repeat="temp in pages">{{temp}}</a></li>
-                        <li><a href="#"ng-click="rechercherFin()" id="next">»</a></li>
-                        <input type="hidden" id="pageFin">-->
+                        <li class=""><a href="" ng-click="findAll(pagination.debut)"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li class=""><a href="" ng-click="findAll(pagination.previous)"><i class="fa fa-angle-left"></i></a></li>
+                        <!--<div ng:repeat="page in pagination.table">-->
+                            <li ng:repeat="page in pagination.table" class=""><a href="" ng-click="findAll(page)">{{page}}</a></li>
+                        <!--</div>-->
+                        <li class=""><a href="" ng-click="findAll(pagination.next)"><i class="fa fa-angle-right"></i></a></li>
+                        <li class=""><a href="" ng-click="findAll(pagination.fin)"><i class="fa fa-angle-double-right"></i></a></li>
                     </ul>
                     <!-- END PAGINATION -->
 
@@ -210,7 +212,7 @@
 </main>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/modifObservations.js"/>"></script>
-<script>        
+<script>
                         function supprimer() {
                             var valeurs = $('[name="dwc[]"]');
                             var data = "?";
