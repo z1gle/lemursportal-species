@@ -975,7 +975,7 @@ public class DarwinCoreController {
                 dwc.setIdUtilisateurUpload(u.getId());
             }
             valiny.setEtat(Boolean.TRUE);
-            valiny.setRetour(darwinCoreService.findAll(dwc, page, 20, true));            
+            valiny.setRetour(darwinCoreService.findAll(u, dwc, page, 20, true));            
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("User not logged in");

@@ -8,71 +8,137 @@
 <main id="controller" class="site-content" role="main" ng-controller="darwin">
     <input type="hidden" id="pageEnCours">
 
+    <style>
+        /*adjust the height of all part of the row*/        
+        .row {
+            margin-right: 0;
+            margin-left: 0;
+        }  
+        /* check box for public and private */
+        .badge-checkboxes .checkbox input[type="checkbox"],
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"] {
+            /*  Hide the checkbox, but keeps tabbing to it possible. */
+            position: absolute;
+            clip: rect(0 0 0 0);
+        }
+
+        .badge-checkboxes .checkbox label,
+        .badge-checkboxes label.checkbox-inline {
+            padding-left:0; /* Remove space normally used for the checkbox */
+        }
+
+        .badge-checkboxes .checkbox input[type="checkbox"]:checked:focus + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:checked:focus + .badge {
+            box-shadow:0 0 2pt 1pt #333;  /* Outline when checkbox is focused/tabbed to */
+        }
+
+        .badge-checkboxes .checkbox input[type="checkbox"]:focus + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:focus + .badge {
+            box-shadow:0 0 2pt 1pt #999;  /* Outline when checkbox is focused/tabbed to */
+        }
+
+        .badge-checkboxes .checkbox input[type="checkbox"] + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"] + .badge {
+            border:1px solid #999; /* Add outline to badge */
+
+            /* Make text in badge not selectable */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Give badges for disabled checkboxes an opacity of 50% */
+        .badge-checkboxes .checkbox input[type="checkbox"]:disabled + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:disabled + .badge
+        {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+            filter: alpha(opacity=50);
+            -moz-opacity: 0.5;
+            -khtml-opacity: 0.5;
+            opacity: 0.5;   
+        }
+
+        /* Remove badge background-color and set text color for not checked options */
+        .badge-checkboxes .checkbox input[type="checkbox"]:not(:checked) + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:not(:checked) + .badge{
+            background-color:Transparent;
+            color:#999;
+        }
+
+        /*The following css only required for Bootstrap <= 3.1.0 */
+        .badge-checkboxes .checkbox {
+            padding-left:0; /* Remove space normally used for the checkbox */
+        }
+        .badge-checkboxes .disabled label,
+        .badge-checkboxes label.checkbox-inline.disabled {
+            cursor:not-allowed
+        }
+
+        /* The following CSS not required for the badge styled checkboxes: */
+        section + section  {
+            margin-top:20px;
+        }
+
+        label + .checkbox  {
+            margin-top:0;   
+        }
+    </style>
+
     <!-- darwin -->
-    <section id="taxonomie">
-        <div class="banner-interieur" style="background:url(resources/assets/img/parallax/fexpert.jpg) no-repeat center center;">
-            <div class="container" style="margin-top: 5%;">
-                <div class="col-md-6 col-md-offset-3">
-                    <!-- Search Form -->
-                    <form ng-submit="rechercher(1)">
-                        <!-- Search Field -->
-                        <div class="row search-header">
-                            <h4 class="text-left">Rechercher un espèce</h4>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" ng-model="darwin.scientificname" name="search" placeholder="Nom scientifique de l'espèce" required/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- End of Search Form -->
-                </div>
-            </div>
-        </div>
-        <!-- Contenu -->
-        <div class="vignette-result">
-            <div class="container">
-                <div class="row" style="margin-top: 10px;">
-                    <form class="col-md-12" style="float: right; max-width: 100%;" id="form-search">
-                        <!-- Search Field -->                                                    
-                        <div class="form-group">
-                            <div class="input-group">     
-                                <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                                    <select id="validation" name="validationMine" style="max-width: 20%; float: right; max-height: 25px; padding-top: 1px; font-size: 12px;" class="form-control" >                                    
-                                        <option value="-999">Données</option>
-                                        <option value="-1000">Tous</option>
-                                        <option value="1">Validé</option>
-                                        <option value="0">Questionnable</option>
-                                        <option value="-1">En attente de validation</option>
-                                        <option value="-2">Invalide</option>
-                                    </select>
-                                </c:if>                                
-                                <input style="max-width: 20%; float: left; max-height: 25px; padding-top: 1px; font-size: 12px;" class="form-control" type="text"  name="espece" placeholder="Espèce à rechercher"/>                            
-                                <ul style=" margin-left: 10px;">
-                                    <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="1" type="checkbox" checked> Publique</li>
-                                        <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                                        <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="0" type="checkbox"> Sensible</li>
-                                        </c:if>
-                                </ul>                                
-                                <span class="input-group-btn">
-                                    <button  style="margin-top: -8px; margin-bottom: 0px; max-height: 25px; padding-top: 3px;" ng-click="rechercherAvancee()" class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
-                                </span>                                
-                            </div>
-                        </div>                        
-                    </form>                    
-                </div>
+    <section id="taxonomie" style="padding-bottom: 0px;">
+        <div class="banner-interieur-pliss" style="background:url(resources/assets/img/parallax/fexpert_modif.jpg) no-repeat center center; height: 125px; background-color: beige;"></div>
+        <!-- Contenu -->        
+        <div class="container-fluid" style="overflow: hidden;">
+            <div class="row" style="">                               
                 <div class="row">
                     <!-- Stat -->                    
-                    <h5 style="width: 30%; display: inline-block; float: right;" class="stat " ng-cloak>Page: <b>{{page}}/{{lastPage}}</b> | Observation total: <b>{{total}}</b></h5>                    
+                    <div class="clearfix"></div>
+                    <div class="row" style="width: 103%;background-color: beige;margin-left: -15px;">
+                        <div class="col-md-8 col-sm-8">
+                            <form id="form-search">
+                                <!-- Search Field -->                                                    
+                                <div class="form-group" style="margin-bottom: 0px; margin-top: 5px;">
+                                    <div class="input-group" style="width: 100%;">                                             
+                                        <div class="form-group badge-checkboxes">                                            
+                                            <div>
+                                                <input id="species" ng-keyup="$event.keyCode == 13 ? search(1) : null" type="text" placeholder="search" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 35%; border-style: solid;border-width: 1px;">
+                                                <select id="etat" ng-model="modelePourFaireMarcherOnChange.id" ng-change="search(1)" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 35%;">
+                                                    <option value="-999">Tous</option>
+                                                    <option value="1">Valide</option>
+                                                    <option value="-1">En attente de validation</option>
+                                                    <option value="0">Questionnable</option>
+                                                    <option value="-2">Invalide</option>
+                                                </select>
+<!--                                                <select ng-model="ctrl.value" ng-change="ctrl.change()">
+                                                    <option ng-repeat="v in ctrl.values" ng-selected="v == ctrl.value">{{ v}}</option>
+                                                </select>  -->
+                                                <label style="float: right;" class="checkbox-inline">
+                                                    <input ng-click="search(1)" id="publique" name="etat[]" type="checkbox" value="true" checked="">
+                                                    <span class="badge" style="margin-left: 15px;">Publique</span>
+                                                </label>
+                                                <label style="float: right;" class="checkbox-inline">
+                                                    <input ng-click="search(1)" id="privee" name="etat[]" type="checkbox" value="true">
+                                                    <span class="badge" style="">Privée</span>
+                                                </label>      
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>                        
+                            </form>
+                        </div>
+                        <div class="col-md-4 col-sm-4" >
+                            <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{page}}/{{lastPage}}</b> | Observation total: <b>{{total}}</b></h5>                    
+                        </div>
+                    </div>                        
                     <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
-                    <div class="table-responsive row " ng-cloak id="liste">
+                    <div class="table-responsive row " ng-cloak id="liste" style="width: 103%; margin-left: -15px;">
                         <form>
                             <table class="table table-hover">
                                 <tbody>
-                                    <tr>                                                                                                                        
+                                    <tr style="background-color: black; color: #deaa45; font-weight: 700;">                                                                                                                        
                                         <td class="text-center"></td>
                                         <td class="number text-center">#</td>
                                         <td class="text-center">Nom scientifique </td>
@@ -117,7 +183,7 @@
                         <li class=""><a href="" ng-click="findAll(pagination.debut)"><i class="fa fa-angle-double-left"></i></a></li>
                         <li class=""><a href="" ng-click="findAll(pagination.previous)"><i class="fa fa-angle-left"></i></a></li>
                         <!--<div ng:repeat="page in pagination.table">-->
-                            <li ng:repeat="page in pagination.table" class=""><a href="" ng-click="findAll(page)">{{page}}</a></li>
+                        <li ng:repeat="page in pagination.table" class=""><a href="" ng-click="findAll(page)">{{page}}</a></li>
                         <!--</div>-->
                         <li class=""><a href="" ng-click="findAll(pagination.next)"><i class="fa fa-angle-right"></i></a></li>
                         <li class=""><a href="" ng-click="findAll(pagination.fin)"><i class="fa fa-angle-double-right"></i></a></li>
@@ -131,6 +197,7 @@
                         </div>
                     </div>
                 </div>
+                <!--                </div>-->
             </div>
         </div>
         <!-- End Contenu -->
@@ -212,6 +279,8 @@
 </main>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/modifObservations.js"/>"></script>
+<!--<link rel="stylesheet" href="resources/assets/css/bootstrap-multiselect.css" type="text/css">
+<script type="text/javascript" src="resources/assets/js/bootstrap-multiselect.js"></script>-->
 <script>
                         function supprimer() {
                             var valeurs = $('[name="dwc[]"]');

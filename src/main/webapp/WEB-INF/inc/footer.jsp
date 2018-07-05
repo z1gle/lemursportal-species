@@ -50,7 +50,7 @@
         </div>
     </div>
     <div style="background: #080808; color:#fff!important; margin-top: 70px">
-        <div class="row text-center">
+        <div class="row text-center" style="width: 100%;">
             <div class="footer-content">						
                 <p>Copyright &copy; - Lemurs Portal 2017</p>
             </div>

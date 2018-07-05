@@ -39,6 +39,7 @@ import org.wcs.lemurs.model.PhotoDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.model.VideoDarwinCore;
+import org.wcs.lemurs.model.json.Liste;
 import org.wcs.lemurs.modele_association.AssignationExpert;
 import org.wcs.lemurs.modele_association.HistoriqueStatus;
 import org.wcs.lemurs.modele_vue.VueDarwinCoreRechercheGlobale;
@@ -1424,6 +1425,26 @@ public class DarwinCoreService extends MailService {
 //    public List<BaseModel> findAll(BaseModel darwinCore, int page, int nombre) throws Exception {
 //        return darwinCoreDao.findAll(darwinCore, page, nombre);
 //    }
+    
+    //Latest function
+    public Liste findAll(Utilisateur u, VueValidationDarwinCore obj, int page, int nombre, boolean liste) throws Exception {
+        Session session = null;
+        Liste valiny = new Liste();
+        try {
+            session = darwinCoreDao.getSessionFactory().openSession();
+            valiny.setTotal(darwinCoreDao.countTotalDwc(session, u, obj));
+            valiny.setLastPage((int) Math.ceil(valiny.getTotal() / new Double(nombre)));
+            valiny.setPage(page);
+            valiny.setListe((List<BaseModel>)(List<?>)darwinCoreDao.findAll(session, u, obj, page, nombre));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }            
+        }
+        return valiny;
+    }
 
     public DarwinCoreDao getDarwinCoreDao() {
         return darwinCoreDao;

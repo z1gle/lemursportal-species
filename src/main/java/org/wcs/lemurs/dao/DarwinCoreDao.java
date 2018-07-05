@@ -326,6 +326,7 @@ public class DarwinCoreDao extends HibernateDao {
         System.out.println("utilisateur valide");
         //Check if expert
         boolean expert = false;
+        boolean superAdmin = false;
         RoleUtilisateur role = new RoleUtilisateur();
         role.setIdUtilisateur(utilisateur.getId());
         List<RoleUtilisateur> listeRole = (List<RoleUtilisateur>) (List<?>) super.findMultiCritere(session, role);
@@ -380,10 +381,12 @@ public class DarwinCoreDao extends HibernateDao {
                         expert = true;
                         break;
                     }
+                } else if (ru.getIdRole() == 1001 || ru.getIdRole() == 10001) {
+                    superAdmin = true;
                 }
             }
         }
-        if (!expert) {
+        if (!expert && !superAdmin) {
             criteria.add(Restrictions.or(rest1, rest2));
         }
 
@@ -528,6 +531,7 @@ public class DarwinCoreDao extends HibernateDao {
         System.out.println("utilisateur valide");
         //Check if expert
         boolean expert = false;
+        boolean superAdmin = false;
         RoleUtilisateur role = new RoleUtilisateur();
         role.setIdUtilisateur(utilisateur.getId());
         List<RoleUtilisateur> listeRole = (List<RoleUtilisateur>) (List<?>) super.findMultiCritere(session, role);
@@ -580,10 +584,12 @@ public class DarwinCoreDao extends HibernateDao {
                         expert = true;
                         break;
                     }
+                } else if (ru.getIdRole() == 1001 || ru.getIdRole() == 10001) {
+                    superAdmin = true;
                 }
             }
         }
-        if (!expert) {
+        if (!expert && !superAdmin) {
             criteria.add(Restrictions.or(rest1, rest2));
         }
         Long valiny = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
