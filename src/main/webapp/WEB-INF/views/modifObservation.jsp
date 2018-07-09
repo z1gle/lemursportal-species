@@ -8,8 +8,7 @@
 <main id="controller" class="site-content" role="main" ng-controller="darwin">
     <input type="hidden" id="pageEnCours">
 
-    <style>
-        /*adjust the height of all part of the row*/        
+    <style>        
         .row {
             margin-right: 0;
             margin-left: 0;
@@ -169,7 +168,7 @@
                                                 <li ng-if="dwc.gps == false">vérifier la colonne gps</li>
                                             </ul>
                                         </td>                                                                                    
-                                        <td ng-if="dwc.validationexpert == -1" class="number text-center">en attente</td>
+                                        <td ng-if="dwc.validationexpert == -1" class="number text-center">en attente de validation</td>
                                         <td ng-if="dwc.validationexpert == 0" class="number text-center">questionnable</td>
                                         <td ng-if="dwc.validationexpert == 1" class="number text-center">validé</td>                                        
                                         <td ng-if="dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
