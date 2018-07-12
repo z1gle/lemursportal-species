@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="org.wcs.lemurs.model.Utilisateur"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
@@ -105,15 +106,15 @@
                                             <div>
                                                 <input id="species" ng-keyup="$event.keyCode == 13 ? search(1) : null" type="text" placeholder="search" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 35%; border-style: solid;border-width: 1px;">
                                                 <select id="etat" ng-model="modelePourFaireMarcherOnChange.id" ng-change="search(1)" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 35%;">
-                                                    <option value="-999">Tous</option>
-                                                    <option value="1">Valide</option>
-                                                    <option value="-1">En attente de validation</option>
-                                                    <option value="0">Questionnable</option>
-                                                    <option value="-2">Invalide</option>
+                                                    <option value="-999"><spring:message code="data.status.my_occurences"/></option>
+                                                    <option value="1"><spring:message code="data.status.my_reliable_reviews_data"/></option>
+                                                    <option value="-1"><spring:message code="data.status.my_awaiting_review"/></option>
+                                                    <option value="0"><spring:message code="data.status.my_questionnable_reviews_data"/></option>
+                                                    <option value="-2"><spring:message code="data.status.my_invalidated"/></option>
                                                 </select>
-<!--                                                <select ng-model="ctrl.value" ng-change="ctrl.change()">
-                                                    <option ng-repeat="v in ctrl.values" ng-selected="v == ctrl.value">{{ v}}</option>
-                                                </select>  -->
+                                                <!--                                                <select ng-model="ctrl.value" ng-change="ctrl.change()">
+                                                                                                    <option ng-repeat="v in ctrl.values" ng-selected="v == ctrl.value">{{ v}}</option>
+                                                                                                </select>  -->
                                                 <label style="float: right;" class="checkbox-inline">
                                                     <input ng-click="search(1)" id="publique" name="etat[]" type="checkbox" value="true" checked="">
                                                     <span class="badge" style="margin-left: 15px;">Publique</span>
@@ -131,68 +132,71 @@
                         <div class="col-md-4 col-sm-4" >
                             <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{page}}/{{lastPage}}</b> | Observation total: <b>{{total}}</b></h5>                    
                         </div>
-                    </div>                        
-                    <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
-                    <div class="table-responsive row " ng-cloak id="liste" style="width: 103%; margin-left: -15px;">
-                        <form>
-                            <table class="table table-hover">
-                                <tbody>
-                                    <tr style="background-color: black; color: #deaa45; font-weight: 700;">                                                                                                                        
-                                        <td class="text-center"></td>
-                                        <td class="number text-center">#</td>
-                                        <td class="text-center">Nom scientifique </td>
-                                        <td class="text-center">Localisation</td>
-                                        <td class="text-center">Ordre</td>
-                                        <td class="text-center">Classe</td>
-                                        <td class="text-center">Genre</td>
-                                        <td class="text-center">Date</td>
-                                        <td class="text-center">Institution</td>                                        
-                                        <td class="text-center">Remarque</td>                                        
-                                        <td class="text-center">Etat</td>                                        
-                                    </tr>
-                                    <tr ng-repeat="dwc in liste">                                        
-                                        <td class="number text-center"><input name="dwc[]" value="{{dwc.id}}" type="checkbox"></td>
-                                        <td class="number text-center"><a href="detailLemurien?id={{dwc.id}}">{{dwc.id}}</a></td>
-                                        <td class="text-center">{{dwc.scientificname}}</td>
-                                        <td class="text-center">{{dwc.locality}}</td>
-                                        <td class="text-center">{{dwc.darwinorder}}</td>
-                                        <td class="text-center">{{dwc.darwinclass}}</td>
-                                        <td class="text-center">{{dwc.genus}}</td>
-                                        <td class="text-center">{{dwc.dwcyear}}</td>
-                                        <td class="text-center">{{dwc.institutioncode}}</td>                                            
-                                        <td class="">
-                                            <ul>
-                                                <li ng-if="dwc.annee == false">vérifier la colonne année</li>
-                                                <li ng-if="dwc.accepted_speces == false">vérifier les champs du verbamite speces</li>
-                                                <li ng-if="dwc.collecteur == false">vérifier la colonne collecteur</li>
-                                                <li ng-if="dwc.gps == false">vérifier la colonne gps</li>
-                                            </ul>
-                                        </td>                                                                                    
-                                        <td ng-if="dwc.validationexpert == -1" class="number text-center">en attente de validation</td>
-                                        <td ng-if="dwc.validationexpert == 0" class="number text-center">questionnable</td>
-                                        <td ng-if="dwc.validationexpert == 1" class="number text-center">validé</td>                                        
-                                        <td ng-if="dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
-                                    </tr>                                                   
-                                </tbody>
-                            </table>                                                        
-                        </form>
                     </div>
-                    <!-- BEGIN PAGINATION -->
-                    <ul class="pagination">
-                        <li class=""><a href="" ng-click="findAll(pagination.debut)"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class=""><a href="" ng-click="findAll(pagination.previous)"><i class="fa fa-angle-left"></i></a></li>
-                        <!--<div ng:repeat="page in pagination.table">-->
-                        <li ng:repeat="page in pagination.table" class=""><a href="" ng-click="findAll(page)">{{page}}</a></li>
-                        <!--</div>-->
-                        <li class=""><a href="" ng-click="findAll(pagination.next)"><i class="fa fa-angle-right"></i></a></li>
-                        <li class=""><a href="" ng-click="findAll(pagination.fin)"><i class="fa fa-angle-double-right"></i></a></li>
-                    </ul>
-                    <!-- END PAGINATION -->
+                    <div class="row">
+                        <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
+                        <div class="table-responsive row " ng-cloak id="liste" style="width: 103%; margin-left: -15px;">
+                            <form>
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr style="background-color: black; color: #deaa45; font-weight: 700;">                                                                                                                        
+                                            <td class="text-center"></td>
+                                            <td class="number text-center">#</td>
+                                            <td class="text-center">Nom scientifique </td>
+                                            <td class="text-center">Localisation</td>
+                                            <td class="text-center">Ordre</td>
+                                            <td class="text-center">Classe</td>
+                                            <td class="text-center">Genre</td>
+                                            <td class="text-center">Date</td>
+                                            <td class="text-center">Institution</td>                                        
+                                            <td class="text-center">Remarque</td>                                        
+                                            <td class="text-center">Etat</td>                                        
+                                        </tr>
+                                        <tr ng-repeat="dwc in liste">                                        
+                                            <td class="number text-center"><input name="dwc[]" value="{{dwc.id}}" type="checkbox"></td>
+                                            <td class="number text-center"><a href="detailLemurien?id={{dwc.id}}">{{dwc.id}}</a></td>
+                                            <td class="text-center"><a href="detailLemurien?id={{dwc.id}}">{{dwc.scientificname}}</a></td>
+                                            <td class="text-center">{{dwc.locality}}</td>
+                                            <td class="text-center">{{dwc.darwinorder}}</td>
+                                            <td class="text-center">{{dwc.darwinclass}}</td>
+                                            <td class="text-center">{{dwc.genus}}</td>
+                                            <td class="text-center">{{dwc.dwcyear}}</td>
+                                            <td class="text-center">{{dwc.institutioncode}}</td>                                            
+                                            <td class="">
+                                                <ul>
+                                                    <li ng-if="dwc.annee == false">vérifier la colonne année</li>
+                                                    <li ng-if="dwc.accepted_speces == false">vérifier les champs du verbamite speces</li>
+                                                    <li ng-if="dwc.collecteur == false">vérifier la colonne collecteur</li>
+                                                    <li ng-if="dwc.gps == false">vérifier la colonne gps</li>
+                                                </ul>
+                                            </td>                                                                                    
+                                            <td ng-if="dwc.validationexpert == -1" class="number text-center">en attente de validation</td>
+                                            <td ng-if="dwc.validationexpert == 0" class="number text-center">questionnable</td>
+                                            <td ng-if="dwc.validationexpert == 1" class="number text-center">validé</td>                                        
+                                            <td ng-if="dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
+                                        </tr>                                                   
+                                    </tbody>
+                                </table>                                                        
+                            </form>
+                        </div>
 
-                    <div style="float: right; max-width: 350px; margin-top: 18px;" class="form-group">
-                        <div class="input-group">
-                            <button class="btn btn-danger" data-toggle='modal' data-target='#modal-confirmation-suppression'>Supprimer</button>
-                            <button class="btn btn-primary" data-toggle='modal' data-target='#modal-confirmation-changement-status'>Changer le status</button>                            
+                        <!-- BEGIN PAGINATION -->
+                        <ul class="pagination">
+                            <li class=""><a href="" ng-click="findAll(pagination.debut)"><i class="fa fa-angle-double-left"></i></a></li>
+                            <li class=""><a href="" ng-click="findAll(pagination.previous)"><i class="fa fa-angle-left"></i></a></li>
+                            <!--<div ng:repeat="page in pagination.table">-->
+                            <li ng:repeat="page in pagination.table" class=""><a href="" ng-click="findAll(page)">{{page}}</a></li>
+                            <!--</div>-->
+                            <li class=""><a href="" ng-click="findAll(pagination.next)"><i class="fa fa-angle-right"></i></a></li>
+                            <li class=""><a href="" ng-click="findAll(pagination.fin)"><i class="fa fa-angle-double-right"></i></a></li>
+                        </ul>
+                        <!-- END PAGINATION -->
+
+                        <div style="float: right; max-width: 350px; margin-top: 18px;" class="form-group">
+                            <div class="input-group">
+                                <button class="btn btn-danger" data-toggle='modal' data-target='#modal-confirmation-suppression'>Supprimer</button>
+                                <button class="btn btn-primary" data-toggle='modal' data-target='#modal-confirmation-changement-status'>Changer le status</button>                            
+                            </div>
                         </div>
                     </div>
                 </div>

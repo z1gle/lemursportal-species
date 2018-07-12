@@ -96,7 +96,7 @@
                         </c:if>
                         <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
                             <!--                            <li><a onclick="window.location = 'http://localhost:8085/LemursPortal-web/login'" href="http://localhost:8085/LemursPortal-web/login">Se connecter</a></li>-->
-                            <li><a onclick="window.location = 'https://www.lemursportal.org/forum/login'" href="https://www.lemursportal.org/forum/login">Se connecter</a></li>
+                            <li><a onclick="window.location = 'http://localhost:8082/LemursPortal-web/login'" href="http://localhost:8082/LemursPortal-web/login">Se connecter</a></li>
                             </c:if>
                         <li>
                             <form>
@@ -108,9 +108,11 @@
                                 </select>
                             </form>
                         </li>
-                    </ul>
+                    </ul>                    
                 </nav>
-                <!-- /main nav -->
-
+                <!-- /main nav -->                
+            </div>
+            <div style="float: right;margin-top: -55px;margin-right:  5px;">
+                <a style="padding: 0px;" class="btn" href="https://www.lemursportal.org/forum"><i class="fa fa-comments-o fa-2x"></i></a>
             </div>
         </header>       

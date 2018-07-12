@@ -144,8 +144,8 @@
                             <div class="card-background">
                                 <img class="card-bkimg" alt="" src="resources/assets/img/lem.jpg">                                
                             </div>
-                            <div class="useravatar">
-                                <img alt="" src="<%out.print(s.getPhotoProfil());%>">
+                            <div class="useravatar"><!--http://localhost:8082/LemursPortal-web/resources/-->
+                                <img alt="" src="https://www.lemursportal.org/forum/resources/<%out.print(s.getPhotoProfil());%>">
                             </div>
                             <div class="card-info"> <span class="card-title"><%out.print(s.getPrenom() + " " + s.getNom());%></span>
 
