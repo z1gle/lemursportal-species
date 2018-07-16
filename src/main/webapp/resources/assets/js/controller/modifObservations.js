@@ -21,7 +21,7 @@ app.controller("darwin", function ($scope, $http) {
         var page = 1;
         $http({
             method: 'POST',
-            url: 'http://localhost:8082/lemurs/observations?page=' + page,
+            url: '/species/observations?page=' + page,
             data: dwc,
             headers: {
                 'Accept': 'application/json',
@@ -70,7 +70,7 @@ app.controller("darwin", function ($scope, $http) {
         var dwc = new Object();
         $http({
             method: 'POST',
-            url: 'http://localhost:8082/lemurs/observations?page=' + pages,
+            url: '/species/observations?page=' + pages,
             data: dwc,
             headers: {
                 'Accept': 'application/json',
@@ -118,7 +118,7 @@ app.controller("darwin", function ($scope, $http) {
         console.log(dwc);
         $http({
             method: 'POST',
-            url: 'http://localhost:8082/lemurs/observations?page=' + pages,
+            url: '/species/observations?page=' + pages,
             data: dwc,
             headers: {
                 'Accept': 'application/json',
