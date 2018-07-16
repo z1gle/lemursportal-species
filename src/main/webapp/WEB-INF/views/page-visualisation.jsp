@@ -232,7 +232,7 @@
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/visualisationcontroller.js"/>"></script>
 
-<script>                                                            
+<script>
                                                             var map;
                                                             var markers;
                                                             var markersGlobal;
@@ -338,7 +338,7 @@
                                                                     map: map
                                                                 });
                                                                 var infowindow = new google.maps.InfoWindow();
-                                                                infowindow.setContent('<div><strong>' + mark.scientificname + '</strong><br>');
+                                                                infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
 //                                                                infowindow.open(map, marker);
                                                                 markersGlobal.push(marker);
                                                                 map.setCenter(ctr);
@@ -346,15 +346,17 @@
                                                                 google.maps.event.addListener(marker, 'click', function () {
                                                                     infowindow.open(map, this);
                                                                 });
-                                                            };
-                                                            
+                                                            }
+                                                            ;
+
                                                             function addMarkersGlobal(mark) {
                                                                 clearMarkersGlobal();
                                                                 table = [];
                                                                 for (var i = 0; i < mark.length; i++) {
                                                                     addMarkerGlobal(mark[i]);
                                                                 }
-                                                            };                                                            
+                                                            }
+                                                            ;
 
                                                             // Ajouter les markers pour les recherches multicritères
                                                             function addMarkerSearch(mark) {
@@ -364,7 +366,7 @@
                                                                     map: map
                                                                 });
                                                                 var infowindow = new google.maps.InfoWindow();
-                                                                infowindow.setContent('<div><strong>' + mark.scientificname + '</strong><br>');
+                                                                infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
 //                                                                infowindow.open(map, marker);
                                                                 markersSearch.push(marker);
                                                                 map.setCenter(ctr);
@@ -372,16 +374,18 @@
                                                                 google.maps.event.addListener(marker, 'click', function () {
                                                                     infowindow.open(map, this);
                                                                 });
-                                                            };
-                                                            
+                                                            }
+                                                            ;
+
                                                             function addMarkersSearch(mark) {
                                                                 clearMarkersSearch();
                                                                 table = [];
                                                                 for (var i = 0; i < mark.length; i++) {
                                                                     addMarkerSearch(mark[i]);
                                                                 }
-                                                            };
-                                                            
+                                                            }
+                                                            ;
+
                                                             // Ancienne version de l'ajout des markers via l'explorateur
 //                                                            function addMarkers() {
 //                                                                var col = $('[name="espece[]"]');
@@ -427,7 +431,7 @@
                                                                                         map: map
                                                                                     });
                                                                                     var infowindow = new google.maps.InfoWindow();
-                                                                                    infowindow.setContent('<div><strong>' + mark[i].dwc.scientificname + '</strong><br>');
+                                                                                    infowindow.setContent('<div><a href="detailLemurien?id=' + mark[i].dwc.id + '"><strong>' + mark[i].dwc.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark[i].dwc.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark[i].dwc.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark[i].dwc.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark[i].dwc.dwcyear + '</td></tr></table>');
                                                                                     infowindowExploration.push(infowindow);
                                                                                     markers.push(marker);
                                                                                     map.setCenter(ctr);
@@ -444,7 +448,8 @@
                                                                         });
                                                                     }
                                                                 }
-                                                            };
+                                                            }
+                                                            ;
 
                                                             // Fonction pour chercher les espèces pour l'explorateur à gauche
                                                             function getEspece(famille, genre) {
@@ -465,7 +470,8 @@
                                                                 } else {
                                                                     $("#espece-" + genre).html('<ul id="espece-' + genre + '"></ul>');
                                                                 }
-                                                            };
+                                                            }
+                                                            ;
 
                                                             // Fonctions pour les recherches globales
                                                             function rechercheGlobale() {

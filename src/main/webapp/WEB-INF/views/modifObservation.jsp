@@ -151,6 +151,8 @@
                                             <td class="text-center">Institution</td>                                        
                                             <td class="text-center">Remarque</td>                                        
                                             <td class="text-center">Etat</td>                                        
+                                            <td class="text-center"></td>                                        
+                                            <td class="text-center"></td>                                        
                                         </tr>
                                         <tr ng-repeat="dwc in liste">                                        
                                             <td class="number text-center"><input name="dwc[]" value="{{dwc.id}}" type="checkbox"></td>
@@ -174,6 +176,7 @@
                                             <td ng-if="dwc.validationexpert == 0" class="number text-center">questionnable</td>
                                             <td ng-if="dwc.validationexpert == 1" class="number text-center">validé</td>                                        
                                             <td ng-if="dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
+                                            <td></td>
                                         </tr>                                                   
                                     </tbody>
                                 </table>                                                        
