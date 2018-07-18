@@ -296,7 +296,7 @@ public class UploadFile {
                 return valiny;
             }
         } else {
-            return valiny;
+            return texte;
         }
     }
 
@@ -309,7 +309,7 @@ public class UploadFile {
     public static List<DarwinCore> import_darwin_core_csv(InputStream is) throws SQLException, Exception {
 
         List<DarwinCore> list_dw = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "Cp1252"));
         Field[] colonnes = DarwinCore.class.getDeclaredFields();
         String line = "";
         line = br.readLine();
@@ -325,8 +325,10 @@ public class UploadFile {
                 DarwinCore dwcTemp = new DarwinCore();
                 for (HashMap<String, Object> fonction : fonctions) {
                     Method m = (Method) fonction.get("fonction");
+                    Integer intTemp = (Integer) fonction.get("id");
+                    String idEnCours = cols[intTemp];
                     try {
-                        String valeur = cols[(Integer) fonction.get("id")];
+                        String valeur = idEnCours;
                         valeur = enleverEspaceDebutFin(valeur);
                         if (valeur.compareTo(" ") == 0 || valeur.isEmpty()) {
                             valeur = "-";
