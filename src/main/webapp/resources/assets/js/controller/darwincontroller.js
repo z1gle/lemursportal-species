@@ -12,7 +12,9 @@ app.controller("darwin", function ($scope, $http) {
     $scope.file = {};
     $scope.pages = [];
     $scope.recherchePagination = 0;
-    getall();        
+    $scope.pageEnCours = 0;
+    $scope.lastPage = 0;
+    getall();
 
     function getall() {
         $http({
@@ -47,11 +49,14 @@ app.controller("darwin", function ($scope, $http) {
                 index++;
             }
         }
+        $scope.pageEnCours = position;
+        $scope.lastPage = temp;
         $('#pageFin').val(temp);
         $('#pageEnCours').val(position);
     }
 
     $scope.rechercherAvancee = function () {
+        $('#rechercheGlobale').val('');
         var etat = $('[name="etat[]"]');
         var state = [];
         var etatS = "";
@@ -476,7 +481,7 @@ app.controller("darwin", function ($scope, $http) {
             $('#modal-upload_spinner').modal('toggle');
             $('#modal-alert').modal({backdrop: 'static'});
         });
-    };    
+    };
 
     $scope.getalls = function () {
         $http({

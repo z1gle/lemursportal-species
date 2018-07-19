@@ -104,7 +104,7 @@
                                     <div class="input-group" style="width: 100%;">                                             
                                         <div class="form-group badge-checkboxes">                                            
                                             <div>
-                                                <input id="species" ng-keyup="$event.keyCode == 13 ? search(1) : null" type="text" placeholder="search" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 35%; border-style: solid;border-width: 1px;">
+                                                <input id="species" ng-keyup="$event.keyCode == 13 ? search(1) : null" ng-blur="search(1)" type="text" placeholder="search" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 35%; border-style: solid;border-width: 1px;">                                                
                                                 <select id="etat" ng-model="modelePourFaireMarcherOnChange.id" ng-change="search(1)" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 35%;">
                                                     <option value="-999"><spring:message code="data.status.my_occurences"/></option>
                                                     <option value="1"><spring:message code="data.status.my_reliable_reviews_data"/></option>
@@ -176,6 +176,7 @@
                                             <td ng-if="dwc.validationexpert == 0" class="number text-center">questionnable</td>
                                             <td ng-if="dwc.validationexpert == 1" class="number text-center">validé</td>                                        
                                             <td ng-if="dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
+                                            <td ng-if="dwc.lienSource == null" class="text-center"></a></td>
                                             <td></td>
                                         </tr>                                                   
                                     </tbody>

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @AttributeOverrides({
     @AttributeOverride(name="id",column=@Column(name="iddwc"))   
 })
-@Table(name = "darwinCoreRechercheGlobale")
+@Table(name = "vue_recherche_observation")
 public class VueDarwinCoreRechercheGlobale extends BaseModel implements Serializable {
 
     @Column(name="nom")
