@@ -3,107 +3,99 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
 <main class="site-content" role="main" ng-controller="taxonomi">
+    <!--CSS for search global-->
+    <style>
+        #rechercheGlobale {
+            background-color: white;
+            background-image: url('resources/assets/img/icons/searchicon.png');
+            background-position: 0px 4px;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            width: 15%;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+            height: 20px;
+            border-radius: 15px;
+            border-style: solid;
+            border-width: 0px;
+            margin-top: 4px;
+            padding-left: 28px;
+            padding-top: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
 
+        /* When the input field gets focus, change its width to 100% */
+        #rechercheGlobale:focus {
+            width: 50%;
+        }
+    </style>
+    <!--Header style-->
+    <style>
+        @media only screen and (max-width: 992px) and (min-width: 767px){
+            .header-pliss {
+                padding-top: 72px;
+                height: -10px;
+                /*background-color: beige;*/
+            }        
+        }
+    </style>
     <!-- darwin -->
     <section id="taxonomie">
-        <div class="banner-interieur" style="background:url(resources/assets/img/parallax/fexpert.jpg) no-repeat center center;">
-            <div class="container" style="margin-top: 5%;">
-                <div class="col-md-6 col-md-offset-3">
-                    <!-- Search Form -->
-                    <form ng-submit="rechercher()">
-                        <!-- Search Field -->
-                        <div class="row search-header">
-                            <h4 class="text-left"><spring:message code="species.label.search"/></h4>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" ng-model="taxonomi.test" name="search" placeholder="<spring:message code="species.label.search.hover"/>"/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- End of Search Form -->
-                </div>
-            </div>
-        </div>
+        <div class="banner-interieur-pliss" style="background:url(resources/assets/img/parallax/fexpert_modif.jpg) no-repeat center center; height: 125px; background-color: beige;"></div>        
         <!-- Contenu -->
-        <div class="vignette-result">
-            <div class="container">
-                <h1 class="titre-page"><spring:message code="species.label.taxonomi"/> - <span><spring:message code="species.label.tableau"/></span></h1>
+        <div class="vignette-result" style="margin-top: 0px;">
+            <div class="container-fluid">
+                <div class="row header-pliss" style="">
+                    <!-- Stat -->                                        
+                    <h1 style="font-size:  14px;font-weight:  600;width:  85px;float: left;margin-top: 9px; color: #a18029;"><spring:message code="species.label.taxonomi"/> |</h1>
+                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>1/1</b> | Espece total: <b>{{liste.length}}</b></h5>                                        
+                    <%
+                        Integer moderateur = (Integer) request.getAttribute("moderateur");
+                        if (moderateur == 0) {
+                    %>
+                    <a href="#" title="add new specie" style="width: 3%; display: inline-block; float: left; margin-right: 2px;margin-top: 2px;" ng-click="editer(form)" class="btn"><i class="fa fa-plus"></i></a>
+                        <%}%>
+                    <input ng-model="taxonomi.test" name="search" ng-keyup="$event.keyCode == 13 ? rechercher() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;margin-top: 5px;">                    
+                    <!-- End Stat -->                    
+                </div>                
                 <div class="row">
-                    <div class="col-md-12">
-                        <h5 class="stat" ng-show="recherche.length === 0">Tous (<b>{{liste.length}}</b> trouvés)</h5>
-                        <h5 class="stat" ng-show="recherche.length !== 0">{{recherche}} (<b>{{liste.length}}</b> trouvés)</h5>
-                        <div class="padding"></div>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">&nbsp;</h3>
-                                <span class="pull-right">
-                                    <!-- Tabs -->
-                                    <ul class="nav panel-tabs">                                        
-                                            <%
-                                                Integer moderateur = (Integer) request.getAttribute("moderateur");
-                                                if (moderateur == 0) {
-                                            %>
-                                        <li class="add-one"><a href="" ng-click="editer(form)"><i class="fa fa-plus"></i> Ajouter</a></li> 
-                                            <%}%>
-                                    </ul>
-                                </span>
-                            </div>
-
-                            <!-- TABLE RESULT -->                            
-                            <div class="table-responsive">
-                                <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
-                                <table class="table table-hover">
-                                    <tbody>
-                                        <tr>
-                                            <td class="number text-center">#</td>
-                                            <td class="text-center"><spring:message code="species.label.taxonomi.order"/></td>
-                                            <td class="text-center"><spring:message code="species.label.taxonomi.class"/></td>
-                                            <td class="text-center"><spring:message code="species.label.taxonomi.family"/></td>
-                                            <td class="text-center"><spring:message code="species.label.taxonomi.genus"/></td>
-                                            <td class="text-center"><spring:message code="species.label.taxonomi.species"/></td>
-                                            <td class="text-center"><spring:message code="species.label.tableau.details"/></td>                                            
-                                            <%if (moderateur == 0) {%>
-                                            <td class="text-center">Action</td>
-                                            <%}%>
-                                        </tr>
-                                        <tr ng-repeat="taxo in liste">
-                                            <td class="number text-center">{{$index + 1}}</td>
-                                            <td class="text-center">{{taxo.dwcorder}}</td>
-                                            <td class="text-center">{{taxo.dwcclass}}</td>
-                                            <td class="text-center">{{taxo.dwcfamily}}</td>
-                                            <td class="text-center">{{taxo.genus}}</td>
-                                            <td class="text-center">{{taxo.scientificname}}</td>
-                                            <td class="text-center"><a ng-click="detailTaxo(taxo.id)" href=""><i class="fa fa-eye"></i></a></td>                                            
+                    <div class="panel panel-primary">                            
+                        <!-- TABLE RESULT -->                            
+                        <div class="table-responsive">
+                            <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr style="background-color: black; color: #deaa45; font-weight: 700;">
+                                        <td class="number text-center">#</td>
+                                        <td class="text-center"><spring:message code="species.label.taxonomi.order"/></td>
+                                        <td class="text-center"><spring:message code="species.label.taxonomi.class"/></td>
+                                        <td class="text-center"><spring:message code="species.label.taxonomi.family"/></td>
+                                        <td class="text-center"><spring:message code="species.label.taxonomi.genus"/></td>
+                                        <td class="text-center"><spring:message code="species.label.taxonomi.species"/></td>
+                                        <td class="text-center"><spring:message code="species.label.tableau.details"/></td>                                            
+                                        <%if (moderateur == 0) {%>
+                                        <td class="text-center">Action</td>
+                                        <%}%>
+                                    </tr>
+                                    <tr ng-repeat="taxo in liste">
+                                        <td class="number text-center">{{$index + 1}}</td>
+                                        <td class="text-center">{{taxo.dwcorder}}</td>
+                                        <td class="text-center">{{taxo.dwcclass}}</td>
+                                        <td class="text-center">{{taxo.dwcfamily}}</td>
+                                        <td class="text-center">{{taxo.genus}}</td>
+                                        <td class="text-center">{{taxo.scientificname}}</td>
+                                        <td class="text-center"><a ng-click="detailTaxo(taxo.id)" href=""><i class="fa fa-eye"></i></a></td>                                            
                                                 <%if (moderateur == 0) {%>
-                                            <td class="text-center del">
-                                                <a href="" ng-click="editer(taxo)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                                                <a href="" ng-click="delete(taxo)"><i class="fa fa-remove"></i></a>
-                                            </td>
-                                            <%}%>
-                                        </tr>                                                   
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- END TABLE RESULT -->
-
-                            <!-- BEGIN PAGINATION -->
-<!--                            <ul class="pagination">
-                                <li class="disabled"><a href="#">«</a></li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">»</a></li>
-                            </ul>-->
-                            <!-- END PAGINATION -->
-
-                            <!-- END RESULT -->
-                        </div>
+                                        <td class="text-center del">
+                                            <a href="" ng-click="editer(taxo)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                                            <a href="" ng-click="delete(taxo)"><i class="fa fa-remove"></i></a>
+                                        </td>
+                                        <%}%>
+                                    </tr>                                                   
+                                </tbody>
+                            </table>
+                        </div>                            
                     </div>
                 </div>
             </div>
@@ -118,192 +110,265 @@
         <div class="modal-backdrop">
             <div class="modal-content">
                 <h1 class="h">INSERTION/MODIFICATION TAXONOMI</h1>
-                <div class="row">
-                    <div class="col-sm-1"></div>
-                    <form>
-                        <table class="table-condensed">
-                            <tr>
-                                <td>
-                                    <label>Higher classification : </label>
-                                    <input type="text" ng-model="form.higherclassification">
-                                </td>
-                                <td>
-                                    <label>Kingdom : </label>
-                                    <input type="text" ng-model="form.kingdom">
-                                </td>
-                                <td>
-                                    <label>Phylum : </label>
-                                    <input type="text" ng-model="form.phylum">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Darwin core class : </label>
-                                    <input type="text" ng-model="form.dwcclass">
-                                </td>
-                                <td>
-                                    <label>Darwin core order : </label>
-                                    <input type="text" ng-model="form.dwcorder">
-                                </td>
-                                <td>
-                                    <label>Darwin core family : </label>
-                                    <input type="text" ng-model="form.dwcfamily">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Genus : </label>
-                                    <input type="text" ng-model ="form.genus">
-                                </td>
-                                <td>
-                                    <label>Genus source  : </label>
-                                    <input type="text" ng-model ="form.genussource">
-                                </td>
-                                <td>
-                                    <label>Specific epithet  : </label>
-                                    <input type="text" ng-model ="form.specificepithet">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Specific epithet source  : </label>
-                                    <input type="text" ng-model ="form.specificepithetsource">
-                                </td>
-
-                                <td>
-                                    <label>Infraspecific epithet : </label>
-                                    <input type="text" ng-model ="form.infraspecificepithet">
-                                </td>
-                                <td>
-                                    <label>Infraspecificepithetsource : </label> 
-                                    <input type="text" ng-model ="form.infraspecificepithetsource">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Scientific ng-model : </label> 
-                                    <input type="text" ng-model ="form.scientificname">
-                                </td>
-
-                                <td>
-                                    <label>Scientific ng-model author ship : </label> 
-                                    <input type="text" ng-model ="form.scientificnameauthorship">
-                                </td>
-                                <td>
-                                    <label>Accepted ng-model usage : </label> 
-                                    <input type="text" ng-model ="form.acceptednameusage">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Basis of record : </label> 
-                                    <input type="text" ng-model ="form.basisofrecord">
-                                </td>
-                                <td>
-                                    <label>French vernacular ng-model : </label>
-                                    <input type="text" ng-model ="form.frenchvernacularname">
-                                </td>
-                                <td>
-                                    <label>Malagasy vernacular ng-model : </label>
-                                    <input type="text" ng-model ="form.malagasyvernacularname">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>English vernacular ng-model : </label>
-                                    <input type="text" ng-model ="form.englishvernacularname">
-                                </td>
-                                <td>
-                                    <label>Habitat_fr : </label>
-                                    <input type="text" ng-model ="form.habitatFr">
-                                </td>
-                                <td>
-                                    <label>Habitat_en : </label>
-                                    <input type="text" ng-model ="form.habitatEn">
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    <label>Habitat source : </label>
-                                    <input type="text" ng-model ="form.habitatsource">
-                                </td>
-                                <td>
-                                    <label>Ecology_fr : </label>
-                                    <input type="text" ng-model ="form.ecologyFr">
-                                </td>
-                                <td>
-                                    <label>Ecology_en : </label>
-                                    <input type="text" ng-model ="form.ecologyEn">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Ecology source : </label>
-                                    <input type="text" ng-model ="form.ecologysource">
-                                </td>
-                                <td>
-                                    <label>Behavior_fr : </label>
-                                    <input type="text" ng-model ="form.behaviorFr">
-                                </td>
-                                <td>
-                                    <label>Behavior_en : </label>
-                                    <input type="text" ng-model ="form.behaviorEn">
-                                </td>
-                            </tr><tr>
-                                <td>
-                                    <label>Behavior source : </label>
-                                    <input type="text" ng-model ="form.behaviorsource">
-                                </td>
-                                <td>
-                                    <label>Threat_fr : </label>
-                                    <input type="text" ng-model ="form.threatFr">
-                                </td>
-                                <td>
-                                    <label>Threat_en : </label>
-                                    <input type="text" ng-model ="form.threatEn">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Threat source : </label>
-                                    <input type="text" ng-model ="form.threatsource">
-                                </td>
-                                <td>
-                                    <label>Morphology_fr : </label>
-                                    <input type="text" ng-model ="form.morphologyFr">
-                                </td>
-                                <td>
-                                    <label>Morphology_en : </label>
-                                    <input type="text" ng-model ="form.morphologyEn">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Protected area occurrences : </label>
-                                    <input type="text" ng-model ="form.protectedareaoccurrences">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-
-                                </td>
-                                <td style="text-align: right">
-                                    <input class="btn btn-primary" ng-click="annuler()" value="Annuler">
-                                    <%if (moderateur == 0) {%>
-                                    <input type="submit" class="btn btn-success" ng-click="save()" value="Enregistrer">
-                                    <%}%>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                    <div class="col-sm-1"></div>
+                <div class="row">                    
+                    <div class="col-md-12">
+                        <form>
+                            <table class="table-responsive" style="margin-left: 15px; margin-right: 15px;">
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Higher classification : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model="form.higherclassification">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Kingdom : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model="form.kingdom">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>Phylum : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model="form.phylum">
+                                    </td>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Darwin core class : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model="form.dwcclass">
+                                    </td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>Darwin core order : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model="form.dwcorder">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Darwin core family : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model="form.dwcfamily">
+                                    </td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Genus : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.genus">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Genus source  : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.genussource">
+                                    </td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>Specific epithet  : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.specificepithet">
+                                    </td>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Specific epithet source  : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.specificepithetsource">
+                                    </td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>Infraspecific epithet : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.infraspecificepithet">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Infraspecificepithetsource : </label>                                     
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.infraspecificepithetsource">
+                                    </td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Scientific ng-model : </label>                                     
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.scientificname">
+                                    </td>
+                                    <td style="width: 1px;">
+                                        <label>Scientific ng-model author ship : </label>                                     
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.scientificnameauthorship">
+                                    </td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>Accepted ng-model usage : </label>                                     
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.acceptednameusage">
+                                    </td>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Basis of record : </label>                                     
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.basisofrecord">
+                                    </td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>French vernacular ng-model : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.frenchvernacularname">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Malagasy vernacular ng-model : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.malagasyvernacularname">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>English vernacular ng-model : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.englishvernacularname">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Habitat_fr : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.habitatFr">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>Habitat_en : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.habitatEn">
+                                    </td>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Habitat source : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.habitatsource">
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px;">
+                                        <label>Ecology_fr : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.ecologyFr">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Ecology_en : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.ecologyEn">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Ecology source : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.ecologysource">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Behavior_fr : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.behaviorFr">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Behavior_en : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.behaviorEn">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Behavior source : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.behaviorsource">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Threat_fr : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.threatFr">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Threat_en : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.threatEn">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Threat source : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.threatsource">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Morphology_fr : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.morphologyFr">
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 145px; padding-bottom: 2px;">
+                                        <label>Morphology_en : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.morphologyEn">
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <label>Protected area occurrences : </label>                                    
+                                    </td>
+                                    <td style="width: 145px;">
+                                        <input style="width: 90%;" type="text" ng-model ="form.protectedareaoccurrences">
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style="float: right;margin-right: 90px;margin-bottom: 5px;">
+                                <input class="btn btn-primary" ng-click="annuler()" value="Annuler">
+                                <%if (moderateur == 0) {%>
+                                <input type="submit" class="btn btn-success" ng-click="save()" value="Enregistrer">
+                                <%}%>
+                            </div>
+                        </form>
+                    </div>                    
                 </div>
             </div>
         </div>
     </div>
-                                
-    
-    
+
+
+
 
 </main>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>

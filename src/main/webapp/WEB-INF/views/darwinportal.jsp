@@ -319,7 +319,8 @@
         <div class="vignette-result" style="margin-top: 0px;">
             <div class="container-fluid">
                 <div class="row" style="margin-top: 10px;">
-                    <!-- Stat -->                    
+                    <!-- Stat -->                                        
+                    <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;">Liste des obsérvations |</h1>
                     <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                    
                     <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                         <a href="#" title="upload observations" style="width: 3%; display: inline-block; float: left;" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});" class="btn"><i class="fa fa-upload"></i></a>
@@ -334,7 +335,7 @@
                             }
                         %>
                     <!--<a href="#" title="Global research" style="width: 3%; display: inline-block; float: left; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn"><i class="fa fa-search"></i></a>-->
-                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">
+                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                    
                     <!-- End Stat -->                    
                 </div>
                 <div class="row">                    
@@ -408,7 +409,7 @@
                                         <td></td>
                                         <%}%>
                                         <td ng-if="dwc.dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
-                                        <td ng-if="dwc.lienSource == null" class="text-center"></a></td>
+                                        <td ng-if="dwc.dwc.lienSource == null" class="text-center"></a></td>
                                     </tr>                                                   
                                 </tbody>
                             </table>                                                                                                            

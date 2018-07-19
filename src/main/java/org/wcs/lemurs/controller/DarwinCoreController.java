@@ -270,9 +270,9 @@ public class DarwinCoreController {
     public List<HashMap<String, Object>> getall(HttpSession session, @RequestBody VueValidationDarwinCore dwcs) throws Exception {
         int page = 1;
         int nombre = 20;
-        BigInteger total = null;
+        Long total = null;
         try {
-            total = (BigInteger) darwinCoreService.executeSqlList("select count(*) from vue_validation_darwin_core").get(0);
+//            total = (BigInteger) darwinCoreService.executeSqlList("select count(*) from vue_validation_darwin_core").get(0);
             //check e-mail            
             //mailService.sendMailToExpert(darwinCoreService.findMutliCritere(new DarwinCore()));
             //
@@ -280,6 +280,7 @@ public class DarwinCoreController {
 //            rg.main(new String[]{"test", "tata"});
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
             List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, dwcs, nombre, page);
+            total = darwinCoreService.getDarwinCoreDao().countTotalDwc(utilisateur, dwcs);
             try {
                 HashMap<String, Object> temp = valiny.get(0);
                 temp.put("total", total);
