@@ -129,9 +129,22 @@
             border-color: #A18029; }
         .checkbox-info input[type="checkbox"]:checked + label::after {
             color: #fff; }        
-        </style>
-        <!--CSS for search global-->
-        <style>
+        .chk label::after {
+            display: inline-block;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 0;
+            top: -3px;
+            margin-left: -20px;
+            padding-left: 3px;
+            padding-top: 1px;
+            font-size: 11px;
+            color: #555555;
+        }
+    </style>
+    <!--CSS for search global-->
+    <style>
         #rechercheGlobale {
             background-color: white;
             background-image: url('resources/assets/img/icons/searchicon.png');
@@ -166,6 +179,78 @@
                 background-color: beige;
             }        
         }
+    </style>
+    <!--Import file style-->
+    <style>
+        #csv-xl {
+            display: none;            
+        }
+        #uploadForm {
+            display: table-row;            
+            backround:pink;
+        }
+        span[role=button] {
+            display: table-cell;
+            font-family: Arial;
+            font-size: 1rem;
+            padding: 8px 8px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border: 2px solid #504014;  
+            color: #ffffff;
+            cursor: pointer;
+            background-color: #504014;
+            outline: none;
+        }
+        span[role=button]:hover,
+        span[role=button]:focus {
+            box-shadow: 0 0 5px #595959;
+            background-color: #8a6d3b;
+            border-color: #8a6d3b;
+            outline: 2px solid transparent;
+        }
+        .hide {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+        #filename {
+            display: table-cell;
+            margin-left: -5px;
+            width: 80%;
+            font-family: Arial;
+            font-size: 1rem;
+            padding: 8px 8px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border: 2px solid #504014;  
+            color: #000000;
+            background-color: #ffffff;
+        }
+        #filename:focus {
+            box-shadow: 0 0 5px #595959;
+            border-color: #8a6d3b;
+            outline: 2px solid transparent;
+        }
+        #buttonlabel {
+            display: inline;
+        }
+    </style>
+    <!--Modal style-->
+    <style>        
+        .modal-header {
+            background-color: #8a6d3b;
+        }
+        .modal-title {
+            color: white;
+            font-weight: 510;
+        }
+
     </style>
     <!-- darwin -->
     <section id="taxonomie">
@@ -546,14 +631,32 @@
                     <h4 class="modal-title"><center>Importer des darwin core</center></h4>
                 </div>
                 <div class='modal-body row'>   
+                    <!--                    <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
+                                            <div>Importer un fichier(CSV):</div>
+                                            <input id="csv-xl" name="excelfile" ng-model="file" type="file">
+                                            <input id="publique" type="checkbox" value="1"> publique <br>
+                                            Termes et condition <a href="#" onclick="window.open('resources/assets/policy.pdf', '_blank')">telecharger ici</a>
+                                        </form>-->
                     <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
-                        <div>Importer un fichier Excel:</div>
-                        <input id="csv-xl" name="excelfile" ng-model="file" type="file">
-                        <input id="publique" type="checkbox" value="1"> publique <br>
+                        <label for="csv-xl" id="buttonlabel">
+                            <span role="button" aria-controls="filename" tabindex="0">
+                                File path
+                            </span>
+                        </label>
+                        <input type="file" name="excelfile" ng-model="file" id="csv-xl">
+                        <label for="filename" class="hide">
+                            uploaded file
+                        </label>
+                        <input type="text" id="filename" autocomplete="off" readonly placeholder="no file uploaded">  <br>
+                        <!--<input id="publique" type="checkbox" value="1"> publique <br>-->
+                        <div class="checkbox checkbox-info checkbox-circle chk">
+                            <input id="publique-modal" type="checkbox" value="1">
+                            <label for="publique-modal">Publique</label>
+                        </div>
                         Termes et condition <a href="#" onclick="window.open('resources/assets/policy.pdf', '_blank')">telecharger ici</a>
                     </form>
                 </div>
-                <div class='modal-footer row'>                        
+                <div class='modal-footer'>                        
                     <input class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" value="Importer">                        
                     <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>                    
                 </div>                    
@@ -668,5 +771,24 @@
                             });
                         }
                         ;
+</script>
+<!--Import file style js-->
+<script>
+    // trigger upload on space & enter
+// = standard button functionality
+    $('#buttonlabel span[role=button]').bind('keypress keyup', function (e) {
+        if (e.which === 32 || e.which === 13) {
+            e.preventDefault();
+            $('#csv-xl').click();
+        }
+    });
+
+// return chosen filename to additional input
+    $('#csv-xl').change(function (e) {
+        var filename = $('#csv-xl').val().split('\\').pop();
+        $('#filename').val(filename);
+        $('#filename').attr('placeholder', filename);
+        $('#filename').focus();
+    });
 </script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  
