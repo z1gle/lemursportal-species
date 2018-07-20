@@ -49,7 +49,8 @@
             <div class="col-md-3 animated fadeInUp" data-wow-delay="0.8s">
 					<a href="http://jrsbiodiversity.org/" target="_blank"><img src="http://jrsbiodiversity.org/wp-content/themes/zero/images/jrs-logo.svg" style="border-radius: 4%; margin-top: 3%;padding:2%;"></a>
 				</div>
-            <div class="row text-center" style="border-bottom: solid 1px; border-top: solid 1px;border-color: #84bc00; margin: 30px 15px; padding-bottom: 30px;">
+        </div>
+                    <div class="row text-center" style="border-bottom: solid 1px; border-top: solid 1px;border-color: #84bc00; margin: 30px 15px; padding-bottom: 30px;">
 <!-- 					<div class="footer-content"> -->
 						<div style="font-size: 16px;padding: 15px;/*font-weight: bold;*/">PARTNERS</div>
 						<div class="footer-partner">
@@ -65,8 +66,6 @@
 
 <!-- 					</div> -->
 				</div>
-
-        </div>
     </div>
     <div style="background: #080808; color:#fff!important; margin-top: 60px">
         <div class="row text-center" style="width: 100%;">
