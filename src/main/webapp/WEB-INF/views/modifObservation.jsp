@@ -141,7 +141,7 @@
                                     <tbody>
                                         <tr style="background-color: black; color: #deaa45; font-weight: 700;">                                                                                                                        
                                             <td class="text-center"></td>
-                                            <td class="number text-center">#</td>
+                                            <td class="number text-center">Id</td>
                                             <td class="text-center">Nom scientifique </td>
                                             <td class="text-center">Localisation</td>
                                             <td class="text-center">Ordre</td>
@@ -167,7 +167,7 @@
                                             <td class="">
                                                 <ul>
                                                     <li ng-if="dwc.annee == false">vérifier la colonne année</li>
-                                                    <li ng-if="dwc.accepted_speces == false">vérifier les champs du verbamite speces</li>
+                                                    <li ng-if="dwc.accepted_speces == false"></li>
                                                     <li ng-if="dwc.collecteur == false">vérifier la colonne collecteur</li>
                                                     <li ng-if="dwc.gps == false">vérifier la colonne gps</li>
                                                 </ul>

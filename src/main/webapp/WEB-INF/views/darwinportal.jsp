@@ -351,7 +351,7 @@
                                         %>
                                         <td class="text-center"></td>
                                         <%}%>
-                                        <td class="number text-center">#</td>
+                                        <td class="number text-center">Id</td>
                                         <td class="text-center">Nom scientifique </td>
                                         <td class="text-center">Localisation</td>
                                         <td class="text-center">Ordre</td>
@@ -394,7 +394,7 @@
                                         <td class="">
                                             <ul>
                                                 <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.annee == false">vérifier la colonne année</li>
-                                                <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.accepted_speces == false">vérifier les champs du verbamite speces</li>
+                                                <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.accepted_speces == false"></li>
                                                 <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.collecteur == false">vérifier la colonne collecteur</li>
                                                 <li ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.gps == false">vérifier la colonne gps</li>
                                             </ul>

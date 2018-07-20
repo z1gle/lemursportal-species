@@ -67,7 +67,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr style="background-color: black; color: #deaa45; font-weight: 700;">
-                                        <td class="number text-center">#</td>
+                                        <td class="number text-center">Id</td>
                                         <td class="text-center"><spring:message code="species.label.taxonomi.order"/></td>
                                         <td class="text-center"><spring:message code="species.label.taxonomi.class"/></td>
                                         <td class="text-center"><spring:message code="species.label.taxonomi.family"/></td>
