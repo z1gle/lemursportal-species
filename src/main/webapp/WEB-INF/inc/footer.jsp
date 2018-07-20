@@ -17,7 +17,7 @@
                 </ul>
             </div>
 
-            <div class="col-md-3 animated fadeInUp" data-wow-delay="0.4s">
+            <div class="col-md-2 animated fadeInUp" data-wow-delay="0.4s">
                 <ul>
                     <li class="animated zoomIn"><a href="#">Liens</a></li>
                     <li class="animated zoomIn"><a href="#">Aide</a></li>
@@ -26,7 +26,7 @@
                 </ul>
             </div>
 
-            <div class="col-md-5 animated fadeInUp" data-wow-delay="0.8s">
+            <div class="col-md-4 animated fadeInUp" data-wow-delay="0.8s">
                 <div class="row">
                     <div class="col-xs-2">                	
                         <a href="http://www.fapbm.org/" target="_blank"><img src="<c:url value="/resources/assets/img/part1.png"/>"></a>
@@ -46,10 +46,29 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3 animated fadeInUp" data-wow-delay="0.8s">
+					<a href="http://jrsbiodiversity.org/" target="_blank"><img src="http://jrsbiodiversity.org/wp-content/themes/zero/images/jrs-logo.svg" style="border-radius: 4%; margin-top: 3%;padding:2%;"></a>
+				</div>
+            <div class="row text-center" style="border-bottom: solid 1px; border-top: solid 1px;border-color: #84bc00; margin: 30px 15px; padding-bottom: 30px;">
+<!-- 					<div class="footer-content"> -->
+						<div style="font-size: 16px;padding: 15px;/*font-weight: bold;*/">PARTNERS</div>
+						<div class="footer-partner">
+							<ul>
+								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_ADD.jpg"></a></li>
+								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_Aspinall.jpg"></a></li>
+								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_DPZ.jpg"></a></li>
+								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_DREEF-Atsinanana.jpg"></a></li>
+								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_ISSEDD.png"></a></li>
+								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_Valbio.jpg"></a></li>
+							</ul>
+						</div>
+
+<!-- 					</div> -->
+				</div>
 
         </div>
     </div>
-    <div style="background: #080808; color:#fff!important; margin-top: 70px">
+    <div style="background: #080808; color:#fff!important; margin-top: 60px">
         <div class="row text-center" style="width: 100%;">
             <div class="footer-content">						
                 <p>Copyright &copy; - Lemurs Portal 2017</p>

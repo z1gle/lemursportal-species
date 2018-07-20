@@ -1086,23 +1086,23 @@ textarea.form-control {
             transform: translateX(30px);
 }
 
-.footer-content .footer-social {
+.footer-content .footer-partner {
     margin: 40px 0 35px;
 }
 
-.footer-social ul {
+.footer-partner ul {
     list-style: outside none none;
     margin: 0;
     padding: 0;
     text-align: center;
 }
 
-.footer-social ul li {
+.footer-partner ul li {
     display: inline-block;
     margin: 0 10px;
 }
 
-.footer-social ul li a {
+.footer-partner ul li a {
     color: #7f7f7f;
     display: block;
     
@@ -1113,7 +1113,7 @@ textarea.form-control {
             transition: all 0.2s ease 0s;
 }
 
-.footer-social ul li a:hover {
+.footer-partner ul li a:hover {
     color: #A18029;
 }
 
@@ -1122,7 +1122,10 @@ textarea.form-control {
     font-size: 12px;
 }
 
-
+footer a img:hover {
+	 border:2px solid #ccc;
+	 background: #ccc;
+ }
 
 /*============================================================ 
 	Responsive
@@ -1358,7 +1361,7 @@ textarea.form-control {
         width: 100%;
     }
 
-    .footer-social ul li {
+    .footer-partner ul li {
         margin: 0 7px;
     }
 }
@@ -1445,3 +1448,9 @@ textarea.form-control {
     }
 }
 
+footer .col-md-4 .col-xs-2 {
+    border-radius: 50%;
+    height: 100%;
+    padding: 1%;
+    width: 20%;
+}
