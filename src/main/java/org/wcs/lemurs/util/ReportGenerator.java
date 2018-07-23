@@ -86,7 +86,7 @@ public class ReportGenerator {
             if(!realPath.contains(sep)) {
                 sep = "\\";
             }
-            parameters.put("entete", realPath+"resources"+sep+"assets"+sep+"img"+sep+"enteteFin.jpg");
+            parameters.put("entete", realPath+"resources"+sep+"assets"+sep+"img"+sep+"enteteFin.png");
             if(profil.isEmpty()) {
                 parameters.put("profil", realPath+"resources"+sep+"assets"+sep+"img"+sep+"photos"+sep+"default.jpg");
             }
