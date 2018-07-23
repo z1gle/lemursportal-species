@@ -328,6 +328,9 @@ public class DarwinCoreService extends MailService {
     }
 
     public boolean checkVerbatimspecies(Session session, DarwinCore dw) throws Exception {
+        if (dw.getInfraspecificepithet() == null || dw.getInfraspecificepithet().equals(" ") || dw.getInfraspecificepithet().isEmpty()) {
+            dw.setInfraspecificepithet("-");
+        }
         String qry = "select count(*) from (select *,genus || specificepithet || infraspecificepithet as verbatimspecies from taxonomi_base) as sous where sous.verbatimspecies ilike :verbatimspecies";
         Query query = session.createSQLQuery(qry);
         String verbatimspecies = dw.getGenus() + dw.getSpecificepithet() + dw.getInfraspecificepithet();

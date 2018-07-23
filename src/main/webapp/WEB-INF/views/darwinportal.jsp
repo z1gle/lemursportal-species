@@ -383,7 +383,7 @@
                                         <td ng-if="dwc.validation == 0" class="number text-center"></td>
                                         <%}%>
                                         <td class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
-                                        <td class="text-center">{{dwc.dwc.scientificname}}</td>
+                                        <td class="text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.scientificname}}</a></td>
                                         <td class="text-center">{{dwc.dwc.locality}}</td>
                                         <td class="text-center">{{dwc.dwc.darwinorder}}</td>
                                         <td class="text-center">{{dwc.dwc.darwinclass}}</td>
