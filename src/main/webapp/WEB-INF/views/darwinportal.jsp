@@ -313,8 +313,7 @@
                     </div>                        
                 </form>
             </div>                
-        </div>
-        </div>
+        </div>        
         <!-- Contenu -->
         <div class="vignette-result" style="margin-top: 0px;">
             <div class="container-fluid">

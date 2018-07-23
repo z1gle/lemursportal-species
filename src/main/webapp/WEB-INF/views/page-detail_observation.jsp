@@ -10,6 +10,15 @@
         width: 100%;
     }
 </style>
+<style>
+    @media only screen and (max-width: 992px) and (min-width: 767px){
+        .header-pliss {
+            padding-top: 72px;
+            height: -10px;
+            background-color: beige;
+        }        
+    }
+</style>
 <main class="site-content" role="main" ng-controller="controller">
     <%
         DarwinCore dwc = (DarwinCore) request.getAttribute("dwc");
@@ -22,32 +31,17 @@
     <!--<input type="hidden" value="getDetailTaxo" id="load"/>-->
     <!-- dwcnomie -->
     <section id="dwcnomie">
-        <div class="banner-interieur" style="background:url(resources/assets/img/parallax/fexpert.jpg) no-repeat center center;">
-            <div class="container" style="margin-top: 5%;">
-                <div class="col-md-6 col-md-offset-3">
-                    <!-- Search Form -->
-                    <form role="form">
-                        <!-- Search Field -->
-                        <div class="row search-header">
-                            <h4 class="text-left">Rechercher</h4>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" name="search" placeholder="nom scientifique de l'espèce" required/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-success" type="button"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- End of Search Form -->
-                </div>
-            </div>
+        <div class="banner-interieur-pliss" style="background:url(resources/assets/img/parallax/fexpert_modif.jpg) no-repeat center center; height: 125px; background-color: beige;"></div>
+        <div class="container-fluid header-pliss">
+            <div class="row header-pliss" style="margin-bottom: 10px;border-bottom:  solid;border-bottom-width: 1px;border-bottom-color: beige;">
+                <!-- Stat -->                                        
+                <h1 style="font-size:  14px;font-weight:  600;width:  100%;float: left;margin-top: 9px; color: #a18029; margin-left: 30px;"><%out.print(dwc.getAcceptednameusage());%> | <small>Details</small></h1>                
+                <!-- End Stat -->                    
+            </div>                
         </div>
         <!-- Contenu -->
         <div class="detail-obs">
-            <div class="container">
-                <h1 class="titre-page">Détails - <span><%out.print(dwc.getAcceptednameusage());%></span></h1>
+            <div class="container-fluid">                
                 <div class="col-md-3">
                     <%
                         List<String> remarques = null;
@@ -1628,14 +1622,14 @@
                             function del(idDwc) {
                                 $.ajax({
                                     method: 'POST',
-                                    url: 'delDwc?idDwc='+idDwc,                                    
+                                    url: 'delDwc?idDwc=' + idDwc,
                                     success: function (json) {
                                         window.location = 'darwinportal';
                                     },
                                     error: function (json) {
                                         console.log(json.statusText);
                                     }
-                                });                                
+                                });
                             }
                             ;
 

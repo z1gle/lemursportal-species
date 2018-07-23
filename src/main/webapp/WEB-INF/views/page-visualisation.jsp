@@ -1,40 +1,159 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/inc/header.jsp"/>  
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <main class="site-content" role="main" ng-controller="darwin">
+    <!--Style for search-bar-->
+    <style>                
+        /* check box for public and private */
+        .badge-checkboxes .checkbox input[type="checkbox"],
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"] {
+            /*  Hide the checkbox, but keeps tabbing to it possible. */
+            position: absolute;
+            clip: rect(0 0 0 0);
+        }
 
+        .badge-checkboxes .checkbox label,
+        .badge-checkboxes label.checkbox-inline {
+            padding-left:0; /* Remove space normally used for the checkbox */
+        }
+
+        .badge-checkboxes .checkbox input[type="checkbox"]:checked:focus + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:checked:focus + .badge {
+            box-shadow:0 0 2pt 1pt #333;  /* Outline when checkbox is focused/tabbed to */
+        }
+
+        .badge-checkboxes .checkbox input[type="checkbox"]:focus + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:focus + .badge {
+            box-shadow:0 0 2pt 1pt #999;  /* Outline when checkbox is focused/tabbed to */
+        }
+
+        .badge-checkboxes .checkbox input[type="checkbox"] + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"] + .badge {
+            border:1px solid #999; /* Add outline to badge */
+
+            /* Make text in badge not selectable */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Give badges for disabled checkboxes an opacity of 50% */
+        .badge-checkboxes .checkbox input[type="checkbox"]:disabled + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:disabled + .badge
+        {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+            filter: alpha(opacity=50);
+            -moz-opacity: 0.5;
+            -khtml-opacity: 0.5;
+            opacity: 0.5;   
+        }
+
+        /* Remove badge background-color and set text color for not checked options */
+        .badge-checkboxes .checkbox input[type="checkbox"]:not(:checked) + .badge,
+        .badge-checkboxes label.checkbox-inline input[type="checkbox"]:not(:checked) + .badge{
+            background-color:Transparent;
+            color:#999;
+        }
+
+        /*The following css only required for Bootstrap <= 3.1.0 */
+        .badge-checkboxes .checkbox {
+            padding-left:0; /* Remove space normally used for the checkbox */
+        }
+        .badge-checkboxes .disabled label,
+        .badge-checkboxes label.checkbox-inline.disabled {
+            cursor:not-allowed
+        }        
+    </style>
+    
+    <!--Header style-->
+    <style>
+        @media only screen and (max-width: 992px) and (min-width: 767px){
+            .header-pliss {
+                padding-top: 72px;
+                height: -10px;
+                background-color: beige;
+            }        
+        }
+    </style>
     <!-- taxonomie -->
     <section id="taxonomie">
-        <div class="banner-interieur" style="background:url(/lemurs/resources/assets/img/parallax/fexpert.jpg) no-repeat center center;">
-            <div class="container" style="margin-top: 5%;">
-                <div class="col-md-6 col-md-offset-3">
-                    <!-- Search Form -->
-                    <form role="form">
-                        <!-- Search Field -->
-                        <div class="row search-header">
-                            <h4 class="text-left">Rechercher un espèce</h4>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" name="search" placeholder="Nom scientifique de l'espèce" required/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-success" type="button"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
+        <div class="banner-interieur-pliss" style="background:url(resources/assets/img/parallax/fexpert_modif.jpg) no-repeat center center; height: 125px; background-color: beige;"></div>
+        <div class="container-fluid header-pliss">
+            <div class="row" style="background-color: beige;margin-left: -15px; height: 45px; margin-bottom: -10px;">
+                <!--<div class="col-md-8 col-sm-8">-->
+                <form id="form-search">
+                    <!-- Search Field -->                                                    
+                    <div class="form-group" style="margin-bottom: 0px; margin-top: 5px; margin-left: 10px;">
+                        <div class="input-group" style="width: 100%;">                                             
+                            <div class="form-group badge-checkboxes">                                            
+                                <div>
+                                    <input id="form-search" ng-keyup="$event.keyCode == 13 ? rechercherAvancee() : null" name="espece" type="text" placeholder="search by scientific name" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 26%; border-style: solid;border-width: 1px; float: left;">                                        
+                                    <c:choose>
+                                        <c:when test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input id="publique" name="etat[]" type="checkbox" value="1" checked="">
+                                                <span class="badge" style="margin-left: 15px;">Publique</span>
+                                            </label>
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input id="privee" name="etat[]" type="checkbox" value="0">
+                                                <span class="badge" style="">Privée</span>
+                                            </label>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input id="publique" name="etat[]" disabled="" type="checkbox" value="1" checked="">
+                                                <span class="badge" style="margin-left: 15px;">Publique</span>
+                                            </label>
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input id="privee" disabled="" name="etat[]" type="checkbox" value="0">
+                                                <span class="badge" style="">Privée</span>
+                                            </label>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <select name="validation" id="etat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">
+                                        <option value="-999"><spring:message code="data.status.all_occurences"/></option>
+                                        <option value="1"><spring:message code="data.status.all_reliable_reviews_data"/></option>
+                                        <option value="-1"><spring:message code="data.status.all_awaiting_review"/></option>
+                                        <option value="0"><spring:message code="data.status.all_questionnable_reviews_data"/></option>                                                    
+                                    </select>
+                                    <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                                        <select name="validationMine" id="myEtat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">
+                                            <option value="-999"><spring:message code="data.status.disable"/></option>
+                                            <option value="-1000"><spring:message code="data.status.my_occurences"/></option>
+                                            <option value="1"><spring:message code="data.status.my_reliable_reviews_data"/></option>
+                                            <option value="-1"><spring:message code="data.status.my_awaiting_review"/></option>
+                                            <option value="0"><spring:message code="data.status.my_questionnable_reviews_data"/></option>
+                                            <option value="-2"><spring:message code="data.status.my_invalidated"/></option>
+                                        </select>
+                                    </c:if>
+                                    <!--<span class="input-group-btn">-->
+                                    <a href="#" title="search" style="padding: 0px;height: 20px;float: left;margin-left: 6px;" onclick="rechercheSearch()" class="btn"><i style="color: darkgrey" class="fa fa-search"></i></a>
+                                    <!--</span>-->
+                                    <!--<select name="validationMine" id="myEtat" ng-model="modelePourFaireMarcherOnChange.id" ng-change="rechercherAvancee()" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 5%; float: left;">-->
+                                </div>                                            
                             </div>
                         </div>
-                    </form>
-                    <!-- End of Search Form -->
-                </div>
-            </div>
+                    </div>                        
+                </form>
+            </div>                
         </div>
-
         <!-- Contenu -->
         <div class="visu">
-            <div class="container">
-                <h1 class="titre-page">Visualisation cartographique<span></span></h1>
-                <div class="row" style="margin-top: 10px;">
+            <div class="container-fluid  header-pliss">                
+                <div class="row" style="margin-bottom: 10px;margin-top: 10px;border-bottom:  solid;border-bottom-width: 1px;border-bottom-color: beige;">
+                    <!-- Stat -->                                        
+                    <h1 style="margin-left: 10px; font-size:  14px;font-weight:  600;width:  100%;float: left;margin-top: 9px; color: #a18029;">Visualisation cartographique |</h1>
+                    <!--                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                    -->                                        
+                    <!--<input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">-->                    
+                    <!-- End Stat -->                    
+                </div>
+<!--                <div class="row" style="margin-top: 10px;">
                     <form class="col-md-12" style="float: right; max-width: 100%;" id="form-search">
-                        <!-- Search Field -->                                                    
+                         Search Field                                                     
                         <div class="form-group">
                             <div class="input-group">     
                                 <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
@@ -66,7 +185,7 @@
                             </div>
                         </div>                        
                     </form>                    
-                </div>
+                </div>-->
                 <div class="container">
                     <div class="col-md-12 advance">
                         <div id="filter-panel" class="collapse filter-panel">
@@ -131,10 +250,10 @@
                         </div>	
                     </div>
                     <!--                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-panel">-->
-                    <button type="button" class="btn btn-primary" onclick="window.history.back();">
+<!--                    <button type="button" class="btn btn-primary" onclick="window.history.back();">
                         &nbsp;Page précédent
                     </button>
-                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>-->
                 </div>
 
                 <div class="clearfix"></div>

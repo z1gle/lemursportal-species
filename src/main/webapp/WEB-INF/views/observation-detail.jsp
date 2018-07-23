@@ -14,27 +14,65 @@
     <input type="hidden" value="getCommentDwc" id="load"/>
     <!-- taxonomie -->
     <section id="taxonomie">
-        <div class="banner-interieur" style="background:url(resources/assets/img/parallax/fexpert.jpg) no-repeat center center;">
-            <div class="container" style="margin-top: 5%;">
-                <div class="col-md-6 col-md-offset-3">
-                    <!-- Search Form -->
-                    <form role="form" ng-submit="rechercher()">
-                        <!-- Search Field -->
-                        <div class="row search-header">
-                            <h4 class="text-left">Rechercher un espèce</h4>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" name="search" ng-model="object.scientificname" placeholder="Nom scientifique de l'espèce" required/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-success" type="button"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
+        <div class="banner-interieur-pliss" style="background:url(resources/assets/img/parallax/fexpert_modif.jpg) no-repeat center center; height: 125px; background-color: beige;"></div>
+        <div class="container-fluid header-pliss">
+            <div class="row" style="background-color: beige;margin-left: -15px; height: 45px; margin-bottom: -10px;">
+                <!--<div class="col-md-8 col-sm-8">-->
+                <form id="form-search">
+                    <!-- Search Field -->                                                    
+                    <div class="form-group" style="margin-bottom: 0px; margin-top: 5px; margin-left: 10px;">
+                        <div class="input-group" style="width: 100%;">                                             
+                            <div class="form-group badge-checkboxes">                                            
+                                <div>
+                                    <input id="form-search" ng-keyup="$event.keyCode == 13 ? rechercherAvancee() : null" name="espece" type="text" placeholder="search by scientific name" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 26%; border-style: solid;border-width: 1px; float: left;">                                        
+                                    <c:choose>
+                                        <c:when test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input ng-click="rechercherAvancee()" id="publique" name="etat[]" type="checkbox" value="1" checked="">
+                                                <span class="badge" style="margin-left: 15px;">Publique</span>
+                                            </label>
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input ng-click="rechercherAvancee()" id="privee" name="etat[]" type="checkbox" value="0">
+                                                <span class="badge" style="">Privée</span>
+                                            </label>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input ng-click="rechercherAvancee()" id="publique" name="etat[]" disabled="" type="checkbox" value="1" checked="">
+                                                <span class="badge" style="margin-left: 15px;">Publique</span>
+                                            </label>
+                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
+                                                <input ng-click="rechercherAvancee()" id="privee" disabled="" name="etat[]" type="checkbox" value="0">
+                                                <span class="badge" style="">Privée</span>
+                                            </label>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <select name="validation" id="etat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">
+                                        <option value="-999"><spring:message code="data.status.all_occurences"/></option>
+                                        <option value="1"><spring:message code="data.status.all_reliable_reviews_data"/></option>
+                                        <option value="-1"><spring:message code="data.status.all_awaiting_review"/></option>
+                                        <option value="0"><spring:message code="data.status.all_questionnable_reviews_data"/></option>                                                    
+                                    </select>
+                                    <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                                        <select name="validationMine" id="myEtat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">
+                                            <option value="-999"><spring:message code="data.status.disable"/></option>
+                                            <option value="-1000"><spring:message code="data.status.my_occurences"/></option>
+                                            <option value="1"><spring:message code="data.status.my_reliable_reviews_data"/></option>
+                                            <option value="-1"><spring:message code="data.status.my_awaiting_review"/></option>
+                                            <option value="0"><spring:message code="data.status.my_questionnable_reviews_data"/></option>
+                                            <option value="-2"><spring:message code="data.status.my_invalidated"/></option>
+                                        </select>
+                                    </c:if>
+                                    <!--<span class="input-group-btn">-->
+                                    <a href="#" title="search" style="padding: 0px;height: 20px;float: left;margin-left: 6px;" ng-click="rechercherAvancee()" class="btn"><i style="color: darkgrey" class="fa fa-search"></i></a>
+                                    <!--</span>-->
+                                    <!--<select name="validationMine" id="myEtat" ng-model="modelePourFaireMarcherOnChange.id" ng-change="rechercherAvancee()" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 5%; float: left;">-->
+                                </div>                                            
                             </div>
                         </div>
-                    </form>
-                    <!-- End of Search Form -->
-                </div>
-            </div>
+                    </div>                        
+                </form>
+            </div>                
         </div>
         <!-- Contenu -->
         <div class="detail-result">
@@ -50,7 +88,7 @@
                             Integer chercheur = ((Integer) request.getAttribute("chercheur"));
                             Integer expert = ((Integer) request.getAttribute("expert"));
                             if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {
-                                 remarques = (List<String>) request.getAttribute("remarques");
+                                remarques = (List<String>) request.getAttribute("remarques");
                                 if (!remarques.isEmpty()) {
                                     for (String s : remarques) {
                         %>
