@@ -35,7 +35,8 @@
         <div class="container-fluid header-pliss">
             <div class="row header-pliss" style="margin-bottom: 10px;border-bottom:  solid;border-bottom-width: 1px;border-bottom-color: beige;">
                 <!-- Stat -->                                        
-                <h1 style="font-size:  14px;font-weight:  600;width:  100%;float: left;margin-top: 9px; color: #a18029; margin-left: 30px;"><%out.print(dwc.getAcceptednameusage());%> | <small>Details</small></h1>                
+                <!--<h1 style="font-size:  14px;font-weight:  600;width:  100%;float: left;margin-top: 9px; color: #a18029; margin-left: 30px;"><%//out.print(dwc.getAcceptednameusage());%> | <small>Details</small></h1>-->                
+                <h1 style="font-size:  14px;font-weight:  600;width:  100%;float: left;margin-top: 9px; color: #a18029; margin-left: 30px;"><%out.print(dwc.getScientificname());%> | <small>Details</small></h1>                
                 <!-- End Stat -->                    
             </div>                
         </div>
@@ -47,7 +48,7 @@
                         List<String> remarques = null;
                         Integer chercheur = ((Integer) request.getAttribute("chercheur"));
                         Integer expert = ((Integer) request.getAttribute("expert"));
-                        if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {
+                        if (expert == 0 || (dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {
                             remarques = (List<String>) request.getAttribute("remarques");
                             if (!remarques.isEmpty()) {
                                 for (String s : remarques) {
@@ -86,7 +87,7 @@
                     <div class="map-detail-obs" id="map">
                         <!--                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>-->
                     </div>                    
-                    <%if (expert == 0 || (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {%>
+                    <%if (expert == 0 || (dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {%>
                     <br>
                     <p align="center">
                         <button type="button" onclick="showCommentaires()" class="btn btn-primary"> Commentaires</button>
@@ -1437,7 +1438,7 @@
                 </div>  
                 <%}%>
                 <%
-                    if (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
+                    if (dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
                         int j = 5;
                 %>
                 <div class="pull-right divider">
@@ -1448,7 +1449,7 @@
             </div>
         </div>
         <%
-            if (chercheur == 0 && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
+            if (dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
         %>   
         <div class="clearfix"></div>
         <div class="col-md-12">

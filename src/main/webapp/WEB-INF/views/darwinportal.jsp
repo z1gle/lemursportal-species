@@ -376,19 +376,19 @@
                                         <td ng-if="dwc.validation == 1" class="number text-center">                                            
                                             <div class="checkbox checkbox-info checkbox-circle" style="margin-bottom: 0px; margin-top: 0px;">
                                                 <input id="ckb{{dwc.dwc.id}}" name="dwc[]" value="{{dwc.dwc.id}}" type="checkbox">
-                                                <label for="ckb{{dwc.dwc.id}}"></label>
+                                                <label ng-cloak for="ckb{{dwc.dwc.id}}"></label>
                                             </div>
                                         </td>
                                         <td ng-if="dwc.validation == 0" class="number text-center"></td>
                                         <%}%>
-                                        <td class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
-                                        <td class="text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.scientificname}}</a></td>
-                                        <td class="text-center">{{dwc.dwc.locality}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinorder}}</td>
-                                        <td class="text-center">{{dwc.dwc.darwinclass}}</td>
-                                        <td class="text-center">{{dwc.dwc.genus}}</td>
-                                        <td class="text-center">{{dwc.dwc.dwcyear}}</td>
-                                        <td class="text-center">{{dwc.dwc.institutioncode}}</td>    
+                                        <td ng-cloak class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
+                                        <td ng-cloak class="text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.scientificname}}</a></td>
+                                        <td ng-cloak class="text-center">{{dwc.dwc.locality}}</td>
+                                        <td ng-cloak class="text-center">{{dwc.dwc.darwinorder}}</td>
+                                        <td ng-cloak class="text-center">{{dwc.dwc.darwinclass}}</td>
+                                        <td ng-cloak class="text-center">{{dwc.dwc.genus}}</td>
+                                        <td ng-cloak class="text-center">{{dwc.dwc.dwcyear}}</td>
+                                        <td ng-cloak class="text-center">{{dwc.dwc.institutioncode}}</td>    
                                         <%if (role == 0) {%>
                                         <td class="">
                                             <ul>
