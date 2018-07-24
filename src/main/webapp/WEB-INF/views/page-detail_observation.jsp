@@ -48,7 +48,7 @@
                         List<String> remarques = null;
                         Integer chercheur = ((Integer) request.getAttribute("chercheur"));
                         Integer expert = ((Integer) request.getAttribute("expert"));
-                        if (expert == 0 || (dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {
+                        if (expert == 0 || (u.getId() != null && dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {
                             remarques = (List<String>) request.getAttribute("remarques");
                             if (!remarques.isEmpty()) {
                                 for (String s : remarques) {
@@ -87,7 +87,7 @@
                     <div class="map-detail-obs" id="map">
                         <!--                        <a href="#"><img class="img-responsive img-rounded" src="resources/assets/img/carte.png"/></a>-->
                     </div>                    
-                    <%if (expert == 0 || (dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {%>
+                    <%if (expert == 0 || (u.getId() != null && dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue())) {%>
                     <br>
                     <p align="center">
                         <button type="button" onclick="showCommentaires()" class="btn btn-primary"> Commentaires</button>
@@ -1438,7 +1438,7 @@
                 </div>  
                 <%}%>
                 <%
-                    if (dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
+                    if (u.getId() != null && dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
                         int j = 5;
                 %>
                 <div class="pull-right divider">
@@ -1449,7 +1449,7 @@
             </div>
         </div>
         <%
-            if (dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
+            if (u.getId()!= null && dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
         %>   
         <div class="clearfix"></div>
         <div class="col-md-12">
