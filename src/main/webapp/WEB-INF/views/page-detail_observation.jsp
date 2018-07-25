@@ -191,7 +191,7 @@
                             Taxon
                         </p>
                         <ul>
-                            <div class="row">
+<!--                            <div class="row">
                                 <li>
                                     <div class="col-md-5">
                                         TaxonID:
@@ -270,7 +270,7 @@
                                         <%out.print(dwc.getTaxonConceptId());%>
                                     </div>                                                                        
                                 </li>                            
-                            </div>                            
+                            </div>                            -->
                             <div class="row">
                                 <li>
                                     <div class="col-md-5">
@@ -520,14 +520,14 @@
                         </p>
                         <ul>
                             <div class="row">
-                                <li>
+<!--                                <li>
                                     <div class="col-md-5">
                                         OccurrenceID:
                                     </div>
                                     <div class="col-md-7">
                                         <%out.print(dwc.getOccurrenceId());%>
                                     </div>                                                                        
-                                </li>                            
+                                </li>                            -->
                             </div>                            
                             <div class="row">
                                 <li>

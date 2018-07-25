@@ -98,7 +98,7 @@ public class ReportGenerator {
             for(Field f : field) {
                 parameters.put(f.getName(), taxonomi.getClass().getMethod("get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1), null).invoke(taxonomi, null));
             } 
-            parameters.put("link", "www.lemursportal.org");
+            parameters.put("link", "");
             // - Execution du rapport
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
             
