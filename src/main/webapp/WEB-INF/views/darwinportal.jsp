@@ -321,6 +321,7 @@
                     <!-- Stat -->                                        
                     <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;">Liste des obsérvations |</h1>
                     <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                    
+                    <a title="Download darwin core template" style="width: 3%; display: inline-block; float: left;" class="btn" href="resources/assets/Model_darwin_core.csv"><i class="fa fa-file-excel-o"></i></a>
                     <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                         <a href="#" title="upload observations" style="width: 3%; display: inline-block; float: left;" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});" class="btn"><i class="fa fa-upload"></i></a>
                         </c:if>
@@ -334,7 +335,7 @@
                             }
                         %>
                     <!--<a href="#" title="Global research" style="width: 3%; display: inline-block; float: left; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn"><i class="fa fa-search"></i></a>-->
-                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                    
+                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                                        
                     <!-- End Stat -->                    
                 </div>
                 <div class="row">                    
@@ -381,7 +382,7 @@
                                         </td>
                                         <td ng-if="dwc.validation == 0" class="number text-center"></td>
                                         <%}%>
-                                        <td ng-cloak class="number text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
+                                        <td ng-cloak class="number text-center"><a style="color: #818181;" href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
                                         <td ng-cloak class="text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.scientificname}}</a></td>
                                         <td ng-cloak class="text-center">{{dwc.dwc.locality}}</td>
                                         <td ng-cloak class="text-center">{{dwc.dwc.darwinorder}}</td>
@@ -628,7 +629,7 @@
             <div class='modal-content'>
                 <div class="modal-header">
                     <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title"><center>Importer des darwin core</center></h4>
+                    <h4 class="modal-title"><center><spring:message code="observation.upload.title"/></center></h4>
                 </div>
                 <div class='modal-body row'>   
                     <!--                    <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">

@@ -61,756 +61,988 @@
 	<title>
 		<band height="127" splitType="Stretch">
 			<image>
-				<reportElement x="0" y="0" width="595" height="111" uuid="ba90a518-2704-470f-962e-5790319ee3ec"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="595" height="111" uuid="ba90a518-2704-470f-962e-5790319ee3ec"/>
 				<imageExpression><![CDATA[$P{entete}]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="460" y="10" width="100" height="16" forecolor="#FF6600" uuid="2226c70c-9d3c-4a78-b636-2916a62d6126"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="460" y="10" width="100" height="16" forecolor="#FF6600" uuid="2226c70c-9d3c-4a78-b636-2916a62d6126"/>
 				<textFieldExpression><![CDATA[$P{link}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<detail>
-		<band height="599" splitType="Stretch">
-			<frame>
-				<reportElement mode="Opaque" x="30" y="259" width="530" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="efbbd6f4-7ed1-469f-8dbb-10548b93f417"/>
-			</frame>
+		<band height="383" splitType="Stretch">
 			<image>
-				<reportElement x="30" y="40" width="241" height="179" uuid="e5b6754d-84a0-4d88-a0f3-5a904bb22be7"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="40" width="241" height="179" uuid="e5b6754d-84a0-4d88-a0f3-5a904bb22be7"/>
 				<imageExpression><![CDATA[$P{profil}]]></imageExpression>
 			</image>
-			<staticText>
-				<reportElement x="300" y="41" width="181" height="21" uuid="371396b6-944a-4e09-abcd-795c164485dc"/>
-				<textElement>
-					<font fontName="Bell MT" size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Conservation Statut IUCN :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="300" y="91" width="181" height="21" uuid="d5d68e08-8f3a-43f0-9e14-ea9f46491221"/>
-				<textElement>
-					<font fontName="Bell MT" size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[French Vernacular Name :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="301" y="141" width="191" height="21" uuid="0a51595a-d06b-4fce-88dd-748b1c26a0ae"/>
-				<textElement>
-					<font fontName="Bell MT" size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Malagasy Vernacular Name :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="300" y="191" width="181" height="21" uuid="5e147be1-26fa-40b3-a9dd-1c777e3808b8"/>
-				<textElement>
-					<font fontName="Bell MT" size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[English Vernacular Name :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="35" y="3" width="488" height="35" isPrintWhenDetailOverflows="true" uuid="903bed86-587c-4dbe-960c-379ababc3c03"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="35" y="3" width="488" height="35" isPrintWhenDetailOverflows="true" uuid="903bed86-587c-4dbe-960c-379ababc3c03"/>
 				<textElement>
 					<font fontName="Arial" size="21" isBold="true" isItalic="true" pdfFontName="Helvetica-Oblique"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{scientificname}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="300" y="57" width="281" height="21" isPrintWhenDetailOverflows="true" forecolor="#A60000" uuid="8522e79d-87be-4504-ae80-52319492f6c1"/>
-				<textElement>
-					<font fontName="Calibri" size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{conservationStatus}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="301" y="107" width="281" height="21" isPrintWhenDetailOverflows="true" uuid="7a6d24ea-a9c3-452e-be6a-0aba2f446205"/>
-				<textElement>
-					<font fontName="Calibri Light" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{frenchvernacularname}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="301" y="155" width="281" height="21" isPrintWhenDetailOverflows="true" uuid="b569370c-84ea-4647-90e4-43f8de277139"/>
-				<textElement>
-					<font fontName="Calibri Light" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{malagasyvernacularname}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="300" y="208" width="181" height="21" isPrintWhenDetailOverflows="true" uuid="5212e269-7f97-470c-89d2-de0bac0b0874"/>
-				<textElement>
-					<font fontName="Calibri Light" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{englishvernacularname}]]></textFieldExpression>
-			</textField>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="300" y="41" width="181" height="21" uuid="371396b6-944a-4e09-abcd-795c164485dc"/>
+					<textElement>
+						<font fontName="Bell MT" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Conservation Statut IUCN :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="300" y="57" width="281" height="21" isPrintWhenDetailOverflows="true" forecolor="#A60000" uuid="8522e79d-87be-4504-ae80-52319492f6c1"/>
+					<textElement>
+						<font fontName="Calibri" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{conservationStatus}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="300" y="78" width="283" height="3" backcolor="#0D0C0C" uuid="75aa0e58-6ed9-49fc-90fc-b5e9d37ad8c8"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="300" y="91" width="181" height="21" uuid="d5d68e08-8f3a-43f0-9e14-ea9f46491221"/>
+					<textElement>
+						<font fontName="Bell MT" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[French Vernacular Name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="301" y="107" width="281" height="21" isPrintWhenDetailOverflows="true" uuid="7a6d24ea-a9c3-452e-be6a-0aba2f446205"/>
+					<textElement>
+						<font fontName="Calibri Light" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{frenchvernacularname}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="301" y="128" width="283" height="3" backcolor="#0A0A0A" uuid="44680a3c-6eb4-499c-a0bf-4a0b1e317eb0"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" x="301" y="141" width="191" height="21" uuid="0a51595a-d06b-4fce-88dd-748b1c26a0ae"/>
+					<textElement>
+						<font fontName="Bell MT" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Malagasy Vernacular Name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="301" y="155" width="281" height="21" isPrintWhenDetailOverflows="true" uuid="b569370c-84ea-4647-90e4-43f8de277139"/>
+					<textElement>
+						<font fontName="Calibri Light" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{malagasyvernacularname}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="301" y="176" width="283" height="3" backcolor="#0F0E0E" uuid="2924d3a6-fe6f-494e-b01b-d82d06e5c445"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" x="300" y="191" width="181" height="21" uuid="5e147be1-26fa-40b3-a9dd-1c777e3808b8"/>
+					<textElement>
+						<font fontName="Bell MT" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[English Vernacular Name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="300" y="208" width="181" height="21" isPrintWhenDetailOverflows="true" uuid="5212e269-7f97-470c-89d2-de0bac0b0874"/>
+					<textElement>
+						<font fontName="Calibri Light" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{englishvernacularname}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="488" width="191" height="21" uuid="6e857ea5-410c-459e-88cd-359ba8055cf3"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[French vernacular name :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="341" width="131" height="21" uuid="ef8163d4-ec2d-4d5f-adb1-7a7b3e643fff"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Phylum :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="383" width="131" height="21" uuid="9055bb6d-666a-4e45-b4a5-ba46f2c68586"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Order :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="425" width="280" height="21" uuid="644b1603-a03b-4c5a-a16d-ceb4ae0f77f8"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{genus}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="341" width="280" height="21" uuid="1b696042-dc38-40f9-8417-937aefea67b7"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{phylum}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="425" width="131" height="21" uuid="f9f08118-8b6b-4182-85c0-c223cfa73008"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Genus :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="320" width="280" height="21" uuid="16579c57-d4f4-4108-a075-dfe891e7a916"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{kingdom}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="280" width="161" height="30" uuid="72076edd-3009-4f1c-8ad4-bb53f5eb0d1c"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="250" width="551" height="30" uuid="72076edd-3009-4f1c-8ad4-bb53f5eb0d1c"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TAXONOMIE]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="30" y="320" width="131" height="21" uuid="af6933a5-ff16-420a-85eb-7e55c93a3ad3"/>
-				<textElement>
-					<font fontName="Calibri Light" size="12" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Kingdom :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="404" width="280" height="21" uuid="b5d1f13c-e20b-46ad-af8e-1b9e3fa2f36c"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{dwcfamily}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="551" width="280" height="21" uuid="f75caeb7-7a5e-4a61-b710-b11e3655c2ec"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{germanyVernacularName}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="362" width="131" height="21" uuid="478f6b77-687b-45ff-a13d-c2bd2254de6f"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Class :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="530" width="191" height="21" uuid="21b6f0d8-3bac-4898-9187-829b96a5766f"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[English vernacular name :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="280" y="447" width="280" height="21" uuid="1be6ae24-6d7a-493e-bde5-42327453a642"/>
-				<textElement>
-					<font fontName="Arial" size="14" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{scientificname}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="446" width="131" height="21" uuid="3c4ec520-8e63-49bd-8520-79889ff95680"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Scientific name :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="362" width="280" height="21" uuid="12e2101e-ba77-4829-a4b3-bba586a6aea5"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{dwcclass}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="404" width="131" height="21" uuid="71d9114a-66bf-40ee-ab87-ee00d43b7bfa"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Family :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="383" width="280" height="21" uuid="e2dbed73-36db-4132-9597-9cce8255a2cb"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{dwcorder}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="488" width="280" height="21" uuid="289a82d1-1c1a-423f-a07b-e0b64e564159"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{frenchvernacularname}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="509" width="191" height="21" uuid="4252931a-67d0-4397-be56-7ee5ebdc06c7"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Malagasy vernacular name :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="530" width="280" height="21" uuid="efc4289c-480d-455c-aece-6bb22f18484b"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{englishvernacularname}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="509" width="280" height="21" uuid="35308832-6ca9-409a-b850-de58c7973698"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{malagasyvernacularname}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="551" width="191" height="21" uuid="5ab570c7-3278-44be-9e7f-185ffa59cafd"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Germany vernacular name :]]></text>
-			</staticText>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="34" width="531" height="3" backcolor="rgba(240, 240, 240, 0.11764706)" uuid="e0740a4e-f287-4bed-ae71-0ebc0f6ae7a5"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="11" y="240" width="573" height="3" backcolor="#1F1D1D" uuid="6994b95c-5fbe-4f25-8fc3-87c0d3cf3a2b"/>
 			</frame>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="271" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="154529f4-7a54-4b8a-9531-f3dcf3c6ef66"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="271" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="19d29fa0-dcf5-44af-8f5f-3312575fb944"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" x="30" y="282" width="131" height="21" uuid="af6933a5-ff16-420a-85eb-7e55c93a3ad3"/>
+					<textElement>
+						<font fontName="Calibri Light" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Kingdom :]]></text>
+				</staticText>
+				<textField>
+					<reportElement positionType="Float" x="281" y="282" width="280" height="21" uuid="16579c57-d4f4-4108-a075-dfe891e7a916"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{kingdom}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<frame>
-				<reportElement mode="Opaque" x="281" y="308" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="b3434ad0-781e-4d5f-b172-cb104dbe2ed5"/>
+				<reportElement positionType="Float" x="35" y="303" width="526" height="3" uuid="1a0a9144-6a44-4bb1-aa1b-25f79e6332c0"/>
 			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" x="30" y="307" width="131" height="21" uuid="ef8163d4-ec2d-4d5f-adb1-7a7b3e643fff"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Phylum :]]></text>
+				</staticText>
+				<textField>
+					<reportElement positionType="Float" x="281" y="307" width="280" height="21" uuid="1b696042-dc38-40f9-8417-937aefea67b7"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{phylum}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" x="30" y="332" width="131" height="21" uuid="478f6b77-687b-45ff-a13d-c2bd2254de6f"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Class :]]></text>
+				</staticText>
+				<textField>
+					<reportElement positionType="Float" x="281" y="332" width="280" height="21" uuid="12e2101e-ba77-4829-a4b3-bba586a6aea5"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dwcclass}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="308" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="e357325c-865a-48bf-b041-24d8cbe4d877"/>
+				<reportElement positionType="Float" mode="Transparent" x="30" y="353" width="526" height="3" backcolor="#8C5F5E" uuid="30b9895a-c61f-480c-beed-07f5d1e7ae8b"/>
 			</frame>
-			<staticText>
-				<reportElement x="30" y="467" width="191" height="21" uuid="24af6a74-17ee-451d-8aad-c0f1b661767e"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Scientific name author:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="467" width="280" height="21" uuid="6ef51213-e247-4574-a697-59ec1aa50e69"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{scientificnameauthorship}]]></textFieldExpression>
-			</textField>
 		</band>
-		<band height="645">
-			<textField>
-				<reportElement x="281" y="125" width="280" height="21" uuid="46db2036-7b03-430e-82bf-77235be83180"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{colorFr}]]></textFieldExpression>
-			</textField>
+		<band height="252">
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="120" width="191" height="21" uuid="5ab570c7-3278-44be-9e7f-185ffa59cafd"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Germany vernacular name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="120" width="280" height="21" uuid="f75caeb7-7a5e-4a61-b710-b11e3655c2ec"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{germanyVernacularName}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" x="30" y="141" width="526" height="3" uuid="94528f0a-ecc7-4ea4-864f-488d5085cc19"/>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="30" y="166" width="526" height="3" uuid="c5d0f945-da54-4c01-ad05-a84bcfd029ba"/>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="30" y="191" width="526" height="3" uuid="2528ad4f-2b72-449b-99e5-baf5e6f2234c"/>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="30" y="215" width="531" height="3" backcolor="rgba(240, 240, 240, 0.11764706)" uuid="e0740a4e-f287-4bed-ae71-0ebc0f6ae7a5"/>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="30" y="117" width="526" height="3" uuid="d5944b5b-a92d-4d36-ae91-1ce682db1bd6"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="96" width="191" height="21" uuid="24af6a74-17ee-451d-8aad-c0f1b661767e"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Scientific name author:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="96" width="280" height="21" uuid="6ef51213-e247-4574-a697-59ec1aa50e69"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{scientificnameauthorship}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" x="30" y="93" width="526" height="3" uuid="72376a93-9b40-4b3f-bcb8-57aa90a607e8"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="72" width="131" height="21" uuid="3c4ec520-8e63-49bd-8520-79889ff95680"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Scientific name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="280" y="72" width="280" height="21" uuid="1be6ae24-6d7a-493e-bde5-42327453a642"/>
+					<textElement>
+						<font fontName="Arial" size="14" isBold="false" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{scientificname}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" x="30" y="69" width="526" height="3" uuid="f8391233-0a56-4154-a148-6808b051defb"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="48" width="131" height="21" uuid="f9f08118-8b6b-4182-85c0-c223cfa73008"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Genus :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="48" width="280" height="21" uuid="644b1603-a03b-4c5a-a16d-ceb4ae0f77f8"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{genus}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="30" y="45" width="526" height="3" backcolor="#6E2423" uuid="99916691-075f-4bd9-8b5e-e71c5b1271a5"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="24" width="131" height="21" uuid="71d9114a-66bf-40ee-ab87-ee00d43b7bfa"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Family :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="24" width="280" height="21" uuid="b5d1f13c-e20b-46ad-af8e-1b9e3fa2f36c"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dwcfamily}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="30" y="21" width="526" height="3" backcolor="#783130" uuid="485a744b-b4bd-460e-a7c2-44355247e654"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="0" width="131" height="21" uuid="9055bb6d-666a-4e45-b4a5-ba46f2c68586"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Order :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="0" width="280" height="21" uuid="e2dbed73-36db-4132-9597-9cce8255a2cb"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dwcorder}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="145" width="191" height="21" uuid="6e857ea5-410c-459e-88cd-359ba8055cf3"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[French vernacular name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="145" width="280" height="21" uuid="289a82d1-1c1a-423f-a07b-e0b64e564159"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{frenchvernacularname}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="169" width="191" height="21" uuid="4252931a-67d0-4397-be56-7ee5ebdc06c7"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Malagasy vernacular name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="169" width="280" height="21" uuid="35308832-6ca9-409a-b850-de58c7973698"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{malagasyvernacularname}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="194" width="191" height="21" uuid="21b6f0d8-3bac-4898-9187-829b96a5766f"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[English vernacular name :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="194" width="280" height="21" uuid="efc4289c-480d-455c-aece-6bb22f18484b"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{englishvernacularname}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+		</band>
+		<band height="658">
 			<staticText>
-				<reportElement x="30" y="125" width="131" height="21" uuid="0e7b1c5f-b607-4d8d-839d-38230001ebc5"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Color(FR) :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="83" width="131" height="21" uuid="d8875522-bfc9-4d6b-9b18-5ab7557f1408"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Length and weight source:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="104" width="280" height="21" uuid="7d4cd82d-fd27-4bc0-b376-f1663beaece1"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{colorEn}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="146" width="131" height="21" uuid="be5fa33d-7d10-4a07-adf9-54c7459f27ad"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Color source :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="83" width="280" height="21" uuid="b2019b25-ac39-4423-aac4-f5c46682e64a"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{lengthAndWeightSource}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="146" width="280" height="21" uuid="789814ed-1228-449a-8ada-58baa54fed46"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{colorSource}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="22" width="280" height="30" uuid="2f674db7-ab37-40b8-aab4-ff91194efe37"/>
+				<reportElement positionType="Float" x="30" y="11" width="280" height="30" uuid="2f674db7-ab37-40b8-aab4-ff91194efe37"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[MORPHOLOGIE]]></text>
 			</staticText>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="280" y="41" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="ccfbc734-060c-4e0a-a61d-1bb4c46a10a1"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="41" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="9f8cfdc3-1980-4137-a8a0-678421ee4cec"/>
+				</frame>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="62" width="131" height="21" uuid="94e809a7-836b-4f16-baa5-94b6eb209146"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Length and weight :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="62" width="280" height="21" uuid="097c55ea-211c-4cac-89a3-ad1272e4f548"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{lengthAndWeight}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="104" width="131" height="21" uuid="85064b08-5a23-4c14-bad2-c997044864e5"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Color(EN) :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="243" width="131" height="21" uuid="e8433923-e55a-44b8-be9f-b12fe9e68444"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Habitat (FR) :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="222" width="131" height="21" uuid="cfe7d229-49ca-479c-b19c-6a4ac7a59c17"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Habitat (EN) :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="243" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="5f2c3b28-5aa3-4a82-a223-26df46289963"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{habitatFr}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="306" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="18134fe3-500e-4e58-bca3-4808e4f96fb6"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{populationDensitySource}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="285" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="d8e35c80-baba-4abd-9b80-03d051b83003"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{populationDensity}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="264" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="e103dca6-162e-4fb8-881c-55e42e544f6a"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{habitatsource}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="264" width="131" height="21" uuid="2d6ce3bf-169b-4a3e-b7ed-e562e980d9be"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Habitat source :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="306" width="181" height="21" uuid="992559ed-26ae-4730-bf81-7423edec3595"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Population density source :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="222" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="1b43d589-94fa-426d-9c50-224fc6ae9dee"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{habitatEn}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="182" width="531" height="30" uuid="a50628f1-1468-439e-97c3-c71c69f969f4"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="275" width="531" height="30" uuid="a50628f1-1468-439e-97c3-c71c69f969f4"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[HABITAT ET DENSITE DE LA POPULATION]]></text>
 			</staticText>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="305" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="b3434ad0-781e-4d5f-b172-cb104dbe2ed5"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="305" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="e357325c-865a-48bf-b041-24d8cbe4d877"/>
+				</frame>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="285" width="131" height="21" uuid="d33a2b0d-7bdf-459d-9160-9adef3a3b2fd"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Population density :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="478" width="280" height="21" uuid="1c78176d-15fa-4f18-ace1-569f1bd7930a"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{behaviorFr}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="436" width="131" height="21" uuid="14bd8426-e340-444d-8682-78021c5bbbbc"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Ecology source :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="394" width="131" height="21" uuid="ca1a7186-79c4-47dd-bbdc-b4dec7b191f2"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Ecology (EN) :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="457" width="161" height="21" uuid="757010b0-da83-4c4c-9a3e-1b2871e40024"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Social behavior (EN) :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="394" width="280" height="21" uuid="a83daee5-7047-43a6-b3a8-47945b28e635"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{ecologyEn}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="415" width="131" height="21" uuid="250f9959-aea4-4bb5-a88a-2b2a4322b756"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Ecology (FR) :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="499" width="181" height="21" uuid="8b32fe60-b3ca-4349-afba-26fbfde95187"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Social behavior source :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="436" width="280" height="21" uuid="e7b30f2f-0929-431b-8a9d-2728306b8f2b"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{ecologysource}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="354" width="531" height="30" uuid="a707677d-a50e-46c2-8d5c-86f6474da43f"/>
+				<reportElement positionType="Float" x="30" y="465" width="531" height="27" uuid="a707677d-a50e-46c2-8d5c-86f6474da43f"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ECOLOGIE ET COMPORTEMENT]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="281" y="499" width="280" height="21" uuid="87b79914-660f-4096-b9f5-b0e0940e6e27"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{behaviorsource}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="415" width="280" height="21" uuid="71d20c2f-b1e0-4bb0-82c4-e9d0c4ec00eb"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{ecologyFr}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="478" width="181" height="21" uuid="14583a9c-36c5-445e-9b14-cc664c9cbaad"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Social behavior (FR) :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="457" width="280" height="21" uuid="9a4a1e6f-8e66-4a88-950e-7f04818021b3"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{behaviorEn}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="622" width="131" height="21" uuid="9cb64d6d-5f56-40dc-9ee0-93a19b2db391"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Threat source :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="540" width="391" height="30" uuid="3e2bd090-6fbf-4e4b-b05e-68ead05d78bd"/>
-				<textElement>
-					<font fontName="Adobe Arabic" size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[MENACES]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="580" width="131" height="21" uuid="01a7ba97-35b1-423e-839f-e79d03ea3ecf"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Threat (EN) :]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="281" y="601" width="280" height="21" uuid="c3226320-f704-4ff8-a8e1-e7d0865a35ec"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{threatFr}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="580" width="280" height="21" uuid="d7905de5-1d2c-4386-84dd-dbd15fd4b7fd"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{threatEn}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="281" y="622" width="280" height="21" uuid="7ae02470-de61-44ca-944b-16c1e43f89f3"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{threatsource}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="601" width="131" height="21" uuid="732900f7-4242-4985-9370-28d13c4c9c9b"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Threat (FR) :]]></text>
-			</staticText>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="492" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="53b8732a-d39f-4cd1-8984-1f5a34423436"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="492" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="1671fc9b-9d90-4fbc-b324-12641199ee3b"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="57" width="131" height="21" uuid="94e809a7-836b-4f16-baa5-94b6eb209146"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Length and weight :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="57" width="280" height="21" uuid="097c55ea-211c-4cac-89a3-ad1272e4f548"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{lengthAndWeight}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="48" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="19d29fa0-dcf5-44af-8f5f-3312575fb944"/>
+				<reportElement positionType="Float" mode="Transparent" x="30" y="78" width="531" height="3" backcolor="rgba(240, 240, 240, 0.11764706)" uuid="d0ba2519-f861-4f4e-9809-ff01323d0b82"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="81" width="170" height="21" uuid="d8875522-bfc9-4d6b-9b18-5ab7557f1408"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Length and weight source:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="81" width="280" height="21" uuid="b2019b25-ac39-4423-aac4-f5c46682e64a"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{lengthAndWeightSource}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="30" y="102" width="531" height="3" backcolor="rgba(240, 240, 240, 0.11764706)" uuid="53c94967-6bd1-4dd3-b625-773cce245c80"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="106" width="131" height="21" uuid="85064b08-5a23-4c14-bad2-c997044864e5"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Color(EN) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="106" width="280" height="21" uuid="7d4cd82d-fd27-4bc0-b376-f1663beaece1"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{colorEn}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="31" y="127" width="526" height="3" uuid="0a9f9a2f-a144-4184-ae1b-c29658df2192"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="130" width="131" height="21" uuid="0e7b1c5f-b607-4d8d-839d-38230001ebc5"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Color(FR) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="130" width="280" height="21" uuid="46db2036-7b03-430e-82bf-77235be83180"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{colorFr}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="32" y="151" width="526" height="3" backcolor="#000000" uuid="3274b5e0-4429-4634-9f13-798f6f28b00b"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="154" width="131" height="21" uuid="be5fa33d-7d10-4a07-adf9-54c7459f27ad"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Color source :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="154" width="280" height="21" uuid="789814ed-1228-449a-8ada-58baa54fed46"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{colorSource}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" mode="Transparent" x="32" y="240" width="526" height="30" backcolor="#241919" uuid="a435a31e-028d-4289-b751-c0a4785d309b"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="319" width="131" height="21" uuid="cfe7d229-49ca-479c-b19c-6a4ac7a59c17"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Habitat (EN) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="319" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="1b43d589-94fa-426d-9c50-224fc6ae9dee"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{habitatEn}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="30" y="340" width="526" height="3" backcolor="#B86665" uuid="28629b90-97f7-49d7-95aa-2e983a1af369"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="343" width="131" height="21" uuid="e8433923-e55a-44b8-be9f-b12fe9e68444"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Habitat (FR) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="343" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="5f2c3b28-5aa3-4a82-a223-26df46289963"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{habitatFr}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="30" y="364" width="526" height="3" backcolor="#A84F4D" uuid="e22639b3-a607-4749-86a1-b62c794be642"/>
+			</frame>
+			<elementGroup>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="367" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="e103dca6-162e-4fb8-881c-55e42e544f6a"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{habitatsource}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="367" width="131" height="21" uuid="2d6ce3bf-169b-4a3e-b7ed-e562e980d9be"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Habitat source :]]></text>
+				</staticText>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="30" y="388" width="526" height="3" backcolor="#8F3D3C" uuid="f6991fee-612c-4369-baa8-6dd668354554"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="391" width="131" height="21" uuid="d33a2b0d-7bdf-459d-9160-9adef3a3b2fd"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Population density :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="391" width="280" height="21" isPrintWhenDetailOverflows="true" uuid="d8e35c80-baba-4abd-9b80-03d051b83003"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{populationDensity}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="30" y="412" width="526" height="3" backcolor="#A14745" uuid="49b31de1-e950-46a1-9f92-99000d07d613"/>
+			</frame>
+			<elementGroup>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="415" width="269" height="21" isPrintWhenDetailOverflows="true" uuid="18134fe3-500e-4e58-bca3-4808e4f96fb6"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{populationDensitySource}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="415" width="181" height="21" uuid="992559ed-26ae-4730-bf81-7423edec3595"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Population density source :]]></text>
+				</staticText>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="30" y="436" width="526" height="3" backcolor="#873B3A" uuid="47668e2f-7eb8-4594-8e47-35a3ac41e5b1"/>
+			</frame>
+			<elementGroup>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="505" width="280" height="21" uuid="a83daee5-7047-43a6-b3a8-47945b28e635"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ecologyEn}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="505" width="131" height="21" uuid="ca1a7186-79c4-47dd-bbdc-b4dec7b191f2"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Ecology (EN) :]]></text>
+				</staticText>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="526" width="526" height="3" uuid="460dea78-da77-4860-ac18-b89738d5cebd"/>
+			</frame>
+			<elementGroup>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="529" width="280" height="21" uuid="71d20c2f-b1e0-4bb0-82c4-e9d0c4ec00eb"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ecologyFr}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="529" width="131" height="21" uuid="250f9959-aea4-4bb5-a88a-2b2a4322b756"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Ecology (FR) :]]></text>
+				</staticText>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="550" width="526" height="3" uuid="1777d02d-fe8f-4acb-9c4e-6c4c8a4d752b"/>
+			</frame>
+			<elementGroup>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="553" width="280" height="21" uuid="e7b30f2f-0929-431b-8a9d-2728306b8f2b"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ecologysource}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="553" width="131" height="21" uuid="14bd8426-e340-444d-8682-78021c5bbbbc"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Ecology source :]]></text>
+				</staticText>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="574" width="526" height="3" uuid="a97ef707-b7a4-4335-9bb5-be6dbf196516"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="577" width="161" height="21" uuid="757010b0-da83-4c4c-9a3e-1b2871e40024"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Social behavior (EN) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="577" width="280" height="21" uuid="9a4a1e6f-8e66-4a88-950e-7f04818021b3"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{behaviorEn}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="598" width="526" height="3" uuid="f4e443b0-68ee-4315-90d6-8b46b284b148"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="601" width="181" height="21" uuid="14583a9c-36c5-445e-9b14-cc664c9cbaad"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Social behavior (FR) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="601" width="280" height="21" uuid="1c78176d-15fa-4f18-ace1-569f1bd7930a"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{behaviorFr}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="622" width="526" height="3" uuid="5d00efad-c432-4839-a769-a754c3802dd4"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="625" width="181" height="21" uuid="8b32fe60-b3ca-4349-afba-26fbfde95187"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Social behavior source :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="625" width="280" height="21" uuid="87b79914-660f-4096-b9f5-b0e0940e6e27"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{behaviorsource}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="611" width="526" height="3" uuid="d5a52abe-4c91-4408-8fde-3b06995d2ca1"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="281" y="48" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="154529f4-7a54-4b8a-9531-f3dcf3c6ef66"/>
+				<reportElement positionType="Float" mode="Transparent" x="33" y="40" width="522" height="3" backcolor="rgba(240, 240, 240, 0.11764706)" uuid="cf152a51-f28a-4cdb-920d-a0bcd08eb14d"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="205" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="2eb32106-d8de-419f-a634-fad07e2a89ad"/>
+				<reportElement positionType="Float" mode="Opaque" x="32" y="302" width="526" height="3" backcolor="#876F6F" uuid="5222b20f-64f3-47b3-8b50-210cba87a7f6"/>
 			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="281" y="205" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="e6c221b6-0651-4296-b70a-e511563641e7"/>
-			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="30" y="379" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="9f8cfdc3-1980-4137-a8a0-678421ee4cec"/>
-			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="281" y="379" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="ccfbc734-060c-4e0a-a61d-1bb4c46a10a1"/>
-			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="30" y="563" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="1671fc9b-9d90-4fbc-b324-12641199ee3b"/>
-			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="281" y="563" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="53b8732a-d39f-4cd1-8984-1f5a34423436"/>
-			</frame>
+			<break>
+				<reportElement x="0" y="230" width="595" height="1" uuid="7794fbae-3447-453a-8992-6dfa83521e72"/>
+			</break>
 		</band>
-		<band height="440">
+		<band height="682">
 			<staticText>
-				<reportElement x="30" y="52" width="190" height="21" uuid="2f78061d-14a8-4438-a6c4-452488c91292"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Conservation status IUCN :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="52" width="280" height="21" uuid="1c3c2f71-f7e2-4646-8228-8f820750ac66"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{conservationStatus}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="73" width="131" height="21" uuid="7a0b5609-1244-49f2-b408-cd7dc330af1e"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[IUCN source :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="73" width="280" height="21" uuid="e2d8c519-c4e8-49cb-a4b8-5034b3d73707"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{iucnSource}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="12" width="391" height="30" uuid="a61d4f2c-5cea-4693-b0b1-b460b629b226"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="147" width="391" height="30" uuid="a61d4f2c-5cea-4693-b0b1-b460b629b226"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[STATUS DE CONSERVATION]]></text>
 			</staticText>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="173" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="e863e0a4-5c48-4614-b298-ba7d9b8850c9"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="173" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="6ca1b1ad-4213-45db-9dc2-59fefc64416e"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="187" width="190" height="21" uuid="2f78061d-14a8-4438-a6c4-452488c91292"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Conservation status IUCN :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="187" width="280" height="21" uuid="1c3c2f71-f7e2-4646-8228-8f820750ac66"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{conservationStatus}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="212" width="131" height="21" uuid="7a0b5609-1244-49f2-b408-cd7dc330af1e"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[IUCN source :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="212" width="280" height="21" uuid="e2d8c519-c4e8-49cb-a4b8-5034b3d73707"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{iucnSource}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="150" width="190" height="21" uuid="429fb085-5b62-4b52-8d91-dbd48154d9a0"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Protected area occurrences :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="171" width="207" height="21" uuid="91d90ef0-d903-41ef-b24f-e73ac0f22c98"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Protected areo occ. sources :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="171" width="280" height="21" uuid="544e5aba-76d8-4c79-90b0-cbc946bb2220"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{protectedAreaOccurrencesSources}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="110" width="391" height="30" uuid="77f220e0-f314-4692-bd4c-7bcbe2c84123"/>
+				<reportElement positionType="Float" x="30" y="303" width="391" height="30" uuid="77f220e0-f314-4692-bd4c-7bcbe2c84123"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AIRES PROTEGEES]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="281" y="150" width="280" height="21" uuid="90fb689d-e262-4538-86fb-f1ef6c9bccb5"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{protectedareaoccurrences}]]></textFieldExpression>
-			</textField>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="329" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="e961d9b7-2d04-470e-b024-e7f94feccf2f"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="329" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="aa2adc31-21e6-440c-836c-3ab1441f1590"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="343" width="190" height="21" uuid="429fb085-5b62-4b52-8d91-dbd48154d9a0"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Protected area occurrences :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="343" width="280" height="21" uuid="90fb689d-e262-4538-86fb-f1ef6c9bccb5"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{protectedareaoccurrences}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="368" width="207" height="21" uuid="91d90ef0-d903-41ef-b24f-e73ac0f22c98"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Protected areo occ. sources :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="368" width="280" height="21" uuid="544e5aba-76d8-4c79-90b0-cbc946bb2220"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{protectedAreaOccurrencesSources}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="250" width="190" height="21" uuid="36ad3f1c-ae84-471e-a40d-3954bef328e1"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Species expert :]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="30" y="210" width="391" height="30" uuid="1457221b-8f7d-4b50-b84b-6644fde66db6"/>
+				<reportElement positionType="Float" x="30" y="412" width="391" height="30" uuid="1457221b-8f7d-4b50-b84b-6644fde66db6"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[EXPERTS]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="281" y="250" width="280" height="21" uuid="6d10d0ef-b950-489c-9b0c-096699a147d0"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{speciesExpert}]]></textFieldExpression>
-			</textField>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="438" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="4f1d743e-ad46-428f-bc20-93bae3e3fb1b"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="438" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="89733295-aed2-4d7c-9923-f1710fd9443f"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="452" width="190" height="21" uuid="36ad3f1c-ae84-471e-a40d-3954bef328e1"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Species expert :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="452" width="280" height="21" uuid="6d10d0ef-b950-489c-9b0c-096699a147d0"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{speciesExpert}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="330" width="190" height="21" uuid="44e3b18a-4f86-4781-95ef-49248894ef80"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<text><![CDATA[News and updates :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="281" y="330" width="280" height="21" uuid="c75d3e75-ba44-4a84-8879-e60d77aed3fe"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{newAndUpdates}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="30" y="290" width="391" height="30" uuid="3f5af298-ddef-4455-b8fa-43efeab14947"/>
+				<reportElement positionType="Float" x="30" y="492" width="391" height="30" uuid="3f5af298-ddef-4455-b8fa-43efeab14947"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ACTUALITES]]></text>
 			</staticText>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="518" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="19479a80-b62f-4ffa-97e8-f5e5dbb358e5"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="518" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="364b2fd4-f3e8-48ac-a617-bc5fa50414aa"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="532" width="190" height="21" uuid="44e3b18a-4f86-4781-95ef-49248894ef80"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[News and updates :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="532" width="280" height="21" uuid="c75d3e75-ba44-4a84-8879-e60d77aed3fe"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{newAndUpdates}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="370" width="391" height="30" uuid="15b14a84-50f3-4160-b8a6-c82ad8f37a05"/>
+				<reportElement positionType="Float" x="30" y="572" width="391" height="30" uuid="15b14a84-50f3-4160-b8a6-c82ad8f37a05"/>
 				<textElement>
 					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PUBLICATIONS]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="281" y="410" width="280" height="21" uuid="32b97969-6605-4f0a-bc37-5f4410d86f32"/>
-				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{topFivePublication}]]></textFieldExpression>
-			</textField>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="30" y="596" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="55121f3d-9626-4d2c-aa32-061843fc0bd0"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="281" y="596" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="bb2e2765-0563-4f25-a84a-f737f4ca95c9"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="612" width="190" height="21" uuid="a7c1fb60-f371-4991-b267-b32841df8f5a"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Top five publications :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="281" y="612" width="280" height="21" uuid="32b97969-6605-4f0a-bc37-5f4410d86f32"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{topFivePublication}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<staticText>
-				<reportElement x="30" y="410" width="190" height="21" uuid="a7c1fb60-f371-4991-b267-b32841df8f5a"/>
+				<reportElement positionType="Float" x="28" y="2" width="391" height="30" uuid="3e2bd090-6fbf-4e4b-b05e-68ead05d78bd"/>
 				<textElement>
-					<font fontName="Calibri Light" size="14" isBold="false"/>
+					<font fontName="Adobe Arabic" size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Top five publications :]]></text>
+				<text><![CDATA[MENACES]]></text>
 			</staticText>
+			<elementGroup>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="28" y="32" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="2eb32106-d8de-419f-a634-fad07e2a89ad"/>
+				</frame>
+				<frame>
+					<reportElement positionType="Float" mode="Opaque" x="279" y="32" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="e6c221b6-0651-4296-b70a-e511563641e7"/>
+				</frame>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="28" y="49" width="131" height="21" uuid="01a7ba97-35b1-423e-839f-e79d03ea3ecf"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Threat (EN) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="279" y="49" width="280" height="21" uuid="d7905de5-1d2c-4386-84dd-dbd15fd4b7fd"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{threatEn}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="394" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="55121f3d-9626-4d2c-aa32-061843fc0bd0"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="28" y="70" width="526" height="3" uuid="7e30f14a-2063-4ed2-9eea-12bd3306130b"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="28" y="73" width="131" height="21" uuid="732900f7-4242-4985-9370-28d13c4c9c9b"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Threat (FR) :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="279" y="73" width="280" height="21" uuid="c3226320-f704-4ff8-a8e1-e7d0865a35ec"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{threatFr}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="28" y="94" width="526" height="3" uuid="4283224b-ce1f-4615-afa0-67c5c905cee5"/>
+			</frame>
+			<elementGroup>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="28" y="97" width="131" height="21" uuid="9cb64d6d-5f56-40dc-9ee0-93a19b2db391"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Threat source :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="279" y="97" width="280" height="21" uuid="7ae02470-de61-44ca-944b-16c1e43f89f3"/>
+					<textElement>
+						<font fontName="Calibri Light" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{threatsource}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<frame>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="28" y="118" width="526" height="3" uuid="acb561f7-a0f4-440f-b336-74fca5ecdb99"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="281" y="394" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="bb2e2765-0563-4f25-a84a-f737f4ca95c9"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="208" width="526" height="3" uuid="666a3de2-2970-46d4-96e0-79c2cc27e4f3"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="316" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="19479a80-b62f-4ffa-97e8-f5e5dbb358e5"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="32" y="258" width="526" height="30" backcolor="#521E1D" uuid="84d678c6-374d-4aba-88bf-911c6991224e"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="281" y="316" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="364b2fd4-f3e8-48ac-a617-bc5fa50414aa"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="364" width="526" height="3" uuid="f108832b-f818-43b3-bb83-97c0b2fdf888"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="236" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="4f1d743e-ad46-428f-bc20-93bae3e3fb1b"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="473" width="526" height="3" uuid="b4ef2f5c-d17a-4169-895d-ee6483c06a4f"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="281" y="236" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="89733295-aed2-4d7c-9923-f1710fd9443f"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="389" width="526" height="3" uuid="875ab571-f671-4602-a610-415bad4b586d"/>
 			</frame>
 			<frame>
-				<reportElement mode="Opaque" x="30" y="136" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="e961d9b7-2d04-470e-b024-e7f94feccf2f"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="30" y="553" width="526" height="3" uuid="520b6b88-046a-4d5b-b9b8-10e80c493383"/>
 			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="281" y="136" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="aa2adc31-21e6-440c-836c-3ab1441f1590"/>
-			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="30" y="38" width="251" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="#FFDA86" uuid="e863e0a4-5c48-4614-b298-ba7d9b8850c9"/>
-			</frame>
-			<frame>
-				<reportElement mode="Opaque" x="281" y="38" width="279" height="3" forecolor="rgba(0, 0, 0, 0.02745098)" backcolor="rgba(204, 204, 204, 0.03529412)" uuid="6ca1b1ad-4213-45db-9dc2-59fefc64416e"/>
-			</frame>
+			<break>
+				<reportElement x="0" y="250" width="595" height="1" uuid="89472c93-3b6e-4068-af62-dc23978cfbc3"/>
+			</break>
 		</band>
 	</detail>
 	<pageFooter>
