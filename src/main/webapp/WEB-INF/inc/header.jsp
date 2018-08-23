@@ -15,13 +15,13 @@
         <link href="<c:url value="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/bootstrap.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/font-awesome.min.css" />" rel="stylesheet">		
-        <link href="<c:url value="/resources/assets/css/jquery.fancybox.css" />" rel="stylesheet">		
-        <link href="<c:url value="/resources/assets/css/owl.carousel.css" />" rel="stylesheet">		
-        <link href="<c:url value="/resources/assets/css/slit-slider.css" />" rel="stylesheet">		
-        <link href="<c:url value="/resources/assets/css/animate.css" />" rel="stylesheet">		
-        <link href="<c:url value="/resources/assets/css/main.css" />" rel="stylesheet">		
-        <link href="<c:url value="/resources/assets/css/styles.css" />" rel="stylesheet">
-        <script src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
+        <link href="<c:url value="/resources/assets/css/jquery.fancybox.min.css" />" rel="stylesheet">		
+        <link href="<c:url value="/resources/assets/css/owl.carousel.min.css" />" rel="stylesheet">		
+        <link href="<c:url value="/resources/assets/css/slit-slider.min.css" />" rel="stylesheet">		
+        <link href="<c:url value="/resources/assets/css/animate.min.css" />" rel="stylesheet">		
+        <link href="<c:url value="/resources/assets/css/main.min.css" />" rel="stylesheet">		
+        <link href="<c:url value="/resources/assets/css/styles_.min.css" />" rel="stylesheet">
+        <script async src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
     </head>
     <body ng-app="app">
         <!-- Navigation -->
@@ -55,8 +55,18 @@
                         <li><a onclick="window.location = '/forum/experts/'" href="/forum/experts/"><spring:message code="header.label.experts"/></a></li>                        
 
                         <c:if test="${role10001 == 10001}">
-                            <li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>
-                            </c:if>
+                            <!--<li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>-->
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Admin <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" onclick="window.location = 'listeUtilisateur'">&nbsp; Utilisateur</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#" onclick="window.location = 'gestionModele'">&nbsp; Modeles</a></li>
+                                </ul>
+                            </li>
+                        </c:if>
 
 
                         <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">

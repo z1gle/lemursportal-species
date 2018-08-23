@@ -80,7 +80,6 @@
 <script src="<c:url value="/resources/assets/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/jquery.singlePageNav.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/jquery.fancybox.pack.js"/>"></script>
-<script src="<c:url value="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJDf3t9NTT8GXrMdlSvbLTxVLvTdUXc20&libraries=places&callback=initMap"/>"></script>
 <script src="<c:url value="/resources/assets/js/owl.carousel.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/jquery.easing.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/jquery.slitslider.js"/>"></script>

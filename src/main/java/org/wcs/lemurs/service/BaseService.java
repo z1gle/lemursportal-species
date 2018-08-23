@@ -100,6 +100,10 @@ public class BaseService {
     public List<BaseModel> findAll(BaseModel obj, int page, int nombre) throws Exception {
         return this.getHibernateDao().findAll(obj, page, nombre);
     }
+    
+    public List<BaseModel> findAll(BaseModel obj, String colonne, int ordre, int page, int nombre) throws Exception {
+        return this.getHibernateDao().findAll(obj, colonne, ordre, page, nombre);
+    }
 
 //    public List<BaseModel> rechercher(BaseModel bm) throws Exception {
 //        return this.getHibernateDao().findAllCritere(bm);
@@ -289,9 +293,24 @@ public class BaseService {
         } finally {
             if (session != null) {
                 session.close();
-            }            
+            }
         }
         return valiny;
+    }
+
+    public Integer countTotal(BaseModel obj) throws Exception {
+        Session session = null;
+        Liste valiny = new Liste();
+        try {
+            session = hibernateDao.getSessionFactory().openSession();
+            return Integer.parseInt(Long.toString(hibernateDao.countTotal(session, obj)));
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public HibernateDao getHibernateDao() {
