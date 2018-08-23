@@ -12,15 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.model.ObservationParAdmin;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.modele_vue.VueRoleUtilisateur;
 import org.wcs.lemurs.service.AutentificationService;
@@ -62,7 +62,7 @@ public class LoginController {
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(val.getId());
             List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) autentificationService.findMultiCritere(vru);
-            for (VueRoleUtilisateur v : roles) {
+            for (VueRoleUtilisateur v : roles) {                
                 session.setAttribute("role" + Integer.toString(v.getIdRole()), v.getIdRole());
             }
             return valiny;
@@ -119,7 +119,6 @@ public class LoginController {
 //            return new ModelAndView("redirect:darwinportal");
 //        }
 //    }
-
     @RequestMapping(value = "/testTk", headers = "Accept=application/json")
     public HashMap<String, Object> goVisu(@RequestParam("token") String id, HttpSession session) {
         HashMap<String, Object> valiny = new HashMap<>();
