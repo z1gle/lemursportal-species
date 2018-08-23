@@ -21,7 +21,7 @@
         <link href="<c:url value="/resources/assets/css/animate.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/main.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/styles_.min.css" />" rel="stylesheet">
-        <script async src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
+        <script src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
     </head>
     <body ng-app="app">
         <!-- Navigation -->
@@ -40,8 +40,16 @@
 
                     <!-- logo -->
                     <h1 class="navbar-brand">
-                        <a href="/"><img src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>"></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>"></a>
+                        <div class="dropdown-menu" role="menu" style="top: 0px; left: -11px; height: 87px; background-color: #ffffff00;">
+                            <a style="position: absolute; left: 180px; top: 0px; border-style: solid; border-bottom-color: #0000008c;width: 50px; /*height: 50px;*/ background-color: #0000008c; border-radius: 5px;" class="btn" href="https://www.lemursportal.org/forum"><i class="fa fa-comments-o fa-2x"></i></a>
+                            <a style="position: absolute; left: 180px; top: 45px; border-style: solid; border-bottom-color: #0000008c;width: 50px; /*height: 50px;*/ background-color: #0000008c; border-radius: 5px;" class="btn" href="https://www.lemursportal.org/forum"><i class="fa fa-comments-o fa-2x"></i></a>                            
+                        </div>
                     </h1>
+                    <!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            Admin <b class="caret"></b>
+                                        </a>-->
+
                     <!-- /logo -->
                 </div>
 
