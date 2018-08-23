@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import org.apache.lucene.index.Fields;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -106,13 +107,6 @@ public class DarwinCoreService extends MailService {
         return getDarwinCoreDao().validationDarwinCore(validation, chercheur);
     }
 
-//    public void upload(List<DarwinCore> list_dw) throws Exception {
-//
-//        for (DarwinCore dw : list_dw) {
-//            
-//            save(dw);
-//        }
-//    }
     private void prettySyntax(DarwinCore dw) {
         if (dw.getFamily() != null) {
             dw.setFamily(dw.getFamily().toUpperCase());
@@ -126,11 +120,10 @@ public class DarwinCoreService extends MailService {
             String low = dw.getScientificname().toLowerCase();
             String[] listLow = low.split(" ");
             low = "";
-            for (String s : listLow) {
-                s = s.substring(0, 1).toUpperCase() + s.substring(1);
-                low += s + " ";
-            }
-            low = low.substring(0, low.length() - 1);
+            String s = listLow[0];
+            s = s.substring(0, 1).toUpperCase() + s.substring(1);
+            low += s + " ";
+            low += listLow[1];
             dw.setScientificname(low);
         }
     }
@@ -143,26 +136,11 @@ public class DarwinCoreService extends MailService {
             tr = session.beginTransaction();
             List<DarwinCore> liste = (List<DarwinCore>) (List<?>) this.findMultiCritere(session, new DarwinCore());
             for (DarwinCore dw : liste) {
-                if (dw.getFamily() != null) {
-                    dw.setFamily(dw.getFamily().toUpperCase());
+                try {
+                    prettySyntax(dw);
+                } catch (java.lang.StringIndexOutOfBoundsException | java.lang.ArrayIndexOutOfBoundsException sobe) {
+                    continue;
                 }
-
-                if (dw.getGenus() != null) {
-                    dw.setGenus(dw.getGenus().toUpperCase());
-                }
-
-                if (dw.getScientificname() != null && !dw.getScientificname().isEmpty()) {
-                    String low = dw.getScientificname().toLowerCase();
-                    String[] listLow = low.split(" ");
-                    low = "";
-                    for (String s : listLow) {
-                        s = s.substring(0, 1).toUpperCase() + s.substring(1);
-                        low += s + " ";
-                    }
-                    low = low.substring(0, low.length() - 1);
-                    dw.setScientificname(low);
-                }
-
                 this.save(session, dw);
             }
             tr.commit();
@@ -254,13 +232,13 @@ public class DarwinCoreService extends MailService {
                 }
                 vdc.setValidationExpert(-1);
                 save(session, vdc);
-            }
-            try {
-                this.sendMailToExpert(list_dw);
-            } catch(Exception e) {
-                System.out.println("L'envoie de l'email est un echec, veuiller vérifier si les conditions sont optimales");
             }            
             tr.commit();
+            try {
+                this.sendMailToExpert(list_dw);
+            } catch (Exception e) {
+                System.out.println("L'envoie de l'email est un echec, veuiller vérifier si les conditions sont optimales");
+            }
             return list_dw;
         } catch (Exception ex) {
             tr.rollback();
@@ -586,7 +564,7 @@ public class DarwinCoreService extends MailService {
         }
         return false;
     }
-    
+
     public boolean checkValidable(Session session, VueDarwinCoreRechercheGlobale dwc, Utilisateur u) throws Exception {
         AssignationExpert ase = new AssignationExpert();
         ase.setIdExpert(u.getId());
@@ -671,7 +649,7 @@ public class DarwinCoreService extends MailService {
         }
         return valiny;
     }
-    
+
     public List<HashMap<String, Object>> findWithCheckAndEtat(Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int nombre, int page) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
         List<VueDarwinCoreRechercheGlobale> val = (List<VueDarwinCoreRechercheGlobale>) (List<?>) findAll(utilisateur, darwinCore, page, nombre);
@@ -1220,7 +1198,7 @@ public class DarwinCoreService extends MailService {
         BufferedReader in = new BufferedReader(new InputStreamReader(dwcCsv.openStream()));
         String header = in.readLine();
         Field[] attriburs = DarwinCore.class.getDeclaredFields();
-        List<HashMap<String, Object>> fonctions = getFonctionNumeroColonneDwc(attriburs, header);
+        List<HashMap<String, Object>> fonctions = getFonctionNumeroColonneDwc(attriburs, header, ";");
         List<DarwinCore> listeToSave = new ArrayList<>();
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
@@ -1257,8 +1235,8 @@ public class DarwinCoreService extends MailService {
         in.close();
     }
 
-    public List<HashMap<String, Object>> getFonctionNumeroColonneDwc(Field[] attributs, String header) throws NoSuchMethodException {
-        String[] colonnesHeader = header.split(";");
+    public List<HashMap<String, Object>> getFonctionNumeroColonneDwc(Field[] attributs, String header, String sep) throws NoSuchMethodException {
+        String[] colonnesHeader = header.split(sep);
         List<HashMap<String, Object>> fonctions = new ArrayList<>();
         for (Field f : attributs) {
             for (int i = 0; i < colonnesHeader.length; i++) {
@@ -1283,7 +1261,7 @@ public class DarwinCoreService extends MailService {
         }
         return fonctions;
     }
-    
+
     public void delete(DarwinCore dwc) {
         Session session = null;
         Transaction tr = null;
@@ -1291,38 +1269,38 @@ public class DarwinCoreService extends MailService {
             session = this.darwinCoreDao.getSessionFactory().openSession();
             ValidationDarwinCore vdc = new ValidationDarwinCore();
             vdc.setIdDarwinCore(dwc.getId());
-            List<ValidationDarwinCore> listeVdcToDelete = (List<ValidationDarwinCore>)(List<?>)super.findAll(session, vdc, -1, -1);
+            List<ValidationDarwinCore> listeVdcToDelete = (List<ValidationDarwinCore>) (List<?>) super.findAll(session, vdc, -1, -1);
             PhotoDarwinCore pdc = new PhotoDarwinCore();
             pdc.setIdDarwinCore(dwc.getId());
-            List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>)(List<?>) super.findAll(session, pdc, -1, -1);
+            List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>) (List<?>) super.findAll(session, pdc, -1, -1);
             VideoDarwinCore vidc = new VideoDarwinCore();
             vidc.setIdDarwinCore(dwc.getId());
-            List<VideoDarwinCore> listeVidc = (List<VideoDarwinCore>)(List<?>) super.findAll(session, vidc, -1, -1);
+            List<VideoDarwinCore> listeVidc = (List<VideoDarwinCore>) (List<?>) super.findAll(session, vidc, -1, -1);
             tr = session.beginTransaction();
-            if(!listeVdcToDelete.isEmpty()) {
-                for(ValidationDarwinCore v : listeVdcToDelete) {
+            if (!listeVdcToDelete.isEmpty()) {
+                for (ValidationDarwinCore v : listeVdcToDelete) {
                     super.delete(session, v);
                 }
             }
-            if(!listePdc.isEmpty()) {
-                for(PhotoDarwinCore p : listePdc) {
+            if (!listePdc.isEmpty()) {
+                for (PhotoDarwinCore p : listePdc) {
                     super.delete(session, p);
                 }
             }
-            if(!listeVidc.isEmpty()) {
-                for(VideoDarwinCore v : listeVidc) {
+            if (!listeVidc.isEmpty()) {
+                for (VideoDarwinCore v : listeVidc) {
                     super.delete(session, v);
                 }
             }
             super.delete(session, dwc);
             tr.commit();
         } catch (Exception e) {
-            if(tr != null) {
+            if (tr != null) {
                 tr.rollback();
             }
-            e.printStackTrace();            
+            e.printStackTrace();
         } finally {
-            if(session != null) {
+            if (session != null) {
                 session.close();
             }
         }
@@ -1422,13 +1400,14 @@ public class DarwinCoreService extends MailService {
     public List<DarwinCore> findAll(Utilisateur utilisateur, VueValidationDarwinCore darwinCore, int page, int nombre) throws Exception {
         return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
     }
+
     public List<DarwinCore> findAll(Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int page, int nombre) throws Exception {
         return darwinCoreDao.findAll(utilisateur, darwinCore, page, nombre);
     }
 //    public List<BaseModel> findAll(BaseModel darwinCore, int page, int nombre) throws Exception {
 //        return darwinCoreDao.findAll(darwinCore, page, nombre);
 //    }
-    
+
     //Latest function
     public Liste findAll(Utilisateur u, VueValidationDarwinCore obj, int page, int nombre, boolean liste) throws Exception {
         Session session = null;
@@ -1438,17 +1417,29 @@ public class DarwinCoreService extends MailService {
             valiny.setTotal(darwinCoreDao.countTotalDwc(session, u, obj));
             valiny.setLastPage((int) Math.ceil(valiny.getTotal() / new Double(nombre)));
             valiny.setPage(page);
-            valiny.setListe((List<BaseModel>)(List<?>)darwinCoreDao.findAll(session, u, obj, page, nombre));
+            valiny.setListe((List<BaseModel>) (List<?>) darwinCoreDao.findAll(session, u, obj, page, nombre));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (session != null) {
                 session.close();
-            }            
+            }
         }
         return valiny;
     }
 
+//    public void removeNull(DarwinCore dwc, String exchangeTo) throws Exception {
+//        Field[] colonnes = DarwinCore.class.getDeclaredFields();
+//        for (Field f : colonnes) {
+//            if (DarwinCore.class.getMethod("get" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1)).invoke(dwc) == null) {                
+//                try {
+//                    DarwinCore.class.getMethod("set" + f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1)).invoke(dwc, exchangeTo);
+//                } catch (java.lang.NoSuchMethodException e) {
+//                    e.printStackTrace();
+//                }                
+//            }
+//        }
+//    }
     public DarwinCoreDao getDarwinCoreDao() {
         return darwinCoreDao;
     }

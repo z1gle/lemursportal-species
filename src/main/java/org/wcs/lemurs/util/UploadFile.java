@@ -306,22 +306,22 @@ public class UploadFile {
         return texte;
     }
 
-    public static List<DarwinCore> import_darwin_core_csv(InputStream is) throws SQLException, Exception {
-
+    public static List<DarwinCore> import_darwin_core_csv(InputStream is, String separator) throws SQLException, Exception {
+        
         List<DarwinCore> list_dw = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, "Cp1252"));
         Field[] colonnes = DarwinCore.class.getDeclaredFields();
         String line = "";
         line = br.readLine();
         DarwinCoreService dcs = new DarwinCoreService();
-        List<HashMap<String, Object>> fonctions = dcs.getFonctionNumeroColonneDwc(colonnes, line);
+        List<HashMap<String, Object>> fonctions = dcs.getFonctionNumeroColonneDwc(colonnes, line, separator);
         while ((line = br.readLine()) != null) {
-            line = line.replaceAll(";", " ; ");
-            String[] cols = line.split(";");
+            line = line.replaceAll(separator, " "+separator+" ");
+            String[] cols = line.split(separator);
             /*if (cols.length < colonnes.length - 4) {
                 throw new Exception("Le nombre de colonnes est manquantes cols = " + Integer.toString(cols.length) + " and dwc = " + Integer.toString(colonnes.length - 1));
             } else*/
-            if (cols.length <= colonnes.length - 4) {
+            if (cols.length <= colonnes.length - 4 && cols.length > 2) {
                 DarwinCore dwcTemp = new DarwinCore();
                 for (HashMap<String, Object> fonction : fonctions) {
                     Method m = (Method) fonction.get("fonction");

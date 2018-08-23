@@ -206,11 +206,42 @@ public class HibernateDao {
         return criteria.list();
     }
 
+    public List<BaseModel> findAll(Session session, BaseModel obj, String colonne, int ordre, int page, int nombre) throws Exception {
+        Criteria criteria = session.createCriteria(obj.getClass());
+        Example example = Example.create(obj);
+        example.enableLike(MatchMode.ANYWHERE);
+        example.ignoreCase();
+        criteria.add(example);
+        if (page > 0 && nombre > 0) {
+            criteria.setFirstResult(getFirstResult(page, nombre));
+            criteria.setMaxResults(nombre);
+        }
+        if (ordre == 0) {
+            criteria.addOrder(Order.asc(colonne));
+        } else {
+            criteria.addOrder(Order.desc(colonne));
+        }
+        return criteria.list();
+    }
+
     public List<BaseModel> findMultiCritere(BaseModel obj, String colonne, int ordre) throws Exception {
         Session session = null;
         try {
             session = getSessionFactory().openSession();
             return findMultiCritere(session, obj, colonne, ordre);
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    public List<BaseModel> findAll(BaseModel obj, String colonne, int ordre, int page, int nombre) throws Exception {
+        Session session = null;
+        try {
+            session = getSessionFactory().openSession();
+            return findAll(session, obj, colonne, ordre, page, nombre);
         } catch (Exception ex) {
             throw ex;
         } finally {

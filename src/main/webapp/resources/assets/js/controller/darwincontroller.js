@@ -14,7 +14,7 @@ app.controller("darwin", function ($scope, $http) {
     $scope.recherchePagination = 0;
     $scope.pageEnCours = 0;
     $scope.lastPage = 0;
-    getall();
+    rechercherAvancee();
 
     function getall() {
         $http({
@@ -29,7 +29,6 @@ app.controller("darwin", function ($scope, $http) {
             $scope.liste = response.data;
             $("#loader-spinner").hide();
             paginer($scope.liste[0].total, 20, 1);
-//            $('#pageEnCours').val(1);
         }, function error(response) {
             console.log(response);
             $("#loader-spinner").hide();
@@ -103,6 +102,54 @@ app.controller("darwin", function ($scope, $http) {
             $("#loader-spinner").hide();
         });
     };
+    function rechercherAvancee() {
+        $('#rechercheGlobale').val('');
+        var etat = $('[name="etat[]"]');
+        var state = [];
+        var etatS = "";
+        var j = 0;
+        for (var i = 0; i < etat.length; i++) {
+            if (etat[i].checked == true) {
+                state[j] = etat[i].value;
+                j++;
+                etatS += etat[i].value;
+                if (i > 0) {
+                    etatS += "&etat[]=" + etat[i].value;
+                }
+            }
+        }
+        var validationMine = parseInt($('[name="validationMine"]').val());
+        console.log(validationMine);
+        if (isNaN(validationMine))
+            validationMine = -999;
+
+        var formData = {
+            'validation': parseInt($('select[name=validation]').val()),
+            'etat': state,
+            'validationMine': validationMine,
+            'espece': $('input[name=espece]').val()
+        };
+        var dta = "validation=" + parseInt($('select[name=validation]').val()) + "&etat[]=" + state + "&validationMine=" + validationMine + "&espece=" + $('input[name=espece]').val();
+        console.log(dta);
+
+        $http({
+            method: 'GET',
+            url: 'findByespeceDwcAvancee?' + dta,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            $scope.liste = response.data;
+            $scope.recherche = $scope.darwin.scientificname;
+            paginer($scope.liste[0].total, 20, 1);
+            $scope.recherchePagination = 0;
+            $("#loader-spinner").hide();
+        }, function error(response) {
+            console.log(response.statusText);
+            $("#loader-spinner").hide();
+        });
+    }
     $scope.rechercherMulti = function () {
         var etat = $('[name="etat[]"]');
         var state = [];
@@ -209,6 +256,9 @@ app.controller("darwin", function ($scope, $http) {
             formData.append("publique", 1);
         } else
             formData.append("publique", 0);
+        if ($('#sep').val() == 0) {
+            formData.append("sep", 0);
+        }
         $http({
             method: 'POST',
             url: 'processExcel',

@@ -5,7 +5,9 @@
  */
 app.controller("darwin", function ($scope, $http) {    
     $scope.familles = [];                            
+    $scope.modeles = [];                            
     getFamille();
+    getModeles();
 
     function getFamille() {
         $http({
@@ -18,6 +20,20 @@ app.controller("darwin", function ($scope, $http) {
             }
         }).then(function success(response) {
             $scope.familles = response.data;
+        }, function error(response) {
+            console.log(response);
+        });
+    }
+    function getModeles() {
+        $http({
+            method: 'get',
+            url: 'modeles',            
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            $scope.modeles = response.data;
         }, function error(response) {
             console.log(response);
         });
@@ -44,6 +60,11 @@ app.controller("darwin", function ($scope, $http) {
             var option = "";
             $("#genre-" + famille).html('<ul id="genre-{{famille}}"></ul>');
         }
+    };
+    
+    
+    $scope.changeLastUrlOverlay = function (url) {
+        addOverlay(url);        
     };
     
 });
