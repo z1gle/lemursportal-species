@@ -1454,3 +1454,45 @@ footer .col-md-4 .col-xs-2 {
     padding: 1%;
     width: 20%;
 }
+
+/*----------------Cash Out--------------------*/
+
+.cash-out {
+	padding: 0;
+	margin-bottom: 0px;
+}
+.cash-out li {
+	float: left;
+}
+.cash-out li a {
+	padding-right: 10px;
+}
+.cash-out li a img {
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	border: solid 1px #f7f5f5;
+	border-radius: 3px;
+	background: #f7f5f5;
+	width: initial;
+}
+.cash-out li a img:hover {
+	opacity: 0.7;
+/* 	background:none; */
+	border: solid 1px #f7f5f5;
+}
+
+footer .block .media>.pull-left {
+	margin-bottom: 10px;
+}
+
+.footer-bottom {
+    width: 100%;
+    margin-top: 36px;
+    border-top: 1px solid #84bc00;
+    box-shadow: 0 -1px 0 #75ad01/*#AEE62A*/;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
