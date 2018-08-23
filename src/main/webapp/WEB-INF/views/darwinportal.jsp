@@ -677,8 +677,8 @@
 
 </main>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-<script async src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script async src="<c:url value="/resources/assets/js/controller/darwincontroller.min.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/darwincontroller.min.js"/>"></script>
 <script>
                         function liste() {
                             document.getElementById("pellicule").style.display = 'none';
