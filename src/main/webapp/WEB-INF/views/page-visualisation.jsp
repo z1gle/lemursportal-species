@@ -68,7 +68,7 @@
             cursor:not-allowed
         }        
     </style>
-    
+
     <!--Header style-->
     <style>
         @media only screen and (max-width: 992px) and (min-width: 767px){
@@ -115,10 +115,10 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <select name="validation" id="etat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">
-                                        <option value="-999"><spring:message code="data.status.all_occurences"/></option>
                                         <option value="1"><spring:message code="data.status.all_reliable_reviews_data"/></option>
+                                        <option value="-999"><spring:message code="data.status.all_occurences"/></option>
                                         <option value="-1"><spring:message code="data.status.all_awaiting_review"/></option>
-                                        <option value="0"><spring:message code="data.status.all_questionnable_reviews_data"/></option>                                                    
+                                        <option value="0"><spring:message code="data.status.all_questionnable_reviews_data"/></option>
                                     </select>
                                     <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                                         <select name="validationMine" id="myEtat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">
@@ -151,41 +151,41 @@
                     <!--<input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">-->                    
                     <!-- End Stat -->                    
                 </div>
-<!--                <div class="row" style="margin-top: 10px;">
-                    <form class="col-md-12" style="float: right; max-width: 100%;" id="form-search">
-                         Search Field                                                     
-                        <div class="form-group">
-                            <div class="input-group">     
-                                <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                                    <select id="validation" name="validationMine" style="max-width: 20%; float: right;" class="form-control" >                                    
-                                        <option value="-999">Mes données</option>
-                                        <option value="-1000">Tous</option>
-                                        <option value="1">Validé</option>
-                                        <option value="0">Questionnable</option>
-                                        <option value="-1">En attente de validation</option>
-                                    </select>
-                                </c:if>
-                                <select id="validation" name="validation" style="max-width: 20%; float: right;" class="form-control" >                                    
-                                    <option value="-999">Données</option>
-                                    <option value="1">Validé</option>
-                                    <option value="0">Questionnable</option>
-                                    <option value="-1">En attente de validation</option>
-                                </select>
-                                <input style="max-width: 20%; float: left;" class="form-control" type="text"  name="espece" placeholder="Espèce à rechercher"/>                            
-                                <ul style=" margin-left: 10px;">
-                                    <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="1" type="checkbox" checked> Publique</li>
-                                        <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                                        <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="0" type="checkbox"> Sensible</li>
-                                        </c:if>
-                                </ul>                                
-                                <span class="input-group-btn">
-                                    <button  style="margin-top: -8px; margin-bottom: 0px; max-height: 25px; padding-top: 3px;" onclick="rechercheSearch()" class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
-                                </span>
-                                <a href="" class=" btn btn-default"><i class="fa fa-remove"></i></a>
-                            </div>
-                        </div>                        
-                    </form>                    
-                </div>-->
+                <!--                <div class="row" style="margin-top: 10px;">
+                                    <form class="col-md-12" style="float: right; max-width: 100%;" id="form-search">
+                                         Search Field                                                     
+                                        <div class="form-group">
+                                            <div class="input-group">     
+                <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                    <select id="validation" name="validationMine" style="max-width: 20%; float: right;" class="form-control" >                                    
+                        <option value="-999">Mes données</option>
+                        <option value="-1000">Tous</option>
+                        <option value="1">Validé</option>
+                        <option value="0">Questionnable</option>
+                        <option value="-1">En attente de validation</option>
+                    </select>
+                </c:if>
+                <select id="validation" name="validation" style="max-width: 20%; float: right;" class="form-control" >                                    
+                    <option value="-999">Données</option>
+                    <option value="1">Validé</option>
+                    <option value="0">Questionnable</option>
+                    <option value="-1">En attente de validation</option>
+                </select>
+                <input style="max-width: 20%; float: left;" class="form-control" type="text"  name="espece" placeholder="Espèce à rechercher"/>                            
+                <ul style=" margin-left: 10px;">
+                    <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="1" type="checkbox" checked> Publique</li>
+                <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
+                <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="0" type="checkbox"> Sensible</li>
+                </c:if>
+        </ul>                                
+        <span class="input-group-btn">
+            <button  style="margin-top: -8px; margin-bottom: 0px; max-height: 25px; padding-top: 3px;" onclick="rechercheSearch()" class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
+        </span>
+        <a href="" class=" btn btn-default"><i class="fa fa-remove"></i></a>
+    </div>
+</div>                        
+</form>                    
+</div>-->
                 <div class="container">
                     <div class="col-md-12 advance">
                         <div id="filter-panel" class="collapse filter-panel">
@@ -250,10 +250,10 @@
                         </div>	
                     </div>
                     <!--                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-panel">-->
-<!--                    <button type="button" class="btn btn-primary" onclick="window.history.back();">
-                        &nbsp;Page précédent
-                    </button>
-                    <p>&nbsp;</p>-->
+                    <!--                    <button type="button" class="btn btn-primary" onclick="window.history.back();">
+                                            &nbsp;Page précédent
+                                        </button>
+                                        <p>&nbsp;</p>-->
                 </div>
 
                 <div class="clearfix"></div>
@@ -315,8 +315,24 @@
                                 </div>
 
                                 <div class="tab-pane" id="modele">
-                                    modele
-                                </div>
+                                    <a href="#mod" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse"><i class="fa fa-map-pin"></i> Liste modèles  &nbsp;<i class="fa fa-caret-down"></i></a>
+                                    <button style="width: 100%;" class="btn" onclick="resetMap()">reset</button>
+                                    <div class="list-group-submenu" id="mod">
+                                        <div style=" margin-left: 5px;" class="row" class="list-group-item">
+                                            <label style="display: block; font-weight: 400;" ng-repeat="modele in modeles">
+                                                <input id="{{modele.id}}" name="md" type="radio" ng-click="changeLastUrlOverlay(modele.url)">  {{modele.name}}
+                                            </label><br>
+                                        </div>
+                                    </div>
+                                    <!-- BEGIN PAGINATION -->
+                                    <ul class="pagination" style="margin: 0px;">
+                                        <li class="" id="previous"><a href="#" ng-click="rechercher(1)">«</a></li>                                        
+                                        <li><a href="#" ng-click="rechercher(temp)" ng-repeat="temp in pages">{{temp}}</a></li>
+                                        <li><a href="#"ng-click="rechercherFin()" id="next">»</a></li>
+                                        <input type="hidden" id="pageFin">
+                                    </ul>
+                                    <!-- END PAGINATION -->
+                                </div>                            
                                 <div class="tab-pane" id="tendance">
                                     pop
                                 </div>
@@ -347,320 +363,380 @@
     <!-- end taxonomie -->
 
 </main>
+
+<script>
+    var map;
+    var markers;
+    var markersGlobal;
+    var markersSearch;
+    var ctr;
+
+    function initMap() {
+        var centre = {lat: -18.9136800, lng: 47.5361300};
+        var mark = {lat: -18.9136800, lng: 47.5361300};
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: centre
+        });
+        var marker = new google.maps.Marker({
+            position: mark,
+            map: map
+        });
+        marker.setVisible(false);
+
+        // markers pour tout type de recherche
+        markers = [];
+        markersGlobal = [];
+        markersSearch = [];
+
+        var input = (document.getElementById('pac-input'));
+
+        // Autocomplete pour les recherches de localisation
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+        autocomplete.addListener('place_changed', function () {
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("Google map ne parvient pas a trouver l'endroit nomé : '" + place.name + "'");
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                ctr = place.geometry.location;
+                map.setZoom(10); // Why 10? Because it looks good.
+            }
+            marker.setIcon(/** @type {google.maps.Icon} */({
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(35, 35)
+            }));
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                    (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+        });
+    }
+
+    // Mettre l'attribut map sur les markers
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    function setMapOnAllGlobal(map) {
+        for (var i = 0; i < markersGlobal.length; i++) {
+            markersGlobal[i].setMap(map);
+        }
+    }
+
+    function setMapOnAllSearch(map) {
+        for (var i = 0; i < markersSearch.length; i++) {
+            markersSearch[i].setMap(map);
+        }
+    }
+
+    // Effacer les markers : mettre l'attribut map du marker à null
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+    ;
+    function clearMarkersGlobal() {
+        setMapOnAllGlobal(null);
+    }
+    ;
+    function clearMarkersSearch() {
+        setMapOnAllSearch(null);
+    }
+    ;
+
+    // Ajouter les markers pour le recherche globale
+    function addMarkerGlobal(mark) {
+        var marker = new google.maps.Marker({
+            position: {lat: parseFloat(mark.decimallatitude), lng: parseFloat(mark.decimallongitude)},
+            map: map
+        });
+        var infowindow = new google.maps.InfoWindow();
+        infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
+        markersGlobal.push(marker);
+        map.setCenter(ctr);
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, this);
+        });
+    }
+    ;
+
+    function addMarkersGlobal(mark) {
+        clearMarkersGlobal();
+        table = [];
+        for (var i = 0; i < mark.length; i++) {
+            addMarkerGlobal(mark[i]);
+        }
+    }
+    ;
+
+    // Ajouter les markers pour les recherches multicritères
+    function addMarkerSearch(mark) {
+        var marker = new google.maps.Marker({
+            position: {lat: parseFloat(mark.decimallatitude), lng: parseFloat(mark.decimallongitude)},
+            map: map
+        });
+        var infowindow = new google.maps.InfoWindow();
+        infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
+        markersSearch.push(marker);
+        map.setCenter(ctr);
+        // Ajouter event on click to the marker
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, this);
+        });
+    }
+    ;
+
+    function addMarkersSearch(mark) {
+        clearMarkersSearch();
+        table = [];
+        for (var i = 0; i < mark.length; i++) {
+            addMarkerSearch(mark[i]);
+        }
+    }
+    ;
+
+    function addMarkers2() {
+        var col = $('[name="espece[]"]');
+        clearMarkers();
+        infowindowExploration = [];
+        markers = [];
+        for (var i = 0; i < col.length; i++) {
+            if (col[i].checked == true) {
+                $.ajax({
+                    method: 'POST',
+                    url: 'findByespeceDwcPaginatedSearch?espece=' + col[i].value + '&validation=' + -999 + '&validationMine=' + -999 + '&etat[]=' + '' + '&page=' + -1,
+                    dataType: 'json',
+                    success: function (mark) {
+                        for (var i = 0; i < mark.length; i++) {
+                            var marker = new google.maps.Marker({
+                                position: {lat: parseFloat(mark[i].dwc.decimallatitude), lng: parseFloat(mark[i].dwc.decimallongitude)},
+                                map: map
+                            });
+                            var infowindow = new google.maps.InfoWindow();
+                            infowindow.setContent('<div><a href="detailLemurien?id=' + mark[i].dwc.id + '"><strong>' + mark[i].dwc.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark[i].dwc.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark[i].dwc.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark[i].dwc.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark[i].dwc.dwcyear + '</td></tr></table>');
+                            infowindowExploration.push(infowindow);
+                            markers.push(marker);
+                            map.setCenter(ctr);
+                            // Ajouter event on click to the marker
+                            google.maps.event.addListener(marker, 'click', function () {
+                                infowindow.open(map, this);
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    }
+    ;
+
+    // Fonction pour chercher les espèces pour l'explorateur à gauche
+    function getEspece(famille, genre) {
+        if (document.getElementById("typeGenre-famille-" + famille + "-genre-" + genre).checked) {
+            $.ajax({
+                url: 'getEspece?genre=' + genre,
+                dataType: 'json',
+                success: function (json) {
+                    var option = "";
+                    for (var i = 0; i < json.length; i++) {
+                        option = option + "<li>" + '<input name="espece[]" type="checkbox" value="' + json[i] + '" >';
+                        option = option + json[i];
+                        option = option + "</li>";
+                    }
+                    $("#espece-" + genre).append(option).trigger('change');
+                }
+            });
+        } else {
+            $("#espece-" + genre).html('<ul id="espece-' + genre + '"></ul>');
+        }
+    }
+    ;
+
+    // Fonctions pour les recherches globales
+    function rechercheGlobale() {
+        var champ = $('#rechercheGlobale').val();
+        rechercheGlobaleArg(champ);
+    }
+
+    function rechercheGlobaleArg(arg) {
+        $.ajax({
+            url: 'rechercherEspeceDcw?champ=' + arg,
+            dataType: 'json',
+            success: function (json) {
+                if (json.etat == true) {
+                    addMarkersGlobal(json.dwc);
+                } else
+                    clearMarkersGlobal();
+            }
+        });
+    }
+    // Avec pagination
+    function rechercheGlobalePaginee(champ, page, limite) {
+        $.ajax({
+            url: 'rechercherEspeceDcwPaginee?champ=' + champ + '&page=' + page + '&limite=' + limite,
+            dataType: 'json',
+            success: function (json) {
+                if (json.etat == true) {
+                    addMarkersGlobal(json.dwc);
+                } else
+                    clearMarkersGlobal();
+            }
+        });
+    }
+
+    // Fonction pour recherche multicritère
+    function rechercheSearch() {
+        var etat = $('[name="etat[]"]');
+        var state = [];
+        var etatS = "";
+        var j = 0;
+        for (var i = 0; i < etat.length; i++) {
+            if (etat[i].checked == true) {
+                state[j] = etat[i].value;
+                j++;
+                etatS += etat[i].value;
+                if (i > 0) {
+                    etatS += "&etat[]=" + etat[i].value;
+                }
+            }
+        }
+        var validationMine = parseInt($('[name="validationMine"]').val());
+        console.log(validationMine);
+        if (isNaN(validationMine))
+            validationMine = -999;
+
+        var formData = {
+            'validation': parseInt($('select[name=validation]').val()),
+            'etat': state,
+            'validationMine': validationMine,
+            'espece': $('input[name=espece]').val()
+        };
+        var dta = "validation=" + parseInt($('select[name=validation]').val()) + "&etat[]=" + state + "&validationMine=" + validationMine + "&espece=" + $('input[name=espece]').val();
+        console.log(dta);
+        $.ajax({
+            method: 'GET',
+            data: dta,
+            url: 'findDwcMulticritereGet',
+            success: function (json) {
+                addMarkersSearch(json);
+            }
+        });
+    }
+</script>
+<script src="<c:url value="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJDf3t9NTT8GXrMdlSvbLTxVLvTdUXc20&libraries=places&callback=initMap"/>"></script>
+<script>
+    /**
+     * Overlay
+     */
+    
+    overlay = null;
+    // Hide overlay
+    function resetMap() {
+        $('[name=md]').prop('checked', false);
+        overlay.setMap(null);
+    }
+    // Show overlay
+    function addOverlay(image) {
+        // bounds for all png from lemursportal webservice
+        var bounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(-31.95216223, 33.75),
+                new google.maps.LatLng(-11.17840187, 56.25));
+        if (overlay != null) {
+            overlay.setMap(null);
+        }
+        overlay = new ModelOverlay(bounds, image, map);
+    }
+    ModelOverlay.prototype = new google.maps.OverlayView();
+
+    /** @constructor */
+    function ModelOverlay(bounds, image, map) {
+
+        // Initialize all properties.
+        this.bounds_ = bounds;
+        this.image_ = image;
+        this.map_ = map;
+
+        // Define a property to hold the image's div. We'll
+        // actually create this div upon receipt of the onAdd()
+        // method so we'll leave it null for now.
+        this.div_ = null;
+
+        // Explicitly call setMap on this overlay.
+        this.setMap(map);
+    }
+
+    // onAdd is called when the map's panes are ready and the overlay has been
+    // added to the map.
+    ModelOverlay.prototype.onAdd = function () {
+
+        var div = document.createElement('div');
+        div.style.borderStyle = 'none';
+        div.style.borderWidth = '0px';
+        div.style.position = 'absolute';
+
+        // Create the img element and attach it to the div.
+        var img = document.createElement('img');
+        img.src = this.image_;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.position = 'absolute';
+        img.style.opacity = '0.75';
+        div.appendChild(img);
+
+        this.div_ = div;
+
+        // Add the element to the "overlayLayer" pane.
+        var panes = this.getPanes();
+        panes.overlayLayer.appendChild(div);
+    };
+
+    ModelOverlay.prototype.draw = function () {
+
+        // We use the south-west and north-east
+        // coordinates of the overlay to peg it to the correct position and size.
+        // To do this, we need to retrieve the projection from the overlay.
+        var overlayProjection = this.getProjection();
+
+        // Retrieve the south-west and north-east coordinates of this overlay
+        // in LatLngs and convert them to pixel coordinates.
+        // We'll use these coordinates to resize the div.
+        var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+        var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+
+        // Resize the image's div to fit the indicated dimensions.
+        var div = this.div_;
+        div.style.left = sw.x + 'px';
+        div.style.top = ne.y + 'px';
+        div.style.width = (ne.x - sw.x) + 'px';
+        div.style.height = (sw.y - ne.y) + 'px';
+    };
+
+    // The onRemove() method will be called automatically from the API if
+    // we ever set the overlay's map property to 'null'.
+    ModelOverlay.prototype.onRemove = function () {
+        this.div_.parentNode.removeChild(this.div_);
+        this.div_ = null;
+    };
+</script>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/visualisationcontroller.js"/>"></script>
-
-<script>
-                                                            var map;
-                                                            var markers;
-                                                            var markersGlobal;
-                                                            var markersSearch;
-                                                            var ctr;
-
-                                                            function initMap() {
-                                                                var centre = {lat: -18.9136800, lng: 47.5361300};
-                                                                var mark = {lat: -18.9136800, lng: 47.5361300};
-                                                                map = new google.maps.Map(document.getElementById('map'), {
-                                                                    zoom: 6,
-                                                                    center: centre
-                                                                });
-                                                                var marker = new google.maps.Marker({
-                                                                    position: mark,
-                                                                    map: map
-                                                                });
-                                                                marker.setVisible(false);
-
-                                                                // markers pour tout type de recherche
-                                                                markers = [];
-                                                                markersGlobal = [];
-                                                                markersSearch = [];
-
-                                                                var input = (document.getElementById('pac-input'));
-
-                                                                // Autocomplete pour les recherches de localisation
-                                                                var autocomplete = new google.maps.places.Autocomplete(input);
-                                                                autocomplete.bindTo('bounds', map);
-                                                                autocomplete.addListener('place_changed', function () {
-                                                                    marker.setVisible(false);
-                                                                    var place = autocomplete.getPlace();
-                                                                    if (!place.geometry) {
-                                                                        window.alert("Google map ne parvient pas a trouver l'endroit nomé : '" + place.name + "'");
-                                                                        return;
-                                                                    }
-
-                                                                    // If the place has a geometry, then present it on a map.
-                                                                    if (place.geometry.viewport) {
-                                                                        map.fitBounds(place.geometry.viewport);
-                                                                    } else {
-                                                                        map.setCenter(place.geometry.location);
-                                                                        ctr = place.geometry.location;
-                                                                        map.setZoom(13); // Why 17? Because it looks good.
-                                                                    }
-                                                                    marker.setIcon(/** @type {google.maps.Icon} */({
-                                                                        url: place.icon,
-                                                                        size: new google.maps.Size(71, 71),
-                                                                        origin: new google.maps.Point(0, 0),
-                                                                        anchor: new google.maps.Point(17, 34),
-                                                                        scaledSize: new google.maps.Size(35, 35)
-                                                                    }));
-                                                                    marker.setPosition(place.geometry.location);
-                                                                    marker.setVisible(true);
-                                                                    var address = '';
-                                                                    if (place.address_components) {
-                                                                        address = [
-                                                                            (place.address_components[0] && place.address_components[0].short_name || ''),
-                                                                            (place.address_components[1] && place.address_components[1].short_name || ''),
-                                                                            (place.address_components[2] && place.address_components[2].short_name || '')
-                                                                        ].join(' ');
-                                                                    }
-                                                                });
-                                                            }
-
-                                                            // Mettre l'attribut map sur les markers
-                                                            function setMapOnAll(map) {
-                                                                for (var i = 0; i < markers.length; i++) {
-                                                                    markers[i].setMap(map);
-                                                                }
-                                                            }
-
-                                                            function setMapOnAllGlobal(map) {
-                                                                for (var i = 0; i < markersGlobal.length; i++) {
-                                                                    markersGlobal[i].setMap(map);
-                                                                }
-                                                            }
-
-                                                            function setMapOnAllSearch(map) {
-                                                                for (var i = 0; i < markersSearch.length; i++) {
-                                                                    markersSearch[i].setMap(map);
-                                                                }
-                                                            }
-
-                                                            // Effacer les markers : mettre l'attribut map du marker à null
-                                                            function clearMarkers() {
-                                                                setMapOnAll(null);
-                                                            }
-                                                            ;
-                                                            function clearMarkersGlobal() {
-                                                                setMapOnAllGlobal(null);
-                                                            }
-                                                            ;
-                                                            function clearMarkersSearch() {
-                                                                setMapOnAllSearch(null);
-                                                            }
-                                                            ;
-
-                                                            // Ajouter les markers pour le recherche globale
-                                                            function addMarkerGlobal(mark) {
-                                                                var marker = new google.maps.Marker({
-                                                                    position: {lat: parseFloat(mark.decimallatitude), lng: parseFloat(mark.decimallongitude)},
-                                                                    map: map
-                                                                });
-                                                                var infowindow = new google.maps.InfoWindow();
-                                                                infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
-//                                                                infowindow.open(map, marker);
-                                                                markersGlobal.push(marker);
-                                                                map.setCenter(ctr);
-                                                                // Ajouter event on click to the marker
-                                                                google.maps.event.addListener(marker, 'click', function () {
-                                                                    infowindow.open(map, this);
-                                                                });
-                                                            }
-                                                            ;
-
-                                                            function addMarkersGlobal(mark) {
-                                                                clearMarkersGlobal();
-                                                                table = [];
-                                                                for (var i = 0; i < mark.length; i++) {
-                                                                    addMarkerGlobal(mark[i]);
-                                                                }
-                                                            }
-                                                            ;
-
-                                                            // Ajouter les markers pour les recherches multicritères
-                                                            function addMarkerSearch(mark) {
-//                                                                console.log(mark);
-                                                                var marker = new google.maps.Marker({
-                                                                    position: {lat: parseFloat(mark.decimallatitude), lng: parseFloat(mark.decimallongitude)},
-                                                                    map: map
-                                                                });
-                                                                var infowindow = new google.maps.InfoWindow();
-                                                                infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
-//                                                                infowindow.open(map, marker);
-                                                                markersSearch.push(marker);
-                                                                map.setCenter(ctr);
-                                                                // Ajouter event on click to the marker
-                                                                google.maps.event.addListener(marker, 'click', function () {
-                                                                    infowindow.open(map, this);
-                                                                });
-                                                            }
-                                                            ;
-
-                                                            function addMarkersSearch(mark) {
-                                                                clearMarkersSearch();
-                                                                table = [];
-                                                                for (var i = 0; i < mark.length; i++) {
-                                                                    addMarkerSearch(mark[i]);
-                                                                }
-                                                            }
-                                                            ;
-
-                                                            // Ancienne version de l'ajout des markers via l'explorateur
-//                                                            function addMarkers() {
-//                                                                var col = $('[name="espece[]"]');
-//                                                                clearMarkers();
-//                                                                markers = [];
-//                                                                for (var i = 0; i < col.length; i++) {
-//                                                                    if (col[i].checked == true) {
-//                                                                        var temp = col[i].value;
-//                                                                        var latlong = temp.split(",");
-//                                                                        var marker = new google.maps.Marker({
-//                                                                            position: {lat: parseFloat(latlong[0]), lng: parseFloat(latlong[1])},
-//                                                                            map: map
-//                                                                        });
-//                                                                        var infowindow = new google.maps.InfoWindow();
-//                                                                        infowindow.setContent('<div><strong>' + latlong[2] + '</strong><br>');
-//                                                                        infowindow.open(map, marker);
-//                                                                        markers.push(marker);
-//                                                                        map.setCenter(ctr);
-//                                                                    }
-//                                                                }
-//                                                            }
-//                                                            ;
-
-                                                            // Version recent pour ajouter les markers depuis l'explorateur à gauche
-//                                                            function afficherInfo(inc) {
-//                                                                console.log(infowindowExploration[inc].open(map, markers[inc]));
-//                                                            }
-                                                            function addMarkers2() {
-                                                                var col = $('[name="espece[]"]');
-                                                                clearMarkers();
-                                                                infowindowExploration = [];
-                                                                markers = [];
-                                                                for (var i = 0; i < col.length; i++) {
-                                                                    if (col[i].checked == true) {
-                                                                        $.ajax({
-                                                                            method: 'POST',
-                                                                            url: 'findByespeceDwcPaginatedSearch?espece=' + col[i].value + '&validation=' + -999 + '&validationMine=' + -999 + '&etat[]=' + '' + '&page=' + -1,
-                                                                            dataType: 'json',
-                                                                            success: function (mark) {
-                                                                                for (var i = 0; i < mark.length; i++) {
-                                                                                    var marker = new google.maps.Marker({
-                                                                                        position: {lat: parseFloat(mark[i].dwc.decimallatitude), lng: parseFloat(mark[i].dwc.decimallongitude)},
-                                                                                        map: map
-                                                                                    });
-                                                                                    var infowindow = new google.maps.InfoWindow();
-                                                                                    infowindow.setContent('<div><a href="detailLemurien?id=' + mark[i].dwc.id + '"><strong>' + mark[i].dwc.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark[i].dwc.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark[i].dwc.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark[i].dwc.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark[i].dwc.dwcyear + '</td></tr></table>');
-                                                                                    infowindowExploration.push(infowindow);
-                                                                                    markers.push(marker);
-                                                                                    map.setCenter(ctr);
-                                                                                    // Ajouter event on click to the marker
-                                                                                    google.maps.event.addListener(marker, 'click', function () {
-                                                                                        infowindow.open(map, this);
-                                                                                    });
-                                                                                }
-//                                                                                for (var i = 0; i < markers.length; i++) {    
-//                                                                                    afficherInfo(i);
-//                                                                                    google.maps.event.addListener(markers[i], 'click', function() {afficherInfo(i);});
-//                                                                                }
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                }
-                                                            }
-                                                            ;
-
-                                                            // Fonction pour chercher les espèces pour l'explorateur à gauche
-                                                            function getEspece(famille, genre) {
-                                                                if (document.getElementById("typeGenre-famille-" + famille + "-genre-" + genre).checked) {
-                                                                    $.ajax({
-                                                                        url: 'getEspece?genre=' + genre,
-                                                                        dataType: 'json',
-                                                                        success: function (json) {
-                                                                            var option = "";
-                                                                            for (var i = 0; i < json.length; i++) {
-                                                                                option = option + "<li>" + '<input name="espece[]" type="checkbox" value="' + json[i] + '" >';
-                                                                                option = option + json[i];
-                                                                                option = option + "</li>";
-                                                                            }
-                                                                            $("#espece-" + genre).append(option).trigger('change');
-                                                                        }
-                                                                    });
-                                                                } else {
-                                                                    $("#espece-" + genre).html('<ul id="espece-' + genre + '"></ul>');
-                                                                }
-                                                            }
-                                                            ;
-
-                                                            // Fonctions pour les recherches globales
-                                                            function rechercheGlobale() {
-                                                                var champ = $('#rechercheGlobale').val();
-                                                                rechercheGlobaleArg(champ);
-                                                            }
-
-                                                            function rechercheGlobaleArg(arg) {
-                                                                $.ajax({
-                                                                    url: 'rechercherEspeceDcw?champ=' + arg,
-                                                                    dataType: 'json',
-                                                                    success: function (json) {
-                                                                        if (json.etat == true) {
-                                                                            addMarkersGlobal(json.dwc);
-                                                                        } else
-                                                                            clearMarkersGlobal();
-                                                                    }
-                                                                });
-                                                            }
-                                                            // Avec pagination
-                                                            function rechercheGlobalePaginee(champ, page, limite) {
-                                                                $.ajax({
-                                                                    url: 'rechercherEspeceDcwPaginee?champ=' + champ + '&page=' + page + '&limite=' + limite,
-                                                                    dataType: 'json',
-                                                                    success: function (json) {
-                                                                        if (json.etat == true) {
-                                                                            addMarkersGlobal(json.dwc);
-                                                                        } else
-                                                                            clearMarkersGlobal();
-                                                                    }
-                                                                });
-                                                            }
-
-                                                            // Fonction pour recherche multicritère
-                                                            function rechercheSearch() {
-                                                                var etat = $('[name="etat[]"]');
-                                                                var state = [];
-                                                                var etatS = "";
-                                                                var j = 0;
-                                                                for (var i = 0; i < etat.length; i++) {
-                                                                    if (etat[i].checked == true) {
-                                                                        state[j] = etat[i].value;
-                                                                        j++;
-                                                                        etatS += etat[i].value;
-                                                                        if (i > 0) {
-                                                                            etatS += "&etat[]=" + etat[i].value;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                var validationMine = parseInt($('[name="validationMine"]').val());
-                                                                console.log(validationMine);
-                                                                if (isNaN(validationMine))
-                                                                    validationMine = -999;
-
-                                                                var formData = {
-                                                                    'validation': parseInt($('select[name=validation]').val()),
-                                                                    'etat': state,
-                                                                    'validationMine': validationMine,
-                                                                    'espece': $('input[name=espece]').val()
-                                                                };
-                                                                var dta = "validation=" + parseInt($('select[name=validation]').val()) + "&etat[]=" + state + "&validationMine=" + validationMine + "&espece=" + $('input[name=espece]').val();
-                                                                console.log(dta);
-                                                                $.ajax({
-                                                                    method: 'GET',
-                                                                    data: dta,
-                                                                    url: 'findDwcMulticritereGet',
-                                                                    success: function (json) {
-                                                                        addMarkersSearch(json);
-                                                                    }
-                                                                });
-                                                            }
-</script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  
