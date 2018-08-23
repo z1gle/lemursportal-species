@@ -21,7 +21,7 @@
         <link href="<c:url value="/resources/assets/css/animate.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/main.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/styles_.min.css" />" rel="stylesheet">
-        <script async src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
+        <script src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
     </head>
     <body ng-app="app">
         <!-- Navigation -->
