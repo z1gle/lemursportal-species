@@ -50,30 +50,64 @@
 					<a href="http://jrsbiodiversity.org/" target="_blank"><img src="http://jrsbiodiversity.org/wp-content/themes/zero/images/jrs-logo.svg" style="border-radius: 4%; margin-top: 3%;padding:2%;"></a>
 				</div>
         </div>
-                    <div class="row text-center" style="border-bottom: solid 1px; border-top: solid 1px;border-color: #84bc00; margin: 30px 15px; padding-bottom: 30px;">
-<!-- 					<div class="footer-content"> -->
-						<div style="font-size: 16px;padding: 15px;/*font-weight: bold;*/">PARTNERS</div>
-						<div class="footer-partner">
-							<ul>
-								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_ADD.jpg"></a></li>
-								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_Aspinall.jpg"></a></li>
-								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_DPZ.jpg"></a></li>
-								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_DREEF-Atsinanana.jpg"></a></li>
-								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_ISSEDD.png"></a></li>
-								<li class=""><a href="#" target="_blank"><img src="/resources/logos/logo_Valbio.jpg"></a></li>
-							</ul>
-						</div>
-
-<!-- 					</div> -->
-				</div>
+        
+        <div class="footer-bottom">
+			<div class="container" id="fter">
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="cash-out pull-left">
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/forum/resources/logos/logo_meef-48.jpg" alt="">	
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/forum/resources/logos/05_2016-Logo-48.jpg" alt="">	
+								</a>
+							</li>
+							<li>
+									<img src="https://www.lemursportal.org/forum/resources/logos/blank.png" alt="">	
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/forum/resources/logos/logo_ADD-48.jpg" alt="">	
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/forum/resources/logos/logo_Aspinall-48.jpg" alt="">	
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/forum/resources/logos/logo_DPZ-48.jpg" alt="">	
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/forum/resources/logos/logo_ISSEDD-48.jpg" alt="">	
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/forum/resources/logos/logo_Valbio-48.jpg" alt="">	
+								</a>
+							</li>
+						</ul>
+						<p class="copyright-text pull-right" style="color:white; font-size:12px; margin: 12px 0 10px;"> Copyright © - Lemurs Portal 2017 <!-- All Rights Reserved--></p>
+					</div>	<!-- End Of /.col-md-12 -->	
+				</div>	<!-- End Of /.row -->	
+			</div>	<!-- End Of /.container -->	
+		</div>
     </div>
-    <div style="background: #080808; color:#fff!important; margin-top: 60px">
-        <div class="row text-center" style="width: 100%;">
-            <div class="footer-content">						
-                <p>Copyright &copy; - Lemurs Portal 2017</p>
-            </div>
-        </div>
-    </div>
+<!--     <div style="background: #080808; color:#fff!important; margin-top: 60px"> -->
+<!--         <div class="row text-center" style="width: 100%;"> -->
+<!--             <div class="footer-content">						 -->
+<!--                 <p>Copyright &copy; - Lemurs Portal 2017</p> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
 </footer>
 <!--js-->
 <script src="<c:url value="/resources/assets/js/modernizr-2.6.2.min.js"/>"></script>
