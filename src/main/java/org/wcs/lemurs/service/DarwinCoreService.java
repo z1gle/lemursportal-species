@@ -118,13 +118,17 @@ public class DarwinCoreService extends MailService {
 
         if (dw.getScientificname() != null && !dw.getScientificname().isEmpty()) {
             String low = dw.getScientificname().toLowerCase();
-            String[] listLow = low.split(" ");
-            low = "";
-            String s = listLow[0];
-            s = s.substring(0, 1).toUpperCase() + s.substring(1);
-            low += s + " ";
-            low += listLow[1];
-            dw.setScientificname(low);
+            try {
+                String[] listLow = low.split(" ");
+                low = "";
+                String s = listLow[0];
+                s = s.substring(0, 1).toUpperCase() + s.substring(1);
+                low += s + " ";
+                low += listLow[1];
+                dw.setScientificname(low);
+            } catch(Exception e) {
+                System.err.println("Le scientificname est fausse. Elle doit au moins contenir 2 mots et ainsi de suite");
+            }
         }
     }
 
@@ -232,7 +236,7 @@ public class DarwinCoreService extends MailService {
                 }
                 vdc.setValidationExpert(-1);
                 save(session, vdc);
-            }            
+            }
             tr.commit();
             try {
                 this.sendMailToExpert(list_dw);
@@ -1276,6 +1280,13 @@ public class DarwinCoreService extends MailService {
             VideoDarwinCore vidc = new VideoDarwinCore();
             vidc.setIdDarwinCore(dwc.getId());
             List<VideoDarwinCore> listeVidc = (List<VideoDarwinCore>) (List<?>) super.findAll(session, vidc, -1, -1);
+            CommentaireDarwinCore cdc = new CommentaireDarwinCore();
+            cdc.setIdDarwinCore(dwc.getId());
+            List<CommentaireDarwinCore> listeCdc = (List<CommentaireDarwinCore>)(List<?>) super.findAll(session, cdc, -1, -1);
+            HistoriqueStatus hs = new HistoriqueStatus();
+            hs.setIdDwc(dwc.getId());
+            List<HistoriqueStatus> listeHs = (List<HistoriqueStatus>)(List<?>) super.findAll(session, hs, -1, -1);
+            
             tr = session.beginTransaction();
             if (!listeVdcToDelete.isEmpty()) {
                 for (ValidationDarwinCore v : listeVdcToDelete) {
@@ -1289,6 +1300,16 @@ public class DarwinCoreService extends MailService {
             }
             if (!listeVidc.isEmpty()) {
                 for (VideoDarwinCore v : listeVidc) {
+                    super.delete(session, v);
+                }
+            }
+            if (!listeCdc.isEmpty()) {
+                for (CommentaireDarwinCore v : listeCdc) {
+                    super.delete(session, v);
+                }
+            }
+            if (!listeHs.isEmpty()) {
+                for (HistoriqueStatus v : listeHs) {
                     super.delete(session, v);
                 }
             }

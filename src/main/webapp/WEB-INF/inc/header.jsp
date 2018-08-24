@@ -40,7 +40,7 @@
 
                     <!-- logo -->
                     <h1 class="navbar-brand">
-                        <a href="/"><img src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>"></a>
+                        <a href="#" data-toggle='modal' data-target='#modal-service'><img src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>"></a>
                     </h1>
                     <!-- /logo -->
                 </div>
@@ -122,7 +122,33 @@
                 </nav>
                 <!-- /main nav -->                
             </div>
-            <div style="float: right;margin-top: -55px;margin-right:  5px;">
+<!--            <div style="float: right;margin-top: -55px;margin-right:  5px;">
                 <a style="padding: 0px;" class="btn" href="https://www.lemursportal.org/forum"><i class="fa fa-comments-o fa-2x"></i></a>
+            </div>-->
+        </header>
+        <div id='modal-service' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+            <div style="width: 255px;" class='modal-dialog'>
+                <div class='modal-content' style="background-color: #000000d4; margin-top: 150px;">
+                    <div style="margin-left: -10px;" class='modal-body row'>                        
+                        <div class="col-md-6">
+                            <a title="Home page" href="/">
+                                <div class="service-item">
+                                    <div class="service-icon">
+                                        <img style="transform: rotate(-47deg); max-height: 45px; margin-left: 26px; margin-bottom: 22px;" src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>">
+                                    </div>                                    
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a title="Online forum" href="https://www.lemursportal.org/forum?lang=${pageContext.response.locale.language}">
+                                <div class="service-item">
+                                    <div class="service-icon">
+                                        <i style="margin-left: 20px;" class="fa fa-comments-o fa-3x"></i>
+                                    </div>                                    
+                                </div>
+                            </a>
+                        </div>
+                    </div>                    
+                </div>
             </div>
-        </header>       
+        </div>

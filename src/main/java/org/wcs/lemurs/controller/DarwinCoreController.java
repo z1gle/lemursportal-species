@@ -1069,7 +1069,7 @@ public class DarwinCoreController {
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
             if (!darwinCoreService.checkRole(u, ROLE_ADMINISTRATEUR)) {
-                u = (Utilisateur) darwinCoreService.findAll(u).get(0);
+//                u = (Utilisateur) darwinCoreService.findAll(u).get(0);
                 dwc.setIdUtilisateurUpload(u.getId());
             }
             valiny.setEtat(Boolean.TRUE);

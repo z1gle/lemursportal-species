@@ -206,7 +206,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
+<!--                                            <div class="row">
                                                 <div class="col-xs-12 divider text-center statistique-user">
                                                     <div class="col-xs-12 col-sm-4 emphasis">
                                                         <h2><strong> <%out.print(nbrCommentaire);%> </strong></h2>                    
@@ -222,7 +222,7 @@
                                                         <p><small>Photos</small></p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div style="border-left-style: solid;border-left-width: 1px;max-height: 500px;overflow-y: auto; margin-bottom: 20px;" class="col-md-6 col-sm-12 col-xs-12">
                                             <h4 style="text-align: center;">Biographie</h4>
