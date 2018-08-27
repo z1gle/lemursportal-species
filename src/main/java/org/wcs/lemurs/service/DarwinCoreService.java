@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.lucene.index.Fields;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -36,6 +35,7 @@ import org.wcs.lemurs.exception.StatusAlreadyExistException;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.model.ObservationParAdmin;
 import org.wcs.lemurs.model.PhotoDarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
@@ -59,25 +59,80 @@ public class DarwinCoreService extends MailService {
     @Qualifier("darwinCoreDao")
     private DarwinCoreDao darwinCoreDao;
 
-//    @Transactional
-//    public void save(DarwinCore darwinCore) throws Exception {
-//        save(darwinCore);
-//    }
-//    
-//    @Transactional
-//    public void save(Session session, DarwinCore darwinCore) throws Exception {
-//        save(session, darwinCore);
-//    }
-//
-//    @Transactional
-//    public void update(DarwinCore darwinCore) throws Exception {
-//        save(darwinCore);
-//    }
-//
-//    @Transactional
-//    public void delete(DarwinCore darwinCore) throws Exception {
-//        hibernateDao.delete(darwinCore);
-//    }
+    //LAT-LONG
+    List<double[]> terreMadagascar = new ArrayList<>();
+
+    public DarwinCoreService() {
+        terreMadagascar.add(new double[]{-17.977411, 49.553833});
+        terreMadagascar.add(new double[]{-25.107900, 47.189026});
+        terreMadagascar.add(new double[]{-25.562265, 45.703125});
+        terreMadagascar.add(new double[]{-25.641526, 45.175781});
+        terreMadagascar.add(new double[]{-25.373810, 44.692383});
+        terreMadagascar.add(new double[]{-25.344027, 44.307861});
+        terreMadagascar.add(new double[]{-25.045792, 43.989258});
+        terreMadagascar.add(new double[]{-24.676970, 43.879395});
+        terreMadagascar.add(new double[]{-24.357105, 43.648682});
+        terreMadagascar.add(new double[]{-23.563987, 43.593750});
+        terreMadagascar.add(new double[]{-23.019076, 43.374023});
+        terreMadagascar.add(new double[]{-22.030911, 43.154297});
+        terreMadagascar.add(new double[]{-21.657428, 43.330078});
+        terreMadagascar.add(new double[]{-21.268900, 43.494873});
+        terreMadagascar.add(new double[]{-21.217701, 43.769531});
+        terreMadagascar.add(new double[]{-20.756114, 43.901367});
+        terreMadagascar.add(new double[]{-19.951405, 44.450683});
+        terreMadagascar.add(new double[]{-19.766704, 44.346313});
+        terreMadagascar.add(new double[]{-19.435514, 44.428711});
+        terreMadagascar.add(new double[]{-19.051734, 44.176025});
+        terreMadagascar.add(new double[]{-18.791918, 44.208984});
+        terreMadagascar.add(new double[]{-18.375379, 43.978271});
+        terreMadagascar.add(new double[]{-17.748687, 43.978271});
+        terreMadagascar.add(new double[]{-17.476432, 43.879395});
+        terreMadagascar.add(new double[]{-16.627639, 44.411545});
+        terreMadagascar.add(new double[]{-16.152028, 44.375152});
+        terreMadagascar.add(new double[]{-16.183024, 44.846191});
+        terreMadagascar.add(new double[]{-15.903226, 45.225219});
+        terreMadagascar.add(new double[]{-15.421910, 46.538086});
+        terreMadagascar.add(new double[]{-14.689881, 47.416992});
+        terreMadagascar.add(new double[]{-13.581921, 47.776795});
+        terreMadagascar.add(new double[]{-13.154376, 48.208008});
+        terreMadagascar.add(new double[]{-12.358783, 48.672180});
+        terreMadagascar.add(new double[]{-11.872726, 49.262695});
+        terreMadagascar.add(new double[]{-13.052723, 50.020752});
+        terreMadagascar.add(new double[]{-15.268288, 50.520630});
+        terreMadagascar.add(new double[]{-15.725770, 50.419006});
+        terreMadagascar.add(new double[]{-16.045814, 50.202027});
+        terreMadagascar.add(new double[]{-15.876809, 49.976806});
+        terreMadagascar.add(new double[]{-15.665222, 49.910889});
+        terreMadagascar.add(new double[]{-15.543668, 49.806519});
+        terreMadagascar.add(new double[]{-15.591293, 49.652710});
+        terreMadagascar.add(new double[]{-15.910895, 49.768067});
+        terreMadagascar.add(new double[]{-16.086531, 49.748841});
+        terreMadagascar.add(new double[]{-16.230498, 49.905396});
+        terreMadagascar.add(new double[]{-16.736167, 50.064697});
+        terreMadagascar.add(new double[]{-17.164223, 49.839477});
+    }
+
+    public boolean latLongIn(double lat, double lon) {
+        boolean right = false;
+        int index = 0;
+        double difference = lat - terreMadagascar.get(0)[0];
+        int i = 1;
+        while (i < 34) {
+            double temp = lat - terreMadagascar.get(i)[0];
+            if (java.lang.Math.abs(difference) < java.lang.Math.abs(temp)) {
+                difference = temp;
+                index = i;
+            }
+            if (i == 33 && lon < terreMadagascar.get(index)[1]) {
+                return false;
+            }
+            if (i == terreMadagascar.size()-1 && lon > terreMadagascar.get(index)[1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public DarwinCore findById(int iddwc) throws Exception {
         DarwinCore darwinCore = new DarwinCore();
         darwinCore.setId(iddwc);
@@ -126,7 +181,7 @@ public class DarwinCoreService extends MailService {
                 low += s + " ";
                 low += listLow[1];
                 dw.setScientificname(low);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.err.println("Le scientificname est fausse. Elle doit au moins contenir 2 mots et ainsi de suite");
             }
         }
@@ -1282,11 +1337,11 @@ public class DarwinCoreService extends MailService {
             List<VideoDarwinCore> listeVidc = (List<VideoDarwinCore>) (List<?>) super.findAll(session, vidc, -1, -1);
             CommentaireDarwinCore cdc = new CommentaireDarwinCore();
             cdc.setIdDarwinCore(dwc.getId());
-            List<CommentaireDarwinCore> listeCdc = (List<CommentaireDarwinCore>)(List<?>) super.findAll(session, cdc, -1, -1);
+            List<CommentaireDarwinCore> listeCdc = (List<CommentaireDarwinCore>) (List<?>) super.findAll(session, cdc, -1, -1);
             HistoriqueStatus hs = new HistoriqueStatus();
             hs.setIdDwc(dwc.getId());
-            List<HistoriqueStatus> listeHs = (List<HistoriqueStatus>)(List<?>) super.findAll(session, hs, -1, -1);
-            
+            List<HistoriqueStatus> listeHs = (List<HistoriqueStatus>) (List<?>) super.findAll(session, hs, -1, -1);
+
             tr = session.beginTransaction();
             if (!listeVdcToDelete.isEmpty()) {
                 for (ValidationDarwinCore v : listeVdcToDelete) {
@@ -1314,6 +1369,99 @@ public class DarwinCoreService extends MailService {
                 }
             }
             super.delete(session, dwc);
+            tr.commit();
+        } catch (Exception e) {
+            if (tr != null) {
+                tr.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public void delete(Session session, DarwinCore dwc) throws Exception {
+        try {
+            ValidationDarwinCore vdc = new ValidationDarwinCore();
+            vdc.setIdDarwinCore(dwc.getId());
+            List<ValidationDarwinCore> listeVdcToDelete = (List<ValidationDarwinCore>) (List<?>) super.findAll(session, vdc, -1, -1);
+            PhotoDarwinCore pdc = new PhotoDarwinCore();
+            pdc.setIdDarwinCore(dwc.getId());
+            List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>) (List<?>) super.findAll(session, pdc, -1, -1);
+            VideoDarwinCore vidc = new VideoDarwinCore();
+            vidc.setIdDarwinCore(dwc.getId());
+            List<VideoDarwinCore> listeVidc = (List<VideoDarwinCore>) (List<?>) super.findAll(session, vidc, -1, -1);
+            CommentaireDarwinCore cdc = new CommentaireDarwinCore();
+            cdc.setIdDarwinCore(dwc.getId());
+            List<CommentaireDarwinCore> listeCdc = (List<CommentaireDarwinCore>) (List<?>) super.findAll(session, cdc, -1, -1);
+            HistoriqueStatus hs = new HistoriqueStatus();
+            hs.setIdDwc(dwc.getId());
+            List<HistoriqueStatus> listeHs = (List<HistoriqueStatus>) (List<?>) super.findAll(session, hs, -1, -1);
+
+            if (!listeVdcToDelete.isEmpty()) {
+                for (ValidationDarwinCore v : listeVdcToDelete) {
+                    super.delete(session, v);
+                }
+            }
+            if (!listePdc.isEmpty()) {
+                for (PhotoDarwinCore p : listePdc) {
+                    super.delete(session, p);
+                }
+            }
+            if (!listeVidc.isEmpty()) {
+                for (VideoDarwinCore v : listeVidc) {
+                    super.delete(session, v);
+                }
+            }
+            if (!listeCdc.isEmpty()) {
+                for (CommentaireDarwinCore v : listeCdc) {
+                    super.delete(session, v);
+                }
+            }
+            if (!listeHs.isEmpty()) {
+                for (HistoriqueStatus v : listeHs) {
+                    super.delete(session, v);
+                }
+            }
+            super.delete(session, dwc);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void delete(int[] liste, Utilisateur u, Boolean admin) {
+        Session session = null;
+        Transaction tr = null;
+        try {
+            int count = 0;
+            session = this.darwinCoreDao.getSessionFactory().openSession();
+            tr = session.beginTransaction();
+
+            for (Integer i : liste) {
+                DarwinCore dwc = new DarwinCore();
+                dwc.setId(i);
+                findById(session, dwc);
+                if (admin || dwc.getIdUtilisateurUpload().equals(u.getId())) {
+                    delete(session, dwc);
+                    count++;
+                } else {
+                    System.err.println("Vous n'avez pas l'accréditation nécessaire à la supression de l'observation id = " + dwc.getId());
+                }
+            }
+            if (u != null) {
+                try {
+                    ObservationParAdmin opa = new ObservationParAdmin();
+                    opa.setIdUtilisateur(u.getId());
+                    opa = (ObservationParAdmin) super.findAll(session, opa, 1, 1).get(0);
+                    opa.setNbrObservation(opa.getNbrObservation() - count);
+                    super.save(session, opa);
+                } catch (IndexOutOfBoundsException ioobe) {
+                    System.out.println("l'utilisateur n'est pas encore dans la table ObservationParAdmin");
+                }
+            }
+
             tr.commit();
         } catch (Exception e) {
             if (tr != null) {

@@ -315,6 +315,7 @@ public class UploadFile {
         line = br.readLine();
         DarwinCoreService dcs = new DarwinCoreService();
         List<HashMap<String, Object>> fonctions = dcs.getFonctionNumeroColonneDwc(colonnes, line, separator);
+        int numeroLigne = 2;
         while ((line = br.readLine()) != null) {
             line = line.replaceAll(separator, " "+separator+" ");
             String[] cols = line.split(separator);
@@ -326,7 +327,12 @@ public class UploadFile {
                 for (HashMap<String, Object> fonction : fonctions) {
                     Method m = (Method) fonction.get("fonction");
                     Integer intTemp = (Integer) fonction.get("id");
-                    String idEnCours = cols[intTemp];
+                    String idEnCours = "";
+                    try {
+                        idEnCours = cols[intTemp];
+                    } catch (java.lang.ArrayIndexOutOfBoundsException aioobe) {
+                        throw new Exception("Ligne : "+numeroLigne+" \nVérifier le nombre de colonne.");
+                    }                    
                     try {
                         String valeur = idEnCours;
                         valeur = enleverEspaceDebutFin(valeur);
@@ -354,7 +360,7 @@ public class UploadFile {
                     dwcTemp.getClass().getMethod("setId", Integer.class).invoke(dwcTemp, Integer.parseInt(cols[0].replaceAll(" ", "")));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    throw new Exception("vérifier le nombre de colonne du darwin core");
+                    throw new Exception("Ligne : "+numeroLigne+" \nVérifier le nombre de colonne du darwin core");
                 }
 
                 int iterator = 1;
@@ -379,6 +385,7 @@ public class UploadFile {
                 }
                 list_dw.add(dwcTemp);
             }
+            numeroLigne++;
         }
         return list_dw;
     }

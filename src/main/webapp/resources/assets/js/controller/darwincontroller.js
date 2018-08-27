@@ -8,6 +8,7 @@ app.controller("darwin", function ($scope, $http) {
     $scope.familles = [];
     $scope.colonnes = [];
     $scope.darwin = {};
+    $scope.downloadInformation = {};
     $scope.recherche = "";
     $scope.file = {};
     $scope.pages = [];
@@ -244,7 +245,20 @@ app.controller("darwin", function ($scope, $http) {
             validationMine = -999;
 
         var dta = "validation=" + parseInt($('select[name=validation]').val()) + "&etat[]=" + state + "&validationMine=" + validationMine + "&espece=" + $('input[name=espece]').val() + "&page=" + page;
-        window.location = 'dwcCsv' + data + dta;
+
+        $http({
+            method: 'POST',
+            url: 'downloadInformations?' + data + dta,
+            data: angular.toJson($scope.downloadInformation),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            window.location = 'dwcCsv' + data + dta;
+        }, function error(response) {
+            console.log(response.statusText);
+        });
     }
     ;
     $scope.upload = function () {
@@ -269,37 +283,22 @@ app.controller("darwin", function ($scope, $http) {
                 'Content-Type': undefined
             }
         }).then(function success(response) {
-            $scope.liste = response.data;
-            $scope.recherche = $scope.darwin.scientificname;
-            $('#modal-upload-dwc').modal('hide');
+            if (response.data[0].message != null) {
+                console.log(response.data[0].message);
+                $('#messageAlerte').text(response.data[0].message);
+                $('#modal-upload_spinner').modal('hide');
+                $('#modal-alert').modal({backdrop: 'static'});
+            } else {
+                $scope.liste = response.data;
+                $scope.recherche = $scope.darwin.scientificname;
+                $('#modal-upload_spinner').modal('hide');
+            }
         }, function error(response) {
+            $('#messageAlerte').text('Un erreur est survenu lors du téléchargement. Veuiller vérifier votre acréditation ou la structure des données.');
             $('#modal-alert').modal({backdrop: 'static'});
-            $('#modal-upload-dwc').modal('hide');
+            $('modal-upload_spinner').modal('hide');
         });
     };
-//    $(document).ready(function () {
-//        $('#form-search').submit(function (event) {
-//            // get the form data
-//            var formData = {
-//                'validation': $('select[name=validation]').val(),
-//                'chercheur': $('input[name=chercheur]').val()
-//
-//            };
-//            // process the form
-//            $.ajax({
-//                type: 'POST',
-//                url: 'findByespeceDwcs',
-//                data: formData,
-//                dataType: 'json',
-//                success: function (data) {
-//                    $scope.liste = data.data;
-//                }
-//            });
-//            // stop the form from submitting and refreshing
-//            event.preventDefault();
-//        });
-//    });
-
 
     $scope.editer = function (darwin) {
         $("#editOrnew").modal({backdrop: 'static'});
@@ -341,33 +340,6 @@ app.controller("darwin", function ($scope, $http) {
             console.log(response.statusText);
         });
     };
-
-//    $scope.rechercher = function (page) {
-//        var formData = new FormData();
-////        var dwcs = angular.toJson($scope.darwin);                
-////        var temp = dwcs.scientificName;
-//        var dwcs = $scope.darwin.scientificname;
-//        if (dwcs == undefined)
-//            dwcs = null;
-//        console.log(dwcs);
-//        formData.append("dwcs", dwcs);
-//        formData.append("page", page);
-//        $http({
-//            method: 'POST',
-//            url: 'findByespeceDwcPaginated',
-//            data: formData,
-//            headers: {
-//                'Accept': 'application/json',
-//                'Content-Type': undefined
-//            }
-//        }).then(function success(response) {
-//            $scope.liste = response.data;
-//            paginer($scope.liste[0].total, 20, page);
-//            $scope.recherche = $scope.darwin.scientificname;
-//        }, function error(response) {
-//            console.log(response.statusText);
-//        });
-//    };
 
     $scope.rechercher = function (page) {
         if ($scope.recherchePagination === 1) {
