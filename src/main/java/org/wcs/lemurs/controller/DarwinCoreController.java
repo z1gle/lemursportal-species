@@ -825,6 +825,10 @@ public class DarwinCoreController {
             }
             for (DarwinCore d : liste_darwin_core) {
                 d.setIdUtilisateurUpload(u.getId());
+                if(d.getDecimallatitude().contains(",")) {
+                    d.setDecimallatitude(d.getDecimallatitude().replace(",", "."));
+                    d.setDecimallongitude(d.getDecimallongitude().replace(",", "."));
+                }
             }
             for (DarwinCore dwc : liste_darwin_core) {
                 dwc.setPublique(publique);

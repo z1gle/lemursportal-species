@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.DownloadInformation;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.modele_association.AssociationDownloadInformationObservation;
+import org.wcs.lemurs.modele_association.RoleUtilisateur;
 import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 import org.wcs.lemurs.service.DarwinCoreService;
 import org.wcs.lemurs.service.DownloadInformationService;
@@ -76,7 +76,7 @@ public class DownloadInformationController {
             int nombre = 20;
             Long total = null;
 
-            Utilisateur u = new Utilisateur();
+            Utilisateur u = null;
             try {
                 u = (Utilisateur) session.getAttribute("utilisateur");
             } catch (Exception e) {
@@ -97,7 +97,7 @@ public class DownloadInformationController {
             } else if (validation != -999) {
                 vvdc.setValidationexpert(validation);
             }
-            if (etat.size() != 0 && etat.size() < 2) {
+            if (!etat.isEmpty() && etat.size() < 2) {
                 if (Integer.parseInt(etat.get(0)) == 0) {
                     vvdc.setPublique(Boolean.FALSE);
                     vvdc.setIdUtilisateurUpload(u.getId());
@@ -112,18 +112,34 @@ public class DownloadInformationController {
             } catch (NullPointerException npe) {
                 idU = -999;
             }
+            List<Integer> cibles = new ArrayList<>();
             List<VueValidationDarwinCore> listeTemp = (List<VueValidationDarwinCore>) (List<?>) darwinCoreService.findAll(u, vvdc);
             List<AssociationDownloadInformationObservation> adio = new ArrayList<>();
             for (VueValidationDarwinCore dwc : listeTemp) {
                 AssociationDownloadInformationObservation adioTemp = new AssociationDownloadInformationObservation();
                 adioTemp.setIdObservation(dwc.getId());
                 adio.add(adioTemp);
+                if (dwc.getIdUtilisateurUpload() != null && !cibles.contains(dwc.getIdUtilisateurUpload())) {
+                    cibles.add(dwc.getIdUtilisateurUpload());
+                }
+            }
+            RoleUtilisateur ru = new RoleUtilisateur();
+            ru.setIdRole(10001);
+            List<RoleUtilisateur> listeAdmin = (List<RoleUtilisateur>) (List<?>) downloadInformationService.findAll(ru);
+            for (RoleUtilisateur r : listeAdmin) {
+                if(!cibles.contains(r.getIdUtilisateur())) {
+                    cibles.add(r.getIdUtilisateur());
+                }
             }
             di.setListeObservations(adio);
-            downloadInformationService.save(di);
+            if (cibles.isEmpty()) {
+                cibles = null;
+            }
+            downloadInformationService.save(di, cibles);
             return Boolean.TRUE;
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }

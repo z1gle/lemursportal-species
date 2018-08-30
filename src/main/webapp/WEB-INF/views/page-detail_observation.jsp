@@ -1616,9 +1616,6 @@
     <!-- end dwcnomie -->
 
 </main>
-<script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"  charset="utf-8"></script>
 <script>
                             function del(idDwc) {
                                 $.ajax({
@@ -1718,10 +1715,14 @@
             position: mark,
             map: map
         });
-
+        console.log('init map');
 //        var transitLayer = new google.maps.TransitLayer();
 //        transitLayer.setMap(map);
     }
 //    google.maps.event.addDomListener(window, "load", initMap);
 </script>
+<script src="<c:url value="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJDf3t9NTT8GXrMdlSvbLTxVLvTdUXc20&libraries=places&callback=initMap"/>"></script>
+<script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/page_detail_observation.js"/>"  charset="utf-8"></script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

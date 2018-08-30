@@ -357,8 +357,8 @@
                                         <td class="number text-center">Id</td>
                                         <td class="text-center">Nom scientifique </td>
                                         <td class="text-center">Localisation</td>
-                                        <td class="text-center">Ordre</td>
                                         <td class="text-center">Classe</td>
+                                        <td class="text-center">Ordre</td>                                        
                                         <td class="text-center">Genre</td>
                                         <td class="text-center">Date</td>
                                         <td class="text-center">Institution</td>
@@ -388,8 +388,8 @@
                                         <td ng-cloak class="number text-center"><a style="color: #818181;" href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.id}}</a></td>
                                         <td ng-cloak class="text-center"><a href="detailLemurien?id={{dwc.dwc.id}}">{{dwc.dwc.scientificname}}</a></td>
                                         <td ng-cloak class="text-center">{{dwc.dwc.locality}}</td>
-                                        <td ng-cloak class="text-center">{{dwc.dwc.darwinorder}}</td>
                                         <td ng-cloak class="text-center">{{dwc.dwc.darwinclass}}</td>
+                                        <td ng-cloak class="text-center">{{dwc.dwc.darwinorder}}</td>                                        
                                         <td ng-cloak class="text-center">{{dwc.dwc.genus}}</td>
                                         <td ng-cloak class="text-center">{{dwc.dwc.dwcyear}}</td>
                                         <td ng-cloak class="text-center">{{dwc.dwc.institutioncode}}</td>    
@@ -615,7 +615,7 @@
                     <div class='row'>
                         <div class='col-md-10 col-md-offset-1'>                            
                             <div class="col-sm-12">
-                                <span id="messageAlerte">Un erreur est survenu lors du téléchargement. Veuiller vérifier votre acréditation ou la structure des données.</span>
+                                <span id="messageAlerte">Un erreur est survenu lors du t&eacute;l&eacute;chargement. Veuiller v&eacute;rifier votre acr&eacute;ditation ou la structure des donn&eacute;es.</span>
                             </div>                                    
                         </div>
                     </div>

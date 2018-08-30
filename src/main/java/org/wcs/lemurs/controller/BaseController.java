@@ -29,6 +29,9 @@ public class BaseController {
     public static String ROLE_EXPERT = "EXPERT";
     public static String ROLE_MODERATEUR = "MODERATEUR";
     public static String ROLE_ADMINISTRATEUR = "ADMIN";
+    
+    public static String NOTIFICATION_DOWNLOAD = "Download";
+    public static String NOTIFICATION_VALIDATION = "Validation";
 
     @Autowired(required = true)
     @Qualifier("baseService")

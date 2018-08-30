@@ -255,7 +255,11 @@ app.controller("darwin", function ($scope, $http) {
                 'Content-Type': 'application/json'
             }
         }).then(function success(response) {
-            window.location = 'dwcCsv' + data + dta;
+            if (response.data == true) {
+                window.location = 'dwcCsv' + data + dta;
+            } else {
+                console.log('error');
+            }
         }, function error(response) {
             console.log(response.statusText);
         });

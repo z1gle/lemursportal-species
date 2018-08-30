@@ -117,7 +117,7 @@ public class DarwinCoreService extends MailService {
         int index = 0;
         double difference = lat - terreMadagascar.get(0)[0];
         int i = 1;
-        while (i < 34) {
+        while (i < terreMadagascar.size()) {
             double temp = lat - terreMadagascar.get(i)[0];
             if (java.lang.Math.abs(difference) < java.lang.Math.abs(temp)) {
                 difference = temp;
@@ -129,6 +129,7 @@ public class DarwinCoreService extends MailService {
             if (i == terreMadagascar.size()-1 && lon > terreMadagascar.get(index)[1]) {
                 return false;
             }
+            i++;
         }
         return true;
     }
@@ -241,6 +242,7 @@ public class DarwinCoreService extends MailService {
     public List<DarwinCore> upload(List<DarwinCore> list_dw) throws Exception {
         Session session = null;
         Transaction tr = null;
+        int index = 1;
         try {
             session = getHibernateDao().getSessionFactory().openSession();
             tr = session.beginTransaction();
@@ -286,6 +288,11 @@ public class DarwinCoreService extends MailService {
                 }
                 try {
                     vdc.setGps(!dw.getDecimallatitude().isEmpty() && !dw.getDecimallongitude().isEmpty() && dw.getDecimallatitude().compareTo("-") != 0 && dw.getDecimallongitude().compareTo("-") != 0);
+                    if(vdc.isGps()) {
+                        double lat = Double.parseDouble(dw.getDecimallatitude());
+                        double lon = Double.parseDouble(dw.getDecimallongitude());
+                        vdc.setGps(latLongIn(lat, lon));
+                    }
                 } catch (NullPointerException npe) {
                     vdc.setGps(Boolean.FALSE);
                 }
@@ -303,7 +310,8 @@ public class DarwinCoreService extends MailService {
             tr.rollback();
             System.out.println("Erreur lors de l'upload : l'erreur suit");
             ex.printStackTrace();
-            throw ex;
+            String message =  "Line :" + index +" | \n " + ex.getMessage();
+            throw new Exception(message);
         } finally {
             if (session != null) {
                 session.close();
