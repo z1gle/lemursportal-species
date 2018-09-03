@@ -256,90 +256,17 @@
     <section id="taxonomie">
         <div class="banner-interieur-pliss" style="background:url(resources/assets/img/parallax/fexpert_modif.jpg) no-repeat center center; height: 125px; background-color: beige;"></div>
         <div class="container-fluid header-pliss">
-            <div class="row" style="background-color: beige;margin-left: -15px; height: 45px; margin-bottom: -10px;">
-                <!--<div class="col-md-8 col-sm-8">-->
-                <form id="form-search">
-                    <!-- Search Field -->                                                    
-                    <div class="form-group" style="margin-bottom: 0px; margin-top: 5px; margin-left: 10px;">
-                        <div class="input-group" style="width: 100%;">                                             
-                            <div class="form-group badge-checkboxes">                                            
-                                <div>
-                                    <input id="form-search" ng-keyup="$event.keyCode == 13 ? rechercherAvancee() : null" name="espece" type="text" placeholder="search by scientific name" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 26%; border-style: solid;border-width: 1px; float: left;">                                        
-                                    <c:choose>
-                                        <c:when test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
-                                                <input ng-click="rechercherAvancee()" id="publique" name="etat[]" type="checkbox" value="1" checked="">
-                                                <span class="badge" style="margin-left: 15px;">Publique</span>
-                                            </label>
-                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
-                                                <input ng-click="rechercherAvancee()" id="privee" name="etat[]" type="checkbox" value="0">
-                                                <span class="badge" style="">Privée</span>
-                                            </label>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
-                                                <input ng-click="rechercherAvancee()" id="publique" name="etat[]" disabled="" type="checkbox" value="1" checked="">
-                                                <span class="badge" style="margin-left: 15px;">Publique</span>
-                                            </label>
-                                            <label style="float: left; margin-top: -3px;" class="checkbox-inline">
-                                                <input ng-click="rechercherAvancee()" id="privee" disabled="" name="etat[]" type="checkbox" value="0">
-                                                <span class="badge" style="">Privée</span>
-                                            </label>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <select name="validation" id="etat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">                                        
-                                        <option value="-999"><spring:message code="data.status.all_occurences"/></option>                                        
-                                        <option value="1"><spring:message code="data.status.all_reliable_reviews_data"/></option>
-                                        <option value="-1"><spring:message code="data.status.all_awaiting_review"/></option>
-                                        <option value="0"><spring:message code="data.status.all_questionnable_reviews_data"/></option>                                                    
-                                    </select>
-                                    <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                                        <select name="validationMine" id="myEtat" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 26%; float: left;">
-                                            <option value="-999"><spring:message code="data.status.disable"/></option>
-                                            <option value="-1000"><spring:message code="data.status.my_occurences"/></option>
-                                            <option value="1"><spring:message code="data.status.my_reliable_reviews_data"/></option>
-                                            <option value="-1"><spring:message code="data.status.my_awaiting_review"/></option>
-                                            <option value="0"><spring:message code="data.status.my_questionnable_reviews_data"/></option>
-                                            <option value="-2"><spring:message code="data.status.my_invalidated"/></option>
-                                        </select>
-                                    </c:if>
-                                    <!--<span class="input-group-btn">-->
-                                    <a href="#" title="search" style="padding: 0px;height: 20px;float: left;margin-left: 6px;" ng-click="rechercherAvancee()" class="btn"><i style="color: darkgrey" class="fa fa-search"></i></a>
-                                    <!--</span>-->
-                                    <!--<select name="validationMine" id="myEtat" ng-model="modelePourFaireMarcherOnChange.id" ng-change="rechercherAvancee()" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 5%; float: left;">-->
-                                </div>                                            
-                            </div>
-                        </div>
-                    </div>                        
-                </form>
-            </div>                
-        </div>        
+            <div class="row" style="background-color: beige;margin-left: -15px; margin-bottom: -10px;">                                
+            </div>
+        </div>
         <!-- Contenu -->
         <div class="vignette-result" style="margin-top: 0px;">
             <div class="container-fluid">
                 <div class="row" style="margin-top: 10px;">
-                    <!-- Stat -->
-                    <c:if test="${nbr > 0}">
-                        <a href="newObservations" style="float: left;"><span id="nbr"><c:out value="${nbr}"></c:out></span> nouvelles occurences</a><br>
-                    </c:if>                    
+                    <!-- Stat -->                    
                     <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;">Liste des obsérvations |</h1>
-                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                    
-                    <a title="Download darwin core template" style="width: 3%; display: inline-block; float: left;" class="btn" href="resources/assets/Model_darwin_core.csv"><i class="fa fa-file-excel-o"></i></a>
-                        <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                        <a href="#" title="upload observations" style="width: 3%; display: inline-block; float: left;" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});" class="btn"><i class="fa fa-upload"></i></a>
-                        </c:if>
-                    <a href="#" title="download observations" style="width: 3%; display: inline-block; float: left;" data-toggle='modal' data-target='#modal-download_formular' class="btn"><i style="margin-top: 4px;" class="fa fa-download"></i></a>                    
-                        <%
-                            Integer adminOuModerateur = ((Integer) request.getAttribute("adminOuModerateur"));
-                            if (adminOuModerateur == 0) {
-                        %>
-                    <a href="#" title="upload by link" style="width: 3%; display: inline-block; float: left; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn"><i style="margin-top: 4px;" class="fa fa-cloud-upload"></i></a>
-                        <%
-                            }
-                        %>
-                    <!--<a href="#" title="Global research" style="width: 3%; display: inline-block; float: left; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn"><i class="fa fa-search"></i></a>-->
-                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                                        
-                    <!-- End Stat -->                    
+                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                                        
+                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                                                            
                 </div>
                 <div class="row">                    
                     <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
@@ -436,35 +363,7 @@
         </div>
         <!-- End Contenu -->
 
-    </section>
-    <div id='modal-liste-colonnes' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class="modal-header">
-                    <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title"><center>Colonnes pris en compte</center></h4>
-                </div>
-                <div class='modal-body'>
-                    <div class='row'>
-                        <div class='col-md-10 col-md-offset-1' style="max-height: 500px; overflow-y:  scroll;">         
-                            <div class="col-sm-12">
-                                <input ng-cloak ng-click="checkAll()" type="checkbox" id="checkAll">Tout Sélectionner
-                            </div>
-                            <br>
-                            <br>
-                            <div class="col-sm-12" ng-cloak ng-repeat="col in colonnes">
-                                <input type="checkbox" name="col[]" value="{{col.index}}">{{col.valeur}}
-                            </div>                                    
-                        </div>
-                    </div>
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
-                    <button type='button' id="" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>    
     <div id='modal-ajout-confirmation-valide' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
         <div class='modal-dialog'>
             <div class='modal-content'>
@@ -562,47 +461,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id='modal-upload_spinner' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class="modal-header">
-                    <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title"><center>Upload</center></h4>
-                </div>
-                <div class='modal-body'>
-                    <div class='row'>
-                        <div class='col-md-10 col-md-offset-1'>                                                        
-                            <img src="resources/assets/img/loaderB32.gif" class="img-responsive" style="margin: 5px auto;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id='modal-upload_by_link' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class="modal-header">
-                    <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title"><center>Upload</center></h4>
-                </div>
-                <div class='modal-body'>
-                    <div class='row'>
-                        <div class='col-md-10 col-md-offset-1'>                            
-                            <div class="col-sm-12">
-                                <textarea placeholder="Ecrire le lien du fichier ici" id="link" class="form-control"></textarea>                                
-                            </div>                                    
-                        </div>
-                    </div>
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>
-                    <button type='button' ng-click="uploadByLink()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div>        
     <div id='modal-alert' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
         <div class='modal-dialog'>
             <div class='modal-content'>
@@ -624,108 +483,18 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id='modal-upload-dwc' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class="modal-header">
-                    <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title"><center><spring:message code="observation.upload.title"/></center></h4>
-                </div>
-                <div class='modal-body row'>                       
-                    <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
-                        Format file
-                        <select class="form-control" id="sep" style="width: 92%;height: 42px;border-radius: 5px;">
-                            <option value="2">CSV (séparateur : point-virgule) (*.csv)</option>
-                            <option value="0">CSV (séparateur : virgule) (*.csv)</option>
-                            <option value="1">Classeur Excel (*.xlsx)</option>                                                        
-                        </select><br>
-                        <label for="csv-xl" id="buttonlabel">
-                            <span role="button" aria-controls="filename" tabindex="0">
-                                File path
-                            </span>
-                        </label>
-                        <input type="file" name="excelfile" ng-model="file" id="csv-xl">
-                        <label for="filename" class="hide">
-                            uploaded file
-                        </label>
-                        <input type="text" id="filename" autocomplete="off" readonly placeholder="no file uploaded">  <br>
-                        <!--<input id="publique" type="checkbox" value="1"> publique <br>-->
-                        <div class="checkbox checkbox-info checkbox-circle chk">
-                            <input id="publique-modal" type="checkbox" value="1">
-                            <label for="publique-modal">Publique</label>
-                        </div>
-                        Termes et condition <a href="#" onclick="window.open('resources/assets/policy.pdf', '_blank')">telecharger ici</a>
-                    </form>
-                </div>
-                <div class='modal-footer'>                        
-                    <input data-toggle='modal' data-target='#modal-upload_spinner' data-dismiss='modal' class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" value="Importer">                        
-                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>                    
-                </div>                    
-            </div>
-        </div>
-    </div>
-    <div id='modal-download_formular' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class="modal-header">
-                    <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title">Information sur l'utilisation</h4>                    
-                </div>
-                <div class='modal-body row'>                       
-                    <form id="download_formular" method="POST" class="col-md-offset-1 col-md-11">
-                        <label>Titre</label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.titre">
-                        <label>Nom</label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.nom">
-                        <label>Prenom</label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.prenom">
-                        <label>Profession</label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.profession">
-                        <label>E-mail</label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.eMail">
-                        <label>Institution</label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.institution">
-                        <label>Utilisation</label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.utilisation">
-                    </form>
-                </div>
-                <div class='modal-footer'>                        
-                    <input data-dismiss='modal' class="btn btn-success btn-sm" type="submit" id="publique" ng-click="getColonnes()" value="Continuer">                        
-                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>                    
-                </div>                    
-            </div>
-        </div>
     </div>    
+    
     <!-- end darwin -->
 
 </main>
-<script>
-    function liste() {
-        document.getElementById("pellicule").style.display = 'none';
-        document.getElementById("liste").style.display = 'block';
-        document.getElementById("tab-liste").class = 'active';
-        document.getElementById("tab-pellicule").class = '';
-    }
-    function pellicule() {
-        document.getElementById("pellicule").style.display = 'block';
-        document.getElementById("liste").style.display = 'none';
-        document.getElementById("tab-pellicule").class = 'active';
-        document.getElementById("tab-liste").class = '';
-    }
-    pellicule();
+<script>    
     function showModal(status) {
         if (status == 0)
             $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
         else
             $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
-    }
-    ;
-    /*                        function showCommentair() {
-     $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
-     $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
-     }*/
+    };   
     function showCommentairFirst() {
         $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
         $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
@@ -748,9 +517,7 @@
         console.log(data);
         $.ajax({
             type: 'get',
-            url: 'validerListDwc' + data,
-            /*                                dataType: 'json',
-             enctype: 'multipart/form-data',*/
+            url: 'validerListDwc' + data,            
             processData: false,
             contentType: false,
             cache: false,
@@ -819,5 +586,5 @@
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
-<script src="<c:url value="/resources/assets/js/controller/darwincontroller.js"/>"></script>
+<script src="<c:url value="/resources/assets/js/controller/observationToValidateController.js"/>"></script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>  

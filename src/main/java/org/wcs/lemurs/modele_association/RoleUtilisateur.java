@@ -21,24 +21,24 @@ import org.hibernate.annotations.SQLDelete;
 public class RoleUtilisateur extends BaseModel implements Serializable {
 
     @Column(name="idrole")
-    private int idRole;
+    private Integer idRole;
     
     @Column(name="idutilisateur")
-    private int idUtilisateur;
+    private Integer idUtilisateur;
 
-    public int getIdRole() {
+    public Integer getIdRole() {
         return idRole;
     }
 
-    public void setIdRole(int idRole) {
+    public void setIdRole(Integer idRole) {
         this.idRole = idRole;
     }
 
-    public int getIdUtilisateur() {
+    public Integer getIdUtilisateur() {
         return idUtilisateur;
     }
 
-    public void setIdUtilisateur(int idUtilisateur) {
+    public void setIdUtilisateur(Integer idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
 

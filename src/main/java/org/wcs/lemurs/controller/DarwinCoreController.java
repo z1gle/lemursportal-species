@@ -340,6 +340,72 @@ public class DarwinCoreController {
         }
     }
     
+    @RequestMapping(value = "/findForValidation", method = RequestMethod.POST, headers = "Accept=application/json")
+    public List<HashMap<String, Object>> getToValidate(HttpSession session,
+            @RequestBody(required = false) VueValidationDarwinCore dwcs,
+            @RequestParam(required = false, value = "page") Integer page) throws Exception {
+        if (page == null) {
+            page = 1;
+        }
+        int nombre = 20;
+        Long total = null;
+        if (dwcs == null) {
+            dwcs = new VueValidationDarwinCore();
+        }
+        try {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            List<HashMap<String, Object>> valiny = darwinCoreService.findForValidation(utilisateur, dwcs, nombre, page);
+            total = darwinCoreService.getDarwinCoreDao().CountAllToValidate(utilisateur, dwcs);
+            try {
+                HashMap<String, Object> temp = valiny.get(0);
+                temp.put("total", total);
+            } catch (java.lang.IndexOutOfBoundsException iaoob) {
+                System.out.println("Il n'y a aucune observation dans la base de donnée");
+            }
+            return valiny;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utilisateur utilisateur = new Utilisateur();
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, dwcs, nombre, page);
+            HashMap<String, Object> temp = valiny.get(0);
+            temp.put("total", total);
+            return valiny;
+        }
+    }
+    
+    @RequestMapping(value = "/findForValidationGlobal", method = RequestMethod.POST, headers = "Accept=application/json")
+    public List<HashMap<String, Object>> getToValidateGlobal(HttpSession session,
+            @RequestBody(required = false) VueDarwinCoreRechercheGlobale dwcs,
+            @RequestParam(required = false, value = "page") Integer page) throws Exception {
+        if (page == null) {
+            page = 1;
+        }
+        int nombre = 20;
+        Long total = null;
+        if (dwcs == null) {
+            dwcs = new VueDarwinCoreRechercheGlobale();
+        }
+        try {
+            Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            List<HashMap<String, Object>> valiny = darwinCoreService.findForValidation(utilisateur, dwcs, nombre, page);
+            total = darwinCoreService.getDarwinCoreDao().CountAllToValidate(utilisateur, dwcs);
+            try {
+                HashMap<String, Object> temp = valiny.get(0);
+                temp.put("total", total);
+            } catch (java.lang.IndexOutOfBoundsException iaoob) {
+                System.out.println("Il n'y a aucune observation dans la base de donnée");
+            }
+            return valiny;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utilisateur utilisateur = new Utilisateur();
+            List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(utilisateur, dwcs, nombre, page);
+            HashMap<String, Object> temp = valiny.get(0);
+            temp.put("total", total);
+            return valiny;
+        }
+    }
+    
     @RequestMapping(value = "/findByespeceDwcAvancee", method = RequestMethod.GET)
     public List<HashMap<String, Object>> getallAvancee(HttpSession session,
             @RequestParam String espece,

@@ -21,7 +21,7 @@ import org.wcs.lemurs.modele_association.AssignationExpert;
 
 @org.springframework.stereotype.Service
 @Transactional
-public class MailService extends BaseService {
+public class MailService extends NotificationsService {
 
     public static String formatterDarwinCore(String valeur) {
         if(valeur == null) return null;

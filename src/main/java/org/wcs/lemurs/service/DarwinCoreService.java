@@ -30,19 +30,24 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.wcs.lemurs.controller.BaseController;
 import org.wcs.lemurs.dao.DarwinCoreDao;
 import org.wcs.lemurs.exception.StatusAlreadyExistException;
 import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.CommentaireDarwinCore;
 import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.model.Notifications;
 import org.wcs.lemurs.model.ObservationParAdmin;
 import org.wcs.lemurs.model.PhotoDarwinCore;
+import org.wcs.lemurs.model.Role;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.model.VideoDarwinCore;
 import org.wcs.lemurs.model.json.Liste;
 import org.wcs.lemurs.modele_association.AssignationExpert;
+import org.wcs.lemurs.modele_association.AssociationNotificationsObservation;
 import org.wcs.lemurs.modele_association.HistoriqueStatus;
+import org.wcs.lemurs.modele_association.RoleUtilisateur;
 import org.wcs.lemurs.modele_vue.VueDarwinCoreRechercheGlobale;
 import org.wcs.lemurs.modele_vue.VueRechercheDarwinCore;
 import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
@@ -126,7 +131,7 @@ public class DarwinCoreService extends MailService {
             if (i == 33 && lon < terreMadagascar.get(index)[1]) {
                 return false;
             }
-            if (i == terreMadagascar.size()-1 && lon > terreMadagascar.get(index)[1]) {
+            if (i == terreMadagascar.size() - 1 && lon > terreMadagascar.get(index)[1]) {
                 return false;
             }
             i++;
@@ -288,7 +293,7 @@ public class DarwinCoreService extends MailService {
                 }
                 try {
                     vdc.setGps(!dw.getDecimallatitude().isEmpty() && !dw.getDecimallongitude().isEmpty() && dw.getDecimallatitude().compareTo("-") != 0 && dw.getDecimallongitude().compareTo("-") != 0);
-                    if(vdc.isGps()) {
+                    if (vdc.isGps()) {
                         double lat = Double.parseDouble(dw.getDecimallatitude());
                         double lon = Double.parseDouble(dw.getDecimallongitude());
                         vdc.setGps(latLongIn(lat, lon));
@@ -298,6 +303,39 @@ public class DarwinCoreService extends MailService {
                 }
                 vdc.setValidationExpert(-1);
                 save(session, vdc);
+            }
+
+            // Get all Admin
+            Role role = new Role();
+            role.setDesignation(BaseController.ROLE_ADMINISTRATEUR);
+            role = (Role) super.findAll(session, role, -1, -1).get(0);
+            RoleUtilisateur roleUtilisateur = new RoleUtilisateur();
+            roleUtilisateur.setIdRole(role.getId());
+            List<RoleUtilisateur> ruAdmin = (List<RoleUtilisateur>) (List<?>) super.findAll(session, roleUtilisateur, -1, -1);
+
+            // Make a notification for admin
+            for (RoleUtilisateur admin : ruAdmin) {
+                Notifications notification = new Notifications();
+                notification.setCategorie(BaseController.NOTIFICATION_ADDED);
+                notification.setDate(Calendar.getInstance().getTime());
+                if (list_dw.get(0).getIdUtilisateurUpload() != null) {
+                    notification.setIdUtilisateur(list_dw.get(0).getIdUtilisateurUpload());
+                    if (admin.getIdUtilisateur() == list_dw.get(0).getIdUtilisateurUpload()) {
+                        continue;
+                    }
+                }
+                notification.setListeAssociationNotificationsObservation(new ArrayList<>());
+                list_dw.stream().map((dw) -> {
+                    AssociationNotificationsObservation ano = new AssociationNotificationsObservation();
+                    ano.setIdObservation(dw.getId());
+                    return ano;
+                }).forEachOrdered((ano) -> {
+                    notification.getListeAssociationNotificationsObservation().add(ano);
+                });
+                notification.setNbrFille(list_dw.size());
+                notification.setVue(-1);
+                notification.setIdCible(admin.getIdUtilisateur());
+                super.save(session, notification);
             }
             tr.commit();
             try {
@@ -310,7 +348,7 @@ public class DarwinCoreService extends MailService {
             tr.rollback();
             System.out.println("Erreur lors de l'upload : l'erreur suit");
             ex.printStackTrace();
-            String message =  "Line :" + index +" | \n " + ex.getMessage();
+            String message = "Line :" + index + " | \n " + ex.getMessage();
             throw new Exception(message);
         } finally {
             if (session != null) {
@@ -712,6 +750,55 @@ public class DarwinCoreService extends MailService {
             }
             if (iterator == photos.size()) {
                 v.put("photo", "resources/assets/img/photos/default.jpg");
+            }
+        }
+        return valiny;
+    }
+
+    public List<HashMap<String, Object>> findForValidation(Utilisateur utilisateur, BaseModel darwinCore, int nombre, int page) throws Exception {
+        List<HashMap<String, Object>> valiny = new ArrayList<>();
+        List<BaseModel> val = darwinCoreDao.findAllToValidate(utilisateur, darwinCore, page, nombre);
+        Session session = null;
+        try {
+            session = getHibernateDao().getSessionFactory().openSession();
+            try {
+                List<VueValidationDarwinCore> temps = (List<VueValidationDarwinCore>) (List<?>) val;
+                for (VueValidationDarwinCore dwc : temps) {
+                    HashMap<String, Object> temp = new HashMap<>();
+                    temp.put("dwc", dwc);
+                    try {
+                        if (checkValidable(session, dwc, utilisateur)) {
+                            temp.put("validation", 1);
+                        } else {
+                            temp.put("validation", 0);
+                        }
+                    } catch (java.lang.NullPointerException npe) {
+                        temp.put("validation", 0);
+                    }
+                    valiny.add(temp);
+                }
+            } catch (java.lang.ClassCastException cce) {
+                List<VueDarwinCoreRechercheGlobale> temps = (List<VueDarwinCoreRechercheGlobale>) (List<?>) val;
+                for (VueDarwinCoreRechercheGlobale dwc : temps) {
+                    HashMap<String, Object> temp = new HashMap<>();
+                    temp.put("dwc", dwc);
+                    try {
+                        if (checkValidable(session, dwc, utilisateur)) {
+                            temp.put("validation", 1);
+                        } else {
+                            temp.put("validation", 0);
+                        }
+                    } catch (java.lang.NullPointerException npe) {
+                        temp.put("validation", 0);
+                    }
+                    valiny.add(temp);
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
             }
         }
         return valiny;

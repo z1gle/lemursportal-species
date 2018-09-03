@@ -53,7 +53,7 @@ public class NotificationsService extends BaseService {
         try {
             for (AssociationNotificationsObservation dw : notification.getListeAssociationNotificationsObservation()) {
                 dw.setIdNotification(notification.getId());
-                super.save(dw);
+                super.save(session, dw);
             }
         } catch (NullPointerException npe) {
             //It's mean that there are no observations

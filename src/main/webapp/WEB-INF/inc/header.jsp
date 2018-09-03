@@ -211,7 +211,13 @@
                                             liste += '        <span class="notif-author">par : ' + utilisateur + ' </span>';
                                             liste += '    </div>';
                                             liste += '    <div class="notif-body">';
-                                            liste += '        <span> ' + json[i].nbrFille + ' Observations ont été ' + json[i].categorie + '</span>';
+                                            var text = '';
+                                            if(json[i].categorie == 'Download') {
+                                                text = ' <spring:message code="notification.message.observation.downloaded"/>';
+                                            } else if (json[i].categorie == 'Added') {
+                                                text = ' <spring:message code="notification.message.observation.added"/>';
+                                            }
+                                            liste += '        <span> ' + json[i].nbrFille + text + '</span>';
                                             liste += '    </div>';
                                             liste += '    <div class="notif-footer">';
                                             liste += '        <span style="margin-right:  5px;font-size: 8px;font-weight: 600;"> ' + json[i].dateTimeString + '</span>';

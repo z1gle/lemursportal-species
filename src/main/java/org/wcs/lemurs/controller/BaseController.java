@@ -32,6 +32,7 @@ public class BaseController {
     
     public static String NOTIFICATION_DOWNLOAD = "Download";
     public static String NOTIFICATION_VALIDATION = "Validation";
+    public static String NOTIFICATION_ADDED = "Added";
 
     @Autowired(required = true)
     @Qualifier("baseService")
@@ -40,6 +41,52 @@ public class BaseController {
     @RequestMapping(value = "/")
     public ModelAndView darwinportal(HttpSession session) {
         ModelAndView valiny = new ModelAndView("darwinportal");
+        Utilisateur u = null;
+        Integer b = -1;
+        Integer expert = -1;
+        Integer adminModerateur = -1;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+            if (u != null) {
+                b = 0;
+            }
+            if (baseService.checkRole(u, ROLE_EXPERT)) {
+                expert = 0;
+            }
+
+            if (baseService.checkRole(u, ROLE_ADMINISTRATEUR) || baseService.checkRole(u, ROLE_MODERATEUR)) {
+                adminModerateur = 0;
+                try {
+                    ObservationParAdmin opa = new ObservationParAdmin();
+                    opa.setIdUtilisateur(u.getId());
+                    try {
+                        opa = (ObservationParAdmin) baseService.findAll(opa).get(0);
+                    } catch (IndexOutOfBoundsException ioobe) {
+                        System.out.println("save new ObservationParAdmin because admin id=" + u.getId() + " don't have it yet");
+                        opa.setNbrObservation(baseService.countTotal(new DarwinCore()));
+                        baseService.save(opa);
+                    }                    
+                    Integer nbr = baseService.countTotal(new DarwinCore()) - opa.getNbrObservation();
+                    valiny.addObject("nbr", nbr);                    
+                } catch (Exception ex) {
+                    Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
+                    valiny.addObject("nbr", -1);
+                }
+            }
+        } catch (NullPointerException npe) {
+
+        } catch (Exception ex) {
+            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        valiny.addObject("role", b);
+        valiny.addObject("expert", expert);
+        valiny.addObject("adminOuModerateur", adminModerateur);
+        return valiny;
+    }
+    
+    @RequestMapping(value = "/observationsForExperts")
+    public ModelAndView obsForExp(HttpSession session) {
+        ModelAndView valiny = new ModelAndView("observationToValidate");
         Utilisateur u = null;
         Integer b = -1;
         Integer expert = -1;

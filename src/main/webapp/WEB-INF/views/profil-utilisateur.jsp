@@ -270,7 +270,7 @@
                                     %>
                                     <table class="table">
                                         <tr>
-                                            <td><a href="observationAValider?etatValidation=-1"><spring:message code="data.status.all_awaiting_review"/></a></td>
+                                            <td><a href="observationsForExperts"><spring:message code="data.status.all_awaiting_review"/></a></td>
                                             <td><a href="observationAValider?etatValidation=-1"><%out.print(observationEnAttente);%></a></td>
                                         </tr>
                                         <tr>
@@ -280,7 +280,7 @@
                                         <tr>
                                             <td><a href="observationAValider?etatValidation=0"><spring:message code="data.status.all_questionnable_reviews_data"/></a></td>
                                             <td><a href="observationAValider?etatValidation=0"><%out.print(observationQuestionnable);%></a></td>
-                                        </tr>                                        
+                                        </tr>
                                         <tr>
                                             <td><a href="observationAValider?etatValidation=-999"><spring:message code="data.status.all_occurences"/></a></td>
                                             <td><a href="observationAValider?etatValidation=-999"><%out.print(observationTotale);%></a></td>

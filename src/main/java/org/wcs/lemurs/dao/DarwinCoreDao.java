@@ -13,10 +13,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.wcs.lemurs.model.BaseModel;
 import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.Utilisateur;
 import org.wcs.lemurs.modele_association.AssignationExpert;
@@ -310,10 +312,10 @@ public class DarwinCoreDao extends HibernateDao {
         //invalide
         boolean invalide = false;
         if (darwinCore.getValidationexpert() != null) {
-        if (darwinCore.getValidationexpert() == -2) {
-            darwinCore.setValidationexpert(null);
-            invalide = true;
-        }
+            if (darwinCore.getValidationexpert() == -2) {
+                darwinCore.setValidationexpert(null);
+                invalide = true;
+            }
         }
 
         Criteria criteria = session.createCriteria(darwinCore.getClass());
@@ -395,6 +397,179 @@ public class DarwinCoreDao extends HibernateDao {
             criteria.setMaxResults(nombre);
         }
         return criteria.list();
+    }
+
+    public List<BaseModel> findAllToValidate(Session session, Utilisateur utilisateur, BaseModel darwinCore, int page, int nombre) throws Exception {
+        // page < 0 => tout prendre
+        // nombre < 0 => tout prendre
+        if (utilisateur == null || utilisateur.getId() == null) {
+            return null;
+        }        
+
+        Criteria criteria = session.createCriteria(darwinCore.getClass());
+        Example example = Example.create(darwinCore);
+        example.enableLike(MatchMode.ANYWHERE);
+        example.ignoreCase();
+        criteria.add(example);
+        System.out.println("utilisateur valide");
+        //Check if expert
+        boolean expert = false;        
+        RoleUtilisateur role = new RoleUtilisateur();
+        role.setIdUtilisateur(utilisateur.getId());
+        List<RoleUtilisateur> listeRole = (List<RoleUtilisateur>) (List<?>) super.findMultiCritere(session, role);
+        if (!listeRole.isEmpty()) {
+            for (RoleUtilisateur ru : listeRole) {
+                if (ru.getIdRole() == 101) {
+                    System.out.println("Utilisateur expert");
+                    AssignationExpert ae = new AssignationExpert();
+                    ae.setIdExpert(utilisateur.getId());
+                    List<AssignationExpert> listeAe = (List<AssignationExpert>) (List<?>) super.findMultiCritere(session, ae);
+                    if (!listeAe.isEmpty()) {
+                        List<String> espece = new ArrayList<>();
+                        List<String> genre = new ArrayList<>();
+                        List<String> famille = new ArrayList<>();
+                        for (AssignationExpert ase : listeAe) {
+                            if (ase.getFamille() != null) {
+                                famille.add(ase.getFamille());
+                            }
+                            if (ase.getGenre() != null) {
+                                genre.add(ase.getGenre());
+                            }
+                            if (ase.getEspece() != null) {
+                                espece.add(ase.getEspece());
+                            }
+                        }
+                        if (genre.isEmpty()) {
+                            genre.add("null");
+                        }
+                        if (espece.isEmpty()) {
+                            espece.add("null");
+                        }
+                        if (famille.isEmpty()) {
+                            famille.add("null");
+                        }
+
+                        Criterion rest3 = Restrictions.in("genus", genre);
+                        Criterion rest4 = Restrictions.in("family", famille);
+                        Criterion rest5 = Restrictions.in("scientificname", espece);
+
+                        Criterion restCheckAssignation = Restrictions.or(rest3, rest4, rest5);
+                        criteria.add(restCheckAssignation);
+                        criteria.add(Restrictions.isNull("idRebioma"));
+
+                        System.out.println("Utilisateur tonga hatramin'ny farany");
+                        expert = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!expert) {
+            return null;
+        }
+        if (page > 0 && nombre > 0) {
+            criteria.setFirstResult(getFirstResult(page, nombre));
+            criteria.setMaxResults(nombre);
+        }
+        criteria.addOrder(Order.desc("id"));
+        return criteria.list();
+    }
+
+    public Long CountAllToValidate(Session session, Utilisateur utilisateur, BaseModel darwinCore) throws Exception {
+        if (utilisateur == null || utilisateur.getId() == null) {
+            return null;
+        }        
+
+        Criteria criteria = session.createCriteria(darwinCore.getClass());
+        Example example = Example.create(darwinCore);
+        example.enableLike(MatchMode.ANYWHERE);
+        example.ignoreCase();
+        criteria.add(example);
+        System.out.println("utilisateur valide");
+        //Check if expert
+        boolean expert = false;        
+        RoleUtilisateur role = new RoleUtilisateur();
+        role.setIdUtilisateur(utilisateur.getId());
+        List<RoleUtilisateur> listeRole = (List<RoleUtilisateur>) (List<?>) super.findMultiCritere(session, role);
+        if (!listeRole.isEmpty()) {
+            for (RoleUtilisateur ru : listeRole) {
+                if (ru.getIdRole() == 101) {
+                    System.out.println("Utilisateur expert");
+                    AssignationExpert ae = new AssignationExpert();
+                    ae.setIdExpert(utilisateur.getId());
+                    List<AssignationExpert> listeAe = (List<AssignationExpert>) (List<?>) super.findMultiCritere(session, ae);
+                    if (!listeAe.isEmpty()) {
+                        List<String> espece = new ArrayList<>();
+                        List<String> genre = new ArrayList<>();
+                        List<String> famille = new ArrayList<>();
+                        for (AssignationExpert ase : listeAe) {
+                            if (ase.getFamille() != null) {
+                                famille.add(ase.getFamille());
+                            }
+                            if (ase.getGenre() != null) {
+                                genre.add(ase.getGenre());
+                            }
+                            if (ase.getEspece() != null) {
+                                espece.add(ase.getEspece());
+                            }
+                        }
+                        if (genre.isEmpty()) {
+                            genre.add("null");
+                        }
+                        if (espece.isEmpty()) {
+                            espece.add("null");
+                        }
+                        if (famille.isEmpty()) {
+                            famille.add("null");
+                        }
+
+                        Criterion rest3 = Restrictions.in("genus", genre);
+                        Criterion rest4 = Restrictions.in("family", famille);
+                        Criterion rest5 = Restrictions.in("scientificname", espece);
+
+                        Criterion restCheckAssignation = Restrictions.or(rest3, rest4, rest5);
+                        criteria.add(restCheckAssignation);
+                        criteria.add(Restrictions.isNull("idRebioma"));
+
+                        System.out.println("Utilisateur tonga hatramin'ny farany");
+                        expert = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!expert) {
+            return null;
+        }
+        return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+    }
+    
+    public List<BaseModel> findAllToValidate(Utilisateur utilisateur, BaseModel darwinCore, int page, int nombre) throws Exception {
+        Session session = null;        
+        try {
+            session = this.getSessionFactory().openSession();
+            return findAllToValidate(session, utilisateur, darwinCore, page, nombre);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public Long CountAllToValidate(Utilisateur utilisateur, BaseModel darwinCore) throws Exception {
+        Session session = null;        
+        try {
+            session = this.getSessionFactory().openSession();
+            return CountAllToValidate(session, utilisateur, darwinCore);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public List<DarwinCore> findAll(Session session, Utilisateur utilisateur, VueDarwinCoreRechercheGlobale darwinCore, int page, int nombre) throws Exception {
