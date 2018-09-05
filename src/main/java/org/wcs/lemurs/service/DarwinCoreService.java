@@ -191,6 +191,20 @@ public class DarwinCoreService extends MailService {
                 System.err.println("Le scientificname est fausse. Elle doit au moins contenir 2 mots et ainsi de suite");
             }
         }
+        
+        if (dw.getDecimallatitude() != null) {
+            String temp = dw.getDecimallatitude();
+            temp = temp.replace(',', '.');
+            temp = temp.replace(" ", "");
+            dw.setDecimallatitude(temp);
+        }
+        
+        if (dw.getDecimallongitude() != null) {
+            String temp = dw.getDecimallongitude();
+            temp = temp.replace(',', '.');
+            temp = temp.replace(" ", "");
+            dw.setDecimallongitude(temp);
+        }
     }
 
     public void correctionSyntax() throws Exception {

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,11 +55,11 @@ import org.wcs.lemurs.util.UploadFile;
  */
 @RestController
 public class DarwinCoreController {
-    
+
     @Autowired(required = true)
     @Qualifier("darwinCoreService")
     private DarwinCoreService darwinCoreService;
-    
+
     @RequestMapping(value = "/detailLemurien")
     public ModelAndView darwinportal(HttpSession session, @RequestParam("id") Integer id) {
         ModelAndView valiny = new ModelAndView("page-detail_observation");
@@ -67,21 +68,21 @@ public class DarwinCoreController {
         Integer chercheur = -1;
         Integer expert = -1;
         Integer boutonValider = -1;
-        
+
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
-            
+
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(u.getId());
             List<VueRoleUtilisateur> list = (List<VueRoleUtilisateur>) (List<?>) darwinCoreService.findMultiCritere(vru);
-            
+
             for (VueRoleUtilisateur v : list) {
                 if (v.getDesignation().compareTo(ROLE_EXPERT) == 0) {
                     expert = 0;
                     boutonValider = 0;
                 }
                 chercheur = 0;
-                
+
             }
         } catch (Exception ex) {
 //            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,9 +118,9 @@ public class DarwinCoreController {
                 } catch (NullPointerException npe) {
                     boutonValider = -1;
                 }
-                
+
             }
-            
+
         } catch (Exception ex) {
 //            Logger.getLogger(DarwinCoreController.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -132,7 +133,7 @@ public class DarwinCoreController {
         valiny.addObject("boutonValider", boutonValider);
         return valiny;
     }
-    
+
     @RequestMapping(value = "/addDarwinCore")
     public ModelAndView addDarwinCore(@RequestParam("id") Integer id) {
         ModelAndView val = new ModelAndView("cruddwc");
@@ -163,9 +164,9 @@ public class DarwinCoreController {
 //            }
         } catch (NullPointerException e) {
         }
-        
+
     }
-    
+
     @RequestMapping(value = "/getCommentDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<VueCommentaireDarwinCore> getComment(HttpSession session, @RequestBody DarwinCore dwc) throws Exception {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
@@ -186,7 +187,7 @@ public class DarwinCoreController {
         darwinCoreService.findById(dwc);
         return dwc;
     }
-    
+
     @RequestMapping(value = "/findDwcMulticritere", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<DarwinCore> findByespeces(HttpSession session, @RequestBody HashMap<String, Object> requestData) throws Exception {
         Utilisateur u = new Utilisateur();
@@ -218,7 +219,7 @@ public class DarwinCoreController {
         }
         return darwinCoreService.findAll(u, vvdc);
     }
-    
+
     @RequestMapping(value = "/findDwcMulticritereGet", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<DarwinCore> findByespeces(HttpSession session, @RequestParam String espece, @RequestParam Integer validation, @RequestParam Integer validationMine, @RequestParam(value = "etat[]") List<String> etat) throws Exception {
         Utilisateur u = new Utilisateur();
@@ -264,12 +265,12 @@ public class DarwinCoreController {
         // end last modif
         return val;
     }
-    
+
     @RequestMapping(value = "/getallDwc", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<DarwinCore> getall() throws Exception {
         return darwinCoreService.findAll();
     }
-    
+
     @RequestMapping(value = "/getNew", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<HashMap<String, Object>> getNew(@RequestParam Integer nbr) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();
@@ -283,7 +284,7 @@ public class DarwinCoreController {
         }
         return valiny;
     }
-    
+
     @RequestMapping(value = "/majAdmin", method = RequestMethod.GET, headers = "Accept=application/json")
     public ModelAndView majAdmin(HttpSession session) throws Exception {
         Utilisateur u = null;
@@ -297,13 +298,13 @@ public class DarwinCoreController {
                 darwinCoreService.save(opa);
             }
         } catch (NullPointerException npe) {
-            
+
         } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new ModelAndView("redirect:darwinportal");
     }
-    
+
     @RequestMapping(value = "/findByespeceDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, Object>> getall(HttpSession session,
             @RequestBody VueValidationDarwinCore dwcs) throws Exception {
@@ -339,7 +340,7 @@ public class DarwinCoreController {
             return valiny;
         }
     }
-    
+
     @RequestMapping(value = "/findForValidation", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, Object>> getToValidate(HttpSession session,
             @RequestBody(required = false) VueValidationDarwinCore dwcs,
@@ -372,7 +373,7 @@ public class DarwinCoreController {
             return valiny;
         }
     }
-    
+
     @RequestMapping(value = "/findForValidationGlobal", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, Object>> getToValidateGlobal(HttpSession session,
             @RequestBody(required = false) VueDarwinCoreRechercheGlobale dwcs,
@@ -405,7 +406,7 @@ public class DarwinCoreController {
             return valiny;
         }
     }
-    
+
     @RequestMapping(value = "/findByespeceDwcAvancee", method = RequestMethod.GET)
     public List<HashMap<String, Object>> getallAvancee(HttpSession session,
             @RequestParam String espece,
@@ -415,7 +416,7 @@ public class DarwinCoreController {
         int page = 1;
         int nombre = 20;
         Long total = null;
-        
+
         Utilisateur u = new Utilisateur();
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
@@ -447,7 +448,7 @@ public class DarwinCoreController {
         }
         try {
             total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vvdc);
-            
+
             List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vvdc, nombre, page);
             try {
                 HashMap<String, Object> temp = valiny.get(0);
@@ -465,7 +466,7 @@ public class DarwinCoreController {
             return valiny;
         }
     }
-    
+
     @RequestMapping(value = "/findByespeceDwcPaginated", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, Object>> getallPaginated(HttpSession session,
             @RequestParam String dwcs,
@@ -503,7 +504,7 @@ public class DarwinCoreController {
             }
         }
     }
-    
+
     @RequestMapping(value = "/findByespeceDwcPaginatedSearch", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, Object>> getallPaginatedSearch(HttpSession session,
             @RequestParam String espece,
@@ -514,7 +515,7 @@ public class DarwinCoreController {
         VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
         int nombre = 20;
         Long total = null;
-        
+
         Utilisateur u = new Utilisateur();
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
@@ -545,7 +546,7 @@ public class DarwinCoreController {
             }
         }
         total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vvdc);
-        
+
         try {
             List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vvdc, nombre, page);
             HashMap<String, Object> temp = valiny.get(0);
@@ -591,7 +592,7 @@ public class DarwinCoreController {
             throw e;
         }
     }
-    
+
     @RequestMapping(value = "/observationAValider")
     public ModelAndView observationAValider(HttpSession session,
             @RequestParam("etatValidation") Integer etatValidation
@@ -600,7 +601,7 @@ public class DarwinCoreController {
         val.addObject("etatValidation", etatValidation);
         return val;
     }
-    
+
     @RequestMapping(value = "/saveDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public void saveOrupdate(HttpSession session,
             @RequestBody DarwinCore dwc) throws Exception {
@@ -611,7 +612,7 @@ public class DarwinCoreController {
             darwinCoreService.upload(ldc);
         }
     }
-    
+
     @RequestMapping(value = "/delDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public void del(HttpSession session,
             @RequestParam Integer idDwc) throws Exception {
@@ -623,7 +624,7 @@ public class DarwinCoreController {
             throw new Exception("Vous n'avez pas l'accréditation nécessaire à cette action");
         }
     }
-    
+
     @RequestMapping(value = "/validerDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public void valider(HttpSession session,
             @RequestBody DarwinCore dwc) throws Exception {
@@ -656,7 +657,7 @@ public class DarwinCoreController {
             }
         }
     }
-    
+
     @RequestMapping(value = "/validerListDwc", method = RequestMethod.GET, headers = "Accept=application/json")
     public HashMap<String, String> validerListDwc(HttpSession session,
             @RequestParam(value = "dwc[]") int[] dwc,
@@ -685,7 +686,7 @@ public class DarwinCoreController {
         }
         return valiny;
     }
-    
+
     @RequestMapping(value = "/continuerValiderListDwc", method = RequestMethod.GET, headers = "Accept=application/json")
     public HashMap<String, String> validerListDwc(HttpSession session,
             @RequestParam(value = "continuer") int continuer,
@@ -724,12 +725,12 @@ public class DarwinCoreController {
         }
         return valiny;
     }
-    
+
     @RequestMapping(value = "/deleteDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public void delete(@RequestBody DarwinCore dwc) throws Exception {
         darwinCoreService.delete(dwc);
     }
-    
+
     @RequestMapping(value = "/dwcCsv")
     public void dwcCsv(HttpSession session, HttpServletResponse response,
             @RequestParam String espece,
@@ -738,11 +739,11 @@ public class DarwinCoreController {
             @RequestParam(value = "etat[]") List<String> etat,
             @RequestParam(value = "col[]") int[] colonnes,
             @RequestParam Integer page) throws Exception {
-        
+
         VueValidationDarwinCore vvdc = new VueValidationDarwinCore();
         int nombre = 20;
         Long total = null;
-        
+
         Utilisateur u = new Utilisateur();
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
@@ -772,7 +773,7 @@ public class DarwinCoreController {
                 vvdc.setPublique(Boolean.TRUE);
             }
         }
-        
+
         int idU;
         try {
             idU = u.getId();
@@ -786,7 +787,7 @@ public class DarwinCoreController {
         UploadFile upf = new UploadFile();
         upf.writeDwcCsv(liste, colonnes, ';', response.getOutputStream(), idU);
     }
-    
+
     @RequestMapping(value = "/getColonnesDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<HashMap<String, String>> getColonnesDwc(HttpSession session) throws Exception {
         List<HashMap<String, String>> valiny = new ArrayList<>();
@@ -800,21 +801,21 @@ public class DarwinCoreController {
         }
         return valiny;
     }
-    
+
     @RequestMapping(value = "/getListPhotoDarwinCore", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<PhotoDarwinCore> getListPhotoTaxonomi(@RequestParam(value = "idDarwinCore") Integer idDarwinCore) throws Exception {
         PhotoDarwinCore photo = new PhotoDarwinCore();
         photo.setIdDarwinCore(idDarwinCore);
         return (List<PhotoDarwinCore>) (List<?>) darwinCoreService.findMultiCritere(photo);
     }
-    
+
     @RequestMapping(value = "/getListVideoDarwinCore", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<VideoDarwinCore> getListVideoTaxonomi(@RequestParam(value = "idDarwinCore") Integer idDarwinCore) throws Exception {
         VideoDarwinCore photo = new VideoDarwinCore();
         photo.setIdDarwinCore(idDarwinCore);
         return (List<VideoDarwinCore>) (List<?>) darwinCoreService.findMultiCritere(photo);
     }
-    
+
     @RequestMapping(value = "/uploadImageDarwinCore")
     public List<PhotoDarwinCore> uploadImageDarwinCore(ModelMap model, HttpSession session,
             @RequestParam("profil") Integer profil,
@@ -836,7 +837,7 @@ public class DarwinCoreController {
         }
         return null;
     }
-    
+
     @RequestMapping(value = "/uploadVideoDarwinCore")
     public List<VideoDarwinCore> uploadVideoDarwinCore(HttpSession session,
             @RequestParam("lien") String lien,
@@ -891,16 +892,18 @@ public class DarwinCoreController {
             }
             for (DarwinCore d : liste_darwin_core) {
                 d.setIdUtilisateurUpload(u.getId());
-                if(d.getDecimallatitude().contains(",")) {
+                if (d.getDecimallatitude().contains(",")) {
                     d.setDecimallatitude(d.getDecimallatitude().replace(",", "."));
+                    d.setDecimallatitude(d.getDecimallatitude().replace(" ", ""));
                     d.setDecimallongitude(d.getDecimallongitude().replace(",", "."));
+                    d.setDecimallongitude(d.getDecimallongitude().replace(" ", ""));
                 }
             }
             for (DarwinCore dwc : liste_darwin_core) {
                 dwc.setPublique(publique);
             }
             List<DarwinCore> upload = darwinCoreService.upload(liste_darwin_core);
-            
+
             List<HashMap<String, Object>> valiny = darwinCoreService.formaterHashMapForAffichage(u, upload);
             for (HashMap<String, Object> v : valiny) {
                 v.put("photo", "resources/assets/img/photos/default.jpg");
@@ -916,7 +919,7 @@ public class DarwinCoreController {
             return valiny;
         }
     }
-    
+
     @RequestMapping(value = "/uploadByLink")
     public void uploadByLink(HttpSession session,
             @RequestParam("url") String url) throws Exception {
@@ -930,19 +933,19 @@ public class DarwinCoreController {
             throw e;
         }
     }
-    
+
     @RequestMapping(value = "/visualisation")
     public ModelAndView visualisation(HttpSession session
     ) {
         ModelAndView val = new ModelAndView("page-visualisation");
         return val;
     }
-    
+
     @RequestMapping(value = "/getFamilleDwc", method = RequestMethod.POST, headers = "Accept=application/json")
     public List<String> getFamily() throws Exception {
         return (List<String>) (List<?>) darwinCoreService.executeSqlList("select distinct family from darwin_core");
     }
-    
+
     @RequestMapping(value = "/getGenreDwc", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<String> getGenre(@RequestParam(value = "famille") String requestData) throws Exception {
         List<String> nom = new ArrayList<>();
@@ -951,7 +954,7 @@ public class DarwinCoreController {
         param.add("%" + requestData + "%");
         return (List<String>) (List<?>) darwinCoreService.executeSqlList("select distinct genus from darwin_core where family ilike :dwcf", nom, param);
     }
-    
+
     @RequestMapping(value = "/getEspeceDwc", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<DarwinCore> getEspece(@RequestParam(value = "genre") String requestData) throws Exception {
         List<String> nom = new ArrayList<>();
@@ -963,15 +966,15 @@ public class DarwinCoreController {
         dwc.setGenus(requestData);
         return (List<DarwinCore>) (List<?>) darwinCoreService.findMultiCritere(dwc);
     }
-    
+
     @RequestMapping(value = "/rechercherGlobaleEspeceDcw", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session,
             @RequestParam String champ) throws Exception {
-        
+
         int page = 1;
         int nombre = 20;
         Long total = null;
-        
+
         Utilisateur u = null;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
@@ -981,10 +984,10 @@ public class DarwinCoreController {
         }
         VueDarwinCoreRechercheGlobale vrdc = new VueDarwinCoreRechercheGlobale();
         vrdc.setChamp(champ);
-        
+
         try {
             total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vrdc);
-            
+
             List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vrdc, nombre, page);
             try {
                 HashMap<String, Object> temp = valiny.get(0);
@@ -1002,15 +1005,15 @@ public class DarwinCoreController {
             return valiny;
         }
     }
-    
+
     @RequestMapping(value = "/rechercherGlobaleEspeceDcwPage", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<HashMap<String, Object>> rechercherGlobaleEspeceDwc(HttpSession session,
             @RequestParam String champ,
             @RequestParam Integer page) throws Exception {
-        
+
         int nombre = 20;
         Long total = null;
-        
+
         Utilisateur u = null;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
@@ -1020,10 +1023,10 @@ public class DarwinCoreController {
         }
         VueDarwinCoreRechercheGlobale vrdc = new VueDarwinCoreRechercheGlobale();
         vrdc.setChamp(champ);
-        
+
         try {
             total = darwinCoreService.getDarwinCoreDao().countTotalDwc(u, vrdc);
-            
+
             List<HashMap<String, Object>> valiny = darwinCoreService.findWithCheckAndEtat(u, vrdc, nombre, page);
             try {
                 HashMap<String, Object> temp = valiny.get(0);
@@ -1041,7 +1044,7 @@ public class DarwinCoreController {
             return valiny;
         }
     }
-    
+
     @RequestMapping(value = "/rechercherEspeceDcw", method = RequestMethod.GET, headers = "Accept=application/json")
     public HashMap<String, Object> rechercherEspeceDwc(HttpSession session,
             @RequestParam String champ) throws Exception {
@@ -1064,7 +1067,7 @@ public class DarwinCoreController {
         valiny.put("dwc", dwc);
         return valiny;
     }
-    
+
     @RequestMapping(value = "/rechercherEspeceDcwPaginee", method = RequestMethod.GET, headers = "Accept=application/json")
     public HashMap<String, Object> rechercherEspeceDwcPaginee(HttpSession session,
             @RequestParam String champ,
@@ -1089,7 +1092,7 @@ public class DarwinCoreController {
         valiny.put("dwc", dwc);
         return valiny;
     }
-    
+
     @PostMapping(value = "/observations", headers = "Accept=application/json")
     public Retour observationsaa(HttpSession session,
             @RequestBody(required = false) VueValidationDarwinCore dwc,
@@ -1115,7 +1118,7 @@ public class DarwinCoreController {
         }
         return valiny;
     }
-    
+
     @RequestMapping(value = "/observations/delete", method = RequestMethod.POST, headers = "Accept=application/json")
     public boolean delete(HttpSession session,
             @RequestParam(value = "liste[]") int[] liste
@@ -1134,7 +1137,7 @@ public class DarwinCoreController {
             return Boolean.FALSE;
         }
     }
-    
+
     @RequestMapping(value = "/observations/update/status", method = RequestMethod.POST, headers = "Accept=application/json")
     public boolean updateStatus(HttpSession session,
             @RequestParam(value = "liste[]") int[] liste,
@@ -1168,17 +1171,17 @@ public class DarwinCoreController {
             return Boolean.FALSE;
         }
     }
-    
+
     @RequestMapping(value = "/correctScientificnameSyntax", headers = "Accept=application/json")
     public Boolean darwinportal(HttpSession session) {
         Utilisateur u;
         try {
             u = (Utilisateur) session.getAttribute("utilisateur");
-            
+
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(u.getId());
             List<VueRoleUtilisateur> list = (List<VueRoleUtilisateur>) (List<?>) darwinCoreService.findMultiCritere(vru);
-            
+
             for (VueRoleUtilisateur v : list) {
                 if (v.getDesignation().compareTo(ROLE_ADMINISTRATEUR) == 0) {
                     darwinCoreService.correctionSyntax();
@@ -1190,4 +1193,12 @@ public class DarwinCoreController {
         }
         return false;
     }
+
+    @GetMapping(value = "/observationFromPolygone")
+    public List<DarwinCore> getObservationFromPolygone(HttpSession session,
+            @RequestParam(value = "latitude") List<Double> latitude,
+            @RequestParam(value = "longitude") List<Double> longitude) throws Exception {        
+        return darwinCoreService.getDarwinCoreDao().findByLatLong(latitude, longitude);        
+    }
+
 }

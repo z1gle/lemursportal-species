@@ -285,7 +285,7 @@
                                             <input id="{{famille}}" type="checkbox" name="valeur[]" value="typeFamille-{{famille}}" ng-click="getGenre(famille)" >  {{famille}}
                                             <ul style="list-style-type:none; margin-left: 5px;" id="genre-{{famille}}"></ul>
                                         </div>
-                                        <button style=" margin-bottom: 5px; color: white;" type="button" class="btn btn-primary form-control" onclick="addMarkers2();">
+                                        <button style=" margin-bottom: 5px; color: white;" type="button" class="btn btn-primary form-control" onclick="addMarkersTaxonomi();">
                                             Afficher
                                         </button>                                        
                                     </div>                                    
@@ -369,6 +369,7 @@
     var markers;
     var markersGlobal;
     var markersSearch;
+//    var markersPolygone;
     var ctr;
 
     function initMap() {
@@ -388,6 +389,7 @@
         markers = [];
         markersGlobal = [];
         markersSearch = [];
+//        markersPolygone = [];
 
         var input = (document.getElementById('pac-input'));
 
@@ -428,97 +430,102 @@
                 ].join(' ');
             }
         });
-    }
 
-    // Mettre l'attribut map sur les markers
-    function setMapOnAll(map) {
-        for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(map);
-        }
-    }
+        /*Drawing polygone*/
+        var drawingManager = new google.maps.drawing.DrawingManager({
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: ['polygon']
+            }
+        });
+        drawingManager.setMap(map);
 
-    function setMapOnAllGlobal(map) {
-        for (var i = 0; i < markersGlobal.length; i++) {
-            markersGlobal[i].setMap(map);
-        }
+        google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+            var coordinates = (polygon.getPath().getArray());
+            var latitude = "latitude=";
+            var longitude = "longitude=";
+            for (var i = 0; i < coordinates.length; i++) {
+                if (i === coordinates.length - 1) {
+                    latitude += coordinates[i].lat();
+                    longitude += coordinates[i].lng();
+                } else {
+                    latitude += coordinates[i].lat() + '&latitude=';
+                    longitude += coordinates[i].lng() + '&longitude=';
+                }
+            }
+            
+            var markersPolygone = [];
+            getObservationFromDrawnPolygone(latitude, longitude, markersPolygone);
+            google.maps.event.addListener(polygon, 'click', function (event) {
+                clearMultipleMarker(markersPolygone);
+                polygon.setMap(null);
+            });
+        });
     }
-
-    function setMapOnAllSearch(map) {
-        for (var i = 0; i < markersSearch.length; i++) {
-            markersSearch[i].setMap(map);
-        }
-    }
-
-    // Effacer les markers : mettre l'attribut map du marker à null
-    function clearMarkers() {
-        setMapOnAll(null);
-    }
-    ;
-    function clearMarkersGlobal() {
-        setMapOnAllGlobal(null);
-    }
-    ;
-    function clearMarkersSearch() {
-        setMapOnAllSearch(null);
-    }
-    ;
-
-    // Ajouter les markers pour le recherche globale
-    function addMarkerGlobal(mark) {
+    
+    // Ajout marker //
+    function addOneMarker(mark, cible) {
         var marker = new google.maps.Marker({
             position: {lat: parseFloat(mark.decimallatitude), lng: parseFloat(mark.decimallongitude)},
             map: map
         });
         var infowindow = new google.maps.InfoWindow();
         infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
-        markersGlobal.push(marker);
+        cible.push(marker);
         map.setCenter(ctr);
         google.maps.event.addListener(marker, 'click', function () {
             infowindow.open(map, this);
         });
     }
-    ;
 
-    function addMarkersGlobal(mark) {
-        clearMarkersGlobal();
+    function addMultipleMarker(mark, cible) {
+        clearMultipleMarker(cible);
         table = [];
         for (var i = 0; i < mark.length; i++) {
-            addMarkerGlobal(mark[i]);
+            addOneMarker(mark[i], cible);
         }
     }
-    ;
 
-    // Ajouter les markers pour les recherches multicritères
-    function addMarkerSearch(mark) {
-        var marker = new google.maps.Marker({
-            position: {lat: parseFloat(mark.decimallatitude), lng: parseFloat(mark.decimallongitude)},
-            map: map
-        });
-        var infowindow = new google.maps.InfoWindow();
-        infowindow.setContent('<div><a href="detailLemurien?id=' + mark.id + '"><strong>' + mark.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark.dwcyear + '</td></tr></table>');
-        markersSearch.push(marker);
-        map.setCenter(ctr);
-        // Ajouter event on click to the marker
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.open(map, this);
-        });
-    }
-    ;
-
-    function addMarkersSearch(mark) {
-        clearMarkersSearch();
+    function addMultipleMarker(mark, cible, withoutClear) {
         table = [];
         for (var i = 0; i < mark.length; i++) {
-            addMarkerSearch(mark[i]);
+            addOneMarker(mark[i], cible);
         }
     }
-    ;
 
-    function addMarkers2() {
+    function clearMultipleMarker(cible) {
+        hideMultipleMarker(cible);
+        cible = [];
+    }
+
+    function hideMultipleMarker(cible) {
+        setMapMultipleMarker(cible, null);
+    }
+
+    function setMapMultipleMarker(cible, map) {
+        for (var i = 0; i < cible.length; i++) {
+            cible[i].setMap(map);
+        }
+    }    
+    // Fin Ajout marker //
+
+
+    // GetObservationFromDrawnPolygone
+    function getObservationFromDrawnPolygone(lat, lng, cible) {
+        $.ajax({
+            method: 'GET',
+            url: 'observationFromPolygone?' + lat + '&' + lng,
+            dataType: 'json',
+            success: function (mark) {
+                addMultipleMarker(mark, cible, 'yes');
+            }
+        });
+    }    
+
+    function addMarkersTaxonomi() {
         var col = $('[name="espece[]"]');
-        clearMarkers();
-        infowindowExploration = [];
-        markers = [];
+        clearMultipleMarker(markers);
         for (var i = 0; i < col.length; i++) {
             if (col[i].checked == true) {
                 $.ajax({
@@ -527,26 +534,13 @@
                     dataType: 'json',
                     success: function (mark) {
                         for (var i = 0; i < mark.length; i++) {
-                            var marker = new google.maps.Marker({
-                                position: {lat: parseFloat(mark[i].dwc.decimallatitude), lng: parseFloat(mark[i].dwc.decimallongitude)},
-                                map: map
-                            });
-                            var infowindow = new google.maps.InfoWindow();
-                            infowindow.setContent('<div><a href="detailLemurien?id=' + mark[i].dwc.id + '"><strong>' + mark[i].dwc.scientificname + '</strong></a><br> <table><tr><td>Id :</td><td style="padding-left:5px;">' + mark[i].dwc.id + '</td></tr><tr><td>Recorded by :</td><td style="padding-left:5px;">' + mark[i].dwc.recordedby + '</td></tr><tr><td>Decimal Latitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallatitude + '</td></tr><tr><td>Decimal Longitude :</td><td style="padding-left:5px;">' + mark[i].dwc.decimallongitude + '</td></tr><tr><td>Locality :</td><td style="padding-left:5px;">' + mark[i].dwc.locality + '</td></tr><tr><td>Year :</td><td style="padding-left:5px;">' + mark[i].dwc.dwcyear + '</td></tr></table>');
-                            infowindowExploration.push(infowindow);
-                            markers.push(marker);
-                            map.setCenter(ctr);
-                            // Ajouter event on click to the marker
-                            google.maps.event.addListener(marker, 'click', function () {
-                                infowindow.open(map, this);
-                            });
+                            addOneMarker(mark[i].dwc, markers);
                         }
                     }
                 });
             }
         }
     }
-    ;
 
     // Fonction pour chercher les espèces pour l'explorateur à gauche
     function getEspece(famille, genre) {
@@ -568,7 +562,6 @@
             $("#espece-" + genre).html('<ul id="espece-' + genre + '"></ul>');
         }
     }
-    ;
 
     // Fonctions pour les recherches globales
     function rechercheGlobale() {
@@ -582,9 +575,9 @@
             dataType: 'json',
             success: function (json) {
                 if (json.etat == true) {
-                    addMarkersGlobal(json.dwc);
+                    addMultipleMarker(json.dwc, markersGlobal);
                 } else
-                    clearMarkersGlobal();
+                    clearMultipleMarker(markersGlobal);
             }
         });
     }
@@ -636,17 +629,17 @@
             data: dta,
             url: 'findDwcMulticritereGet',
             success: function (json) {
-                addMarkersSearch(json);
+                addMultipleMarker(json, markersSearch);
             }
         });
     }
 </script>
-<script src="<c:url value="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJDf3t9NTT8GXrMdlSvbLTxVLvTdUXc20&libraries=places&callback=initMap"/>"></script>
+<script src="<c:url value="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJDf3t9NTT8GXrMdlSvbLTxVLvTdUXc20&libraries=places,drawing&callback=initMap"/>"></script>
 <script>
     /**
      * Overlay
      */
-    
+
     overlay = null;
     // Hide overlay
     function resetMap() {

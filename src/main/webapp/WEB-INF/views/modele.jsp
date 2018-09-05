@@ -110,7 +110,7 @@
             <div class="container-fluid">
                 <div class="row header-pliss" style="">
                     <!-- Stat -->                                        
-                    <h1 style="font-size:  14px;font-weight:  600;width:  90px;float: left;margin-top: 9px; color: #a18029;"><spring:message code="species.label.taxonomi"/> |</h1>
+                    <h1 style="font-size:  14px;font-weight:  600;width:  90px;float: left;margin-top: 9px; color: #a18029;">Model |</h1>
                     <h5 style="float: right;" class="stat " ng-cloak>Page: <b>1/1</b> | Espece total: <b>{{liste.length}}</b></h5>                                        
                     <%
                         Integer showAddButton = (Integer) request.getAttribute("showAddButton");

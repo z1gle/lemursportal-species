@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
@@ -404,7 +405,7 @@ public class DarwinCoreDao extends HibernateDao {
         // nombre < 0 => tout prendre
         if (utilisateur == null || utilisateur.getId() == null) {
             return null;
-        }        
+        }
 
         Criteria criteria = session.createCriteria(darwinCore.getClass());
         Example example = Example.create(darwinCore);
@@ -413,7 +414,7 @@ public class DarwinCoreDao extends HibernateDao {
         criteria.add(example);
         System.out.println("utilisateur valide");
         //Check if expert
-        boolean expert = false;        
+        boolean expert = false;
         RoleUtilisateur role = new RoleUtilisateur();
         role.setIdUtilisateur(utilisateur.getId());
         List<RoleUtilisateur> listeRole = (List<RoleUtilisateur>) (List<?>) super.findMultiCritere(session, role);
@@ -478,7 +479,7 @@ public class DarwinCoreDao extends HibernateDao {
     public Long CountAllToValidate(Session session, Utilisateur utilisateur, BaseModel darwinCore) throws Exception {
         if (utilisateur == null || utilisateur.getId() == null) {
             return null;
-        }        
+        }
 
         Criteria criteria = session.createCriteria(darwinCore.getClass());
         Example example = Example.create(darwinCore);
@@ -487,7 +488,7 @@ public class DarwinCoreDao extends HibernateDao {
         criteria.add(example);
         System.out.println("utilisateur valide");
         //Check if expert
-        boolean expert = false;        
+        boolean expert = false;
         RoleUtilisateur role = new RoleUtilisateur();
         role.setIdUtilisateur(utilisateur.getId());
         List<RoleUtilisateur> listeRole = (List<RoleUtilisateur>) (List<?>) super.findMultiCritere(session, role);
@@ -543,9 +544,9 @@ public class DarwinCoreDao extends HibernateDao {
         }
         return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }
-    
+
     public List<BaseModel> findAllToValidate(Utilisateur utilisateur, BaseModel darwinCore, int page, int nombre) throws Exception {
-        Session session = null;        
+        Session session = null;
         try {
             session = this.getSessionFactory().openSession();
             return findAllToValidate(session, utilisateur, darwinCore, page, nombre);
@@ -557,9 +558,9 @@ public class DarwinCoreDao extends HibernateDao {
             }
         }
     }
-    
+
     public Long CountAllToValidate(Utilisateur utilisateur, BaseModel darwinCore) throws Exception {
-        Session session = null;        
+        Session session = null;
         try {
             session = this.getSessionFactory().openSession();
             return CountAllToValidate(session, utilisateur, darwinCore);
@@ -941,4 +942,39 @@ public class DarwinCoreDao extends HibernateDao {
         return findAll(utilisateur, darwinCore, page, nombre);
     }
 
+    public List<DarwinCore> findByLatLong(Session session, List<Double> lat, List<Double> lon) throws Exception {
+        if (lat.size() != lon.size()) {
+            throw new Exception("Error on the coordinates :\nSize of lat and long is different");
+        }
+        
+        // Maybe it's more efficient to use Cryteria for this but any attempt to do sql injection won't be possible because any value will be cast to Double
+        
+        String query = "select * from darwin_core d "
+                + "where iddwc not in (select dc.iddwc from darwin_core dc where decimallatitude = '-' or decimallongitude = '-') "
+                + "and polygon '(";
+        for (int i = 0; i < lat.size(); i++) {
+            query += "(" + lat.get(i) + "," + lon.get(i) + "),";
+            if (i == lat.size()-1) {
+                query += "(" + lat.get(i) + "," + lon.get(i) + ")";
+            }
+        }
+        query += ")' @> POINT(cast(d.decimallatitude as double precision) ,cast(d.decimallongitude as double precision))";
+        SQLQuery q = session.createSQLQuery(query);
+        q.addEntity(DarwinCore.class);
+        return q.list();
+    }
+
+    public List<DarwinCore> findByLatLong(List<Double> lat, List<Double> lon) throws Exception {        
+        Session session = null;
+        try {
+            session = this.getSessionFactory().openSession();
+            return findByLatLong(session, lat, lon);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 }
