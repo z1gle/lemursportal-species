@@ -701,20 +701,7 @@
     <!-- end darwin -->
 
 </main>
-<script>
-    function liste() {
-        document.getElementById("pellicule").style.display = 'none';
-        document.getElementById("liste").style.display = 'block';
-        document.getElementById("tab-liste").class = 'active';
-        document.getElementById("tab-pellicule").class = '';
-    }
-    function pellicule() {
-        document.getElementById("pellicule").style.display = 'block';
-        document.getElementById("liste").style.display = 'none';
-        document.getElementById("tab-pellicule").class = 'active';
-        document.getElementById("tab-liste").class = '';
-    }
-    pellicule();
+<script>    
     function showModal(status) {
         if (status == 0)
             $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});

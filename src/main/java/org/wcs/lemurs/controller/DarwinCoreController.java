@@ -5,6 +5,7 @@
  */
 package org.wcs.lemurs.controller;
 
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1197,8 +1198,22 @@ public class DarwinCoreController {
     @GetMapping(value = "/observationFromPolygone")
     public List<DarwinCore> getObservationFromPolygone(HttpSession session,
             @RequestParam(value = "latitude") List<Double> latitude,
-            @RequestParam(value = "longitude") List<Double> longitude) throws Exception {        
-        return darwinCoreService.getDarwinCoreDao().findByLatLong(latitude, longitude);        
+            @RequestParam(value = "longitude") List<Double> longitude) throws Exception {
+        return darwinCoreService.getDarwinCoreDao().findByLatLong(latitude, longitude);
+    }
+
+    @GetMapping(value = "/downloadList")
+    public void getObservationFromPolygone(HttpSession session,
+            HttpServletResponse response,
+            @RequestParam(value = "id") List<Integer> ids) throws Exception {
+        UploadFile upf = new UploadFile();
+        List<VueValidationDarwinCore> liste = darwinCoreService.findAllByid(ids);
+        Field[] colonne = DarwinCore.class.getDeclaredFields();
+        int[] colonnes = new int[colonne.length];
+        for (int i = 0; i < colonne.length; i++) {
+            colonnes[i] = i;
+        }
+        upf.writeDwcCsv(liste, colonnes, ';', response.getOutputStream(), 0);
     }
 
 }

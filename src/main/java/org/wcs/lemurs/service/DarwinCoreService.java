@@ -1706,6 +1706,28 @@ public class DarwinCoreService extends MailService {
         return valiny;
     }
 
+    
+    public List<VueValidationDarwinCore> findAllByid(List<Integer> ids) throws Exception {
+        Session session = null;
+        List<VueValidationDarwinCore> valiny = new ArrayList<>();
+        try {
+            session = darwinCoreDao.getSessionFactory().openSession();
+            for (int i : ids) {
+                VueValidationDarwinCore vdc = new VueValidationDarwinCore();
+                vdc.setId(i);
+                super.findById(session, vdc);
+                valiny.add(vdc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return valiny;
+    }
+
 //    public void removeNull(DarwinCore dwc, String exchangeTo) throws Exception {
 //        Field[] colonnes = DarwinCore.class.getDeclaredFields();
 //        for (Field f : colonnes) {

@@ -12,7 +12,7 @@
         <meta name="keywords" content="">       
         <meta name="viewport" content="width=device-width, initial-scale=1">	
         <!--css-->
-        <link href="<c:url value="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" />" rel="stylesheet">		
+        <link href="<c:url value="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/bootstrap.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/font-awesome.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/jquery.fancybox.min.css" />" rel="stylesheet">		

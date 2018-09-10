@@ -351,10 +351,33 @@
                     }
                 </style>
                 <div class="col-md-8">
-                    <div id="map" ></div>
-                </div>
-
-                <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-11" style="padding-right: 0px">
+                            <div id="map" ></div>
+                            <div class="table-responsive" id="liste" style="display: none;">                        
+                                <table class="table table-hover">
+                                    <tbody id="table-list-dwc">
+                                        <tr style="background-color: black; color: #deaa45; font-weight: 700;">                                            
+                                            <td class="number text-center">Id</td>
+                                            <td class="text-center">Nom scientifique </td>
+                                            <td class="text-center">Recorder by</td>
+                                            <td class="text-center">Latitude</td>
+                                            <td class="text-center">Longitude</td>                                        
+                                            <td class="text-center">Locality</td>
+                                            <td class="text-center">Year</td>                                            
+                                        </tr>                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn" title="map" onclick="mapMode();"><i class="fa fa-map-marker" style="width: 14px;"></i></a>
+                            <a class="btn" title="list" onclick="listMode();"><i class="fa fa-list"></i></a><br>                            
+                            <a class="btn" title="donwload list" onclick="downloadList();"><i class="fa fa-download"></i></a><br>                            
+                        </div>
+                    </div>
+                </div>                
+                <div class="clearfix"></div>                
             </div>
         </div>
         <!-- End Contenu -->
@@ -367,11 +390,9 @@
 <script>
     var map;
     var markers;
-    var markersGlobal;
-    var markersSearch;
-//    var markersPolygone;
+    var listDwc;
+    var listMarkersPolygone;
     var ctr;
-
     function initMap() {
         var centre = {lat: -18.9136800, lng: 47.5361300};
         var mark = {lat: -18.9136800, lng: 47.5361300};
@@ -384,15 +405,11 @@
             map: map
         });
         marker.setVisible(false);
-
         // markers pour tout type de recherche
         markers = [];
-        markersGlobal = [];
-        markersSearch = [];
-//        markersPolygone = [];
-
+        listMarkersPolygone = [];
+        listDwc = [];
         var input = (document.getElementById('pac-input'));
-
         // Autocomplete pour les recherches de localisation
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo('bounds', map);
@@ -430,7 +447,6 @@
                 ].join(' ');
             }
         });
-
         /*Drawing polygone*/
         var drawingManager = new google.maps.drawing.DrawingManager({
             drawingControl: true,
@@ -440,7 +456,6 @@
             }
         });
         drawingManager.setMap(map);
-
         google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
             var coordinates = (polygon.getPath().getArray());
             var latitude = "latitude=";
@@ -454,16 +469,19 @@
                     longitude += coordinates[i].lng() + '&longitude=';
                 }
             }
-            
+
             var markersPolygone = [];
-            getObservationFromDrawnPolygone(latitude, longitude, markersPolygone);
+            var dwcPolygone = [];
+            getObservationFromDrawnPolygone(latitude, longitude, markersPolygone, dwcPolygone);
             google.maps.event.addListener(polygon, 'click', function (event) {
-                clearMultipleMarker(markersPolygone);
+                hideMultipleMarker(markersPolygone);
+                hideMultipleDwc(dwcPolygone);
                 polygon.setMap(null);
+                makeTable();
             });
         });
     }
-    
+
     // Ajout marker //
     function addOneMarker(mark, cible) {
         var marker = new google.maps.Marker({
@@ -479,53 +497,130 @@
         });
     }
 
-    function addMultipleMarker(mark, cible) {
+    function addMultipleMarkerClear(mark, cible) {
         clearMultipleMarker(cible);
-        table = [];
         for (var i = 0; i < mark.length; i++) {
             addOneMarker(mark[i], cible);
         }
     }
 
+    function addMultipleDwcClear(mark, cible) {
+        clearMultipleDwc(cible);
+        for (var i = 0; i < mark.length; i++) {
+            cible.push(mark[i]);
+        }
+    }
+
     function addMultipleMarker(mark, cible, withoutClear) {
-        table = [];
         for (var i = 0; i < mark.length; i++) {
             addOneMarker(mark[i], cible);
+        }
+    }
+
+    function addMultipleDwc(mark, cible, withoutClear) {
+        for (var i = 0; i < mark.length; i++) {
+            cible.push(mark[i]);
         }
     }
 
     function clearMultipleMarker(cible) {
         hideMultipleMarker(cible);
-        cible = [];
+        cible.length = 0;
+    }
+
+    function clearMultipleDwc(cible) {
+        cible.length = 0;
     }
 
     function hideMultipleMarker(cible) {
         setMapMultipleMarker(cible, null);
     }
 
+    function hideMultipleDwc(cible) {
+        for (var i = 0; i < cible.length; i++) {
+            cible[i].id = -999;
+        }
+    }
+
     function setMapMultipleMarker(cible, map) {
         for (var i = 0; i < cible.length; i++) {
             cible[i].setMap(map);
         }
-    }    
+    }
     // Fin Ajout marker //
 
+    // Traitement du tableau
+    function makeTable() {
+        $('.removable').remove();
+        var body = '';
+        for (var i = 0; i < listDwc.length; i++) {
+            if (listDwc[i].id > -999) {
+                var row = '<tr class="removable">';
+                row += '<td>' + listDwc[i].id + '</td>';
+                row += '<td><a href="detailLemurien?id=' + listDwc[i].id + '"><strong>' + listDwc[i].scientificname + '</strong></a></td>';
+                row += '<td>' + listDwc[i].recordedby + '</td>';
+                row += '<td>' + listDwc[i].decimallatitude + '</td>';
+                row += '<td>' + listDwc[i].decimallongitude + '</td>';
+                row += '<td>' + listDwc[i].locality + '</td>';
+                row += '<td>' + listDwc[i].dwcyear + '</td>';
+                row += '</tr>';
+                body += row;
+            }
+        }
+        $('#table-list-dwc').append(body);
+    }
+    
+    function downloadURI(uri, name) {
+        var link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        delete link;
+    }
+
+    // Map mode and list mode
+    function mapMode() {
+        $('#liste').hide();
+        $('#map').show();
+    }
+    function listMode() {
+        $('#map').hide();
+        makeTable();
+        $('#liste').show();
+    }
+    function downloadList() {
+        var ids = '';
+        for (var i = 0; i < listDwc.length; i++) {
+            ids += 'id=' + listDwc[i].id + '&';
+        }
+        ids += 'zch=y';
+        downloadURI('downloadList?' + ids, 'list_observation_from_map.csv');
+    }
 
     // GetObservationFromDrawnPolygone
-    function getObservationFromDrawnPolygone(lat, lng, cible) {
+    function getObservationFromDrawnPolygone(lat, lng, cible, dwcs) {
         $.ajax({
             method: 'GET',
             url: 'observationFromPolygone?' + lat + '&' + lng,
             dataType: 'json',
             success: function (mark) {
                 addMultipleMarker(mark, cible, 'yes');
+                addMultipleDwc(mark, dwcs, 'yes');
+                for (var i = 0; i < cible.length; i++) {
+                    markers.push(cible[i]);
+                    listDwc.push(dwcs[i]);
+                }
+                makeTable();
             }
         });
-    }    
+    }
 
     function addMarkersTaxonomi() {
         var col = $('[name="espece[]"]');
         clearMultipleMarker(markers);
+        clearMultipleDwc(listDwc);
         for (var i = 0; i < col.length; i++) {
             if (col[i].checked == true) {
                 $.ajax({
@@ -535,7 +630,9 @@
                     success: function (mark) {
                         for (var i = 0; i < mark.length; i++) {
                             addOneMarker(mark[i].dwc, markers);
+                            listDwc.push(mark[i].dwc);
                         }
+                        makeTable();
                     }
                 });
             }
@@ -575,9 +672,13 @@
             dataType: 'json',
             success: function (json) {
                 if (json.etat == true) {
-                    addMultipleMarker(json.dwc, markersGlobal);
-                } else
-                    clearMultipleMarker(markersGlobal);
+                    addMultipleMarkerClear(json.dwc, markers);
+                    addMultipleDwcClear(json.dwc, listDwc);
+                } else {
+                    clearMultipleMarker(markers);
+                    clearMultipleDwc(listDwc);
+                }
+                makeTable();
             }
         });
     }
@@ -615,7 +716,6 @@
         console.log(validationMine);
         if (isNaN(validationMine))
             validationMine = -999;
-
         var formData = {
             'validation': parseInt($('select[name=validation]').val()),
             'etat': state,
@@ -629,7 +729,9 @@
             data: dta,
             url: 'findDwcMulticritereGet',
             success: function (json) {
-                addMultipleMarker(json, markersSearch);
+                addMultipleMarkerClear(json, markers);
+                addMultipleDwcClear(json, listDwc);
+                makeTable();
             }
         });
     }
@@ -658,7 +760,6 @@
         overlay = new ModelOverlay(bounds, image, map);
     }
     ModelOverlay.prototype = new google.maps.OverlayView();
-
     /** @constructor */
     function ModelOverlay(bounds, image, map) {
 
@@ -666,12 +767,10 @@
         this.bounds_ = bounds;
         this.image_ = image;
         this.map_ = map;
-
         // Define a property to hold the image's div. We'll
         // actually create this div upon receipt of the onAdd()
         // method so we'll leave it null for now.
         this.div_ = null;
-
         // Explicitly call setMap on this overlay.
         this.setMap(map);
     }
@@ -684,7 +783,6 @@
         div.style.borderStyle = 'none';
         div.style.borderWidth = '0px';
         div.style.position = 'absolute';
-
         // Create the img element and attach it to the div.
         var img = document.createElement('img');
         img.src = this.image_;
@@ -693,27 +791,22 @@
         img.style.position = 'absolute';
         img.style.opacity = '0.75';
         div.appendChild(img);
-
         this.div_ = div;
-
         // Add the element to the "overlayLayer" pane.
         var panes = this.getPanes();
         panes.overlayLayer.appendChild(div);
     };
-
     ModelOverlay.prototype.draw = function () {
 
         // We use the south-west and north-east
         // coordinates of the overlay to peg it to the correct position and size.
         // To do this, we need to retrieve the projection from the overlay.
         var overlayProjection = this.getProjection();
-
         // Retrieve the south-west and north-east coordinates of this overlay
         // in LatLngs and convert them to pixel coordinates.
         // We'll use these coordinates to resize the div.
         var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
         var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
-
         // Resize the image's div to fit the indicated dimensions.
         var div = this.div_;
         div.style.left = sw.x + 'px';
@@ -721,15 +814,15 @@
         div.style.width = (ne.x - sw.x) + 'px';
         div.style.height = (sw.y - ne.y) + 'px';
     };
-
     // The onRemove() method will be called automatically from the API if
     // we ever set the overlay's map property to 'null'.
     ModelOverlay.prototype.onRemove = function () {
         this.div_.parentNode.removeChild(this.div_);
         this.div_ = null;
-    };
-</script>
+    };</script>
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/visualisationcontroller.js"/>"></script>
-<jsp:include page="/WEB-INF/inc/footer.jsp"/>  
+<script async src="<c:url value="/resources/assets/js/html2canvas.min.js"/>"></script>
+<script async src="<c:url value="/resources/assets/js/canvas2image.js"/>"></script>
+<jsp:include page="/WEB-INF/inc/footer.jsp"/>
