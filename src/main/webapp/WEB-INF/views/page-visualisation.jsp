@@ -334,7 +334,14 @@
                                     <!-- END PAGINATION -->
                                 </div>                            
                                 <div class="tab-pane" id="tendance">
-                                    pop
+                                    <!--                                    <a href="#mod" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse"><i class="fa fa-map-pin"></i> Liste modèles  &nbsp;<i class="fa fa-caret-down"></i></a>
+                                                                        <div style=" margin-left: 5px;" class="row" ng-cloak ng-repeat="famille in familles" class="list-group-item">
+                                                                            <input id="{{shp}}" type="checkbox" name="valeur[]" value="typeFamille-{{famille}}" ng-click="getGenre(famille)" >  {{famille}}
+                                                                            <ul style="list-style-type:none; margin-left: 5px;" id="genre-{{famille}}"></ul>
+                                                                        </div>
+                                                                        <button style=" margin-bottom: 5px; color: white;" type="button" class="btn btn-primary form-control" onclick="addMarkersTaxonomi();">
+                                                                            Afficher
+                                                                        </button>-->
                                 </div>
 
                             </div>
@@ -373,7 +380,8 @@
                         <div class="col-md-1">
                             <a class="btn" title="map" onclick="mapMode();"><i class="fa fa-map-marker" style="width: 14px;"></i></a>
                             <a class="btn" title="list" onclick="listMode();"><i class="fa fa-list"></i></a><br>                            
-                            <a class="btn" title="donwload list" onclick="downloadList();"><i class="fa fa-download"></i></a><br>                            
+                            <a class="btn" title="donwload list" onclick="downloadList();"><i class="fa fa-download"></i></a><br>
+                            <a class="btn" title="shapefiles" data-toggle='modal' data-target='#modal-shp'><i class="fa fa-area-chart" style="width: 14px;"></i></a>
                         </div>
                     </div>
                 </div>                
@@ -383,6 +391,30 @@
         <!-- End Contenu -->
 
     </section>
+    <div id='modal-shp' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Shapefiles</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1' style="max-height: 500px; overflow-y:  auto;">         
+                            <div style=" margin-left: 5px;" class="row" ng-cloak ng-repeat="shapefile in shp" class="list-group-item">
+                                <input id="shp-{{shapefile.id}}" type="checkbox" ng-click="getKmlFromShp(shapefile.id, shapefile.shapeTable)"> {{shapefile.shapeTable}}
+                                <ul style="list-style-type:none; margin-left: 5px;" id="kml-{{shapefile.shapeTable}}"></ul>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
+                    <button type='button' id="" onclick="showKml()" class='btn btn-success btn-sm' data-dismiss='modal'>Afficher</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end taxonomie -->
 
 </main>
@@ -393,6 +425,7 @@
     var listDwc;
     var listMarkersPolygone;
     var ctr;
+    var kmls;
     function initMap() {
         var centre = {lat: -18.9136800, lng: 47.5361300};
         var mark = {lat: -18.9136800, lng: 47.5361300};
@@ -409,6 +442,7 @@
         markers = [];
         listMarkersPolygone = [];
         listDwc = [];
+        kmls = [];
         var input = (document.getElementById('pac-input'));
         // Autocomplete pour les recherches de localisation
         var autocomplete = new google.maps.places.Autocomplete(input);
@@ -549,6 +583,71 @@
     }
     // Fin Ajout marker //
 
+    // Gestion kml et shp//
+    function addOneKml(mark, cible) {
+        var link = window.location.href;
+        console.log(link);
+        var linkRoot = link.substring(0, link.lastIndexOf('/')+1);
+        var ctaLayer = new google.maps.KmlLayer({
+            url: linkRoot + mark.link,
+            map: map
+        });
+        cible.push(ctaLayer);
+    }
+
+    function getUrlsForKml() {
+        var gid = $('[name="gids-kml"]');
+        var listShp = [];
+        var listUrl = [];
+        for (var i = 0; i < gid.length; i++) {
+            if (gid[i].checked == true) {
+                var detail = gid[i].id.split("!!");
+                var shp = detail[0];
+                var gids = detail[1];
+                listShp.push({shp, gids});
+            }
+        }
+        var indexUrl = 0;
+        var baseUrl = 'kmls/overlay?tableName=';
+        var tempShp = listShp[0].shp;
+        listUrl.push(baseUrl + tempShp);
+        for (var i = 0; i < listShp.length; i++) {
+            if (listShp[i].shp != tempShp) {
+                tempShp = listShp[i].shp;
+                listUrl.push(baseUrl + tempShp);
+                indexUrl++;
+            }
+            listUrl[indexUrl] = listUrl[indexUrl] + '&gids=' + listShp[i].gids;
+        }
+        return listUrl;
+    }
+
+    function showOneKml(url) {
+        console.log('debut');
+        $.ajax({
+            method: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function (mark) {
+                console.log(mark);
+                addOneKml(mark, kmls);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        console.log('fin');
+    }
+
+    function showKml() {
+        clearMultipleDwc(kmls);
+        var urls = getUrlsForKml();
+        for (var i = 0; i < urls.length; i++) {
+            showOneKml(urls[i]);
+        }
+    }
+    // Fin gestion kml et shp//
+
     // Traitement du tableau
     function makeTable() {
         $('.removable').remove();
@@ -569,7 +668,7 @@
         }
         $('#table-list-dwc').append(body);
     }
-    
+
     function downloadURI(uri, name) {
         var link = document.createElement("a");
         link.download = name;
@@ -823,6 +922,4 @@
 <script src="<c:url value="/resources/assets/js/angular.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/appconfig.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/controller/visualisationcontroller.js"/>"></script>
-<script async src="<c:url value="/resources/assets/js/html2canvas.min.js"/>"></script>
-<script async src="<c:url value="/resources/assets/js/canvas2image.js"/>"></script>
 <jsp:include page="/WEB-INF/inc/footer.jsp"/>
