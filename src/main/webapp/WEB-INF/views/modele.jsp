@@ -40,7 +40,7 @@
             }        
         }
     </style>
-    
+
     <!--Style for input type file-->
     <style>
         #modele-asc {
@@ -146,7 +146,7 @@
                                         <td class="text-center">{{mod.date}}</td>
                                         <td class="text-center">{{mod.name}}</td>
                                         <td class="text-center">{{mod.path}}</td>                                        
-                                                <%if (showAddButton == 0) {%>
+                                        <%if (showAddButton == 0) {%>
                                         <td class="text-center del">
                                             <a href="#" data-toggle='modal' data-target='#modal-add-edit-modele' ng-click="editer(mod.id)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
                                             <a href="#" data-toggle='modal' data-target='#modal-delete-modele' ng-click="del(mod.id)"><i class="fa fa-remove"></i></a>
@@ -200,13 +200,13 @@
                     </form>
                 </div>
                 <div class='modal-footer'>                        
-                    <input class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" value="Importer">                        
+                    <input class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" data-toggle='modal' data-target='#modal-upload_spinner' data-dismiss='modal' value="Importer">                        
                     <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>                    
-                </div>                    
+                </div>
             </div>
         </div>
     </div>    
-    
+
     <!--Modal delete-->
     <div id='modal-delete-modele' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
         <div class='modal-dialog'>
@@ -227,7 +227,24 @@
         </div>
     </div>    
 
-
+    <!--Modal for loader-->
+    <div id='modal-upload_spinner' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Upload</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                                                        
+                            <img src="resources/assets/img/loaderB32.gif" class="img-responsive" style="margin: 5px auto;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </main>

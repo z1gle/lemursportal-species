@@ -116,9 +116,11 @@ app.controller("shapefile", function ($scope, $http) {
             getall();
             $('#modal-add-edit-shapefile').modal('hide');
             $('#idShapefile').val(-1);
+            $('#modal-upload_spinner').modal('hide');
         }, function error(response) {
             $('#modal-alert').modal({backdrop: 'static'});
             $('#modal-add-edit-shapefile').modal('hide');
+            $('#modal-upload_spinner').modal('hide');
         });
     };
 

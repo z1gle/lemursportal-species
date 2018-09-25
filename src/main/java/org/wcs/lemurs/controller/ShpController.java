@@ -58,7 +58,7 @@ public class ShpController {
     public HashMap<String, Object> save(HttpSession session,
             @RequestParam MultipartFile shapefile,
             //            @RequestParam Integer categorie,
-            @RequestParam String shapeLabel) {
+            @RequestParam(required = false) String shapeLabel) {
         
         HashMap<String, Object> response = new HashMap<>();
         
@@ -70,10 +70,10 @@ public class ShpController {
                 return response;
             }
             ShpInfo shpInfo = new ShpInfo();
-//            shpInfo.setIdCategorie(categorie);
-            shpInfo.setPath(session.getServletContext().getRealPath("/resources/assets/modele/shp/") + shapeLabel + ".zip");
+//            shpInfo.setIdCategorie(categorie);            
             shpInfo.setShapeLabel("nom");
             shpInfo.setShapeTable(shapefile.getOriginalFilename().replaceAll(".zip", ""));
+            shpInfo.setPath(session.getServletContext().getRealPath("/resources/assets/modele/shp/") + shpInfo.getShapeTable() + ".zip");
             shpService.saveShp(shapefile, shpInfo);
         } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);

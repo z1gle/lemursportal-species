@@ -264,26 +264,26 @@
                         <div class="input-group" style="width: 100%;">                                             
                             <div class="form-group badge-checkboxes">                                            
                                 <div>
-                                    <input id="form-search" ng-keyup="$event.keyCode == 13 ? rechercherAvancee() : null" name="espece" type="text" placeholder="search by scientific name" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 26%; border-style: solid;border-width: 1px; float: left;">                                        
+                                    <input id="form-search" ng-keyup="$event.keyCode == 13 ? rechercherAvancee() : null" name="espece" type="text" placeholder="<spring:message code="research.scientificname"/>" class="checkbox-inline" style="height: 20px; border-radius: 15px; width: 26%; border-style: solid;border-width: 1px; float: left;">                                        
                                     <c:choose>
                                         <c:when test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                                             <label style="float: left; margin-top: -3px;" class="checkbox-inline">
                                                 <input ng-click="rechercherAvancee()" id="publique" name="etat[]" type="checkbox" value="1" checked="">
-                                                <span class="badge" style="margin-left: 15px;">Publique</span>
+                                                <span class="badge" style="margin-left: 15px;"><spring:message code="checkbox.public"/></span>
                                             </label>
                                             <label style="float: left; margin-top: -3px;" class="checkbox-inline">
                                                 <input ng-click="rechercherAvancee()" id="privee" name="etat[]" type="checkbox" value="0">
-                                                <span class="badge" style="">Privée</span>
+                                                <span class="badge" style=""><spring:message code="checkbox.private"/></span>
                                             </label>
                                         </c:when>
                                         <c:otherwise>
                                             <label style="float: left; margin-top: -3px;" class="checkbox-inline">
                                                 <input ng-click="rechercherAvancee()" id="publique" name="etat[]" disabled="" type="checkbox" value="1" checked="">
-                                                <span class="badge" style="margin-left: 15px;">Publique</span>
+                                                <span class="badge" style="margin-left: 15px;"><spring:message code="checkbox.public"/></span>
                                             </label>
                                             <label style="float: left; margin-top: -3px;" class="checkbox-inline">
                                                 <input ng-click="rechercherAvancee()" id="privee" disabled="" name="etat[]" type="checkbox" value="0">
-                                                <span class="badge" style="">Privée</span>
+                                                <span class="badge" style=""><spring:message code="checkbox.private"/></span>
                                             </label>
                                         </c:otherwise>
                                     </c:choose>
@@ -320,25 +320,25 @@
                 <div class="row" style="margin-top: 10px;">
                     <!-- Stat -->
                     <c:if test="${nbr > 0}">
-                        <a href="newObservations" style="float: left;"><span id="nbr"><c:out value="${nbr}"></c:out></span> nouvelles occurences</a><br>
+                        <a href="newObservations" style="float: left;"><span id="nbr"><c:out value="${nbr}"></c:out></span> <spring:message code="observation.new_occurences"/></a><br>
                     </c:if>                    
-                    <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;">Liste des obsérvations |</h1>
-                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                    
-                    <a title="Download darwin core template" style="width: 3%; display: inline-block; float: left;" class="btn" href="resources/assets/Model_darwin_core.csv"><i class="fa fa-file-excel-o"></i></a>
+                    <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;"><spring:message code="observation.title"/> |</h1>
+                    <h5 style="float: right;" class="stat " ng-cloak><spring:message code="observation.table.page"/>: <b>{{pageEnCours}}/{{lastPage}}</b> | <spring:message code="observation.table.total"/>: <b>{{liste[0].total}}</b></h5>                    
+                    <a title="<spring:message code="observation.icon.title.template"/>" style="width: 3%; display: inline-block; float: left;" class="btn" href="resources/assets/Model_darwin_core.csv"><i class="fa fa-file-excel-o"></i></a>
                         <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                        <a href="#" title="upload observations" style="width: 3%; display: inline-block; float: left;" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});" class="btn"><i class="fa fa-upload"></i></a>
+                        <a href="#" title="<spring:message code="observation.icon.title.upload"/>" style="width: 3%; display: inline-block; float: left;" onclick="$('#modal-upload-dwc').modal({backdrop: 'static'});" class="btn"><i class="fa fa-upload"></i></a>
                         </c:if>
-                    <a href="#" title="download observations" style="width: 3%; display: inline-block; float: left;" data-toggle='modal' data-target='#modal-download_formular' class="btn"><i style="margin-top: 4px;" class="fa fa-download"></i></a>                    
+                    <a href="#" title="<spring:message code="observation.icon.title.download_observation"/>" style="width: 3%; display: inline-block; float: left;" data-toggle='modal' data-target='#modal-download_formular' class="btn"><i style="margin-top: 4px;" class="fa fa-download"></i></a>                    
                         <%
                             Integer adminOuModerateur = ((Integer) request.getAttribute("adminOuModerateur"));
                             if (adminOuModerateur == 0) {
                         %>
-                    <a href="#" title="upload by link" style="width: 3%; display: inline-block; float: left; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn"><i style="margin-top: 4px;" class="fa fa-cloud-upload"></i></a>
+                    <a href="#" title="<spring:message code="observation.icon.title.upload_link"/>" style="width: 3%; display: inline-block; float: left; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn"><i style="margin-top: 4px;" class="fa fa-cloud-upload"></i></a>
                         <%
                             }
                         %>
                     <!--<a href="#" title="Global research" style="width: 3%; display: inline-block; float: left; margin-right: 2px;" data-toggle='modal' data-target='#modal-upload_by_link' class="btn"><i class="fa fa-search"></i></a>-->
-                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                                        
+                    <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="<spring:message code="research.global_research"/>" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                                        
                     <!-- End Stat -->                    
                 </div>
                 <div class="row">                    
@@ -355,19 +355,19 @@
                                         <td class="text-center"></td>
                                         <%}%>
                                         <td class="number text-center">Id</td>
-                                        <td class="text-center">Nom scientifique </td>
-                                        <td class="text-center">Localisation</td>
-                                        <td class="text-center">Classe</td>
-                                        <td class="text-center">Ordre</td>                                        
-                                        <td class="text-center">Genre</td>
-                                        <td class="text-center">Date</td>
-                                        <td class="text-center">Institution</td>
+                                        <td class="text-center"><spring:message code="table.dwc.scientificname"/> </td>
+                                        <td class="text-center"><spring:message code="table.dwc.location"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.class"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.order"/></td>                                        
+                                        <td class="text-center"><spring:message code="table.dwc.genus"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.date"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.institution"/></td>
                                         <%
                                             Integer role = ((Integer) request.getAttribute("role"));
                                             Integer idChercheur = ((Integer) request.getAttribute("idChercheur"));
                                             if (role == 0) {
                                         %>
-                                        <td class="text-center">Remarque</td>
+                                        <td class="text-center"><spring:message code="table.dwc.remark"/></td>
                                         <%}%>
                                         <%if (expert == 0) {%>
                                         <td class="text-center">Etat</td>
@@ -459,8 +459,8 @@
                     </div>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
-                    <button type='button' id="" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
+                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'><spring:message code="global.cancel"/></button>
+                    <button type='button' id="" ng-click="getDwcCsv()" class='btn btn-success btn-sm' data-dismiss='modal'><spring:message code="global.continue"/>
                 </div>
             </div>
         </div>
@@ -484,7 +484,7 @@
 
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(1, 0)" data-dismiss='modal'>Annuler</button>
+                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(1, 0)" data-dismiss='modal'><spring:message code="global.cancel"/></button>
                     <button type='button' class='btn btn-success btn-sm' onclick="continueValidate(1, 1)" data-dismiss='modal'>Valider</button>
                 </div>
             </div>
@@ -509,7 +509,7 @@
 
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(1, 0)" data-dismiss='modal'>Annuler</button>
+                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(1, 0)" data-dismiss='modal'><spring:message code="global.cancel"/></button>
                     <button type='button' class='btn btn-success btn-sm' onclick="continueValidate(1, 1)" data-dismiss='modal'>Valider</button>
                 </div>
             </div>
@@ -534,7 +534,7 @@
 
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(0, 0)" data-dismiss='modal'>Annuler</button>
+                    <button type='button' class='btn btn-default btn-sm' onclick="continueValidate(0, 0)" data-dismiss='modal'><spring:message code="global.cancel"/></button>
                     <button type='button' class='btn btn-success btn-sm' onclick = 'continueValidate(0, 1)' data-dismiss='modal'>Valider</button>
                 </div>
             </div>
@@ -557,8 +557,8 @@
                     </div>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' onclick="$('#commentaires').val('')" data-dismiss='modal'>Annuler</button>
-                    <button type='button' id="boutonQuestionnable" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#commentaires').val('')" data-dismiss='modal'><spring:message code="global.cancel"/></button>
+                    <button type='button' id="boutonQuestionnable" class='btn btn-success btn-sm' data-dismiss='modal'><spring:message code="global.continue"/>
                 </div>
             </div>
         </div>
@@ -597,8 +597,8 @@
                     </div>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>
-                    <button type='button' ng-click="uploadByLink()" class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'><spring:message code="global.cancel"/></button>
+                    <button type='button' ng-click="uploadByLink()" class='btn btn-success btn-sm' data-dismiss='modal'><spring:message code="global.continue"/>
                 </div>
             </div>
         </div>
@@ -637,9 +637,9 @@
                     <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
                         Format file
                         <select class="form-control" id="sep" style="width: 92%;height: 42px;border-radius: 5px;">
-                            <option value="2">CSV (séparateur : point-virgule) (*.csv)</option>
-                            <option value="0">CSV (séparateur : virgule) (*.csv)</option>
-                            <option value="1">Classeur Excel (*.xlsx)</option>                                                        
+                            <option value="2"><spring:message code="observation.popup.upload_dwc.semicolon"/></option>
+                            <option value="0"><spring:message code="observation.popup.upload_dwc.comma"/></option>
+                            <option value="1">Excel (*.xlsx)</option>                                                        
                         </select><br>
                         <label for="csv-xl" id="buttonlabel">
                             <span role="button" aria-controls="filename" tabindex="0">
@@ -654,14 +654,14 @@
                         <!--<input id="publique" type="checkbox" value="1"> publique <br>-->
                         <div class="checkbox checkbox-info checkbox-circle chk">
                             <input id="publique-modal" type="checkbox" value="1">
-                            <label for="publique-modal">Publique</label>
+                            <label for="publique-modal"><spring:message code="checkbox.public"/></label>
                         </div>
-                        Termes et condition <a href="#" onclick="window.open('resources/assets/policy.pdf', '_blank')">telecharger ici</a>
+                        <spring:message code="observation.popup.upload_dwc.term"/> <a href="#" onclick="window.open('resources/assets/policy.pdf', '_blank')">(<spring:message code="global.download"/>)</a>
                     </form>
                 </div>
                 <div class='modal-footer'>                        
-                    <input data-toggle='modal' data-target='#modal-upload_spinner' data-dismiss='modal' class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" value="Importer">                        
-                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'>Annuler</button>                    
+                    <input data-toggle='modal' data-target='#modal-upload_spinner' data-dismiss='modal' class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" value="<spring:message code="global.import"/>">                        
+                    <button type='button' class='btn btn-default btn-sm' onclick="$('#link').val('')" data-dismiss='modal'><spring:message code="global.cancel"/></button>                    
                 </div>                    
             </div>
         </div>
@@ -671,29 +671,29 @@
             <div class='modal-content'>
                 <div class="modal-header">
                     <button data-dismiss='modal' class='close' type='button'>x</button>
-                    <h4 class="modal-title">Information sur l'utilisation</h4>                    
+                    <h4 class="modal-title"><spring:message code="observation.popup.download_osbervation.title_of_popup"/></h4>                    
                 </div>
                 <div class='modal-body row'>                       
                     <form id="download_formular" method="POST" class="col-md-offset-1 col-md-11">
-                        <label>Titre</label>                        
+                        <label><spring:message code="observation.popup.download_osbervation.title"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.titre">
-                        <label>Nom</label>                        
+                        <label><spring:message code="observation.popup.download_osbervation.name"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.nom">
-                        <label>Prenom</label>                        
+                        <label><spring:message code="observation.popup.download_osbervation.firstname"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.prenom">
-                        <label>Profession</label>                        
+                        <label><spring:message code="observation.popup.download_osbervation.profession"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.profession">
-                        <label>E-mail</label>                        
+                        <label><spring:message code="observation.popup.download_osbervation.email"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.eMail">
-                        <label>Institution</label>                        
+                        <label><spring:message code="observation.popup.download_osbervation.institution"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.institution">
-                        <label>Utilisation</label>                        
+                        <label><spring:message code="observation.popup.download_osbervation.use"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.utilisation">
                     </form>
                 </div>
                 <div class='modal-footer'>                        
-                    <input data-dismiss='modal' class="btn btn-success btn-sm" type="submit" id="publique" ng-click="getColonnes()" value="Continuer">                        
-                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>                    
+                    <input data-dismiss='modal' class="btn btn-success btn-sm" type="submit" id="publique" ng-click="getColonnes()" value="<spring:message code="global.continue"/>">                        
+                    <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'><spring:message code="global.cancel"/></button>                    
                 </div>                    
             </div>
         </div>
@@ -710,11 +710,11 @@
     }
     ;
     /*                        function showCommentair() {
-     $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+     $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'continueValidate(0,1)' class='btn btn-success btn-sm' data-dismiss='modal'><spring:message code="global.continue"/>");
      $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
      }*/
     function showCommentairFirst() {
-        $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+        $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'><spring:message code="global.continue"/>");
         $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
     }
 

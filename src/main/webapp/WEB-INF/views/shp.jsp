@@ -185,8 +185,8 @@
                 <div class='modal-body row'>
                     <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
                         <input type="hidden" id="idShapefile" value="-1">
-                        Name :
-                        <input type="text" class="form-control" name="name" id="newShapefileName" style="width: 92%; border-radius: 4px; height: 43px;"><br>
+                        <!--Name :-->
+                        <input type="hidden" class="form-control" value="we_just_need_value_to_make_it_work_but_it_means_nothing" name="name" id="newShapefileName" style="width: 92%; border-radius: 4px; height: 43px;"><br>
 <!--                        Categorie :
                         <input type="text" class="form-control" name="categorie" id="newShapefileCategorie" style="width: 92%; border-radius: 4px; height: 43px;"><br>-->
                         <label for="shapefile-asc" id="buttonlabel">
@@ -202,7 +202,7 @@
                     </form>
                 </div>
                 <div class='modal-footer'>                        
-                    <input class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" value="Importer">                        
+                    <input class="btn btn-success btn-sm" type="submit" id="publique" ng-click="upload()" data-toggle='modal' data-target='#modal-upload_spinner' data-dismiss='modal' value="Importer">                        
                     <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>                    
                 </div>                    
             </div>
@@ -229,7 +229,24 @@
         </div>
     </div>    
 
-
+    <!--Modal for loader-->
+    <div id='modal-upload_spinner' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class="modal-header">
+                    <button data-dismiss='modal' class='close' type='button'>x</button>
+                    <h4 class="modal-title"><center>Upload</center></h4>
+                </div>
+                <div class='modal-body'>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1'>                                                        
+                            <img src="resources/assets/img/loaderB32.gif" class="img-responsive" style="margin: 5px auto;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </main>

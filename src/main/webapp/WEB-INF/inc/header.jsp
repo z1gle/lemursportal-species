@@ -64,6 +64,8 @@
                                     <li><a href="#" onclick="window.location = 'listeUtilisateur'">&nbsp; Utilisateur</a></li>
                                     <li class="divider"></li>
                                     <li><a href="#" onclick="window.location = 'gestionModele'">&nbsp; Modeles</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#" onclick="window.location = 'gestionShp'">&nbsp; Shapefiles</a></li>
                                 </ul>
                             </li>
                         </c:if>

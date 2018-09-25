@@ -129,11 +129,8 @@
                                             <option value="0"><spring:message code="data.status.my_questionnable_reviews_data"/></option>
                                             <option value="-2"><spring:message code="data.status.my_invalidated"/></option>
                                         </select>
-                                    </c:if>
-                                    <!--<span class="input-group-btn">-->
-                                    <a href="#" title="search" style="padding: 0px;height: 20px;float: left;margin-left: 6px;" onclick="rechercheSearch()" class="btn"><i style="color: darkgrey" class="fa fa-search"></i></a>
-                                    <!--</span>-->
-                                    <!--<select name="validationMine" id="myEtat" ng-model="modelePourFaireMarcherOnChange.id" ng-change="rechercherAvancee()" class="checkbox-inline" style="height: 20px; border-radius: 15px; border-style: solid;border-width: 1px; width: 5%; float: left;">-->
+                                    </c:if>                                    
+                                    <a href="#" title="search" style="padding: 0px;height: 20px;float: left;margin-left: 6px;" onclick="rechercheSearch()" class="btn"><i style="color: darkgrey" class="fa fa-search"></i></a>                                    
                                 </div>                                            
                             </div>
                         </div>
@@ -146,46 +143,9 @@
             <div class="container-fluid  header-pliss">                
                 <div class="row" style="margin-bottom: 10px;margin-top: 10px;border-bottom:  solid;border-bottom-width: 1px;border-bottom-color: beige;">
                     <!-- Stat -->                                        
-                    <h1 style="margin-left: 10px; font-size:  14px;font-weight:  600;width:  100%;float: left;margin-top: 9px; color: #a18029;">Visualisation cartographique |</h1>
-                    <!--                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                    -->                                        
-                    <!--<input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">-->                    
+                    <h1 style="margin-left: 10px; font-size:  14px;font-weight:  600;width:  100%;float: left;margin-top: 9px; color: #a18029;"><spring:message code="map.title"/> |</h1>                    
                     <!-- End Stat -->                    
-                </div>
-                <!--                <div class="row" style="margin-top: 10px;">
-                                    <form class="col-md-12" style="float: right; max-width: 100%;" id="form-search">
-                                         Search Field                                                     
-                                        <div class="form-group">
-                                            <div class="input-group">     
-                <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                    <select id="validation" name="validationMine" style="max-width: 20%; float: right;" class="form-control" >                                    
-                        <option value="-999">Mes données</option>
-                        <option value="-1000">Tous</option>
-                        <option value="1">Validé</option>
-                        <option value="0">Questionnable</option>
-                        <option value="-1">En attente de validation</option>
-                    </select>
-                </c:if>
-                <select id="validation" name="validation" style="max-width: 20%; float: right;" class="form-control" >                                    
-                    <option value="-999">Données</option>
-                    <option value="1">Validé</option>
-                    <option value="0">Questionnable</option>
-                    <option value="-1">En attente de validation</option>
-                </select>
-                <input style="max-width: 20%; float: left;" class="form-control" type="text"  name="espece" placeholder="Espèce à rechercher"/>                            
-                <ul style=" margin-left: 10px;">
-                    <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="1" type="checkbox" checked> Publique</li>
-                <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
-                <li style="display: inline; margin-left: 10px;"><input name="etat[]" value="0" type="checkbox"> Sensible</li>
-                </c:if>
-        </ul>                                
-        <span class="input-group-btn">
-            <button  style="margin-top: -8px; margin-bottom: 0px; max-height: 25px; padding-top: 3px;" onclick="rechercheSearch()" class="btn btn-primary btn-success" type="submit"><i class="fa fa-search"></i></button>
-        </span>
-        <a href="" class=" btn btn-default"><i class="fa fa-remove"></i></a>
-    </div>
-</div>                        
-</form>                    
-</div>-->
+                </div>                
                 <div class="container">
                     <div class="col-md-12 advance">
                         <div id="filter-panel" class="collapse filter-panel">
@@ -248,12 +208,7 @@
                                 </div>
                             </div>
                         </div>	
-                    </div>
-                    <!--                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-panel">-->
-                    <!--                    <button type="button" class="btn btn-primary" onclick="window.history.back();">
-                                            &nbsp;Page précédent
-                                        </button>
-                                        <p>&nbsp;</p>-->
+                    </div>                    
                 </div>
 
                 <div class="clearfix"></div>
@@ -261,46 +216,42 @@
                 <div class="col-md-4">
                     <div class="list-group panel">
 
-
-
                         <div class="panel-heading">
-                            <h6 class="grid-title" align="left"><i class="fa fa-filter"></i> FILTRER :</h6>
+                            <h6 class="grid-title" align="left"><i class="fa fa-filter"></i> <spring:message code="map.filter.label"/> :</h6>
                             <div class="clearfix"></div>
                             <div class="tabb">
                                 <!-- Tabs -->
                                 <ul class="nav panel-tabs">
-                                    <li class="active"><a href="#carto" data-toggle="tab">Carto</a></li>
-                                    <li><a href="#modele" data-toggle="tab">Modèle</a></li>
-                                    <li><a href="#tendance" data-toggle="tab">Tendance de population</a></li>
+                                    <li class="active"><a href="#carto" data-toggle="tab"><spring:message code="map.filter.map"/></a></li>
+                                    <li><a href="#modele" data-toggle="tab"><spring:message code="map.filter.model"/></a></li>
+                                    <li><a href="#tendance" data-toggle="tab"><spring:message code="map.filter.trend"/></a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="carto">
-                                    <a href="#carto" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-map-pin"></i> Species explorer  &nbsp;<i class="fa fa-caret-down"></i></a>
-                                    <div class="list-group-submenu" id="carto">
-                                        <!--<a ng-repeat="famille in familles" href="#"  class="list-group-item">-->
+                                    <a href="#carto" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-map-pin"></i> <spring:message code="map.cartography.s-explorer"/>  &nbsp;<i class="fa fa-caret-down"></i></a>
+                                    <div class="list-group-submenu" id="carto">                                        
                                         <div style=" margin-left: 5px;" class="row" ng-repeat="famille in familles" class="list-group-item">
                                             <input id="{{famille}}" type="checkbox" name="valeur[]" value="typeFamille-{{famille}}" ng-click="getGenre(famille)" >  {{famille}}
                                             <ul style="list-style-type:none; margin-left: 5px;" id="genre-{{famille}}"></ul>
                                         </div>
                                         <button style=" margin-bottom: 5px; color: white;" type="button" class="btn btn-primary form-control" onclick="addMarkersTaxonomi();">
-                                            Afficher
+                                            <spring:message code="map.cartography.s-explorer.show"/>
                                         </button>                                        
                                     </div>                                    
 
-                                    <a href="#lieu" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-map"></i> Localisation <i class="fa fa-caret-down"></i></a>
+                                    <a href="#lieu" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-map"></i> <spring:message code="map.cartography.location"/> <i class="fa fa-caret-down"></i></a>
                                     <div class="collapse list-group-submenu" id="lieu">
                                         <a class="list-group-item">
                                             <input id="pac-input" class="controls form-control" type="text" placeholder="Entrer le lieu a localiser">
                                         </a>
                                     </div>
 
-                                    <a href="#searchglobal" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-map"></i> Recherche globale <i class="fa fa-caret-down"></i></a>
+                                    <a href="#searchglobal" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-map"></i> <spring:message code="map.cartography.g-research"/> <i class="fa fa-caret-down"></i></a>
                                     <div class="collapse list-group-submenu" id="searchglobal">
-                                        <a class="list-group-item">
-                                            <!--<input class="controls form-control" type="text" placeholder="Saisir la recherche">-->
+                                        <a class="list-group-item">                                            
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <input class="controls form-control" id="rechercheGlobale" type="text" placeholder="Saisir la recherche">
@@ -311,7 +262,6 @@
                                             </div>
                                         </a>
                                     </div>
-
                                 </div>
 
                                 <div class="tab-pane" id="modele">
@@ -334,22 +284,11 @@
                                     <!-- END PAGINATION -->
                                 </div>                            
                                 <div class="tab-pane" id="tendance">
-                                    <!--                                    <a href="#mod" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse"><i class="fa fa-map-pin"></i> Liste modèles  &nbsp;<i class="fa fa-caret-down"></i></a>
-                                                                        <div style=" margin-left: 5px;" class="row" ng-cloak ng-repeat="famille in familles" class="list-group-item">
-                                                                            <input id="{{shp}}" type="checkbox" name="valeur[]" value="typeFamille-{{famille}}" ng-click="getGenre(famille)" >  {{famille}}
-                                                                            <ul style="list-style-type:none; margin-left: 5px;" id="genre-{{famille}}"></ul>
-                                                                        </div>
-                                                                        <button style=" margin-bottom: 5px; color: white;" type="button" class="btn btn-primary form-control" onclick="addMarkersTaxonomi();">
-                                                                            Afficher
-                                                                        </button>-->
+                                    tendance de population
                                 </div>
-
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
                 <style>
                     #map {
@@ -378,10 +317,10 @@
                             </div>
                         </div>
                         <div class="col-md-1">
-                            <a class="btn" title="map" onclick="mapMode();"><i class="fa fa-map-marker" style="width: 14px;"></i></a>
-                            <a class="btn" title="list" onclick="listMode();"><i class="fa fa-list"></i></a><br>                            
-                            <a class="btn" title="donwload list" onclick="downloadList();"><i class="fa fa-download"></i></a><br>
-                            <a class="btn" title="shapefiles" data-toggle='modal' data-target='#modal-shp'><i class="fa fa-area-chart" style="width: 14px;"></i></a>
+                            <a class="btn" title="<spring:message code="map.map-area.icone.map"/>" onclick="mapMode();"><i class="fa fa-map-marker" style="width: 14px;"></i></a>
+                            <a class="btn" title="<spring:message code="map.map-area.icone.list"/>" onclick="listMode();"><i class="fa fa-list"></i></a><br>                                                        
+                            <a class="btn" title="<spring:message code="map.map-area.icone.shapefiles"/>" data-toggle='modal' data-target='#modal-shp'><i class="fa fa-area-chart" style="width: 14px;"></i></a><br>
+                            <a class="btn" title="<spring:message code="map.map-area.icone.download"/>" onclick="downloadList();"><i class="fa fa-download"></i></a>
                         </div>
                     </div>
                 </div>                

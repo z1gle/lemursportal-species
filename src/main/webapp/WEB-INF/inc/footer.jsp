@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="clearfix"></div>
 <footer id="footer">
     <div class="container">
@@ -10,19 +11,19 @@
 
             <div class="col-md-2 animated fadeInUp" data-wow-delay="0.4s">
                 <ul>
-                    <li class="animated zoomIn"><a href="#">Accueil</a></li>
-                    <li class="animated zoomIn"><a href="#">Qui sommes-nous</a></li>
-                    <li class="animated zoomIn"><a href="#">Datapublication</a></li>
-                    <li class="animated zoomIn"><a href="#">Les experts</a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.home"/></a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.who_are_we"/></a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.data_publication"/></a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.experts"/></a></li>
                 </ul>
             </div>
 
             <div class="col-md-2 animated fadeInUp" data-wow-delay="0.4s">
                 <ul>
-                    <li class="animated zoomIn"><a href="#">Liens</a></li>
-                    <li class="animated zoomIn"><a href="#">Aide</a></li>
-                    <li class="animated zoomIn"><a href="#">Mentions légales</a></li>
-                    <li class="animated zoomIn"><a href="#">Contact</a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.link"/></a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.help"/></a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.legal_Notice"/></a></li>
+                    <li class="animated zoomIn"><a href="#"><spring:message code="footer.li.contact"/></a></li>
                 </ul>
             </div>
 

@@ -97,9 +97,11 @@ app.controller("modele", function ($scope, $http) {
             getall();
             $('#modal-add-edit-modele').modal('hide');
             $('#idModele').val(-1);
+            $('#modal-upload_spinner').modal('hide');
         }, function error(response) {
             $('#modal-alert').modal({backdrop: 'static'});
             $('#modal-add-edit-modele').modal('hide');
+            $('#modal-upload_spinner').modal('hide');
         });
     };
 
