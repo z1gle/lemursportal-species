@@ -124,154 +124,67 @@ app.controller("modele", function ($scope, $http) {
     };
 
     $scope.rechercher = function (page) {
-        if ($scope.recherchePagination === 1) {
+        $http({
+            method: 'GET',
+            url: 'modeles?champ=' + $('#rechercheGlobale').val() + '&page=' + page,
+            data: angular.toJson($scope.modele),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            $scope.modeles = response.data;
+            $("#loader-spinner").hide();
             $http({
                 method: 'GET',
-                url: 'rechercherGlobaleEspeceDcwPage?champ=' + $('#rechercheGlobale').val() + '&page=' + page,
-                data: angular.toJson($scope.modele),
+                url: 'modeles/total',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
             }).then(function success(response) {
-                $scope.liste = response.data;
-                paginer($scope.liste[0].total, 20, page);
-//            $('#pageEnCours').val(1);
+                paginer(response.data, 10, page);
             }, function error(response) {
                 console.log(response);
             });
-        } else {
-            var formData = new FormData();
-            var dwcs = $scope.modele.scientificname;
-            if (dwcs == undefined)
-                dwcs = null;
-
-            var etat = $('[name="etat[]"]');
-            var state = [];
-            var etatS = "";
-            var j = 0;
-            for (var i = 0; i < etat.length; i++) {
-                if (etat[i].checked == true) {
-                    state[j] = etat[i].value;
-                    j++;
-                    etatS += etat[i].value;
-                    if (i > 0) {
-                        etatS += "&etat[]=" + etat[i].value;
-                    }
-                }
-            }
-            var validationMine = parseInt($('[name="validationMine"]').val());
-            console.log(validationMine);
-            if (isNaN(validationMine))
-                validationMine = -999;
-
-            console.log(dwcs);
-            formData.append("dwcs", dwcs);
-            formData.append("page", page);
-
-            formData.append("validation", parseInt($('select[name=validation]').val()));
-            formData.append("etat[]", state);
-            formData.append("validationMine", validationMine);
-            formData.append("espece", $('input[name=espece]').val());
-
-            $http({
-                method: 'POST',
-                url: 'findByespeceDwcPaginatedSearch',
-                data: formData,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': undefined
-                }
-            }).then(function success(response) {
-                $scope.liste = response.data;
-                paginer($scope.liste[0].total, 20, page);
-//            $('#pageEnCours').val(page);
-//            $scope.recherche = $scope.modele.scientificname;
-            }, function error(response) {
-                console.log(response.statusText);
-            });
-        }
+        }, function error(response) {
+            console.log(response);
+        });
     };
 
     $scope.rechercherFin = function () {
-        console.log($scope.recherchePagination);
-        if ($scope.recherchePagination === 1) {
+        $http({
+            method: 'GET',
+            url: 'modeles?champ=' + $('#rechercheGlobale').val() + '&page=' + $('#pageFin').val(),
+            data: angular.toJson($scope.modele),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            $scope.modeles = response.data;
+            $("#loader-spinner").hide();
             $http({
                 method: 'GET',
-                url: 'rechercherGlobaleEspeceDcwPage?champ=' + $('#rechercheGlobale').val() + '&page=' + $('#pageFin').val(),
-                data: angular.toJson($scope.modele),
+                url: 'modeles/total',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
             }).then(function success(response) {
-                $scope.liste = response.data;
-                paginer($scope.liste[0].total, 20, $('#pageFin').val());
-//            $('#pageEnCours').val(1);
+                paginer(response.data, 10, $('#pageFin').val());
             }, function error(response) {
                 console.log(response);
             });
-        } else {
-            var formData = new FormData();
-//        var dwcs = angular.toJson($scope.modele);                
-//        var temp = dwcs.scientificName;
-            var dwcs = $scope.modele.scientificName;
-            if (dwcs == undefined)
-                dwcs = null;
-            console.log(dwcs);
-            console.log($('#pageFin').val());
-
-            var etat = $('[name="etat[]"]');
-            var state = [];
-            var etatS = "";
-            var j = 0;
-            for (var i = 0; i < etat.length; i++) {
-                if (etat[i].checked == true) {
-                    state[j] = etat[i].value;
-                    j++;
-                    etatS += etat[i].value;
-                    if (i > 0) {
-                        etatS += "&etat[]=" + etat[i].value;
-                    }
-                }
-            }
-            var validationMine = parseInt($('[name="validationMine"]').val());
-            console.log(validationMine);
-            if (isNaN(validationMine))
-                validationMine = -999;
-
-
-            formData.append("dwcs", dwcs);
-            formData.append("page", $('#pageFin').val());
-
-            formData.append("validation", parseInt($('select[name=validation]').val()));
-            formData.append("etat[]", state);
-            formData.append("validationMine", validationMine);
-            formData.append("espece", $('input[name=espece]').val());
-
-            $http({
-                method: 'POST',
-                url: 'findByespeceDwcPaginatedSearch',
-                data: formData,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': undefined
-                }
-            }).then(function success(response) {
-                $scope.liste = response.data;
-                paginer($scope.liste[0].total, 20, $('#pageFin').val());
-//            $('#pageEnCours').val($('#pageFin').val());
-                $scope.recherche = $scope.modele.scientificname;
-            }, function error(response) {
-                console.log(response.statusText);
-            });
-        }
+        }, function error(response) {
+            console.log(response);
+        });
     };
 
     $scope.rechercheGlobale = function () {
         $http({
             method: 'GET',
-            url: 'rechercherGlobaleEspeceDcw?champ=' + $('#rechercheGlobale').val(),
+            url: 'modeles?champ=' + $('#rechercheGlobale').val(),
             data: angular.toJson($scope.modele),
             headers: {
                 'Accept': 'application/json',

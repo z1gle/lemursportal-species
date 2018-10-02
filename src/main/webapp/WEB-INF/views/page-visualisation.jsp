@@ -265,23 +265,16 @@
                                 </div>
 
                                 <div class="tab-pane" id="modele">
-                                    <a href="#mod" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse"><i class="fa fa-map-pin"></i> Liste modèles  &nbsp;<i class="fa fa-caret-down"></i></a>
-                                    <button style="width: 100%;" class="btn" onclick="resetMap()">reset</button>
-                                    <div class="list-group-submenu" id="mod">
+                                    <a href="#mod" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse"><i class="fa fa-map-pin"></i> Liste modèles  &nbsp;<i class="fa fa-caret-down"></i></a>                                    
+                                    <input type="text" placeholder="<spring:message code="species.label.search"/>" class="form-control" ng-change="sort()" ng-model="filtreModele">
+                                    <div class="list-group-submenu" id="mod" style="max-height: 320px; overflow-x: hidden; overflow-y: auto;">
                                         <div style=" margin-left: 5px;" class="row" class="list-group-item">
-                                            <label style="display: block; font-weight: 400;" ng-repeat="modele in modeles">
+                                            <label style="display: block; font-weight: 400;" ng-repeat="modele in modelesSorted">
                                                 <input id="{{modele.id}}" name="md" type="radio" ng-click="changeLastUrlOverlay(modele.url)">  {{modele.name}}
                                             </label><br>
                                         </div>
                                     </div>
-                                    <!-- BEGIN PAGINATION -->
-                                    <ul class="pagination" style="margin: 0px;">
-                                        <li class="" id="previous"><a href="#" ng-click="rechercher(1)">«</a></li>                                        
-                                        <li><a href="#" ng-click="rechercher(temp)" ng-repeat="temp in pages">{{temp}}</a></li>
-                                        <li><a href="#"ng-click="rechercherFin()" id="next">»</a></li>
-                                        <input type="hidden" id="pageFin">
-                                    </ul>
-                                    <!-- END PAGINATION -->
+                                    <button style="width: 100%;" class="btn" onclick="resetMap()">reset</button>                                    
                                 </div>                            
                                 <div class="tab-pane" id="tendance">
                                     tendance de population
@@ -526,7 +519,7 @@
     function addOneKml(mark, cible) {
         var link = window.location.href;
         console.log(link);
-        var linkRoot = link.substring(0, link.lastIndexOf('/')+1);
+        var linkRoot = link.substring(0, link.lastIndexOf('/') + 1);
         var ctaLayer = new google.maps.KmlLayer({
             url: linkRoot + mark.link,
             map: map
@@ -585,6 +578,41 @@
             showOneKml(urls[i]);
         }
     }
+    // Event handler
+        // should be the right one
+    google.maps.event.addListener(kmlLayer, 'status_changed', function () {
+        if (kmlLayer.getStatus() == google.maps.KmlLayerStatus.OK) {
+            // Success
+        } else {
+            // Failure
+        }
+    });
+        //end of the supposed to be right
+    google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+        var coordinates = (polygon.getPath().getArray());
+        var latitude = "latitude=";
+        var longitude = "longitude=";
+        for (var i = 0; i < coordinates.length; i++) {
+            if (i === coordinates.length - 1) {
+                latitude += coordinates[i].lat();
+                longitude += coordinates[i].lng();
+            } else {
+                latitude += coordinates[i].lat() + '&latitude=';
+                longitude += coordinates[i].lng() + '&longitude=';
+            }
+        }
+
+        var markersPolygone = [];
+        var dwcPolygone = [];
+        getObservationFromDrawnPolygone(latitude, longitude, markersPolygone, dwcPolygone);
+        google.maps.event.addListener(polygon, 'click', function (event) {
+            hideMultipleMarker(markersPolygone);
+            hideMultipleDwc(dwcPolygone);
+            polygon.setMap(null);
+            makeTable();
+        });
+    });
+    // Fin event handler
     // Fin gestion kml et shp//
 
     // Traitement du tableau

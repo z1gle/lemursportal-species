@@ -118,7 +118,7 @@
                     %>
                     <a data-toggle='modal' data-target='#modal-add-edit-modele' href="#" title="add new modele" style="width: 3%; display: inline-block; float: left; margin-right: 2px;margin-top: 2px;" ng-click="ajouter()" class="btn"><i class="fa fa-plus"></i></a>
                         <%}%>
-                    <input ng-model="taxonomi.test" name="search" ng-keyup="$event.keyCode == 13 ? rechercher() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;margin-top: 5px;">                    
+                    <input ng-model="taxonomi.test" name="search" ng-keyup="$event.keyCode == 13 ? rechercher() : null" title="Research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;margin-top: 5px;">                    
                     <!-- End Stat -->                    
                 </div>                
                 <div class="row">

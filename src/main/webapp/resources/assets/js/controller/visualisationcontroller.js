@@ -6,10 +6,12 @@
 app.controller("darwin", function ($scope, $http) {
     $scope.familles = [];
     $scope.modeles = [];
+    $scope.modelesSorted = [];
     $scope.shp = [];
     getFamille();
     getModeles();
     getShp();
+    $scope.filtreModele;
 
     function getFamille() {
         $http({
@@ -44,13 +46,14 @@ app.controller("darwin", function ($scope, $http) {
     function getModeles() {
         $http({
             method: 'get',
-            url: 'modeles',
+            url: 'modeles?limite=-1',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         }).then(function success(response) {
             $scope.modeles = response.data;
+            $scope.modelesSorted = response.data;
         }, function error(response) {
             console.log(response);
         });
@@ -111,6 +114,20 @@ app.controller("darwin", function ($scope, $http) {
 
     $scope.changeLastUrlOverlay = function (url) {
         addOverlay(url);
+    };
+
+    $scope.sort = function () {
+       console.log("sort");
+       $scope.modelesSorted = [];
+       for(var i = 0; i < $scope.modeles.length; i++) {
+           console.log($scope.filtreModele);
+           if($scope.modeles[i].name.indexOf($scope.filtreModele) > -1) {
+               $scope.modelesSorted.push($scope.modeles[i]);
+           } else if($scope.filtreModele == '') {
+               $scope.modelesSorted = $scope.modeles;
+           }
+       }
+       console.log($scope.modelesSorted);
     };
 
 });

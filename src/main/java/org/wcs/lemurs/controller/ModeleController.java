@@ -74,10 +74,15 @@ public class ModeleController {
     
     @RequestMapping(value = "/modeles", method = RequestMethod.GET, headers = "Accept=application/json")
     public List<Modele> list(@RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "limite", required = false) Integer limite) throws Exception {        
+            @RequestParam(value = "limite", required = false) Integer limite,
+            @RequestParam(value = "champ", required = false) String champ) throws Exception {        
         if (page == null) page = 1;
         if (limite == null) limite = 10;
-        return (List<Modele>) (List<?>) baseService.findAll(new Modele(), page, limite);
+        Modele modele = new Modele();
+        if (champ != null && !champ.isEmpty()) {
+            modele.setName(champ);
+        }
+        return (List<Modele>) (List<?>) baseService.findAll(modele, page, limite);
     }
     
     @RequestMapping(value = "/modeles/total", method = RequestMethod.GET, headers = "Accept=application/json")
