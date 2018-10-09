@@ -1,0 +1,5 @@
+#####   Shapefiles  #############################
+1-Tous les composants du shapefiles doivent avoir le même nom.
+2-Tous les composants du shapefiles doivent être compressé sous format .zip.
+3-Le fichier .zip contenant les fichiers du shapefiles doit avoir le même nom que ces derniers.
+4-La colonne "nom" doit obligatoirement figuré dans le shapefile et les valeurs de ce colonne désigneront les noms des polygones dans le site web.

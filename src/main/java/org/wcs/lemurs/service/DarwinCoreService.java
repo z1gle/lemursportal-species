@@ -45,6 +45,7 @@ import org.wcs.lemurs.model.ValidationDarwinCore;
 import org.wcs.lemurs.model.VideoDarwinCore;
 import org.wcs.lemurs.model.json.Liste;
 import org.wcs.lemurs.modele_association.AssignationExpert;
+import org.wcs.lemurs.modele_association.AssociationDownloadInformationObservation;
 import org.wcs.lemurs.modele_association.AssociationNotificationsObservation;
 import org.wcs.lemurs.modele_association.HistoriqueStatus;
 import org.wcs.lemurs.modele_association.RoleUtilisateur;
@@ -65,78 +66,85 @@ public class DarwinCoreService extends MailService {
     private DarwinCoreDao darwinCoreDao;
 
     //LAT-LONG
-    List<double[]> terreMadagascar = new ArrayList<>();
+    List<double[]> terreMadagascarLeft = new ArrayList<>();
+    List<double[]> terreMadagascarRight = new ArrayList<>();
 
     public DarwinCoreService() {
-        terreMadagascar.add(new double[]{-17.977411, 49.553833});
-        terreMadagascar.add(new double[]{-25.107900, 47.189026});
-        terreMadagascar.add(new double[]{-25.562265, 45.703125});
-        terreMadagascar.add(new double[]{-25.641526, 45.175781});
-        terreMadagascar.add(new double[]{-25.373810, 44.692383});
-        terreMadagascar.add(new double[]{-25.344027, 44.307861});
-        terreMadagascar.add(new double[]{-25.045792, 43.989258});
-        terreMadagascar.add(new double[]{-24.676970, 43.879395});
-        terreMadagascar.add(new double[]{-24.357105, 43.648682});
-        terreMadagascar.add(new double[]{-23.563987, 43.593750});
-        terreMadagascar.add(new double[]{-23.019076, 43.374023});
-        terreMadagascar.add(new double[]{-22.030911, 43.154297});
-        terreMadagascar.add(new double[]{-21.657428, 43.330078});
-        terreMadagascar.add(new double[]{-21.268900, 43.494873});
-        terreMadagascar.add(new double[]{-21.217701, 43.769531});
-        terreMadagascar.add(new double[]{-20.756114, 43.901367});
-        terreMadagascar.add(new double[]{-19.951405, 44.450683});
-        terreMadagascar.add(new double[]{-19.766704, 44.346313});
-        terreMadagascar.add(new double[]{-19.435514, 44.428711});
-        terreMadagascar.add(new double[]{-19.051734, 44.176025});
-        terreMadagascar.add(new double[]{-18.791918, 44.208984});
-        terreMadagascar.add(new double[]{-18.375379, 43.978271});
-        terreMadagascar.add(new double[]{-17.748687, 43.978271});
-        terreMadagascar.add(new double[]{-17.476432, 43.879395});
-        terreMadagascar.add(new double[]{-16.627639, 44.411545});
-        terreMadagascar.add(new double[]{-16.152028, 44.375152});
-        terreMadagascar.add(new double[]{-16.183024, 44.846191});
-        terreMadagascar.add(new double[]{-15.903226, 45.225219});
-        terreMadagascar.add(new double[]{-15.421910, 46.538086});
-        terreMadagascar.add(new double[]{-14.689881, 47.416992});
-        terreMadagascar.add(new double[]{-13.581921, 47.776795});
-        terreMadagascar.add(new double[]{-13.154376, 48.208008});
-        terreMadagascar.add(new double[]{-12.358783, 48.672180});
-        terreMadagascar.add(new double[]{-11.872726, 49.262695});
-        terreMadagascar.add(new double[]{-13.052723, 50.020752});
-        terreMadagascar.add(new double[]{-15.268288, 50.520630});
-        terreMadagascar.add(new double[]{-15.725770, 50.419006});
-        terreMadagascar.add(new double[]{-16.045814, 50.202027});
-        terreMadagascar.add(new double[]{-15.876809, 49.976806});
-        terreMadagascar.add(new double[]{-15.665222, 49.910889});
-        terreMadagascar.add(new double[]{-15.543668, 49.806519});
-        terreMadagascar.add(new double[]{-15.591293, 49.652710});
-        terreMadagascar.add(new double[]{-15.910895, 49.768067});
-        terreMadagascar.add(new double[]{-16.086531, 49.748841});
-        terreMadagascar.add(new double[]{-16.230498, 49.905396});
-        terreMadagascar.add(new double[]{-16.736167, 50.064697});
-        terreMadagascar.add(new double[]{-17.164223, 49.839477});
+        terreMadagascarLeft.add(new double[]{-11.966838, 49.353167});
+        terreMadagascarLeft.add(new double[]{-12.439312, 48.825824});
+        terreMadagascarLeft.add(new double[]{-12.868090, 48.913714});
+        terreMadagascarLeft.add(new double[]{-13.424405, 48.781878});
+        terreMadagascarLeft.add(new double[]{-13.680735, 47.815082});
+        terreMadagascarLeft.add(new double[]{-14.703218, 47.375628});
+        terreMadagascarLeft.add(new double[]{-15.720935, 46.101214});
+        terreMadagascarLeft.add(new double[]{-16.227913, 44.431292});
+        terreMadagascarLeft.add(new double[]{-17.615281, 43.816058});
+        terreMadagascarLeft.add(new double[]{-19.945002, 44.387347});
+        terreMadagascarLeft.add(new double[]{-22.159477, 43.244769});
+        terreMadagascarLeft.add(new double[]{-24.379672, 43.640277});
+        terreMadagascarLeft.add(new double[]{-25.693562, 45.266253});
+
+        terreMadagascarRight.add(new double[]{-11.966838, 49.353167});
+        terreMadagascarRight.add(new double[]{-15.339869, 50.495746});
+        terreMadagascarRight.add(new double[]{-17.657160, 49.572894});
+        terreMadagascarRight.add(new double[]{-25.137875, 47.068011});
+        terreMadagascarRight.add(new double[]{-25.693562, 45.266253});
     }
 
     public boolean latLongIn(double lat, double lon) {
-        boolean right = false;
-        int index = 0;
-        double difference = lat - terreMadagascar.get(0)[0];
-        int i = 1;
-        while (i < terreMadagascar.size()) {
-            double temp = lat - terreMadagascar.get(i)[0];
-            if (java.lang.Math.abs(difference) < java.lang.Math.abs(temp)) {
-                difference = temp;
-                index = i;
+        boolean valiny = true;
+        double[] point = {lat, lon};
+        double temp = 999;
+        double tempSeconde = 999;
+        int first = 0;
+        int seconde = 0;
+        for (int i = 0; i < terreMadagascarLeft.size(); i++) {
+            if (java.lang.Math.abs(lat - terreMadagascarLeft.get(i)[0]) < java.lang.Math.abs(temp)) {
+                seconde = first;
+                first = i;
+                tempSeconde = temp;
+                temp = terreMadagascarLeft.get(i)[0];
+            } else if ((lat - terreMadagascarLeft.get(i)[0]) < java.lang.Math.abs(tempSeconde)) {
+                seconde = i;
+                tempSeconde = terreMadagascarLeft.get(i)[0];
             }
-            if (i == 33 && lon < terreMadagascar.get(index)[1]) {
-                return false;
+        }
+        if (situationX(terreMadagascarLeft.get(first), terreMadagascarLeft.get(seconde), point) == 0) {
+            return true;
+        } else if (situationX(terreMadagascarLeft.get(first), terreMadagascarLeft.get(seconde), point) < 0) {
+            return false;
+        }
+        temp = 999;
+        tempSeconde = 999;
+        first = 0;
+        seconde = 0;
+        for (int i = 0; i < terreMadagascarRight.size(); i++) {
+            if (java.lang.Math.abs(lat - terreMadagascarRight.get(i)[0]) < java.lang.Math.abs(temp)) {
+                seconde = first;
+                first = i;
+                tempSeconde = temp;
+                temp = terreMadagascarRight.get(i)[0];
+            } else if ((lat - terreMadagascarRight.get(i)[0]) < java.lang.Math.abs(tempSeconde)) {
+                seconde = i;
+                tempSeconde = terreMadagascarRight.get(i)[0];
             }
-            if (i == terreMadagascar.size() - 1 && lon > terreMadagascar.get(index)[1]) {
-                return false;
-            }
-            i++;
+        }
+        if (situationX(terreMadagascarRight.get(first), terreMadagascarRight.get(seconde), point) == 0) {
+            return true;
+        } else if (situationX(terreMadagascarRight.get(first), terreMadagascarRight.get(seconde), point) > 0) {
+            return false;
         }
         return true;
+    }
+
+    public int situationX(double[] p1, double[] p2, double[] point) {
+        double x = (point[0] - (p1[0] - (((p2[0] - p1[0]) / (p2[1] - p1[1])) * p1[1]))) / ((p2[0] - p1[0]) / (p2[1] - p1[1]));
+        if (point[1] < x) {
+            return -1;
+        } else if (point[1] > x) {
+            return 1;
+        }
+        return 0;
     }
 
     public DarwinCore findById(int iddwc) throws Exception {
@@ -191,14 +199,14 @@ public class DarwinCoreService extends MailService {
                 System.err.println("Le scientificname est fausse. Elle doit au moins contenir 2 mots et ainsi de suite");
             }
         }
-        
+
         if (dw.getDecimallatitude() != null) {
             String temp = dw.getDecimallatitude();
             temp = temp.replace(',', '.');
             temp = temp.replace(" ", "");
             dw.setDecimallatitude(temp);
         }
-        
+
         if (dw.getDecimallongitude() != null) {
             String temp = dw.getDecimallongitude();
             temp = temp.replace(',', '.');
@@ -1438,6 +1446,9 @@ public class DarwinCoreService extends MailService {
             ValidationDarwinCore vdc = new ValidationDarwinCore();
             vdc.setIdDarwinCore(dwc.getId());
             List<ValidationDarwinCore> listeVdcToDelete = (List<ValidationDarwinCore>) (List<?>) super.findAll(session, vdc, -1, -1);
+            AssociationDownloadInformationObservation adio = new AssociationDownloadInformationObservation();
+            adio.setIdObservation(dwc.getId());
+            List<AssociationDownloadInformationObservation> listAdio = (List<AssociationDownloadInformationObservation>) (List<?>) super.findAll(session, adio, -1, -1);
             PhotoDarwinCore pdc = new PhotoDarwinCore();
             pdc.setIdDarwinCore(dwc.getId());
             List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>) (List<?>) super.findAll(session, pdc, -1, -1);
@@ -1452,6 +1463,11 @@ public class DarwinCoreService extends MailService {
             List<HistoriqueStatus> listeHs = (List<HistoriqueStatus>) (List<?>) super.findAll(session, hs, -1, -1);
 
             tr = session.beginTransaction();
+            if (!listAdio.isEmpty()) {
+                for (AssociationDownloadInformationObservation v : listAdio) {
+                    super.delete(session, v);
+                }
+            }
             if (!listeVdcToDelete.isEmpty()) {
                 for (ValidationDarwinCore v : listeVdcToDelete) {
                     super.delete(session, v);
@@ -1496,6 +1512,9 @@ public class DarwinCoreService extends MailService {
             ValidationDarwinCore vdc = new ValidationDarwinCore();
             vdc.setIdDarwinCore(dwc.getId());
             List<ValidationDarwinCore> listeVdcToDelete = (List<ValidationDarwinCore>) (List<?>) super.findAll(session, vdc, -1, -1);
+            AssociationDownloadInformationObservation adio = new AssociationDownloadInformationObservation();
+            adio.setIdObservation(dwc.getId());
+            List<AssociationDownloadInformationObservation> listAdio = (List<AssociationDownloadInformationObservation>) (List<?>) super.findAll(session, adio, -1, -1);
             PhotoDarwinCore pdc = new PhotoDarwinCore();
             pdc.setIdDarwinCore(dwc.getId());
             List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>) (List<?>) super.findAll(session, pdc, -1, -1);
@@ -1509,6 +1528,11 @@ public class DarwinCoreService extends MailService {
             hs.setIdDwc(dwc.getId());
             List<HistoriqueStatus> listeHs = (List<HistoriqueStatus>) (List<?>) super.findAll(session, hs, -1, -1);
 
+            if (!listAdio.isEmpty()) {
+                for (AssociationDownloadInformationObservation v : listAdio) {
+                    super.delete(session, v);
+                }
+            }
             if (!listeVdcToDelete.isEmpty()) {
                 for (ValidationDarwinCore v : listeVdcToDelete) {
                     super.delete(session, v);
@@ -1706,7 +1730,6 @@ public class DarwinCoreService extends MailService {
         return valiny;
     }
 
-    
     public List<VueValidationDarwinCore> findAllByid(List<Integer> ids) throws Exception {
         Session session = null;
         List<VueValidationDarwinCore> valiny = new ArrayList<>();
