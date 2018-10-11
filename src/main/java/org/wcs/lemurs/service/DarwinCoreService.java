@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,47 +67,55 @@ public class DarwinCoreService extends MailService {
     private DarwinCoreDao darwinCoreDao;
 
     //LAT-LONG
-    List<double[]> terreMadagascarLeft = new ArrayList<>();
-    List<double[]> terreMadagascarRight = new ArrayList<>();
+    List<BigDecimal[]> terreMadagascarLeft = new ArrayList<>();
+    List<BigDecimal[]> terreMadagascarRight = new ArrayList<>();
 
     public DarwinCoreService() {
-        terreMadagascarLeft.add(new double[]{-11.966838, 49.353167});
-        terreMadagascarLeft.add(new double[]{-12.439312, 48.825824});
-        terreMadagascarLeft.add(new double[]{-12.868090, 48.913714});
-        terreMadagascarLeft.add(new double[]{-13.424405, 48.781878});
-        terreMadagascarLeft.add(new double[]{-13.680735, 47.815082});
-        terreMadagascarLeft.add(new double[]{-14.703218, 47.375628});
-        terreMadagascarLeft.add(new double[]{-15.720935, 46.101214});
-        terreMadagascarLeft.add(new double[]{-16.227913, 44.431292});
-        terreMadagascarLeft.add(new double[]{-17.615281, 43.816058});
-        terreMadagascarLeft.add(new double[]{-19.945002, 44.387347});
-        terreMadagascarLeft.add(new double[]{-22.159477, 43.244769});
-        terreMadagascarLeft.add(new double[]{-24.379672, 43.640277});
-        terreMadagascarLeft.add(new double[]{-25.693562, 45.266253});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-11.966838), BigDecimal.valueOf(49.353167)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-12.439312), BigDecimal.valueOf(48.825824)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-12.868090), BigDecimal.valueOf(48.913714)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-13.424405), BigDecimal.valueOf(48.781878)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-13.680735), BigDecimal.valueOf(47.815082)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-14.703218), BigDecimal.valueOf(47.375628)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-15.720935), BigDecimal.valueOf(46.101214)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-16.227913), BigDecimal.valueOf(44.431292)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-17.615281), BigDecimal.valueOf(43.816058)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-19.945002), BigDecimal.valueOf(44.387347)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-22.159477), BigDecimal.valueOf(43.244769)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-24.379672), BigDecimal.valueOf(43.640277)});
+        terreMadagascarLeft.add(new BigDecimal[]{BigDecimal.valueOf(-25.693562), BigDecimal.valueOf(45.266253)});
 
-        terreMadagascarRight.add(new double[]{-11.966838, 49.353167});
-        terreMadagascarRight.add(new double[]{-15.339869, 50.495746});
-        terreMadagascarRight.add(new double[]{-17.657160, 49.572894});
-        terreMadagascarRight.add(new double[]{-25.137875, 47.068011});
-        terreMadagascarRight.add(new double[]{-25.693562, 45.266253});
+        terreMadagascarRight.add(new BigDecimal[]{BigDecimal.valueOf(-11.966838), BigDecimal.valueOf(49.353167)});
+        terreMadagascarRight.add(new BigDecimal[]{BigDecimal.valueOf(-15.339869), BigDecimal.valueOf(50.495746)});
+        terreMadagascarRight.add(new BigDecimal[]{BigDecimal.valueOf(-17.657160), BigDecimal.valueOf(49.572894)});
+        terreMadagascarRight.add(new BigDecimal[]{BigDecimal.valueOf(-25.137875), BigDecimal.valueOf(47.068011)});
+        terreMadagascarRight.add(new BigDecimal[]{BigDecimal.valueOf(-25.693562), BigDecimal.valueOf(45.266253)});
     }
 
-    public boolean latLongIn(double lat, double lon) {
-        boolean valiny = true;
-        double[] point = {lat, lon};
-        double temp = 999;
-        double tempSeconde = 999;
+    public boolean latLongIn(double latitude, double longitude) {
+        BigDecimal lat = BigDecimal.valueOf(latitude);
+        BigDecimal lon = BigDecimal.valueOf(longitude);
+        BigDecimal[] point = {lat, lon};
+        BigDecimal temp = BigDecimal.valueOf(999);
+        BigDecimal tempSeconde = BigDecimal.valueOf(999);
         int first = 0;
         int seconde = 0;
+        if (lat.abs().compareTo(terreMadagascarLeft.get(0)[0].abs()) < 0) {
+            return false;
+        }
+        if (lat.abs().compareTo(terreMadagascarLeft.get(12)[0].abs()) > 0) {
+            return false;
+        }
         for (int i = 0; i < terreMadagascarLeft.size(); i++) {
-            if (java.lang.Math.abs(lat - terreMadagascarLeft.get(i)[0]) < java.lang.Math.abs(temp)) {
+            BigDecimal difference = lat.subtract(terreMadagascarLeft.get(i)[0]).abs();
+            if (difference.compareTo(temp.abs()) < 0) {
                 seconde = first;
                 first = i;
                 tempSeconde = temp;
-                temp = terreMadagascarLeft.get(i)[0];
-            } else if ((lat - terreMadagascarLeft.get(i)[0]) < java.lang.Math.abs(tempSeconde)) {
+                temp = difference;
+            } else if (difference.compareTo(tempSeconde.abs()) < 0) {
                 seconde = i;
-                tempSeconde = terreMadagascarLeft.get(i)[0];
+                tempSeconde = difference;
             }
         }
         if (situationX(terreMadagascarLeft.get(first), terreMadagascarLeft.get(seconde), point) == 0) {
@@ -114,19 +123,20 @@ public class DarwinCoreService extends MailService {
         } else if (situationX(terreMadagascarLeft.get(first), terreMadagascarLeft.get(seconde), point) < 0) {
             return false;
         }
-        temp = 999;
-        tempSeconde = 999;
+        temp = BigDecimal.valueOf(999);
+        tempSeconde = BigDecimal.valueOf(999);
         first = 0;
         seconde = 0;
         for (int i = 0; i < terreMadagascarRight.size(); i++) {
-            if (java.lang.Math.abs(lat - terreMadagascarRight.get(i)[0]) < java.lang.Math.abs(temp)) {
+            BigDecimal difference = lat.subtract(terreMadagascarRight.get(i)[0]).abs();
+            if (difference.compareTo(temp.abs()) < 0) {
                 seconde = first;
                 first = i;
                 tempSeconde = temp;
-                temp = terreMadagascarRight.get(i)[0];
-            } else if ((lat - terreMadagascarRight.get(i)[0]) < java.lang.Math.abs(tempSeconde)) {
+                temp = difference;
+            } else if (difference.compareTo(tempSeconde.abs()) < 0) {
                 seconde = i;
-                tempSeconde = terreMadagascarRight.get(i)[0];
+                tempSeconde = difference;
             }
         }
         if (situationX(terreMadagascarRight.get(first), terreMadagascarRight.get(seconde), point) == 0) {
@@ -137,11 +147,11 @@ public class DarwinCoreService extends MailService {
         return true;
     }
 
-    public int situationX(double[] p1, double[] p2, double[] point) {
-        double x = (point[0] - (p1[0] - (((p2[0] - p1[0]) / (p2[1] - p1[1])) * p1[1]))) / ((p2[0] - p1[0]) / (p2[1] - p1[1]));
-        if (point[1] < x) {
+    public int situationX(BigDecimal[] p1, BigDecimal[] p2, BigDecimal[] point) {
+        BigDecimal x = point[0].subtract(p1[0].subtract(p2[0].subtract(p1[0]).divide(p2[1].subtract(p1[1]), 6).multiply(p1[1]))).divide(p2[0].subtract(p1[0]).divide(p2[1].subtract(p1[1]), 6), 6);
+        if (point[1].compareTo(x) < 0) {
             return -1;
-        } else if (point[1] > x) {
+        } else if (point[1].compareTo(x) > 0) {
             return 1;
         }
         return 0;
