@@ -1459,6 +1459,9 @@ public class DarwinCoreService extends MailService {
             AssociationDownloadInformationObservation adio = new AssociationDownloadInformationObservation();
             adio.setIdObservation(dwc.getId());
             List<AssociationDownloadInformationObservation> listAdio = (List<AssociationDownloadInformationObservation>) (List<?>) super.findAll(session, adio, -1, -1);
+            AssociationNotificationsObservation ano = new AssociationNotificationsObservation();
+            ano.setIdObservation(dwc.getId());
+            List<AssociationNotificationsObservation> listAno = (List<AssociationNotificationsObservation>) (List<?>) super.findAll(session, ano, -1, -1);
             PhotoDarwinCore pdc = new PhotoDarwinCore();
             pdc.setIdDarwinCore(dwc.getId());
             List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>) (List<?>) super.findAll(session, pdc, -1, -1);
@@ -1475,6 +1478,11 @@ public class DarwinCoreService extends MailService {
             tr = session.beginTransaction();
             if (!listAdio.isEmpty()) {
                 for (AssociationDownloadInformationObservation v : listAdio) {
+                    super.delete(session, v);
+                }
+            }
+            if (!listAno.isEmpty()) {
+                for (AssociationNotificationsObservation v : listAno) {
                     super.delete(session, v);
                 }
             }
@@ -1525,6 +1533,9 @@ public class DarwinCoreService extends MailService {
             AssociationDownloadInformationObservation adio = new AssociationDownloadInformationObservation();
             adio.setIdObservation(dwc.getId());
             List<AssociationDownloadInformationObservation> listAdio = (List<AssociationDownloadInformationObservation>) (List<?>) super.findAll(session, adio, -1, -1);
+            AssociationNotificationsObservation ano = new AssociationNotificationsObservation();
+            ano.setIdObservation(dwc.getId());
+            List<AssociationNotificationsObservation> listAno = (List<AssociationNotificationsObservation>) (List<?>) super.findAll(session, ano, -1, -1);
             PhotoDarwinCore pdc = new PhotoDarwinCore();
             pdc.setIdDarwinCore(dwc.getId());
             List<PhotoDarwinCore> listePdc = (List<PhotoDarwinCore>) (List<?>) super.findAll(session, pdc, -1, -1);
@@ -1540,6 +1551,11 @@ public class DarwinCoreService extends MailService {
 
             if (!listAdio.isEmpty()) {
                 for (AssociationDownloadInformationObservation v : listAdio) {
+                    super.delete(session, v);
+                }
+            }
+            if (!listAno.isEmpty()) {
+                for (AssociationNotificationsObservation v : listAno) {
                     super.delete(session, v);
                 }
             }
