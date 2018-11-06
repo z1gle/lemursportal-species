@@ -68,14 +68,21 @@ public class UtilisateurService extends DarwinCoreService {
                 for (RoleUtilisateur v : toDelete) {
                     delete(session, v);
                 }
+                session.flush();
+                session.clear();
             }
             if (!toSave.isEmpty()) {
                 for (RoleUtilisateur v : toSave) {
                     save(session, v);
                 }
+                session.flush();
+                session.clear();
             }
             tr.commit();
         } catch (Exception ex) {
+            if (tr != null) {
+                tr.rollback();
+            }
             throw ex;
         } finally {
             if (session != null) {

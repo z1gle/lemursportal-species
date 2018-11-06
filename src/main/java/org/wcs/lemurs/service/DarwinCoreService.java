@@ -486,21 +486,21 @@ public class DarwinCoreService extends MailService {
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
             parameter.add(MailService.formatterDarwinCore(a.getEspece()));
-            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where scientificname = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
+            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where scientificname ilike :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
         }
         if ((a.getGenre() != null && !a.getGenre().isEmpty()) && (a.getEspece() == null || a.getEspece().isEmpty()) && (a.getFamille() == null || a.getFamille().isEmpty())) {
             List<String> name = new ArrayList<>();
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
             parameter.add(MailService.formatterDarwinCore(a.getGenre()));
-            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where genus = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
+            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where genus ilike :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
         }
         if ((a.getEspece() == null || a.getEspece().isEmpty()) && (a.getGenre() == null || a.getGenre().isEmpty()) && (a.getFamille() != null && !a.getFamille().isEmpty())) {
             List<String> name = new ArrayList<>();
             name.add("sn");
             List<Object> parameter = new ArrayList<>();
             parameter.add(MailService.formatterDarwinCore(a.getFamille()));
-            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where family = :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
+            return (List<VueValidationDarwinCore>) (List<?>) this.executeSqlListBaseModel(session, "select * from vue_validation_darwin_core where family ilike :sn and annee = true and collecteur = true and accepted_speces = true and gps = true", name, parameter, new VueValidationDarwinCore());
         } else {
             return null;
         }
