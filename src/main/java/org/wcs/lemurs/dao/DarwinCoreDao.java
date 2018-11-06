@@ -442,12 +442,30 @@ public class DarwinCoreDao extends HibernateDao {
                         }
                         if (genre.isEmpty()) {
                             genre.add("null");
+                        } else {
+                            int size = genre.size();
+                            for(int i = 0; i < size; i++) {
+                                genre.add(genre.get(i).toUpperCase());
+                                genre.add(genre.get(i).toLowerCase());
+                            }
                         }
                         if (espece.isEmpty()) {
                             espece.add("null");
+                        } else {
+                            int size = espece.size();
+                            for(int i = 0; i < size; i++) {
+                                espece.add(espece.get(i).toUpperCase());
+                                espece.add(espece.get(i).toLowerCase());
+                            }
                         }
                         if (famille.isEmpty()) {
                             famille.add("null");
+                        } else {
+                            int size = famille.size();
+                            for(int i = 0; i < size; i++) {
+                                famille.add(famille.get(i).toUpperCase());
+                                famille.add(famille.get(i).toLowerCase());
+                            }
                         }
 
                         Criterion rest3 = Restrictions.in("genus", genre);
@@ -516,12 +534,30 @@ public class DarwinCoreDao extends HibernateDao {
                         }
                         if (genre.isEmpty()) {
                             genre.add("null");
+                        } else {
+                            int size = genre.size();
+                            for(int i = 0; i < size; i++) {
+                                genre.add(genre.get(i).toUpperCase());
+                                genre.add(genre.get(i).toLowerCase());
+                            }
                         }
                         if (espece.isEmpty()) {
                             espece.add("null");
+                        } else {
+                            int size = espece.size();
+                            for(int i = 0; i < size; i++) {
+                                espece.add(espece.get(i).toUpperCase());
+                                espece.add(espece.get(i).toLowerCase());
+                            }
                         }
                         if (famille.isEmpty()) {
                             famille.add("null");
+                        } else {
+                            int size = famille.size();
+                            for(int i = 0; i < size; i++) {
+                                famille.add(famille.get(i).toUpperCase());
+                                famille.add(famille.get(i).toLowerCase());
+                            }
                         }
 
                         Criterion rest3 = Restrictions.in("genus", genre);
