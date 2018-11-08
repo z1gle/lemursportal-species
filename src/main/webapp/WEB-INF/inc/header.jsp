@@ -52,7 +52,7 @@
                         <li><a onclick="window.location = 'taxonomi'" href="taxonomi"><spring:message code="header.label.species"/></a></li>
                         <li><a onclick="window.location = 'darwinportal'" href="darwinportal"><spring:message code="header.label.observations"/></a></li>
                         <li><a onclick="window.location = 'visualisation'" href="visualisation"><spring:message code="header.label.map"/></a></li>
-                        <li><a onclick="window.location = '/forum/experts/'" href="/forum/experts/"><spring:message code="header.label.experts"/></a></li>                        
+                        <li><a onclick="window.location = '/forum_test/experts/'" href="/forum_test/experts/"><spring:message code="header.label.experts"/></a></li>                        
 
                         <c:if test="${role10001 == 10001}">
                             <!--<li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>-->
@@ -98,7 +98,7 @@
                                     function logout() {
                                         $.ajax({
                                             type: 'post',
-                                            url: 'https://www.lemursportal.org/forum/logout',
+                                            url: 'https://www.lemursportal.org/forum_test/logout',
                                             success: function (json) {
                                                 window.location = 'logout';
                                             }
@@ -108,7 +108,7 @@
                         </c:if>
                         <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
                             <!--                            <li><a onclick="window.location = 'http://localhost:8085/LemursPortal-web/login'" href="http://localhost:8085/LemursPortal-web/login">Se connecter</a></li>-->
-                            <li><a onclick="window.location = 'https://www.lemursportal.org/forum/login'" href="https://www.lemursportal.org/forum/login">Se connecter</a></li>
+                            <li><a onclick="window.location = 'https://www.lemursportal.org/forum_test/login'" href="https://www.lemursportal.org/forum_test/login">Se connecter</a></li>
                             </c:if>
                         <li class="dropdown language" id="lang-select"><a
                                 href="#"
