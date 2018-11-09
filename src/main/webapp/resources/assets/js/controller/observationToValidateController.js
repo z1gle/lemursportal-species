@@ -55,6 +55,29 @@ app.controller("darwin", function ($scope, $http) {
             $("#loader-spinner").hide();
         });
     }
+    
+    $scope.ffv = function () {
+        $http({
+            method: 'POST',
+            url: 'findForValidation',
+            data: {
+                validationexpert: -1
+            },
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            $scope.liste = response.data;
+            $scope.recherche = $scope.darwin.scientificname;
+            paginer($scope.liste[0].total, 20, 1);
+            $scope.recherchePagination = 0;
+            $("#loader-spinner").hide();
+        }, function error(response) {
+            console.log(response.statusText);
+            $("#loader-spinner").hide();
+        });
+    }
 
     $scope.rechercher = function (page) {
         $http({

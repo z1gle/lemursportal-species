@@ -261,13 +261,7 @@ public class DarwinCoreService extends MailService {
             }
             if (dw.getScientificname() != null && !dw.getScientificname().isEmpty()) {
                 String low = dw.getScientificname().toLowerCase();
-                String[] listLow = low.split(" ");
-                low = "";
-                for (String s : listLow) {
-                    s = s.substring(0, 1).toUpperCase() + s.substring(1);
-                    low += s + " ";
-                }
-                low = low.substring(0, low.length() - 1);
+                low = low.substring(0, 1).toUpperCase() + low.substring(1);
                 dw.setScientificname(formatterDarwinCore(low));
             }
         } catch (Exception ex) {

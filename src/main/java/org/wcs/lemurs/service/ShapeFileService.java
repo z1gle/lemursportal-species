@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -224,6 +225,82 @@ public class ShapeFileService extends BaseService {
         farany.put("absolutePath", valiny);
         farany.put("link", valiny.replace("\\", "/").substring(valiny.indexOf("resources")));
         return farany;
+    }
+
+    public List<HashMap<String, List<Double>>> getGeoLocation(String tableName, List<Integer> gids, double gisSimplificationTolerance) throws Exception {
+        ShpInfo shp = new ShpInfo();
+        shp.setShapeTable(tableName);
+
+        List<HashMap<String, List<Double>>> valiny = new ArrayList<>();
+
+        Session session = null;
+        try {
+            session = super.getHibernateDao().getSessionFactory().openSession();
+            try {
+                shp = (ShpInfo) super.findAll(shp).get(0);
+            } catch (NullPointerException npe) {
+                throw new Exception("Impossible de trouver le fichier shp dans la base de donnée");
+            }
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT ")
+                    .append(shp.getNomChampGid()).append(" as ").append(KmlService.KML_GID_NAME).append(", ")
+                    .append(shp.getShapeLabel()).append(" as ").append(KmlService.KML_LABEL_NAME)
+                    .append(", ST_AsKML(CAST(ST_Simplify(").append(shp.getNomChampGeometrique()).append(", :tolerance) as varchar)) as gisAsKmlResult ");
+            sql.append(" FROM ").append(tableName)
+                    .append(" WHERE ").append(shp.getNomChampGid()).append(" IN (");
+
+            String tolerance = NUMBER_FORMAT.format(gisSimplificationTolerance);
+            tolerance = tolerance.replace(',', '_');
+            StringBuilder fileNameSuffix = new StringBuilder();
+            fileNameSuffix.append(tolerance).append("_")
+                    .append(gids.size());
+            int idx = 0;
+            for (Integer gid : gids) {//on prefère utilise des OR plutot que un IN
+                if (idx > 0) {
+                    sql.append(",");
+                }
+                sql.append(gid);
+                fileNameSuffix.append(gid);
+                idx++;
+            }
+            sql.append(") ");
+            SQLQuery sqlQuery = session.createSQLQuery(sql.toString());
+            sqlQuery.setDouble("tolerance", gisSimplificationTolerance);
+            sqlQuery.addScalar(KmlService.KML_GID_NAME);
+            sqlQuery.addScalar(KmlService.KML_LABEL_NAME);
+            sqlQuery.addScalar("gisAsKmlResult");
+            sqlQuery.setResultTransformer(Transformers.aliasToBean(Kml.class));
+            List<Kml> kmlDbRows = sqlQuery.list();
+            for (Kml kml : kmlDbRows) {
+                HashMap<String, List<Double>> elementValiny = new HashMap<>();
+                String[] point = kml.getGisAsKmlResult().split(" ");
+                List<Double> longitude = new ArrayList<>();
+                List<Double> latitude = new ArrayList<>();
+                for (String s : point) {
+                    String[] sTemp = s.split(",");
+                    if (sTemp[0].contains(">")) {
+                        longitude.add(Double.valueOf(sTemp[0].substring(sTemp[0].lastIndexOf(">") + 1)));
+                    } else {
+                        longitude.add(Double.valueOf(sTemp[0]));
+                    }
+                    if (sTemp[1].contains("<")) {
+                        latitude.add(Double.valueOf(sTemp[1].substring(0, sTemp[1].indexOf("<"))));
+                    } else {
+                        latitude.add(Double.valueOf(sTemp[1]));
+                    }
+                }
+                elementValiny.put("latitude", latitude);
+                elementValiny.put("longitude", longitude);
+                valiny.add(elementValiny);
+            }
+            return valiny;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     private void writeKmlFile(String kml, String filePath, String fileName) throws IOException {

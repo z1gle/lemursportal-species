@@ -235,7 +235,7 @@
                                 success: function (json) {
                                     if(json.etat == 1) {
                                         console.log(json.etat);
-                                        angular.element('#controller').scope().getalls();
+                                        angular.element('#controller').scope().ffv();
                                         angular.element('#controller').scope().$apply();
 //                                        window.location = 'profil';
                                     }

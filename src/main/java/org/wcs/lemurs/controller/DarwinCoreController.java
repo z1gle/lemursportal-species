@@ -100,7 +100,7 @@ public class DarwinCoreController {
             vdc = ((List<ValidationDarwinCore>) (List<?>) darwinCoreService.findMultiCritere(vdc)).get(0);
             if (vdc.getValidationExpert() == null || vdc.getValidationExpert() < 1) {
                 if (!vdc.isAcceptedSpeces()) {
-                    remarques.add("Accepted speces à vérifier");
+                    remarques.add("Scientific name à vérifier");
                 }
                 if (!vdc.isAnnee()) {
                     remarques.add("Année à vérifier");
@@ -936,9 +936,21 @@ public class DarwinCoreController {
     }
 
     @RequestMapping(value = "/visualisation")
-    public ModelAndView visualisation(HttpSession session
-    ) {
+    public ModelAndView visualisation(HttpSession session) {
         ModelAndView val = new ModelAndView("page-visualisation");
+        Integer expert = -1;
+        Utilisateur u;
+        try {
+            u = (Utilisateur) session.getAttribute("utilisateur");
+            if (darwinCoreService.checkRole(u, ROLE_EXPERT)) {
+                expert = 0;
+            }
+        } catch (NullPointerException npe) {
+
+        } catch (Exception ex) {
+            Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        val.addObject("expert", expert);
         return val;
     }
 

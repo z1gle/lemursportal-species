@@ -49,7 +49,17 @@ public class LoginController {
         try {
             Utilisateur val = new Utilisateur();
             val.setEmail(login);
-            val = (Utilisateur) autentificationService.findMultiCritere(val).get(0);
+            List<Utilisateur> listTemp = (List<Utilisateur>) (List<?>) autentificationService.findMultiCritere(val);
+            int index = 0;
+            if (listTemp.size() > 1) {
+                for (int i = 0; i < listTemp.size(); i++) {
+                    if (listTemp.get(i).getEmail().compareTo(login) == 0) {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            val = (Utilisateur) autentificationService.findMultiCritere(val).get(index);
 //            System.out.println(bCryptPasswordEncoder.matches(pw, val.getMotdepasse()));
             if (!bCryptPasswordEncoder.matches(pw, val.getMotdepasse())) {
                 return new ModelAndView("login");
@@ -62,7 +72,7 @@ public class LoginController {
             VueRoleUtilisateur vru = new VueRoleUtilisateur();
             vru.setIdUtilisateur(val.getId());
             List<VueRoleUtilisateur> roles = (List<VueRoleUtilisateur>) (List<?>) autentificationService.findMultiCritere(vru);
-            for (VueRoleUtilisateur v : roles) {                
+            for (VueRoleUtilisateur v : roles) {
                 session.setAttribute("role" + Integer.toString(v.getIdRole()), v.getIdRole());
             }
             return valiny;

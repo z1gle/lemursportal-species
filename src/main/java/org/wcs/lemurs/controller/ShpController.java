@@ -5,11 +5,13 @@
  */
 package org.wcs.lemurs.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.Kml;
 import org.wcs.lemurs.model.ShpInfo;
 import org.wcs.lemurs.model.Utilisateur;
+import org.wcs.lemurs.service.DarwinCoreService;
 import org.wcs.lemurs.service.ShapeFileService;
 
 /**
@@ -30,11 +34,14 @@ import org.wcs.lemurs.service.ShapeFileService;
  */
 @RestController
 public class ShpController {
-    
+
     @Autowired(required = true)
     @Qualifier("shapeFileService")
     private ShapeFileService shpService;
-    
+    @Autowired(required = true)
+    @Qualifier("darwinCoreService")
+    private DarwinCoreService darwinCoreService;
+
     @GetMapping(value = "gestionShp")
     public ModelAndView darwinportal(HttpSession session) {
         ModelAndView valiny = new ModelAndView("shp");
@@ -46,22 +53,22 @@ public class ShpController {
                 showAddButton = 0;
             }
         } catch (NullPointerException npe) {
-            
+
         } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
         valiny.addObject("showAddButton", showAddButton);
         return valiny;
     }
-    
+
     @PostMapping(value = "shp")
     public HashMap<String, Object> save(HttpSession session,
             @RequestParam MultipartFile shapefile,
             //            @RequestParam Integer categorie,
             @RequestParam(required = false) String shapeLabel) {
-        
+
         HashMap<String, Object> response = new HashMap<>();
-        
+
         try {
             Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
             if (!shpService.checkRole(u, BaseController.ROLE_ADMINISTRATEUR) && !shpService.checkRole(u, BaseController.ROLE_MODERATEUR)) {
@@ -127,14 +134,27 @@ public class ShpController {
     public List<Kml> kml(@RequestParam Integer idShp) throws Exception {
         return shpService.findAllKML(idShp);
     }
-    
+
     @GetMapping(value = "/kmls/overlay", headers = "Accept=application/json")
     public Map<String, String> kmlOverlay(@RequestParam String tableName,
             @RequestParam List<Integer> gids,
             HttpSession session) throws Exception {
         return shpService.getKmlFile(tableName, gids, 0.01, session.getServletContext().getRealPath("/resources/assets/modele/kml/"));
     }
-    
+
+    @GetMapping(value = "/kmls/placemarks", headers = "Accept=application/json")
+    public List<DarwinCore> kmlPlacemark(@RequestParam String tableName,
+            @RequestParam List<Integer> gids,
+            HttpSession session) throws Exception {
+        List<HashMap<String, List<Double>>> listPoints = shpService.getGeoLocation(tableName, gids, 0.01);
+        List<DarwinCore> valiny = new ArrayList<>();
+        for (HashMap<String, List<Double>> hm : listPoints) {
+            valiny.addAll(darwinCoreService.getDarwinCoreDao().findByLatLong((List<Double>) hm.get("latitude"), (List<Double>) hm.get("longitude")));
+        }
+        List<DarwinCore> farany = valiny.stream().distinct().collect(Collectors.toList());
+        return farany;
+    }
+
     @GetMapping(value = "/shapefiles/total", headers = "Accept=application/json")
     public Integer total() throws Exception {
         return shpService.countTotal(new ShpInfo());

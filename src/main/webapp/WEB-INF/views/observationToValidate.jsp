@@ -524,7 +524,7 @@
             success: function (json) {
                 if (json.etat == 1) {
                     console.log(json.etat);
-                    angular.element('#controller').scope().getalls();
+                    angular.element('#controller').scope().ffv();
                     angular.element('#controller').scope().$apply();
                 } else if (json.etat == 0) {
                     $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
@@ -553,7 +553,7 @@
             success: function (json) {
                 if (json.etat == 1) {
                     console.log(json.etat);
-                    angular.element('#controller').scope().getalls();
+                    angular.element('#controller').scope().ffv();
                     angular.element('#controller').scope().$apply();
                 } else if (json.etat == 0) {
                     $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
