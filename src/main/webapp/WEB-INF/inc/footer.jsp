@@ -95,6 +95,21 @@
 									<img src="https://www.lemursportal.org/forum/resources/logos/logo_Valbio-48.jpg" alt="">	
 								</a>
 							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/resources/logos/MV_logo.png" alt="">	
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/resources/logos/PGF_logo.png" alt="">	
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<img src="https://www.lemursportal.org/resources/logos/CI_logo.png" alt="">	
+								</a>
+							</li>
 						</ul>
 						<p class="copyright-text pull-right" style="color:white; font-size:12px; margin: 12px 0 10px;"> Copyright © - Lemurs Portal 2017 <!-- All Rights Reserved--></p>
 					</div>	<!-- End Of /.col-md-12 -->	
