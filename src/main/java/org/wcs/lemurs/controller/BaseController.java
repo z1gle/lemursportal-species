@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.wcs.lemurs.model.DarwinCore;
 import org.wcs.lemurs.model.ObservationParAdmin;
@@ -29,7 +30,7 @@ public class BaseController {
     public static String ROLE_EXPERT = "EXPERT";
     public static String ROLE_MODERATEUR = "MODERATEUR";
     public static String ROLE_ADMINISTRATEUR = "ADMIN";
-    
+
     public static String NOTIFICATION_DOWNLOAD = "Download";
     public static String NOTIFICATION_VALIDATION = "Validation";
     public static String NOTIFICATION_ADDED = "Added";
@@ -65,9 +66,9 @@ public class BaseController {
                         System.out.println("save new ObservationParAdmin because admin id=" + u.getId() + " don't have it yet");
                         opa.setNbrObservation(baseService.countTotal(new DarwinCore()));
                         baseService.save(opa);
-                    }                    
+                    }
                     Integer nbr = baseService.countTotal(new DarwinCore()) - opa.getNbrObservation();
-                    valiny.addObject("nbr", nbr);                    
+                    valiny.addObject("nbr", nbr);
                 } catch (Exception ex) {
                     Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
                     valiny.addObject("nbr", -1);
@@ -83,9 +84,9 @@ public class BaseController {
         valiny.addObject("adminOuModerateur", adminModerateur);
         return valiny;
     }
-    
+
     @RequestMapping(value = "/observationsForExperts")
-    public ModelAndView obsForExp(HttpSession session) {
+    public ModelAndView obsForExp(HttpSession session, @RequestParam(required = false, value = "ve") Integer ve) {
         ModelAndView valiny = new ModelAndView("observationToValidate");
         Utilisateur u = null;
         Integer b = -1;
@@ -111,9 +112,9 @@ public class BaseController {
                         System.out.println("save new ObservationParAdmin because admin id=" + u.getId() + " don't have it yet");
                         opa.setNbrObservation(baseService.countTotal(new DarwinCore()));
                         baseService.save(opa);
-                    }                    
+                    }
                     Integer nbr = baseService.countTotal(new DarwinCore()) - opa.getNbrObservation();
-                    valiny.addObject("nbr", nbr);                    
+                    valiny.addObject("nbr", nbr);
                 } catch (Exception ex) {
                     Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
                     valiny.addObject("nbr", -1);
@@ -127,6 +128,7 @@ public class BaseController {
         valiny.addObject("role", b);
         valiny.addObject("expert", expert);
         valiny.addObject("adminOuModerateur", adminModerateur);
+        valiny.addObject("validationExpert", ve);
         return valiny;
     }
 
@@ -156,9 +158,9 @@ public class BaseController {
                         System.out.println("save new ObservationParAdmin because admin id=" + u.getId() + " don't have it yet");
                         opa.setNbrObservation(baseService.countTotal(new DarwinCore()));
                         baseService.save(opa);
-                    }                    
+                    }
                     Integer nbr = baseService.countTotal(new DarwinCore()) - opa.getNbrObservation();
-                    valiny.addObject("nbr", nbr);                    
+                    valiny.addObject("nbr", nbr);
                 } catch (Exception ex) {
                     Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
                     valiny.addObject("nbr", -1);
@@ -176,7 +178,7 @@ public class BaseController {
         valiny.addObject("adminOuModerateur", adminModerateur);
         return valiny;
     }
-    
+
     @RequestMapping(value = "/newObservations")
     public ModelAndView newObs(HttpSession session) {
         ModelAndView valiny = new ModelAndView("newObservation");
@@ -203,9 +205,9 @@ public class BaseController {
                         System.out.println("save new ObservationParAdmin because admin id=" + u.getId() + " don't have it yet");
                         opa.setNbrObservation(baseService.countTotal(new DarwinCore()));
                         baseService.save(opa);
-                    }                    
+                    }
                     Integer nbr = baseService.countTotal(new DarwinCore()) - opa.getNbrObservation();
-                    valiny.addObject("nbr", nbr);                    
+                    valiny.addObject("nbr", nbr);
                 } catch (Exception ex) {
                     Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
                     valiny.addObject("nbr", -1);

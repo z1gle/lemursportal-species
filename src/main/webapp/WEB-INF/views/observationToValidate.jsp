@@ -7,6 +7,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <main id="controller" class="site-content" role="main" ng-controller="darwin">
     <input type="hidden" id="pageEnCours">
+    <%
+        Integer ve = ((Integer) request.getAttribute("validationExpert"));
+        if (ve == null || ve > 1 || ve < -1) {
+            ve = -2;
+        }
+    %>
+    <input type="hidden" id="ve" value="<%out.print(ve);%>">
     <!--Style for search-bar-->
     <style>                
         /* check box for public and private */
@@ -484,17 +491,18 @@
             </div>
         </div>
     </div>    
-    
+
     <!-- end darwin -->
 
 </main>
-<script>    
+<script>
     function showModal(status) {
         if (status == 0)
             $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
         else
             $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
-    };   
+    }
+    ;
     function showCommentairFirst() {
         $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
         $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
@@ -517,7 +525,7 @@
         console.log(data);
         $.ajax({
             type: 'get',
-            url: 'validerListDwc' + data,            
+            url: 'validerListDwc' + data,
             processData: false,
             contentType: false,
             cache: false,

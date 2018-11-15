@@ -355,6 +355,10 @@ public class DarwinCoreController {
             dwcs = new VueValidationDarwinCore();
         }
         try {
+            dwcs.setAnnee(Boolean.TRUE);
+            dwcs.setGps(Boolean.TRUE);
+            dwcs.setCollecteur(Boolean.TRUE);
+            dwcs.setAccepted_speces(Boolean.TRUE);
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
             List<HashMap<String, Object>> valiny = darwinCoreService.findForValidation(utilisateur, dwcs, nombre, page);
             total = darwinCoreService.getDarwinCoreDao().CountAllToValidate(utilisateur, dwcs);
@@ -389,6 +393,10 @@ public class DarwinCoreController {
         }
         try {
             Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+            dwcs.setAnnee(Boolean.TRUE);
+            dwcs.setGps(Boolean.TRUE);
+            dwcs.setCollecteur(Boolean.TRUE);
+            dwcs.setAccepted_speces(Boolean.TRUE);
             List<HashMap<String, Object>> valiny = darwinCoreService.findForValidation(utilisateur, dwcs, nombre, page);
             total = darwinCoreService.getDarwinCoreDao().CountAllToValidate(utilisateur, dwcs);
             try {

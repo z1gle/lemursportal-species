@@ -34,110 +34,213 @@ app.controller("darwin", function ($scope, $http) {
     }
 
     function findForValidation() {
-        $http({
-            method: 'POST',
-            url: 'findForValidation',
-            data: {
-                validationexpert: -1
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(function success(response) {
-            $scope.liste = response.data;
-            $scope.recherche = $scope.darwin.scientificname;
-            paginer($scope.liste[0].total, 20, 1);
-            $scope.recherchePagination = 0;
-            $("#loader-spinner").hide();
-        }, function error(response) {
-            console.log(response.statusText);
-            $("#loader-spinner").hide();
-        });
+        var v = $('#ve').val();
+        if (v > -2) {
+            $http({
+                method: 'POST',
+                url: 'findForValidation',
+                data: {
+                    validationexpert: $('#ve').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                $scope.recherche = $scope.darwin.scientificname;
+                paginer($scope.liste[0].total, 20, 1);
+                $scope.recherchePagination = 0;
+                $("#loader-spinner").hide();
+            }, function error(response) {
+                console.log(response.statusText);
+                $("#loader-spinner").hide();
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: 'findForValidation',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                $scope.recherche = $scope.darwin.scientificname;
+                paginer($scope.liste[0].total, 20, 1);
+                $scope.recherchePagination = 0;
+                $("#loader-spinner").hide();
+            }, function error(response) {
+                console.log(response.statusText);
+                $("#loader-spinner").hide();
+            });
+        }
     }
-    
+
     $scope.ffv = function () {
-        $http({
-            method: 'POST',
-            url: 'findForValidation',
-            data: {
-                validationexpert: -1
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(function success(response) {
-            $scope.liste = response.data;
-            $scope.recherche = $scope.darwin.scientificname;
-            paginer($scope.liste[0].total, 20, 1);
-            $scope.recherchePagination = 0;
-            $("#loader-spinner").hide();
-        }, function error(response) {
-            console.log(response.statusText);
-            $("#loader-spinner").hide();
-        });
+        var v = $('#ve').val();
+        if (v > -2) {
+            $http({
+                method: 'POST',
+                url: 'findForValidation',
+                data: {
+                    validationexpert: $('#ve').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                $scope.recherche = $scope.darwin.scientificname;
+                paginer($scope.liste[0].total, 20, 1);
+                $scope.recherchePagination = 0;
+                $("#loader-spinner").hide();
+            }, function error(response) {
+                console.log(response.statusText);
+                $("#loader-spinner").hide();
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: 'findForValidation',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                $scope.recherche = $scope.darwin.scientificname;
+                paginer($scope.liste[0].total, 20, 1);
+                $scope.recherchePagination = 0;
+                $("#loader-spinner").hide();
+            }, function error(response) {
+                console.log(response.statusText);
+                $("#loader-spinner").hide();
+            });
+        }
     }
 
     $scope.rechercher = function (page) {
-        $http({
-            method: 'POST',
-            url: 'findForValidationGlobal?page=' + page,
-            data: {
-                validationexpert: -1,
-                champ: $('#rechercheGlobale').val()
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(function success(response) {
-            $scope.liste = response.data;
-            paginer($scope.liste[0].total, 20, page);
-        }, function error(response) {
-            console.log(response);
-        });
+        var v = $('#ve').val();
+        if (v > -2) {
+            $http({
+                method: 'POST',
+                url: 'findForValidationGlobal?page=' + page,
+                data: {
+                    validationexpert: $('#ve').val(),
+                    champ: $('#rechercheGlobale').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                paginer($scope.liste[0].total, 20, page);
+            }, function error(response) {
+                console.log(response);
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: 'findForValidationGlobal?page=' + page,
+                data: {
+                    champ: $('#rechercheGlobale').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                paginer($scope.liste[0].total, 20, page);
+            }, function error(response) {
+                console.log(response);
+            });
+        }
     };
 
     $scope.rechercherFin = function () {
-        $http({
-            method: 'POST',
-            url: 'findForValidationGlobal?page=' + $('#pageFin').val(),
-            data: {
-                validationexpert: -1,
-                champ: $('#rechercheGlobale').val()
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(function success(response) {
-            $scope.liste = response.data;
-            paginer($scope.liste[0].total, 20, $('#pageFin').val());
-        }, function error(response) {
-            console.log(response);
-        });
+        var v = $('#ve').val();
+        if (v > -2) {
+            $http({
+                method: 'POST',
+                url: 'findForValidationGlobal?page=' + $('#pageFin').val(),
+                data: {
+                    validationexpert: $('#ve').val(),
+                    champ: $('#rechercheGlobale').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                paginer($scope.liste[0].total, 20, $('#pageFin').val());
+            }, function error(response) {
+                console.log(response);
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: 'findForValidationGlobal?page=' + $('#pageFin').val(),
+                data: {
+                    champ: $('#rechercheGlobale').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                paginer($scope.liste[0].total, 20, $('#pageFin').val());
+            }, function error(response) {
+                console.log(response);
+            });
+        }
     };
 
     $scope.rechercheGlobale = function () {
-        $http({
-            method: 'POST',
-            url: 'findForValidationGlobal',
-            data: {
-                validationexpert: -1,
-                champ: $('#rechercheGlobale').val()
-            },
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(function success(response) {
-            $scope.liste = response.data;
-            paginer($scope.liste[0].total, 20, 1);
-            $scope.recherchePagination = 1;
-        }, function error(response) {
-            console.log(response);
-        });
+        var v = $('#ve').val();
+        if (v > -2) {
+            $http({
+                method: 'POST',
+                url: 'findForValidationGlobal',
+                data: {
+                    validationexpert: $('#ve').val(),
+                    champ: $('#rechercheGlobale').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                paginer($scope.liste[0].total, 20, 1);
+                $scope.recherchePagination = 1;
+            }, function error(response) {
+                console.log(response);
+            });
+        } else {
+            $http({
+                method: 'POST',
+                url: 'findForValidationGlobal',
+                data: {
+                    champ: $('#rechercheGlobale').val()
+                },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                $scope.liste = response.data;
+                paginer($scope.liste[0].total, 20, 1);
+                $scope.recherchePagination = 1;
+            }, function error(response) {
+                console.log(response);
+            });
+        }
     };
 
 });

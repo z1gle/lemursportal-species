@@ -183,7 +183,7 @@
                                         cursor: pointer;
                                     }
                                 </style>
-                                <ul class="dropdown-menu notif" style="width: 290px;"></ul>
+                                <ul class="dropdown-menu notif" style="width: 290px; max-height: 390px; overflow-y: auto;"></ul>
                                 <script>
                                     window.onload = function () {
                                         $.ajax({
