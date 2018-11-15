@@ -78,11 +78,11 @@
                                     <spring:message code="header.label.greating"/>, <c:out value="${utilisateur.nom}"></c:out> <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#" onclick="window.location = 'profil'"><i class="fa fa-dashboard"></i>&nbsp; Mon compte</a></li>
+                                        <li><a href="#" onclick="window.location = 'profil'"><i class="fa fa-dashboard"></i>&nbsp; <spring:message code="header.label.my_account"/></a></li>
                                         <li class="divider"></li>
-                                        <li><a href="modification-observations" onclick="window.location = 'modification-observations'"><i class="fa fa-align-left"></i>&nbsp; Mes données</a></li>
+                                        <li><a href="modification-observations" onclick="window.location = 'modification-observations'"><i class="fa fa-align-left"></i>&nbsp; <spring:message code="header.label.my_data"/></a></li>
                                         <li class="divider"></li>
-                                        <li><a href="logout" onclick="logout()"><i class="fa fa-power-off"></i>&nbsp; Déconnexion</a></li>
+                                        <li><a href="logout" onclick="logout()"><i class="fa fa-power-off"></i>&nbsp; <spring:message code="header.label.disconnect"/></a></li>
                                     </ul>
                                 </li>
                                 <script>
@@ -108,7 +108,7 @@
                         </c:if>
                         <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
                             <!--                            <li><a onclick="window.location = 'http://localhost:8085/LemursPortal-web/login'" href="http://localhost:8085/LemursPortal-web/login">Se connecter</a></li>-->
-                            <li><a onclick="window.location = 'https://www.lemursportal.org/forum/login'" href="https://www.lemursportal.org/forum/login">Se connecter</a></li>
+                            <li><a onclick="window.location = 'https://www.lemursportal.org/forum/login'" href="https://www.lemursportal.org/forum/login"><spring:message code="login.button.submit"/></a></li>
                             </c:if>
                         <li class="dropdown language" id="lang-select"><a
                                 href="#"

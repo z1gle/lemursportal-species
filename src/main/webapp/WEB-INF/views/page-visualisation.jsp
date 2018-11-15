@@ -289,14 +289,12 @@
                     <div class="list-group panel">
 
                         <div class="panel-heading">
-                            <h6 class="grid-title" align="left"><i class="fa fa-filter"></i> <spring:message code="map.filter.label"/> :</h6>
-                            <div class="clearfix"></div>
                             <div class="tabb">
                                 <!-- Tabs -->
                                 <ul class="nav panel-tabs">
                                     <li class="active"><a href="#carto" data-toggle="tab"><spring:message code="map.filter.map"/></a></li>
                                     <li><a href="#modele" data-toggle="tab"><spring:message code="map.filter.model"/></a></li>
-                                    <li><a href="#tendance" data-toggle="tab"><spring:message code="map.filter.trend"/></a></li>
+                                    <li style="display: none;"><a href="#tendance" data-toggle="tab"><spring:message code="map.filter.trend"/></a></li>
                                 </ul>
                             </div>
                         </div>
