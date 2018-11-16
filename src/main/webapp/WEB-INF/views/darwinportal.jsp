@@ -396,17 +396,17 @@
                                         <%if (role == 0) {%>
                                         <td class="">
                                             <ul>
-                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.annee == false">vérifier la colonne année</li>
-                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.accepted_speces == false"></li>
-                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.collecteur == false">vérifier la colonne collecteur</li>
-                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.gps == false">vérifier la colonne gps</li>
+                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.annee == false"><spring:message code="remark.year"/></li>
+                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.accepted_speces == false"><spring:message code="remark.scientificname"/></li>
+                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.collecteur == false"><spring:message code="remark.collector"/></li>
+                                                <li ng-cloak ng-if="dwc.dwc.idUtilisateurUpload == <%out.print(idChercheur);%> && dwc.dwc.gps == false"><spring:message code="remark.gps"/></li>
                                             </ul>
                                         </td>    
                                         <%}%>
                                         <%if (expert == 0) {%>
-                                        <td ng-cloak ng-if="dwc.dwc.validationexpert == -1" class="number text-center">en attente</td>
-                                        <td ng-cloak ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 0" class="number text-center">questionnable</td>
-                                        <td ng-cloak ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 1" class="number text-center">validé</td>
+                                        <td ng-cloak ng-if="dwc.dwc.validationexpert == -1" class="number text-center"><spring:message code="data.status.awaiting_review"/></td>
+                                        <td ng-cloak ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 0" class="number text-center"><spring:message code="data.status.questionnable_review"/></td>
+                                        <td ng-cloak ng-if="dwc.validation == 1 && dwc.dwc.validationexpert == 1" class="number text-center"><spring:message code="data.status.reliable_review"/></td>
                                         <td ng-cloak ng-if="dwc.validation != 1 && dwc.dwc.validationexpert != -1" class="number text-center"></td>
                                         <%} else {%>
                                         <td></td>
@@ -701,7 +701,7 @@
     <!-- end darwin -->
 
 </main>
-<script>    
+<script>
     function showModal(status) {
         if (status == 0)
             $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});

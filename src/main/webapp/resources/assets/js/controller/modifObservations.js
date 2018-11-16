@@ -136,5 +136,30 @@ app.controller("darwin", function ($scope, $http) {
             $("#loader-spinner").hide();
         });
     };
+    $scope.searchG = function () {
+        var dwc = new Object();
+
+        dwc.champ = $('#rechercheGlobale').val();
+        console.log(dwc);
+        $http({
+            method: 'POST',
+            url: 'observations?page=' + 1,
+            data: dwc,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(function success(response) {
+            $("#loader-spinner").hide();
+            $scope.liste = response.data.retour.liste;
+            $scope.total = response.data.retour.total;
+            $scope.page = response.data.retour.page;
+            $scope.lastPage = response.data.retour.lastPage;
+            paginer(response.data.retour);
+        }, function error(response) {
+            console.log(response);
+            $("#loader-spinner").hide();
+        });
+    };
 });
 

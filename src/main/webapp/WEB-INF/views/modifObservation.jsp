@@ -86,6 +86,44 @@
             margin-top:0;   
         }
     </style>
+    <!--CSS for search global-->
+    <style>
+        #rechercheGlobale {
+            background-color: white;
+            background-image: url('resources/assets/img/icons/searchicon.png');
+            background-position: 0px 4px;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            width: 15%;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+            height: 20px;
+            border-radius: 15px;
+            border-style: solid;
+            border-width: 0px;
+            margin-top: 4px;
+            padding-left: 28px;
+            padding-top: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* When the input field gets focus, change its width to 100% */
+        #rechercheGlobale:focus {
+            width: 50%;
+        }
+    </style>
+    <!--Header style-->
+    <style>
+        @media only screen and (max-width: 992px) and (min-width: 767px){
+            .header-pliss {
+                padding-top: 72px;
+                height: -10px;
+                background-color: beige;
+            }        
+        }
+    </style>
+
 
     <!-- darwin -->
     <section id="taxonomie" style="padding-bottom: 0px;">
@@ -97,7 +135,7 @@
                     <!-- Stat -->                    
                     <div class="clearfix"></div>
                     <div class="row" style="width: 103%;background-color: beige;margin-left: -15px;">
-                        <div class="col-md-8 col-sm-8">
+                        <div class="col-md-12 col-sm-12">
                             <form id="form-search">
                                 <!-- Search Field -->                                                    
                                 <div class="form-group" style="margin-bottom: 0px; margin-top: 5px;">
@@ -129,10 +167,19 @@
                                 </div>                        
                             </form>
                         </div>
-                        <div class="col-md-4 col-sm-4" >
-                            <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{page}}/{{lastPage}}</b> | Observation total: <b>{{total}}</b></h5>                    
-                        </div>
                     </div>
+
+                    <div class="row" style="margin-top: 10px;">
+                        <!-- Stat -->
+                        <c:if test="${nbr > 0}">
+                            <a href="#" style="float: left;"><span id="nbrs"><c:out value="${nbr}"></c:out></span> nouvelles occurences</a><br>
+                        </c:if>                    
+                        <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;">Liste des obsérvations |</h1>
+                        <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{page}}/{{lastPage}}</b> | Observation total: <b>{{total}}</b></h5>                    
+                        <input ng-keyup="$event.keyCode == 13 ? searchG() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                                        
+                        <!-- End Stat -->                    
+                    </div>
+
                     <div class="row">
                         <jsp:include page="/WEB-INF/inc/loader-spinner.jsp"/>
                         <div class="table-responsive row " ng-cloak id="liste" style="width: 103%; margin-left: -15px;">
@@ -166,15 +213,15 @@
                                             <td class="text-center">{{dwc.institutioncode}}</td>                                            
                                             <td class="">
                                                 <ul>
-                                                    <li ng-if="dwc.annee == false">vérifier la colonne année</li>
-                                                    <li ng-if="dwc.accepted_speces == false"></li>
-                                                    <li ng-if="dwc.collecteur == false">vérifier la colonne collecteur</li>
-                                                    <li ng-if="dwc.gps == false">vérifier la colonne gps</li>
+                                                    <li ng-if="dwc.annee == false"><spring:message code="remark.year"/></li>
+                                                    <li ng-if="dwc.accepted_speces == false"><spring:message code="remark.scientificname"/></li>
+                                                    <li ng-if="dwc.collecteur == false"><spring:message code="remark.collector"/></li>
+                                                    <li ng-if="dwc.gps == false"><spring:message code="remark.gps"/></li>
                                                 </ul>
                                             </td>                                                                                    
-                                            <td ng-if="dwc.validationexpert == -1" class="number text-center">en attente de validation</td>
-                                            <td ng-if="dwc.validationexpert == 0" class="number text-center">questionnable</td>
-                                            <td ng-if="dwc.validationexpert == 1" class="number text-center">validé</td>                                        
+                                            <td ng-if="dwc.validationexpert == -1" class="number text-center"><spring:message code="data.status.awaiting_review"/></td>
+                                            <td ng-if="dwc.validationexpert == 0" class="number text-center"><spring:message code="data.status.questionnable_review"/></td>
+                                            <td ng-if="dwc.validationexpert == 1" class="number text-center"><spring:message code="data.status.reliable_review"/></td>                                        
                                             <td ng-if="dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
                                             <td ng-if="dwc.lienSource == null" class="text-center"></a></td>
                                             <td></td>

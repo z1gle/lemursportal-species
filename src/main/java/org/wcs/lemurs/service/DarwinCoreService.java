@@ -780,6 +780,25 @@ public class DarwinCoreService extends MailService {
         }
         return valiny;
     }
+    
+    public Liste findAllWithGlobalResearch(BaseModel obj, int page, int nombre) throws Exception {
+        Session session = null;
+        Liste valiny = new Liste();
+        try {
+            session = darwinCoreDao.getSessionFactory().openSession();
+            valiny.setTotal(darwinCoreDao.countTotal(session, obj));
+            valiny.setLastPage((int) Math.ceil(valiny.getTotal() / new Double(nombre)));
+            valiny.setPage(page);
+            valiny.setListe((List<BaseModel>) (List<?>) darwinCoreDao.findAll(session, obj, page, nombre));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return valiny;
+    }
 
     public List<HashMap<String, Object>> findForValidation(Utilisateur utilisateur, BaseModel darwinCore, int nombre, int page) throws Exception {
         List<HashMap<String, Object>> valiny = new ArrayList<>();

@@ -1116,7 +1116,7 @@ public class DarwinCoreController {
 
     @PostMapping(value = "/observations", headers = "Accept=application/json")
     public Retour observationsaa(HttpSession session,
-            @RequestBody(required = false) VueValidationDarwinCore dwc,
+            @RequestBody(required = false) VueDarwinCoreRechercheGlobale dwc,
             @RequestParam(value = "page", required = false) Integer page) throws Exception {
         Retour valiny = new Retour();
         if (null == page) {
@@ -1130,7 +1130,7 @@ public class DarwinCoreController {
                 dwc.setIdUtilisateurUpload(u.getId());
             }
             valiny.setEtat(Boolean.TRUE);
-            valiny.setRetour(darwinCoreService.findAll(u, dwc, page, 20, true));
+            valiny.setRetour(darwinCoreService.findAllWithGlobalResearch(dwc, page, 20));
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("User not logged in");
