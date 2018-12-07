@@ -7,6 +7,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta property="og:image" content="https://www.lemursportal.org/resources/img/favicon.ico">
+        <link rel="icon" href="https://www.lemursportal.org/resources/img/favicon.ico" type="image/x-icon">
         <title>Lémuriens</title>		
         <meta name="description" content="">
         <meta name="keywords" content="">       

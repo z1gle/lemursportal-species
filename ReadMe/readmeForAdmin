@@ -3,3 +3,9 @@
 2-Tous les composants du shapefiles doivent être compressé sous format .zip.
 3-Le fichier .zip contenant les fichiers du shapefiles doit avoir le même nom que ces derniers.
 4-La colonne "nom" doit obligatoirement figuré dans le shapefile et les valeurs de ce colonne désigneront les noms des polygones dans le site web.
+
+#### Images #####################################
+L'application utilise un service tiers, cloudinary, pour le sauvegarde et le traitement des images.
+Un compte a donc été créé pour lemursportal mais il s'agit d'un compte gratuit donc la mémoire est limitée à peu près à 25Go.
+On peut toujours changer le tarif dans le cas où le plan gratuit ne suffit plus. Pour se faire, il suffit d'aller sur https://cloudinary.com/console, taper l'email et le mot de passe 
+et cliquer sur le bouton "Upgrade plan" en haut à droite.
