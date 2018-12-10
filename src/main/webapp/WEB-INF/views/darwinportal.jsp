@@ -677,23 +677,23 @@
                     <form id="download_formular" method="POST" class="col-md-offset-1 col-md-11">
                         <label><spring:message code="observation.popup.download_osbervation.title"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.titre">
-                        <label><spring:message code="observation.popup.download_osbervation.name"/></label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.nom">
-                        <label><spring:message code="observation.popup.download_osbervation.firstname"/></label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.prenom">
+                        <label><spring:message code="observation.popup.download_osbervation.name"/><span class="obligatory">*</span></label>                        
+                        <input type="text" required id="obligatory-name" ng-blur="checkObligatory('obligatory-name', 0)" class="form-control must-not-empty" ng-model="downloadInformation.nom">
+                        <label><spring:message code="observation.popup.download_osbervation.firstname"/><span class="obligatory">*</span></label>                        
+                        <input type="text" required id="obligatory-firstname" ng-blur="checkObligatory('obligatory-firstname', 1)" class="form-control must-not-empty" ng-model="downloadInformation.prenom">
                         <label><spring:message code="observation.popup.download_osbervation.profession"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.profession">
-                        <label><spring:message code="observation.popup.download_osbervation.email"/></label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.eMail">
+                        <label><spring:message code="observation.popup.download_osbervation.email"/><span class="obligatory">*</span></label>                        
+                        <input type="text" required id="obligatory-email" ng-blur="checkObligatory('obligatory-email', 2)" class="form-control must-not-empty" ng-model="downloadInformation.eMail">
                         <label><spring:message code="observation.popup.download_osbervation.institution"/></label>                        
                         <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.institution">
-                        <label><spring:message code="observation.popup.download_osbervation.use"/></label>                        
-                        <input type="text" id="form-name" class="form-control" ng-model="downloadInformation.utilisation">
+                        <label><spring:message code="observation.popup.download_osbervation.use"/><span class="obligatory">*</span></label>                        
+                        <input type="text" required id="obligatory-use" ng-blur="checkObligatory('obligatory-use', 3)" class="form-control must-not-empty" ng-model="downloadInformation.utilisation">
                     </form>
                 </div>
-                <div class='modal-footer'>                        
-                    <input data-dismiss='modal' class="btn btn-success btn-sm" type="submit" id="publique" ng-click="getColonnes()" value="<spring:message code="global.continue"/>">                        
+                <div class='modal-footer download-footer'>                        
                     <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'><spring:message code="global.cancel"/></button>                    
+                    <input data-dismiss='modal' disabled class="btn btn-success btn-sm" type="submit" id="download-continue" ng-click="getColonnes()" value="<spring:message code="global.continue"/>">                        
                 </div>                    
             </div>
         </div>

@@ -15,6 +15,7 @@ app.controller("darwin", function ($scope, $http) {
     $scope.recherchePagination = 0;
     $scope.pageEnCours = 0;
     $scope.lastPage = 0;
+    var total = [];
     rechercherAvancee();
 
     function getall() {
@@ -190,23 +191,54 @@ app.controller("darwin", function ($scope, $http) {
             $("#loader-spinner").hide();
         });
     };
-    $scope.getColonnes = function () {
-        var formData = {};
-        $http({
-            method: 'POST',
-            url: 'getColonnesDwc',
-            data: formData,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+
+    $scope.checkObligatory = function (id, cle) {
+        if ($('#' + id).val() == '') {
+            $('#' + id).css("border-color", "red");
+            total[cle] = false;
+        } else {
+            $('#' + id).css("border-color", "#ececec");
+            total[cle] = true;
+        }
+        for (var i = 0; i < total.length; i++) {
+            if (total[i] == false) {
+                console.log(i + total[i]);
+                $('#download-continue').prop("disabled", true);
+                break;
             }
+            if (i == 3) {
+                $('#download-continue').prop("disabled", false);
+            }
+        }
+    };
+
+    $scope.getColonnes = function () {
+        var liste = [];
+        liste = $('.must-not-empty');
+        var i;
+        for (i = 0; i < liste.length; i++) {
+            if (liste[i].value == '') {
+                break;
+            }
+        }
+        if (i > liste.length - 1) {
+            var formData = {};
+            $http({
+                method: 'POST',
+                url: 'getColonnesDwc',
+                data: formData,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
 //            dataType: 'json'
-        }).then(function success(response) {
-            $scope.colonnes = response.data;
-            $("#modal-liste-colonnes").modal({backdrop: 'static'});
-        }, function error(response) {
-            console.log(response.statusText);
-        });
+            }).then(function success(response) {
+                $scope.colonnes = response.data;
+                $("#modal-liste-colonnes").modal({backdrop: 'static'});
+            }, function error(response) {
+                console.log(response.statusText);
+            });
+        }
     };
     $scope.checkAll = function () {
         $('[name="col[]"]').prop('checked', $('#checkAll').is(":checked"));
