@@ -88,7 +88,7 @@ public class ReportGenerator {
             }
             parameters.put("entete", realPath+"resources"+sep+"assets"+sep+"img"+sep+"enteteFin.png");
             if(profil.isEmpty()) {
-                parameters.put("profil", realPath+"resources"+sep+"assets"+sep+"img"+sep+"photos"+sep+"default.jpg");
+                parameters.put("profil", realPath+"resources"+sep+"assets"+sep+"img"+sep+"Logo_LemursPortal_Final_old.png");
             }
             else {
                 String p = realPath + profil.replace("/", sep);
