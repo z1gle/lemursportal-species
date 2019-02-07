@@ -411,7 +411,8 @@
                                         <%} else {%>
                                         <td></td>
                                         <%}%>
-                                        <td ng-cloak ng-if="dwc.dwc.lienSource != null" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
+                                        <td ng-cloak ng-if="dwc.dwc.idRebioma > 0" class="text-center"><a href="http://data.rebioma.net/#tab=occ&view=Detail&id={{dwc.dwc.idRebioma}}&p=false&page=1&asearch=Id = {{dwc.dwc.idRebioma}}&type=all occurrences" target="_blank">Rebioma</a></td>
+                                        <td ng-cloak ng-if="dwc.dwc.lienSource.includes('inaturalist')" class="text-center"><a href="{{dwc.dwc.lienSource}}" target="_blank">Inaturalist</a></td>
                                         <td ng-cloak ng-if="dwc.dwc.lienSource == null" class="text-center"></a></td>
                                     </tr>                                                   
                                 </tbody>

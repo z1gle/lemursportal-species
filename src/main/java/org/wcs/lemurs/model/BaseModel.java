@@ -6,9 +6,9 @@
 package org.wcs.lemurs.model;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -23,11 +23,21 @@ public class BaseModel {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Integer id;
 
+    @Transient
+    public static final String BASIS_OF_RECORD_FROM_INATURALIST = "HumanObservation";
+
+    @Transient
+    public static final String NOMENCLATURAL_CODE_FROM_INATURALIST = "ICZN";
+    
+    @Transient
+    public static final String INATURALIST_LINK_TO_GET_OBSERVATIONS = "https://"
+            + "www.inaturalist.org/observations/";
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }    
+    }
 }

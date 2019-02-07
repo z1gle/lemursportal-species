@@ -318,7 +318,10 @@ public class DarwinCoreService extends MailService {
                     vdc.setCollecteur(Boolean.FALSE);
                 }
                 try {
-                    vdc.setGps(!dw.getDecimallatitude().isEmpty() && !dw.getDecimallongitude().isEmpty() && dw.getDecimallatitude().compareTo("-") != 0 && dw.getDecimallongitude().compareTo("-") != 0);
+                    vdc.setGps(!dw.getDecimallatitude().isEmpty() && !dw
+                            .getDecimallongitude().isEmpty() && dw
+                                    .getDecimallatitude().compareTo("-") != 0
+                            && dw.getDecimallongitude().compareTo("-") != 0);
                     if (vdc.isGps()) {
                         double lat = Double.parseDouble(dw.getDecimallatitude());
                         double lon = Double.parseDouble(dw.getDecimallongitude());
@@ -329,6 +332,22 @@ public class DarwinCoreService extends MailService {
                 }
                 vdc.setValidationExpert(-1);
                 save(session, vdc);
+
+                //photos
+                if (dw.getPhotos() != null) {
+                    List<PhotoDarwinCore> photos = dw.getPhotos();
+                    PhotoDarwinCore pdcTemp = new PhotoDarwinCore();
+                    pdcTemp.setProfil(Boolean.TRUE);
+                    List<BaseModel> listTemp = super.findMultiCritere(session, dw);
+                    if (listTemp == null || listTemp.isEmpty()) {
+                        photos.get(0).setProfil(Boolean.TRUE);
+                    }
+                    for (PhotoDarwinCore pdc : photos) {
+                        pdc.setIdDarwinCore(dw.getId());
+                        pdc.setIdUtilisateurUpload(dw.getIdUtilisateurUpload());
+                        super.save(session, pdc);
+                    }
+                }
             }
 
             // Get all Admin
@@ -780,7 +799,7 @@ public class DarwinCoreService extends MailService {
         }
         return valiny;
     }
-    
+
     public Liste findAllWithGlobalResearch(BaseModel obj, int page, int nombre) throws Exception {
         Session session = null;
         Liste valiny = new Liste();
@@ -883,7 +902,8 @@ public class DarwinCoreService extends MailService {
         for (HashMap<String, Object> v : valiny) {
             int iterator = 0;
             for (PhotoDarwinCore pdc : photos) {
-                if (((VueValidationDarwinCore) v.get("dwc")).getId().intValue() == pdc.getIdDarwinCore().intValue()) {
+                if (((VueDarwinCoreRechercheGlobale) v.get("dwc")).getId()
+                        .intValue() == pdc.getIdDarwinCore().intValue()) {
                     v.put("photo", pdc.getChemin());
                     break;
                 } else {
@@ -1802,6 +1822,28 @@ public class DarwinCoreService extends MailService {
 //            }
 //        }
 //    }
+    public void checkIfExist(List<DarwinCore> liste) throws Exception {
+        for (DarwinCore dwc : liste) {
+            DarwinCore temp = new DarwinCore();
+            temp.setLienSource(dwc.getLienSource());
+            try {
+                dwc.setId(findMultiCritere(temp).get(0).getId());
+                List<PhotoDarwinCore> listPdc = dwc.getPhotos();
+                for (PhotoDarwinCore pdc : listPdc) {
+                    PhotoDarwinCore pdcTemp = new PhotoDarwinCore();
+                    pdcTemp.setChemin(pdc.getChemin());
+                    try {
+                        pdc.setId(findMultiCritere(pdcTemp).get(0).getId());
+                    } catch (NullPointerException | java.lang.IndexOutOfBoundsException npe1) {
+                        System.out.println("New photos from inaturalist");
+                    }
+                }
+            } catch (NullPointerException | java.lang.IndexOutOfBoundsException npe) {
+                System.out.println("New observations from inaturalist");
+            }
+        }
+    }
+
     public DarwinCoreDao getDarwinCoreDao() {
         return darwinCoreDao;
     }

@@ -34,6 +34,9 @@ public class BaseController {
     public static String NOTIFICATION_DOWNLOAD = "Download";
     public static String NOTIFICATION_VALIDATION = "Validation";
     public static String NOTIFICATION_ADDED = "Added";
+    
+    public static String LINK_TO_GET_OCCURRENCE_FROM_INATURALIST = "https://"
+            + "www.inaturalist.org/observations/project/23226.json";
 
     @Autowired(required = true)
     @Qualifier("baseService")

@@ -81,13 +81,13 @@
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="#" onclick="window.location = 'profil'"><i class="fa fa-dashboard"></i>&nbsp; <spring:message code="header.label.my_account"/></a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="modification-observations" onclick="window.location = 'modification-observations'"><i class="fa fa-align-left"></i>&nbsp; <spring:message code="header.label.my_data"/></a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="logout" onclick="logout()"><i class="fa fa-power-off"></i>&nbsp; <spring:message code="header.label.disconnect"/></a></li>
-                                    </ul>
-                                </li>
-                                <script>
+                                    <li class="divider"></li>
+                                    <li><a href="modification-observations" onclick="window.location = 'modification-observations'"><i class="fa fa-align-left"></i>&nbsp; <spring:message code="header.label.my_data"/></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="logout" onclick="logout()"><i class="fa fa-power-off"></i>&nbsp; <spring:message code="header.label.disconnect"/></a></li>
+                                </ul>
+                            </li>
+                            <script>
 //                                    function logout() {
 //                                        $.ajax({
 //                                            type: 'post',
@@ -97,16 +97,16 @@
 //                                            }
 //                                        });
 //                                    }
-                                    function logout() {
-                                        $.ajax({
-                                            type: 'post',
-                                            url: 'https://www.lemursportal.org/forum/logout',
-                                            success: function (json) {
-                                                window.location = 'logout';
-                                            }
-                                        });
-                                    }
-                                </script>
+                                function logout() {
+                                    $.ajax({
+                                        type: 'post',
+                                        url: 'https://www.lemursportal.org/forum/logout',
+                                        success: function (json) {
+                                            window.location = 'logout';
+                                        }
+                                    });
+                                }
+                            </script>
                         </c:if>
                         <c:if test="${utilisateur.nom==''||utilisateur.nom==null}">
                             <!--                            <li><a onclick="window.location = 'http://localhost:8085/LemursPortal-web/login'" href="http://localhost:8085/LemursPortal-web/login">Se connecter</a></li>-->
@@ -216,7 +216,7 @@
                                             liste += '    </div>';
                                             liste += '    <div class="notif-body">';
                                             var text = '';
-                                            if(json[i].categorie == 'Download') {
+                                            if (json[i].categorie == 'Download') {
                                                 text = ' <spring:message code="notification.message.observation.downloaded"/>';
                                             } else if (json[i].categorie == 'Added') {
                                                 text = ' <spring:message code="notification.message.observation.added"/>';
@@ -284,32 +284,54 @@
                                     function seen(id) {
                                         $.ajax({
                                             type: 'put',
-                                            url: 'notification/' + id + '?seen=2',                                            
+                                            url: 'notification/' + id + '?seen=2',
 //                                            contentType: 'application/x-www-form-urlencoded',
                                             success: function (json) {
                                                 console.log('seen');
                                             }
                                         });
                                     }
-                                </script>
-                            </li>                        
-                        </ul>                    
-                    </nav>
-                    <!-- /main nav -->                
-                </div>
-                <!--            <div style="float: right;margin-top: -55px;margin-right:  5px;">
-                                <a style="padding: 0px;" class="btn" href="https://www.lemursportal.org/forum"><i class="fa fa-comments-o fa-2x"></i></a>
-                            </div>-->
-            </header>
-            <div id='modal-service' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
-                <div style="width: 255px;" class='modal-dialog'>
-                    <div class='modal-content' style="background-color: #000000d4; margin-top: 150px;">
-                        <div style="margin-left: -10px;" class='modal-body row'>                        
-                            <div class="col-md-6">
-                                <a title="Home page" href="/">
-                                    <div class="service-item">
-                                        <div class="service-icon">
-                                            <img style="transform: rotate(-47deg); max-height: 45px; margin-left: 26px; margin-bottom: 22px;" src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>">
+                            </script>
+                        </li>
+                        <c:if test="${role10001 == 10001}">
+                            <li>
+                                <a onclick="sychro()"><i class="fa fa-refresh"></i></a>
+                            </li>
+                            <script>
+                                function sychro() {
+                                    $('#modal-synchro-error').hide();
+                                    $('#modal-synchro-spinner').modal('show');
+                                    $.ajax({
+                                        type: 'post',
+                                        url: 'synchro_inaturalist',
+                                        success: function (json) {
+                                            if (json) {
+                                                $('#modal-synchro-spinner').modal('hide');
+                                            } else {
+                                                $('#modal-synchro-error').show();
+                                            }
+                                        }
+                                    });
+                                };
+                            </script>
+                        </c:if>
+                    </ul>                    
+                </nav>
+                <!-- /main nav -->                
+            </div>
+            <!--            <div style="float: right;margin-top: -55px;margin-right:  5px;">
+                            <a style="padding: 0px;" class="btn" href="https://www.lemursportal.org/forum"><i class="fa fa-comments-o fa-2x"></i></a>
+                        </div>-->
+        </header>
+        <div id='modal-service' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+            <div style="width: 255px;" class='modal-dialog'>
+                <div class='modal-content' style="background-color: #000000d4; margin-top: 150px;">
+                    <div style="margin-left: -10px;" class='modal-body row'>                        
+                        <div class="col-md-6">
+                            <a title="Home page" href="/">
+                                <div class="service-item">
+                                    <div class="service-icon">
+                                        <img style="transform: rotate(-47deg); max-height: 45px; margin-left: 26px; margin-bottom: 22px;" src="<c:url value="/resources/assets/img/Logo_LemursPortal_Final.png"/>">
                                     </div>                                    
                                 </div>
                             </a>
@@ -339,15 +361,15 @@
                             <div class='col-md-10 col-md-offset-1'>
                                 <label>Name :</label> <span id="notification-name"></span><br>
                                 <label>Date :</label> <span id="notification-date"></span>                                
-                                <div class="table-responsive" style="max-height: 485px;">                        
+                                <div class="table-responsive" style="max-height: 485px;">
                                     <table class="table table-hover">
                                         <tbody id="tbody-notification">
-                                            <tr style="background-color: rgba(0, 0, 0, 0.01); color: #deaa45; font-weight: 700;">                                                
+                                            <tr style="background-color: rgba(0, 0, 0, 0.01); color: #deaa45; font-weight: 700;">
                                                 <td class="number text-center">Id</td>
                                                 <td class="text-left">Nom scientifique </td>
-                                                <td class="text-left">Localisation</td>                                                                                                
+                                                <td class="text-left">Localisation</td>
                                                 <td class="text-left">Date</td>
-                                                <td class="text-left">Institution</td>                                                                                                
+                                                <td class="text-left">Institution</td>                                                                                               
                                             </tr>                                        
                                         </tbody>                                        
                                     </table>
@@ -357,7 +379,25 @@
                         </div>
                     </div>
                     <div class='modal-footer'>
-                        <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>OK</button>                        
+                        <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='modal-synchro-spinner' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class="modal-header">
+                        <button data-dismiss='modal' class='close' type='button'>x</button>
+                        <h4 class="modal-title"><center>Upload</center></h4>
+                    </div>
+                    <div class='modal-body'>
+                        <div class='row'>
+                            <div class='col-md-10 col-md-offset-1'>                                                        
+                                <img src="resources/assets/img/loaderB32.gif" class="img-responsive" style="margin: 5px auto;">
+                                <h4 id="modal-synchro-error" style="color: red; display: none;"> ERROR </h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

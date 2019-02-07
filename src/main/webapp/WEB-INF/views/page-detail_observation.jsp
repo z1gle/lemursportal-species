@@ -68,6 +68,9 @@
                             <div ng-repeat="photo in photos" ng-if="photo.profil == false" class="item">
                                 <img ng-src="{{photo.chemin}}" class="img-responsive">
                             </div>                            
+                            <div ng-repeat="photo in photos" ng-if="photo.profil == null" class="item">
+                                <img ng-src="{{photo.chemin}}" class="img-responsive">
+                            </div>                            
                         </div>
                         <!-- Controls -->
                         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -77,11 +80,22 @@
                             <span class="icon-next"></span>
                         </a>  
                     </div>
-                    <p class="name-img"><%out.print(dwc.getAcceptednameusage());%></p>
+                    <p class="name-img">
+                        <%
+                            if (dwc.getAcceptednameusage() != null && 
+                                    !dwc.getAcceptednameusage().isEmpty() && 
+                                    dwc.getAcceptednameusage()
+                                            .compareTo("-") != 0) {
+                                out.print(dwc.getAcceptednameusage());
+                            } else {
+                                out.print(dwc.getScientificname());
+                            }
+                        %>
+                    </p>
                     <!-- /.carousel -->
 
-                    <iframe class="img-responsive" ng-src="{{trustSrc(videos.src)}}">
-                    </iframe>
+                    <!--<iframe class="img-responsive" ng-src="{{trustSrc(videos.src)}}">
+                    </iframe>-->
 
 
                     <div class="map-detail-obs" id="map">
@@ -191,86 +205,86 @@
                             Taxon
                         </p>
                         <ul>
-<!--                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        TaxonID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getTaxonId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            
-                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        ScientificNameID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getScientificNameId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            
-                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        AcceptedNameUsageID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getAcceptedNameUsageId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            
-                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        ParentNameUsageID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getParentNameUsageId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            
-                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        OriginalNameUsageID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getOriginalNameUsageId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            
-                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        NameAccordingToID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getNameAccordingToId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            
-                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        NamePublishedInID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getNamePublishedInId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            
-                            <div class="row">
-                                <li>
-                                    <div class="col-md-5">
-                                        TaxonConceptID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getTaxonConceptId());%>
-                                    </div>                                                                        
-                                </li>                            
-                            </div>                            -->
+                            <!--                            <div class="row">
+                                                            <li>
+                                                                <div class="col-md-5">
+                                                                    TaxonID:
+                                                                </div>
+                                                                <div class="col-md-7">
+                            <%out.print(dwc.getTaxonId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            
+                <div class="row">
+                    <li>
+                        <div class="col-md-5">
+                            ScientificNameID:
+                        </div>
+                        <div class="col-md-7">
+                            <%out.print(dwc.getScientificNameId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            
+                <div class="row">
+                    <li>
+                        <div class="col-md-5">
+                            AcceptedNameUsageID:
+                        </div>
+                        <div class="col-md-7">
+                            <%out.print(dwc.getAcceptedNameUsageId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            
+                <div class="row">
+                    <li>
+                        <div class="col-md-5">
+                            ParentNameUsageID:
+                        </div>
+                        <div class="col-md-7">
+                            <%out.print(dwc.getParentNameUsageId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            
+                <div class="row">
+                    <li>
+                        <div class="col-md-5">
+                            OriginalNameUsageID:
+                        </div>
+                        <div class="col-md-7">
+                            <%out.print(dwc.getOriginalNameUsageId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            
+                <div class="row">
+                    <li>
+                        <div class="col-md-5">
+                            NameAccordingToID:
+                        </div>
+                        <div class="col-md-7">
+                            <%out.print(dwc.getNameAccordingToId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            
+                <div class="row">
+                    <li>
+                        <div class="col-md-5">
+                            NamePublishedInID:
+                        </div>
+                        <div class="col-md-7">
+                            <%out.print(dwc.getNamePublishedInId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            
+                <div class="row">
+                    <li>
+                        <div class="col-md-5">
+                            TaxonConceptID:
+                        </div>
+                        <div class="col-md-7">
+                            <%out.print(dwc.getTaxonConceptId());%>
+                        </div>                                                                        
+                    </li>                            
+                </div>                            -->
                             <div class="row">
                                 <li>
                                     <div class="col-md-5">
@@ -520,14 +534,14 @@
                         </p>
                         <ul>
                             <div class="row">
-<!--                                <li>
-                                    <div class="col-md-5">
-                                        OccurrenceID:
-                                    </div>
-                                    <div class="col-md-7">
-                                        <%out.print(dwc.getOccurrenceId());%>
-                                    </div>                                                                        
-                                </li>                            -->
+                                <!--                                <li>
+                                                                    <div class="col-md-5">
+                                                                        OccurrenceID:
+                                                                    </div>
+                                                                    <div class="col-md-7">
+                                <%out.print(dwc.getOccurrenceId());%>
+                            </div>                                                                        
+                        </li>                            -->
                             </div>                            
                             <div class="row">
                                 <li>
@@ -1438,7 +1452,7 @@
                 </div>  
                 <%}%>
                 <%
-                    if (u.getId() != null && dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
+                    if (u.getId() != null && dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
                         int j = 5;
                 %>
                 <div class="pull-right divider">
@@ -1449,7 +1463,7 @@
             </div>
         </div>
         <%
-            if (u.getId()!= null && dwc.getIdUtilisateurUpload()!=null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
+            if (u.getId() != null && dwc.getIdUtilisateurUpload() != null && dwc.getIdUtilisateurUpload().intValue() == u.getId().intValue()) {
         %>   
         <div class="clearfix"></div>
         <div class="col-md-12">
@@ -1617,91 +1631,91 @@
 
 </main>
 <script>
-                            function del(idDwc) {
-                                $.ajax({
-                                    method: 'POST',
-                                    url: 'delDwc?idDwc=' + idDwc,
-                                    success: function (json) {
-                                        window.location = 'darwinportal';
-                                    },
-                                    error: function (json) {
-                                        console.log(json.statusText);
-                                    }
-                                });
-                            }
-                            ;
+    function del(idDwc) {
+        $.ajax({
+            method: 'POST',
+            url: 'delDwc?idDwc=' + idDwc,
+            success: function (json) {
+                window.location = 'darwinportal';
+            },
+            error: function (json) {
+                console.log(json.statusText);
+            }
+        });
+    }
+    ;
 
-                            function showModal(status) {
-                                if (status == 0)
-                                    $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
-                                else
-                                    $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
-                            }
-                            ;
+    function showModal(status) {
+        if (status == 0)
+            $("#modal-ajout-confirmation-questionnable").modal({backdrop: 'static'});
+        else
+            $("#modal-ajout-confirmation-valide").modal({backdrop: 'static'});
+    }
+    ;
 
-                            function showCommentaires() {
-                                $("#modal-liste-commentaires").modal({backdrop: 'static'});
-                            }
-                            ;
+    function showCommentaires() {
+        $("#modal-liste-commentaires").modal({backdrop: 'static'});
+    }
+    ;
 
-                            function showCommentairFirst() {
-                                $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
-                                $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
-                            }
+    function showCommentairFirst() {
+        $("#modal-ajout-commentaire-questionnable").modal({backdrop: 'static'});
+        $('#boutonQuestionnable').html("<button type='button' id='boutonQuestionnable' onclick = 'validate(0)' class='btn btn-success btn-sm' data-dismiss='modal'>Continuer</button>");
+    }
 
-                            function validate(status) {
-                                var valeurs = $('[name="dwc[]"]');
-                                var data = "?dwc[]=<%out.print(dwc.getId());%>&";
-                                var temp = $('#commentaires').val();
-                                if (temp == undefined)
-                                    temp = "";
-                                data = data + "status=" + status + "&commentaires=" + temp;
-                                $.ajax({
-                                    type: 'get',
-                                    url: 'validerListDwc' + data,
+    function validate(status) {
+        var valeurs = $('[name="dwc[]"]');
+        var data = "?dwc[]=<%out.print(dwc.getId());%>&";
+        var temp = $('#commentaires').val();
+        if (temp == undefined)
+            temp = "";
+        data = data + "status=" + status + "&commentaires=" + temp;
+        $.ajax({
+            type: 'get',
+            url: 'validerListDwc' + data,
 //                                dataType: 'json',
 //                                enctype: 'multipart/form-data',
-                                    processData: false,
-                                    contentType: false,
-                                    cache: false,
-                                    success: function (json) {
-                                        if (json.etat == 1) {
-                                            console.log(json.etat);
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (json) {
+                if (json.etat == 1) {
+                    console.log(json.etat);
 //                                        window.location = 'profil';
-                                        } else if (json.etat == 0) {
-                                            $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                            showModal(status);
-                                        }
-                                        $('#commentaires').val("");
-                                    }
-                                });
-                            }
-                            ;
+                } else if (json.etat == 0) {
+                    $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                    showModal(status);
+                }
+                $('#commentaires').val("");
+            }
+        });
+    }
+    ;
 
-                            function continueValidate(status, etat) {
-                                var data = "?continuer=";
-                                var temp = $('#commentaires').val();
-                                if (temp == undefined)
-                                    temp = "";
-                                data = data + etat + "&status=" + status + "&commentaires=" + temp;
-                                $.ajax({
-                                    type: 'get',
-                                    url: 'continuerValiderListDwc' + data,
-                                    processData: false,
-                                    contentType: false,
-                                    cache: false,
-                                    success: function (json) {
-                                        if (json.etat == 1) {
-                                            console.log(json.etat);
+    function continueValidate(status, etat) {
+        var data = "?continuer=";
+        var temp = $('#commentaires').val();
+        if (temp == undefined)
+            temp = "";
+        data = data + etat + "&status=" + status + "&commentaires=" + temp;
+        $.ajax({
+            type: 'get',
+            url: 'continuerValiderListDwc' + data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (json) {
+                if (json.etat == 1) {
+                    console.log(json.etat);
 //                                        window.location = 'profil';
-                                        } else if (json.etat == 0) {
-                                            $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
-                                            showModal(status);
-                                        }
-                                    }
-                                });
-                            }
-                            ;
+                } else if (json.etat == 0) {
+                    $('.messageMod').html('L\'observation N° ' + json.n + ' a déja été marqué comme ' + json.status + ' par ' + json.expert);
+                    showModal(status);
+                }
+            }
+        });
+    }
+    ;
 </script>
 <script>
     function initMap() {

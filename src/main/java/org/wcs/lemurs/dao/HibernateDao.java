@@ -20,6 +20,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.wcs.lemurs.model.DarwinCore;
+import org.wcs.lemurs.modele_vue.VueValidationDarwinCore;
 
 /**
  *
@@ -130,6 +132,12 @@ public class HibernateDao {
             example.excludeZeroes();
             example.enableLike(MatchMode.ANYWHERE);
             Criteria criteria = session.createCriteria(obj.getClass()).add(example);
+            if(obj.getClass().isInstance(new VueValidationDarwinCore())) {
+                if(((VueValidationDarwinCore)obj).getIdRebioma() != null && ((VueValidationDarwinCore)obj).getIdRebioma()<0) {
+                    criteria.add(Restrictions.isNull("idRebioma"));
+                    ((VueValidationDarwinCore)obj).setIdRebioma(null);
+                }
+            }
             return criteria.list();
         } catch (Exception ex) {
             throw ex;

@@ -10,7 +10,7 @@ app.controller("controller", function ($scope, $http, $sce) {
     $scope.videos = {};
     $scope.alerte = "";
     getallPhotos();
-    getallVideos();
+//    getallVideos();
     var urlLoad = $('#load').val();
     var urlSet = $('#set').val();
     var urlFind = $('#find').val();

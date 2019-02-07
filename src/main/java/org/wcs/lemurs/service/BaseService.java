@@ -271,7 +271,7 @@ public class BaseService {
         return valiny;
     }
 
-    public void deplacerPhoto(File photo, String dossier, String nom) throws Exception {
+    public static void deplacerPhoto(File photo, String dossier, String nom) throws Exception {
         File nouveauPhoto = new File(dossier, nom);
         System.out.println("Photo " + photo);
         System.out.println("Destination " + nouveauPhoto);

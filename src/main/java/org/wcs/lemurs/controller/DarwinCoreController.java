@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import static org.wcs.lemurs.controller.BaseController.ROLE_ADMINISTRATEUR;
@@ -1236,4 +1240,42 @@ public class DarwinCoreController {
         upf.writeDwcCsv(liste, colonnes, ';', response.getOutputStream(), 0);
     }
 
+    @GetMapping(value = "/publicObservations", headers = "Accept=application/json")
+    public List<DarwinCore> getObservationFromPolygone() throws Exception {
+        VueValidationDarwinCore temp = new VueValidationDarwinCore();
+        temp.setPublique(Boolean.TRUE);
+        temp.setIdRebioma(-1);
+        temp.setValidationexpert(1);
+        return (List<DarwinCore>) (List<?>) darwinCoreService.findMultiCritere(temp);
+    }
+
+    @PostMapping(value = "/synchro_inaturalist", headers = "Accept=application/json")
+    public Object synchroInaturalist(HttpSession session) throws Exception {
+        Utilisateur u = (Utilisateur) session.getAttribute("utilisateur");
+        if (u == null) {
+            return Boolean.FALSE;
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<HashMap<String, Object>>> responseEntity = restTemplate.exchange(
+                BaseController.LINK_TO_GET_OCCURRENCE_FROM_INATURALIST, HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<HashMap<String, Object>>>() {
+        });
+        List<HashMap<String, Object>> occurrencesFromInaturalist = responseEntity.getBody();
+        List<DarwinCore> valiny = new ArrayList<>();
+        occurrencesFromInaturalist.stream().map((object) -> new DarwinCore(object)).map((dwcTemp) -> {
+            dwcTemp.setIdUtilisateurUpload(u.getId());
+            dwcTemp.setPublique(Boolean.TRUE);
+            return dwcTemp;
+        }).forEachOrdered((dwcTemp) -> {
+            valiny.add(dwcTemp);
+        });
+        try {
+            darwinCoreService.checkIfExist(valiny);
+            darwinCoreService.upload(valiny);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        return Boolean.TRUE;
+    }
 }
