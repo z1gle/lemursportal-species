@@ -338,6 +338,7 @@ public class DarwinCoreService extends MailService {
                     List<PhotoDarwinCore> photos = dw.getPhotos();
                     PhotoDarwinCore pdcTemp = new PhotoDarwinCore();
                     pdcTemp.setProfil(Boolean.TRUE);
+                    pdcTemp.setIdDarwinCore(dw.getId());
                     List<BaseModel> listTemp = super.findMultiCritere(session, pdcTemp);
                     if (listTemp == null || listTemp.isEmpty()) {
                         photos.get(0).setProfil(Boolean.TRUE);
