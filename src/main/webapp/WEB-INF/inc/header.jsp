@@ -315,6 +315,9 @@
                                 };
                             </script>
                         </c:if>
+                            <li>
+                                <a href="showDraft" onclick="window.location = 'showDraft'"><i class="fa fa-table"></i></a>
+                            </li>
                     </ul>                    
                 </nav>
                 <!-- /main nav -->                

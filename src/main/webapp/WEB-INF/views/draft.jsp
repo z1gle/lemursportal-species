@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-md-6"><input type="radio" name="filter" ng-click="get(-1)"> Institutioncode</div>
+                    <div class="col-md-6"><input type="radio" name="filter" checked ng-click="get(-1)"> Institutioncode</div>
                     <div class="col-md-6"><input type="radio" name="filter" ng-click="get(1)"> Scientificname</div>
                 </div>
             </div>
@@ -19,9 +19,9 @@
         </div>
         <!-- Contenu -->
         <div class="vignette-result" style="margin-top: 0px;">
-            <div class="container">                
+            <div class="container- fluid">                
                 <div class="row">
-                    <div class="panel panel-primary">                            
+                    <div class="panel panel-primary" style="margin-left: 15px; margin-right: 15px;">                            
                         <!-- TABLE RESULT -->                            
                         <h5>Data from inaturalist</h5>
                         <div class="table-responsive">
