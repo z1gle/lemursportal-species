@@ -107,7 +107,7 @@ public class TaxonomiBaseController {
         List<String> nom = new ArrayList<>();
         nom.add("dwcf");
         List<Object> param = new ArrayList<>();
-        param.add("%"+requestData+"%");
+        param.add(requestData);
         return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct genus from taxonomi_base where dwcfamily ilike :dwcf", nom, param);
     }
 
@@ -117,7 +117,7 @@ public class TaxonomiBaseController {
         nom.add("dwcgen");
         List<Object> param = new ArrayList<>();
         param.add(requestData);
-        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct scientificname from taxonomi_base where genus = :dwcgen", nom, param);
+        return (List<String>) (List<?>) taxonomiBaseService.executeSqlList("select distinct scientificname from taxonomi_base where genus ilike :dwcgen", nom, param);
     }
 
     @RequestMapping(value = "/assigner", method = RequestMethod.POST, headers = "Accept=application/json")
