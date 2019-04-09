@@ -271,8 +271,8 @@
             <div class="container-fluid">
                 <div class="row" style="margin-top: 10px;">
                     <!-- Stat -->                    
-                    <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;">Liste des obsérvations |</h1>
-                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | Observation total: <b>{{liste[0].total}}</b></h5>                                        
+                    <h1 style="font-size:  14px;font-weight:  600;width:  167px;float: left;margin-top: 9px; color: #a18029;"><spring:message code="observation.title"/> |</h1>
+                    <h5 style="float: right;" class="stat " ng-cloak>Page: <b>{{pageEnCours}}/{{lastPage}}</b> | <spring:message code="observation.table.total"/>: <b>{{liste[0].total}}</b></h5>                                        
                     <input ng-keyup="$event.keyCode == 13 ? rechercheGlobale() : null" title="Global research" id="rechercheGlobale" type="text" style="display: inline-block; float: left; margin-left: 8px;">                                                            
                 </div>
                 <div class="row">                    
@@ -289,22 +289,22 @@
                                         <td class="text-center"></td>
                                         <%}%>
                                         <td class="number text-center">Id</td>
-                                        <td class="text-center">Nom scientifique </td>
-                                        <td class="text-center">Localisation</td>
-                                        <td class="text-center">Classe</td>
-                                        <td class="text-center">Ordre</td>                                        
-                                        <td class="text-center">Genre</td>
-                                        <td class="text-center">Date</td>
-                                        <td class="text-center">Institution</td>
+                                        <td class="text-center"><spring:message code="table.dwc.scientificname"/> </td>
+                                        <td class="text-center"><spring:message code="table.dwc.location"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.class"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.order"/></td>                                        
+                                        <td class="text-center"><spring:message code="table.dwc.genus"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.date"/></td>
+                                        <td class="text-center"><spring:message code="table.dwc.institution"/></td>
                                         <%
                                             Integer role = ((Integer) request.getAttribute("role"));
                                             Integer idChercheur = ((Integer) request.getAttribute("idChercheur"));
                                             if (role == 0) {
                                         %>
-                                        <td class="text-center">Remarque</td>
+                                        <td class="text-center"><spring:message code="table.dwc.remark"/></td>
                                         <%}%>
                                         <%if (expert == 0) {%>
-                                        <td class="text-center">Etat</td>
+                                        <td class="text-center"><spring:message code="table.dwc.status"/></td>
                                         <%}%>
                                         <td></td>
                                         <td></td>

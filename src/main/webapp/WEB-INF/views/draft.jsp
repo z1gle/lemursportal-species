@@ -29,7 +29,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr style="background-color: black; color: #deaa45; font-weight: 700;">
-                                        <td class="text-center">Institutioncode</td>
+                                        <td class="text-center label-icsn">Institutioncode</td>
                                         <td class="text-right">Public</td>
                                         <td class="text-right">Private</td>
                                         <td class="text-right">Waiting</td>
@@ -68,7 +68,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr style="background-color: black; color: #deaa45; font-weight: 700;">
-                                        <td class="text-center">Institutioncode</td>
+                                        <td class="text-center label-icsn">Institutioncode</td>
                                         <td class="text-right">Public</td>
                                         <td class="text-right">Private</td>
                                         <td class="text-right">Waiting</td>
@@ -107,7 +107,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr style="background-color: black; color: #deaa45; font-weight: 700;">
-                                        <td class="text-center">Institutioncode</td>
+                                        <td class="text-center label-icsn">Institutioncode</td>
                                         <td class="text-right">Public</td>
                                         <td class="text-right">Private</td>
                                         <td class="text-right">Waiting</td>

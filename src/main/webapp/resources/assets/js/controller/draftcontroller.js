@@ -13,6 +13,11 @@ app.controller("draft", function ($scope, $http) {
     $scope.t3;
     getall(-1);
     function getall(sc) {
+        if (sc === -1) {
+            $('.label-icsn').text('Institutioncode');
+        } else if (sc === 1) {
+            $('.label-icsn').text('Scientificname');
+        }
         $http({
             method: 'GET',
             url: 'drafts?scientificname=' + sc,
@@ -45,6 +50,11 @@ app.controller("draft", function ($scope, $http) {
     }
 
     $scope.get = function (sc) {
+        if (sc === -1) {
+            $('.label-icsn').text('Institutioncode');
+        } else if (sc === 1) {
+            $('.label-icsn').text('Scientificname');
+        }
         $http({
             method: 'GET',
             url: 'drafts?scientificname=' + sc,
