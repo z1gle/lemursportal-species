@@ -147,7 +147,7 @@
          data: {category: y, scientificname: x
          },
          datatype:'json',
-         url: 'http://localhost:8080/lemursPortal-root/graphics',
+         url: 'https://www.lemursportal.org/graphics',
          success: function (response) {
          //alert(response.msg);
          }
