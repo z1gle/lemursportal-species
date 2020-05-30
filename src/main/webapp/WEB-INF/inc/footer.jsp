@@ -136,5 +136,26 @@
 <script src="<c:url value="/resources/assets/js/jquery.ba-cond.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/wow.min.js"/>"></script>
 <script src="<c:url value="/resources/assets/js/main.js"/>"></script>
+<script type="text/javascript">
+    $("#maj").click(function () {
+       $.getJSON('http://apiv3.iucnredlist.org/api/v3/country/getspecies/MG?token=a670c99f2bd446865c436bbd8740c237b6d436ee92a7a088f23d81f7cc6bc61d', function (datas) {
+         for (var i = 0; i < datas.result.length; i++) {
+         var x = datas.result[i].scientific_name;
+         var y = datas.result[i].category;
+         $.ajax({
+         method: 'POST',
+         data: {category: y, scientificname: x
+         },
+         datatype:'json',
+         url: 'http://localhost:8080/lemursPortal-root/graphics',
+         success: function (response) {
+         //alert(response.msg);
+         }
+         });
+         }
+         console.log("vita");
+         });
+         })
+</script>
 </body>
 </html>

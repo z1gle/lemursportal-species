@@ -24,6 +24,7 @@
         <link href="<c:url value="/resources/assets/css/main.min.css" />" rel="stylesheet">		
         <link href="<c:url value="/resources/assets/css/styles_.min.css" />" rel="stylesheet">
         <script src="<c:url value="/resources/assets/js/jquery-1.11.1.min.js"/>"></script>
+        <script src="<c:url value="/resources/assets/js/jquery.min.js"/>"></script>
     </head>
     <body ng-app="app">
         <!-- Navigation -->
@@ -55,6 +56,7 @@
                         <li><a onclick="window.location = 'darwinportal'" href="darwinportal"><spring:message code="header.label.observations"/></a></li>
                         <li><a onclick="window.location = 'visualisation'" href="visualisation"><spring:message code="header.label.map"/></a></li>
                         <li><a onclick="window.location = '/forum/experts/'" href="/forum/experts/"><spring:message code="header.label.experts"/></a></li>                        
+                        <li><a href="#" id="maj" >&nbsp; Mise à jour status UICN</a></li>
 
                         <c:if test="${role10001 == 10001}">
                             <!--<li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>-->
@@ -64,6 +66,8 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#" onclick="window.location = 'listeUtilisateur'">&nbsp; Utilisateur</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#" onclick="window.location = 'taxonomi'">&nbsp; Mise à jour status UICN</a></li>
                                     <li class="divider"></li>
                                     <li><a href="#" onclick="window.location = 'gestionModele'">&nbsp; Modeles</a></li>
                                     <li class="divider"></li>
@@ -312,12 +316,13 @@
                                             }
                                         }
                                     });
-                                };
+                                }
+                                ;
                             </script>
                         </c:if>
-                            <li>
-                                <a href="showDraft" onclick="window.location = 'showDraft'"><i class="fa fa-table"></i></a>
-                            </li>
+                        <li>
+                            <a href="showDraft" onclick="window.location = 'showDraft'"><i class="fa fa-table"></i></a>
+                        </li>
                     </ul>                    
                 </nav>
                 <!-- /main nav -->                
