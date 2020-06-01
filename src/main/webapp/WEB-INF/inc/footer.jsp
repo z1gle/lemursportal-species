@@ -153,7 +153,7 @@
          }
          });
          }
-         console.log("vita");
+         Alert("Mise à jour terminée avec succès");
          });
          })
 </script>

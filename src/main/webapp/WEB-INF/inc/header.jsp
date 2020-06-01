@@ -56,8 +56,6 @@
                         <li><a onclick="window.location = 'darwinportal'" href="darwinportal"><spring:message code="header.label.observations"/></a></li>
                         <li><a onclick="window.location = 'visualisation'" href="visualisation"><spring:message code="header.label.map"/></a></li>
                         <li><a onclick="window.location = '/forum/experts/'" href="/forum/experts/"><spring:message code="header.label.experts"/></a></li>                        
-                        <li><a href="#" id="maj" >&nbsp; Mise à jour status UICN</a></li>
-
                         <c:if test="${role10001 == 10001}">
                             <!--<li><a onclick="window.location = 'listeUtilisateur'" href="listeUtilisateur">Utilisateurs</a></li>-->
                             <li class="dropdown">
@@ -67,7 +65,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#" onclick="window.location = 'listeUtilisateur'">&nbsp; Utilisateur</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#" onclick="window.location = 'taxonomi'">&nbsp; Mise à jour status UICN</a></li>
+                                    <li><a href="#" id="maj" >&nbsp; Mise à jour des status UICN</a></li>
                                     <li class="divider"></li>
                                     <li><a href="#" onclick="window.location = 'gestionModele'">&nbsp; Modeles</a></li>
                                     <li class="divider"></li>
@@ -75,8 +73,6 @@
                                 </ul>
                             </li>
                         </c:if>
-
-
                         <c:if test="${utilisateur.nom!=''&&utilisateur.nom!=null}">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
