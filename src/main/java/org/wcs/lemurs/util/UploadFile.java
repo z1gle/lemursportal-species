@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -271,7 +273,49 @@ public class UploadFile {
         }
         writer.flush();
     }
+ public void writeDwcsCsv(List<VueValidationDarwinCore> taxonomies, int[] listeColonnes, char separator, File file, int idU) throws Exception {
+        FileWriter csvWriter = new FileWriter(file);
+        String header = "";
+        if (idU > 0) {
+            header += "id" + separator;
+        }
+        Field[] colonnes = DarwinCore.class.getDeclaredFields();
+        for (int f : listeColonnes) {
+            String temp = colonnes[f].getName();
+            if (temp.contains("dwc")) {
+                temp = temp.split("dwc")[0] + "" + temp.split("dwc")[1];
+            } else if (temp.contains("darwin")) {
+                temp = temp.split("darwin")[0] + "" + temp.split("darwin")[1];
+            }
+            temp = temp.substring(0, 1).toUpperCase() + temp.substring(1);
+            header += temp + separator;
+        }
+        header = header.substring(0, header.length() - 1);
+        csvWriter.append(header);
+        csvWriter.append("\n");
+        for (VueValidationDarwinCore row : taxonomies) {
+            String field = "";
+            if (idU > 0) {
+                field += Integer.toString(row.getId()) + ";";
+            }
+            for (int f : listeColonnes) {
+                try {
+                    String temp = (String) row.getClass().getMethod("get" + colonnes[f].getName().substring(0, 1).toUpperCase() + colonnes[f].getName().substring(1), null).invoke(row, null);
+                    if (temp.contains(String.valueOf(separator))) {
+                        temp = temp.replace(String.valueOf(separator), ",");
+                    }
+                    field += temp + String.valueOf(separator);
+                } catch (Exception e) {
+                    field += "-" + String.valueOf(separator);
+                }
+            }
+            field = field.substring(0, field.length() - 1);
 
+            csvWriter.append(field);
+            csvWriter.append("\n");
+        }
+        csvWriter.flush();
+    }
     public static String checkSyntaxEnleverEspaceFin(String texte) {
         String valiny = "";
         if (texte.endsWith(" ")) {

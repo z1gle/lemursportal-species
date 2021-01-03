@@ -5,14 +5,29 @@
  */
 package org.wcs.lemurs.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -64,7 +79,10 @@ public class DarwinCoreController {
     @Autowired(required = true)
     @Qualifier("darwinCoreService")
     private DarwinCoreService darwinCoreService;
-
+    
+    @Autowired
+    ServletContext context;
+    
     @RequestMapping(value = "/detailLemurien")
     public ModelAndView darwinportal(HttpSession session, @RequestParam("id") Integer id) {
         ModelAndView valiny = new ModelAndView("page-detail_observation");
@@ -795,10 +813,72 @@ public class DarwinCoreController {
         }
         List<DarwinCore> listeTemp = darwinCoreService.findAll(u, vvdc);
         List<VueValidationDarwinCore> liste = (List<VueValidationDarwinCore>) (List<?>) listeTemp;
-        response.setHeader("Content-Type", "text/csv");
-        response.setHeader("Content-Disposition", "attachment;filename=\"observations.csv\"");
+        /* response.setHeader("Content-Type", "text/csv");
+        response.setHeader("Content-Disposition", "attachment;filename=\"observations.csv\"");*/
+        File filecsv = new File("observations.csv");
+        // FileOutputStream filecsv = new FileOutputStream("observations.csv");
         UploadFile upf = new UploadFile();
-        upf.writeDwcCsv(liste, colonnes, ';', response.getOutputStream(), idU);
+        upf.writeDwcsCsv(liste, colonnes, ';', filecsv, idU);
+        try {
+            File filetxt = new File("citation_DUA_MLP.txt");
+            FileWriter txtWriter = new FileWriter(filetxt);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+            //obtenir la date courante
+            Date date = new Date();
+            System.out.println(format.format(date));
+            txtWriter.append("Occurrence data downloaded from Madagascar Lemurs Portal (MLP) at http://www.lemursportal.org on ");
+            txtWriter.append(format.format(date) + ".");
+            txtWriter.append("Data provided by institutions and data providers listed in the occurrence fields named \"InstitutionCode\".");
+            txtWriter.append("\n");
+            txtWriter.append("\n");
+            txtWriter.append("By downloading and/or viewing data on the MLP, you are agreeing to the following conditions:");
+            txtWriter.append("\n");
+            txtWriter.append(" * Species occurrence records and models served by MLP are to be utilized by individual researchers or research groups for scholarly, educational or research purposes only and not for any commercial purpose.\n");
+            txtWriter.append(" * If any records or models derived from these records are used in an analysis, report, presentation, etc., the provenance of the original data must be acknowledged (see \"Acknowledgment\" below) and the data-provider or the curatorial staff of specific institutions should be notified. Please also notify the MLP project.\n");
+            txtWriter.append(" * The data-providers, institutions, MLP, and their staff supply this data with no warranties, express or implied, concerning its fitness for any particular purpose, and are not responsible for damages, injury or loss due to the use of these data or models.\n");
+            txtWriter.append(" * Recipients of data or models from the Lemurs portal shall be solely responsible for the use and presentation of the data and will ensure that the use and presentation of the data are correct and that the data are accurately reproduced and not taken out of context.\n");
+            txtWriter.flush();
+            txtWriter.close();
+            System.out.println("done!");
+            String[] filePath = {filecsv.getAbsolutePath(), filetxt.getAbsolutePath()};
+            String zipFileName = "data.zip";
+            File file = new File(zipFileName);
+            FileOutputStream fos = new FileOutputStream(zipFileName);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            for (String aFile : filePath) {
+                zos.putNextEntry(new ZipEntry(new File(aFile).getName()));
+                byte[] bytes = Files.readAllBytes(Paths.get(aFile));
+                zos.write(bytes, 0, bytes.length);
+                zos.closeEntry();
+            }
+            zos.close();
+            System.out.println(zipFileName);
+            if (file.exists()) {
+                String mimeType = context.getMimeType(file.getPath());
+                if (mimeType == null) {
+                    mimeType = "application/octet-stream";
+                }
+                response.setContentType(mimeType);
+                response.addHeader("Content-Disposition", "attachment; filename=" + zipFileName);
+                response.setContentLength((int) file.length());
+                OutputStream os = response.getOutputStream();
+                FileInputStream fis = new FileInputStream(file);
+                byte[] buffer = new byte[4096];
+                int b = -1;
+                while ((b = fis.read(buffer)) != -1) {
+                    os.write(buffer, 0, b);
+                }
+                fis.close();
+                os.close();
+            } else {
+                System.out.println("Requested " + zipFileName + " file not found!!");
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println("A file does not exist: " + ex);
+
+        } catch (IOException ex) {
+            System.err.println("I/O error: " + ex);
+        }
     }
 
     @RequestMapping(value = "/getColonnesDwc", method = RequestMethod.POST, headers = "Accept=application/json")
