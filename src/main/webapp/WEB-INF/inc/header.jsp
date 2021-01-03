@@ -65,7 +65,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#" onclick="window.location = 'listeUtilisateur'">&nbsp; Utilisateur</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#" id="maj" >&nbsp; Mise à jour des status UICN</a></li>
+                                    <li><a href="#" id="maj" >&nbsp; <spring:message code="update_iucn"/></a></li>
                                     <li class="divider"></li>
                                     <li><a href="#" onclick="window.location = 'gestionModele'">&nbsp; Modeles</a></li>
                                     <li class="divider"></li>
