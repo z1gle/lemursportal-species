@@ -294,6 +294,7 @@
                                 <ul class="nav panel-tabs">
                                     <li class="active"><a href="#carto" data-toggle="tab"><spring:message code="map.filter.map"/></a></li>
                                     <li><a href="#modele" data-toggle="tab"><spring:message code="map.filter.model"/></a></li>
+                                    <li><a href="#layer_shapefile" data-toggle="tab"><spring:message code="shapefile_layer"/></a></li>
                                     <li style="display: none;"><a href="#tendance" data-toggle="tab"><spring:message code="map.filter.trend"/></a></li>
                                 </ul>
                             </div>
@@ -369,12 +370,73 @@
                                     <div class="list-group-submenu" id="mod" style="max-height: 320px; overflow-x: hidden; overflow-y: auto;">
                                         <div style=" margin-left: 5px;" class="row" class="list-group-item">
                                             <label style="display: block; font-weight: 400;" ng-repeat="modele in modelesSorted">
-                                                <input id="{{modele.id}}" name="md" type="radio" ng-click="changeLastUrlOverlay(modele.url)">  {{modele.name}}
+                                                <input id="{{modele.id}}" name="md" type="checkbox" ng-click="changeLastUrlOverlay(modele.url)">  {{modele.name}}
                                             </label><br>
                                         </div>
                                     </div>
                                     <button style="width: 100%;" class="btn" onclick="resetMap()">reset</button>                                    
-                                </div>                            
+                                </div>
+                                <div class="tab-pane" id="layer_shapefile">
+                                    <div class='row'>       
+                                        <div style=" margin-left: 5px;" class="row" ng-cloak ng-repeat="sh in shp" class="list-group-item">
+                                            <a href="#lim_{{sh.shapeTable}}" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse">
+                                                <i class="fa fa-map-pin"></i>{{sh.shapeLabel}} &nbsp;<i class="fa fa-caret-down"></i></a> 
+                                            <div class="collapse list-group-submenu" id="lim_{{sh.shapeTable}}">
+                                                <div class='col-md-10 col-md-offset-1' style="max-height: 320px; overflow-y:  auto;">         
+                                                        <input id="shps-{{sh.id}}" type="checkbox" ng-click="getKmlFromShpTST(sh.id, sh.shapeTable)"> {{sh.shapeTable}}
+                                                        <ul style="list-style-type:none; margin-left: 5px;" id="kmlTst-{{sh.shapeTable}}"></ul>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<a href="#lim_region" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse">
+                                        <i class="fa fa-map-pin"></i><spring:message code="lim_region"/> &nbsp;<i class="fa fa-caret-down"></i></a>                                    
+                                    <div class="list-group-submenu" id="lim_region" style="max-height: 320px; overflow-x: hidden; overflow-y: auto;">
+                                        <div style=" margin-left: 5px;" class="row" class="list-group-item">
+                                            <label style="display: block; font-weight: 400;" ng-repeat="region in regions">
+                                                <input  name="md" type="checkbox">  {{region}}
+                                            </label><br>
+                                        </div>
+                                    </div>
+                                    <a href="#district" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse">
+                                        <i class="fa fa-map-pin"></i><spring:message code="lim_district"/> &nbsp;<i class="fa fa-caret-down"></i></a>                                    
+                                    <div class="collapse list-group-submenu" id="district" style="max-height: 320px; overflow-x: hidden; overflow-y: auto;">
+                                        <div style=" margin-left: 5px;" class="row" class="list-group-item">
+                                            <label style="display: block; font-weight: 400;" ng-repeat="district in districts">
+                                                <input  name="md" type="checkbox">  {{district}}
+                                            </label><br>
+                                        </div>
+                                    </div>
+                                    <a href="#commune" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse">
+                                        <i class="fa fa-map-pin"></i><spring:message code="lim_commune"/> &nbsp;<i class="fa fa-caret-down"></i></a>                                    
+                                    <div class="collapse list-group-submenu" id="commune" style="max-height: 320px; overflow-x: hidden; overflow-y: auto;">
+                                        <div style=" margin-left: 5px;" class="row" class="list-group-item">
+                                            <label style="display: block; font-weight: 400;" ng-repeat="commune in communes">
+                                                <input  name="md" type="checkbox">  {{commune}}
+                                            </label><br>
+                                        </div>
+                                    </div>
+                                    <a href="#AP" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse">
+                                        <i class="fa fa-map-pin"></i><spring:message code="lim_AP"/> &nbsp;<i class="fa fa-caret-down"></i></a>                                    
+                                    <div class="collapse list-group-submenu" id="AP" style="max-height: 320px; overflow-x: hidden; overflow-y: auto;">
+                                        <div style=" margin-left: 5px;" class="row" class="list-group-item">
+                                            <label style="display: block; font-weight: 400;" ng-repeat="ap in AP">
+                                                <input  name="md" type="checkbox">  {{ap}}
+                                            </label><br>
+                                        </div>
+                                    </div>
+
+                                    <a href="#iucn" class="list-group-item list-group-item strong" style="background: #74ac00;" data-toggle="collapse">
+                                        <i class="fa fa-map-pin"></i><spring:message code="lim_IUCN_species_distribution"/> &nbsp;<i class="fa fa-caret-down"></i></a>                                    
+                                    <div class="collapse list-group-submenu" id="iucn" style="max-height: 320px; overflow-x: hidden; overflow-y: auto;">
+                                        <div style=" margin-left: 5px;" class="row" class="list-group-item">
+                                            <label style="display: block; font-weight: 400;" ng-repeat="ap in AP">
+                                                <input  name="md" type="radio">  {{ap}}
+                                            </label><br>
+                                        </div>
+                                    </div>-->
+                                    <button type='button' id="" onclick="showKmlLayer()" style="width: 100%;" class='btn' data-dismiss='modal'>Afficher la couche</button>
+                                </div>
                                 <div class="tab-pane" id="tendance">
                                     tendance de population
                                 </div>
@@ -458,7 +520,8 @@
                 </div>
                 <div class='modal-footer'>
                     <button type='button' class='btn btn-default btn-sm' data-dismiss='modal'>Annuler</button>
-                    <button type='button' id="" onclick="showKml()" class='btn btn-success btn-sm' data-dismiss='modal'>Afficher</button>
+                    <button type='button' id="" onclick="showKml()" class='btn btn-success btn-sm' data-dismiss='modal'>Afficher et recherche</button>
+                    <button type='button' id="" onclick="showKmlLayer()" class='btn btn-success btn-sm' data-dismiss='modal'>Afficher Layer</button>
                 </div>
             </div>
         </div>
@@ -733,6 +796,11 @@
 
     // Gestion kml et shp//
     function addOneKml(mark, cible) {
+        var src = "http://localhost:8080/lemurs/resources/assets/modele/kml/region0.01_17_7.kml"
+        /* const ctaLayer = new google.maps.KmlLayer({
+         url: "https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml",
+         map: map,
+         });*/
         var link = window.location.href;
         console.log(link);
         var linkRoot = link.substring(0, link.lastIndexOf('/') + 1);
@@ -822,7 +890,22 @@
         });
         console.log('fin');
     }
-
+    function showLayer(url) {
+        console.log('debut');
+        $.ajax({
+            method: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function (mark) {
+                console.log(mark);
+                addOneKml(mark, kmls);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        console.log('fin');
+    }
     function showKml() {
         clearKMLs();
         var urls = getUrlsForKml();
@@ -833,7 +916,13 @@
             showOneKml(urls[i], urlPlacemarks[i], markersKML, dwcsKLM);
         }
     }
-
+    function showKmlLayer() {
+        clearKMLs();
+        var urls = getUrlsForKml();
+        for (var i = 0; i < urls.length; i++) {
+            showLayer(urls[i]);
+        }
+    }
     function clearKMLs() {
         for (var i = 0; i < kmls.length; i++) {
             kmls[i].setMap(null);

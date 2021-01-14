@@ -63,8 +63,7 @@ public class ShpController {
 
     @PostMapping(value = "shp")
     public HashMap<String, Object> save(HttpSession session,
-            @RequestParam MultipartFile shapefile,
-            //            @RequestParam Integer categorie,
+            @RequestParam MultipartFile shapefile, @RequestParam String path,
             @RequestParam(required = false) String shapeLabel) {
 
         HashMap<String, Object> response = new HashMap<>();
@@ -77,11 +76,23 @@ public class ShpController {
                 return response;
             }
             ShpInfo shpInfo = new ShpInfo();
-//            shpInfo.setIdCategorie(categorie);            
-            shpInfo.setShapeLabel("nom");
-            shpInfo.setShapeTable(shapefile.getOriginalFilename().replaceAll(".zip", ""));
-            shpInfo.setPath(session.getServletContext().getRealPath("/resources/assets/modele/shp/") + shpInfo.getShapeTable() + ".zip");
-            shpService.saveShp(shapefile, shpInfo);
+            shpInfo.setShapeLabel(shapeLabel);
+            shpInfo.setNomChampGeometrique("geom");
+            shpInfo.setShapePrecision(0.01);
+            String extension = "";
+            String filename = "";
+            int i = shapefile.getOriginalFilename().lastIndexOf('.');
+            if (i > 0) {
+                extension = shapefile.getOriginalFilename().substring(i + 1);
+                filename = shapefile.getOriginalFilename().substring(0, i);
+            }
+            if (!extension.equalsIgnoreCase("shp")) {
+                throw new Exception("The file is not a shapeFile");
+            }
+            shpInfo.setShapeTable(filename);
+            shpInfo.setPath(path);
+            shpService.save(shpInfo);
+            // shpService.saveShp(shapefile, shpInfo);
         } catch (Exception ex) {
             Logger.getLogger(BaseController.class.getName()).log(Level.SEVERE, null, ex);
             response.put("state", Boolean.FALSE);

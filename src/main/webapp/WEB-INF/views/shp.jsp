@@ -40,7 +40,7 @@
             }        
         }
     </style>
-    
+
     <!--Style for input type file-->
     <style>
         #shapefile-asc {
@@ -146,7 +146,7 @@
                                         <td class="text-center">{{mod.shapePrecision}}</td>                                        
                                         <td class="text-center">{{mod.nomChampGeometrique}}</td>
                                         <td class="text-center">{{mod.path}}</td>                                        
-                                                <%if (showAddButton == 0) {%>
+                                        <%if (showAddButton == 0) {%>
                                         <td class="text-center del">
                                             <a href="#" data-toggle='modal' data-target='#modal-add-edit-shapefile' ng-click="editer(mod.id)"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
                                             <a href="#" data-toggle='modal' data-target='#modal-delete-shapefile' ng-click="del(mod.id)"><i class="fa fa-remove"></i></a>
@@ -185,10 +185,12 @@
                 <div class='modal-body row'>
                     <form id="uploadForm" method="POST" class="col-md-offset-1 col-md-11" enctype="multipart/form-data">
                         <input type="hidden" id="idShapefile" value="-1">
-                        <!--Name :-->
-                        <input type="hidden" class="form-control" value="we_just_need_value_to_make_it_work_but_it_means_nothing" name="name" id="newShapefileName" style="width: 92%; border-radius: 4px; height: 43px;"><br>
-<!--                        Categorie :
-                        <input type="text" class="form-control" name="categorie" id="newShapefileCategorie" style="width: 92%; border-radius: 4px; height: 43px;"><br>-->
+                        Name :
+                        <input type="text" class="form-control" name="name" id="newShapefileName" style="width: 92%; border-radius: 4px; height: 43px;"><br>
+                        Field label:
+                        <input type="text" class="form-control" name="name" id="path" style="width: 92%; border-radius: 4px; height: 43px;"><br>
+                        <!--                        Categorie :
+                                                <input type="text" class="form-control" name="categorie" id="newShapefileCategorie" style="width: 92%; border-radius: 4px; height: 43px;"><br>-->
                         <label for="shapefile-asc" id="buttonlabel">
                             <span role="button" aria-controls="filename" tabindex="0">
                                 File path
@@ -208,7 +210,7 @@
             </div>
         </div>
     </div>    
-    
+
     <!--Modal delete-->
     <div id='modal-delete-shapefile' class='modal fade' role='dialog' style='display:none !important' tabindex="-1">
         <div class='modal-dialog'>

@@ -41,7 +41,7 @@ import org.wcs.lemurs.model.ShpInfo;
 @Transactional
 public class ShapeFileService extends BaseService {
 
-    public static String PATH_Shp2pgsql = "C:\\Program Files\\PostgreSQL\\10\\bin\\shp2pgsql.exe";
+    public static String PATH_Shp2pgsql = "C:\\Program Files\\PostgreSQL\\9.4\\bin\\shp2pgsql";
 
     private static final NumberFormat NUMBER_FORMAT;
 
@@ -166,7 +166,7 @@ public class ShapeFileService extends BaseService {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT ")
                     .append(shp.getNomChampGid()).append(" as ").append(KmlService.KML_GID_NAME).append(", ")
-                    .append(shp.getShapeLabel()).append(" as ").append(KmlService.KML_LABEL_NAME)
+                    .append(shp.getPath()).append(" as ").append(KmlService.KML_LABEL_NAME)
                     .append(", ST_AsKML(CAST(ST_Simplify(").append(shp.getNomChampGeometrique()).append(", :tolerance) as varchar)) as gisAsKmlResult ");
             sql.append(" FROM ").append(tableName)
                     .append(" WHERE ").append(shp.getNomChampGid()).append(" IN (");
@@ -244,7 +244,7 @@ public class ShapeFileService extends BaseService {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT ")
                     .append(shp.getNomChampGid()).append(" as ").append(KmlService.KML_GID_NAME).append(", ")
-                    .append(shp.getShapeLabel()).append(" as ").append(KmlService.KML_LABEL_NAME)
+                    .append(shp.getPath()).append(" as ").append(KmlService.KML_LABEL_NAME)
                     .append(", ST_AsKML(CAST(ST_Simplify(").append(shp.getNomChampGeometrique()).append(", :tolerance) as varchar)) as gisAsKmlResult ");
             sql.append(" FROM ").append(tableName)
                     .append(" WHERE ").append(shp.getNomChampGid()).append(" IN (");
@@ -324,7 +324,7 @@ public class ShapeFileService extends BaseService {
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT ")
                     .append(shp.getNomChampGid()).append(" as ").append(KmlService.KML_GID_NAME).append(", ")
-                    .append(shp.getShapeLabel()).append(" as ").append(KmlService.KML_LABEL_NAME)
+                    .append(shp.getPath()).append(" as ").append(KmlService.KML_LABEL_NAME)
                     .append(", ST_AsKML(CAST(ST_Simplify(").append(shp.getNomChampGeometrique()).append(", :tolerance) as varchar)) as gisAsKmlResult ");
             sql.append(" FROM ").append(shp.getShapeTable());
             SQLQuery sqlQuery = session.createSQLQuery(sql.toString());
@@ -341,5 +341,56 @@ public class ShapeFileService extends BaseService {
                 session.close();
             }
         }
+    }
+
+    public List<String> getRegions() {
+        List<String> regions = new ArrayList<String>();
+        Session session = super.getHibernateDao().getSessionFactory().openSession();
+        SQLQuery sqlQuery = session
+                .createSQLQuery("SELECT distinct name_2 from region order by name_2");
+        regions = sqlQuery.list();
+        System.out.println("regions=" + regions);
+        return regions;
+    }
+
+    public List<String> getProtetectedAreas() {
+        List<String> admins = new ArrayList<String>();
+        Session session = super.getHibernateDao().getSessionFactory().openSession();
+        SQLQuery sqlQuery = session
+                .createSQLQuery("SELECT distinct full_name from protected_areas order by full_name");
+        admins = sqlQuery.list();
+        System.out.println("AP=" + admins);
+        return admins;
+    }
+
+    public List<String> getCommunes() {
+        List<String> communes = new ArrayList<String>();
+        Session session = super.getHibernateDao().getSessionFactory().openSession();
+        SQLQuery sqlQuery = session
+                .createSQLQuery("SELECT distinct name_4 from commune order by name_4");
+        communes = sqlQuery.list();
+        System.out.println("communes =" + communes);
+        return communes;
+    }
+
+    public List<String> getDistricts() {
+        List<String> districts = new ArrayList<String>();
+        Session session = super.getHibernateDao().getSessionFactory().openSession();
+        SQLQuery sqlQuery = session
+                .createSQLQuery("SELECT distinct name_3 from district order by name_3");
+        districts = sqlQuery.list();
+        System.out.println("districts =" + districts);
+
+        return districts;
+    }
+
+    public List<String> getIUCN_species() {
+        List<String> admins = new ArrayList<String>();
+        Session session = super.getHibernateDao().getSessionFactory().openSession();
+        SQLQuery sqlQuery = session
+                .createSQLQuery("SELECT distinct full_name from iucn_species order by full_name");
+        admins = sqlQuery.list();
+
+        return admins;
     }
 }

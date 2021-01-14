@@ -96,6 +96,7 @@ app.controller("shapefile", function ($scope, $http) {
         var file = $('#shapefile-asc')[0].files[0];
         formData.append("shapefile", file);
         formData.append("shapeLabel", $('#newShapefileName').val());
+        formData.append("path", $('#path').val());
 //        formData.append("categorie", $('#newShapefileCategorie').val());
         var meth = 'POST';
         var url = 'shp';

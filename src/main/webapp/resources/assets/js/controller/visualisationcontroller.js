@@ -8,11 +8,14 @@ app.controller("darwin", function ($scope, $http) {
     $scope.modeles = [];
     $scope.modelesSorted = [];
     $scope.shp = [];
+    $scope.regions = [];
+    $scope.districts = [];
+    $scope.communes = [];
+    $scope.AP = [];
     getFamille();
     getModeles();
     getShp();
     $scope.filtreModele;
-
     function getFamille() {
         $http({
             method: 'POST',
@@ -70,6 +73,17 @@ app.controller("darwin", function ($scope, $http) {
         }
         $('#kml-' + name).append(body);
     }
+    function fillKmltst(mark, id, name) {
+        $('.kmls' + id).remove();
+        var body = '';
+        for (var i = 0; i < mark.length; i++) {
+            var row = '<li class="kmls' + id + '">';
+            row += '<input id="' + name + '!!' + mark[i].gid + '" type="checkbox"  name="gids-kml">  ' + mark[i].name;
+            row += '</li>';
+            body += row;
+        }
+        $('#kmlTst-' + name).append(body);
+    }
 
     $scope.getKmlFromShp = function (id, name) {
         if ($('#shp-' + id)[0].checked == true) {
@@ -85,6 +99,22 @@ app.controller("darwin", function ($scope, $http) {
             });
         } else {
             $('.kml' + id).remove();
+        }
+    };
+    $scope.getKmlFromShpTST = function (id, name) {
+        if ($('#shps-' + id)[0].checked == true) {
+            $http({
+                method: 'GET',
+                url: 'kmls?idShp=' + id,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(function success(response) {
+                fillKmltst(response.data, id, name);
+            });
+        } else {
+            $('.kmls' + id).remove();
         }
     };
 
@@ -117,17 +147,17 @@ app.controller("darwin", function ($scope, $http) {
     };
 
     $scope.sort = function () {
-       console.log("sort");
-       $scope.modelesSorted = [];
-       for(var i = 0; i < $scope.modeles.length; i++) {
-           console.log($scope.filtreModele);
-           if($scope.modeles[i].name.indexOf($scope.filtreModele) > -1) {
-               $scope.modelesSorted.push($scope.modeles[i]);
-           } else if($scope.filtreModele == '') {
-               $scope.modelesSorted = $scope.modeles;
-           }
-       }
-       console.log($scope.modelesSorted);
+        console.log("sort");
+        $scope.modelesSorted = [];
+        for (var i = 0; i < $scope.modeles.length; i++) {
+            console.log($scope.filtreModele);
+            if ($scope.modeles[i].name.indexOf($scope.filtreModele) > -1) {
+                $scope.modelesSorted.push($scope.modeles[i]);
+            } else if ($scope.filtreModele == '') {
+                $scope.modelesSorted = $scope.modeles;
+            }
+        }
+        console.log($scope.modelesSorted);
     };
 
 });
